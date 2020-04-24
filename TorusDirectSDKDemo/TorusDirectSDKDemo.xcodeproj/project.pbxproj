@@ -3,10 +3,12 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		153BDED686BBEB86FFC7B587 /* Pods_TorusDirectSDKDemoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A4928596A3834F6DE2F78CBF /* Pods_TorusDirectSDKDemoTests.framework */; };
+		287A9F49ACD4A5C34EDA30AC /* Pods_TorusDirectSDKDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18B43E67E0E944CE5934DADD /* Pods_TorusDirectSDKDemo.framework */; };
 		511CEACC2452D4EC00A7ACE9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 511CEACB2452D4EC00A7ACE9 /* AppDelegate.swift */; };
 		511CEACE2452D4EC00A7ACE9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 511CEACD2452D4EC00A7ACE9 /* SceneDelegate.swift */; };
 		511CEAD02452D4EC00A7ACE9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 511CEACF2452D4EC00A7ACE9 /* ContentView.swift */; };
@@ -15,6 +17,7 @@
 		511CEAD82452D4EF00A7ACE9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 511CEAD62452D4EF00A7ACE9 /* LaunchScreen.storyboard */; };
 		511CEAE32452D4EF00A7ACE9 /* TorusDirectSDKDemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 511CEAE22452D4EF00A7ACE9 /* TorusDirectSDKDemoTests.swift */; };
 		511CEAEE2452D4EF00A7ACE9 /* TorusDirectSDKDemoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 511CEAED2452D4EF00A7ACE9 /* TorusDirectSDKDemoUITests.swift */; };
+		8AD76832298DE654B59D5B8B /* Pods_TorusDirectSDKDemo_TorusDirectSDKDemoUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FF4E1B2E0461E708E40D643 /* Pods_TorusDirectSDKDemo_TorusDirectSDKDemoUITests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,6 +38,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0BCC6FFC020495EE9F1BA4F2 /* Pods-TorusDirectSDKDemo-TorusDirectSDKDemoUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TorusDirectSDKDemo-TorusDirectSDKDemoUITests.release.xcconfig"; path = "Target Support Files/Pods-TorusDirectSDKDemo-TorusDirectSDKDemoUITests/Pods-TorusDirectSDKDemo-TorusDirectSDKDemoUITests.release.xcconfig"; sourceTree = "<group>"; };
+		18B43E67E0E944CE5934DADD /* Pods_TorusDirectSDKDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TorusDirectSDKDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3FF4E1B2E0461E708E40D643 /* Pods_TorusDirectSDKDemo_TorusDirectSDKDemoUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TorusDirectSDKDemo_TorusDirectSDKDemoUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		511CEAC82452D4EC00A7ACE9 /* TorusDirectSDKDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TorusDirectSDKDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		511CEACB2452D4EC00A7ACE9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		511CEACD2452D4EC00A7ACE9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -49,6 +55,12 @@
 		511CEAE92452D4EF00A7ACE9 /* TorusDirectSDKDemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TorusDirectSDKDemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		511CEAED2452D4EF00A7ACE9 /* TorusDirectSDKDemoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TorusDirectSDKDemoUITests.swift; sourceTree = "<group>"; };
 		511CEAEF2452D4EF00A7ACE9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8DD9E01E70A9E67E4B8ED453 /* Pods-TorusDirectSDKDemoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TorusDirectSDKDemoTests.release.xcconfig"; path = "Target Support Files/Pods-TorusDirectSDKDemoTests/Pods-TorusDirectSDKDemoTests.release.xcconfig"; sourceTree = "<group>"; };
+		A4928596A3834F6DE2F78CBF /* Pods_TorusDirectSDKDemoTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TorusDirectSDKDemoTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C8AADB4DC2E7BD7818C487E0 /* Pods-TorusDirectSDKDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TorusDirectSDKDemo.debug.xcconfig"; path = "Target Support Files/Pods-TorusDirectSDKDemo/Pods-TorusDirectSDKDemo.debug.xcconfig"; sourceTree = "<group>"; };
+		CE643CFAEAF37CC8BC1D7F6C /* Pods-TorusDirectSDKDemoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TorusDirectSDKDemoTests.debug.xcconfig"; path = "Target Support Files/Pods-TorusDirectSDKDemoTests/Pods-TorusDirectSDKDemoTests.debug.xcconfig"; sourceTree = "<group>"; };
+		EE39E822BB1B397CBB44BC9D /* Pods-TorusDirectSDKDemo-TorusDirectSDKDemoUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TorusDirectSDKDemo-TorusDirectSDKDemoUITests.debug.xcconfig"; path = "Target Support Files/Pods-TorusDirectSDKDemo-TorusDirectSDKDemoUITests/Pods-TorusDirectSDKDemo-TorusDirectSDKDemoUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		FFC136B406AC944EE86F4597 /* Pods-TorusDirectSDKDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TorusDirectSDKDemo.release.xcconfig"; path = "Target Support Files/Pods-TorusDirectSDKDemo/Pods-TorusDirectSDKDemo.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +68,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				287A9F49ACD4A5C34EDA30AC /* Pods_TorusDirectSDKDemo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -63,6 +76,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				153BDED686BBEB86FFC7B587 /* Pods_TorusDirectSDKDemoTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -70,12 +84,23 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8AD76832298DE654B59D5B8B /* Pods_TorusDirectSDKDemo_TorusDirectSDKDemoUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		18B4F998A7F88C302F18BA73 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				18B43E67E0E944CE5934DADD /* Pods_TorusDirectSDKDemo.framework */,
+				3FF4E1B2E0461E708E40D643 /* Pods_TorusDirectSDKDemo_TorusDirectSDKDemoUITests.framework */,
+				A4928596A3834F6DE2F78CBF /* Pods_TorusDirectSDKDemoTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		511CEABF2452D4EC00A7ACE9 = {
 			isa = PBXGroup;
 			children = (
@@ -83,6 +108,8 @@
 				511CEAE12452D4EF00A7ACE9 /* TorusDirectSDKDemoTests */,
 				511CEAEC2452D4EF00A7ACE9 /* TorusDirectSDKDemoUITests */,
 				511CEAC92452D4EC00A7ACE9 /* Products */,
+				A84257F51AACA6652F347CFD /* Pods */,
+				18B4F998A7F88C302F18BA73 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -136,6 +163,19 @@
 			path = TorusDirectSDKDemoUITests;
 			sourceTree = "<group>";
 		};
+		A84257F51AACA6652F347CFD /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				C8AADB4DC2E7BD7818C487E0 /* Pods-TorusDirectSDKDemo.debug.xcconfig */,
+				FFC136B406AC944EE86F4597 /* Pods-TorusDirectSDKDemo.release.xcconfig */,
+				EE39E822BB1B397CBB44BC9D /* Pods-TorusDirectSDKDemo-TorusDirectSDKDemoUITests.debug.xcconfig */,
+				0BCC6FFC020495EE9F1BA4F2 /* Pods-TorusDirectSDKDemo-TorusDirectSDKDemoUITests.release.xcconfig */,
+				CE643CFAEAF37CC8BC1D7F6C /* Pods-TorusDirectSDKDemoTests.debug.xcconfig */,
+				8DD9E01E70A9E67E4B8ED453 /* Pods-TorusDirectSDKDemoTests.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -143,9 +183,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 511CEAF22452D4EF00A7ACE9 /* Build configuration list for PBXNativeTarget "TorusDirectSDKDemo" */;
 			buildPhases = (
+				E631D739E6402CD941CC60BF /* [CP] Check Pods Manifest.lock */,
 				511CEAC42452D4EC00A7ACE9 /* Sources */,
 				511CEAC52452D4EC00A7ACE9 /* Frameworks */,
 				511CEAC62452D4EC00A7ACE9 /* Resources */,
+				74EFBD7238855190A3684AAD /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -160,6 +202,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 511CEAF52452D4EF00A7ACE9 /* Build configuration list for PBXNativeTarget "TorusDirectSDKDemoTests" */;
 			buildPhases = (
+				E9B462EDED36E2B5416081FC /* [CP] Check Pods Manifest.lock */,
 				511CEADA2452D4EF00A7ACE9 /* Sources */,
 				511CEADB2452D4EF00A7ACE9 /* Frameworks */,
 				511CEADC2452D4EF00A7ACE9 /* Resources */,
@@ -178,9 +221,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 511CEAF82452D4EF00A7ACE9 /* Build configuration list for PBXNativeTarget "TorusDirectSDKDemoUITests" */;
 			buildPhases = (
+				C8FD00F76686F21E7CEF2423 /* [CP] Check Pods Manifest.lock */,
 				511CEAE52452D4EF00A7ACE9 /* Sources */,
 				511CEAE62452D4EF00A7ACE9 /* Frameworks */,
 				511CEAE72452D4EF00A7ACE9 /* Resources */,
+				BAA3CB067B4169C5AFD63BDE /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -261,6 +306,109 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		74EFBD7238855190A3684AAD /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TorusDirectSDKDemo/Pods-TorusDirectSDKDemo-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TorusDirectSDKDemo/Pods-TorusDirectSDKDemo-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TorusDirectSDKDemo/Pods-TorusDirectSDKDemo-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BAA3CB067B4169C5AFD63BDE /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TorusDirectSDKDemo-TorusDirectSDKDemoUITests/Pods-TorusDirectSDKDemo-TorusDirectSDKDemoUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TorusDirectSDKDemo-TorusDirectSDKDemoUITests/Pods-TorusDirectSDKDemo-TorusDirectSDKDemoUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TorusDirectSDKDemo-TorusDirectSDKDemoUITests/Pods-TorusDirectSDKDemo-TorusDirectSDKDemoUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C8FD00F76686F21E7CEF2423 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-TorusDirectSDKDemo-TorusDirectSDKDemoUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E631D739E6402CD941CC60BF /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-TorusDirectSDKDemo-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E9B462EDED36E2B5416081FC /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-TorusDirectSDKDemoTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		511CEAC42452D4EC00A7ACE9 /* Sources */ = {
@@ -432,6 +580,7 @@
 		};
 		511CEAF32452D4EF00A7ACE9 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C8AADB4DC2E7BD7818C487E0 /* Pods-TorusDirectSDKDemo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -451,6 +600,7 @@
 		};
 		511CEAF42452D4EF00A7ACE9 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FFC136B406AC944EE86F4597 /* Pods-TorusDirectSDKDemo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -470,6 +620,7 @@
 		};
 		511CEAF62452D4EF00A7ACE9 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CE643CFAEAF37CC8BC1D7F6C /* Pods-TorusDirectSDKDemoTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -491,6 +642,7 @@
 		};
 		511CEAF72452D4EF00A7ACE9 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8DD9E01E70A9E67E4B8ED453 /* Pods-TorusDirectSDKDemoTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -512,6 +664,7 @@
 		};
 		511CEAF92452D4EF00A7ACE9 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = EE39E822BB1B397CBB44BC9D /* Pods-TorusDirectSDKDemo-TorusDirectSDKDemoUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -531,6 +684,7 @@
 		};
 		511CEAFA2452D4EF00A7ACE9 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0BCC6FFC020495EE9F1BA4F2 /* Pods-TorusDirectSDKDemo-TorusDirectSDKDemoUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;

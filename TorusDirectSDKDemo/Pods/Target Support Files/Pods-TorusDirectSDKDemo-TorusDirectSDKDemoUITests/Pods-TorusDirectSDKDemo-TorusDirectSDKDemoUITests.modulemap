@@ -1,0 +1,6 @@
+framework module Pods_TorusDirectSDKDemo_TorusDirectSDKDemoUITests {
+  umbrella header "Pods-TorusDirectSDKDemo-TorusDirectSDKDemoUITests-umbrella.h"
+
+  export *
+  module * { export * }
+}

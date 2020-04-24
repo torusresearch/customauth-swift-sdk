@@ -1,0 +1,5 @@
+#import <Foundation/Foundation.h>
+@interface PodsDummy_Pods_TorusDirectSDKDemo_TorusDirectSDKDemoUITests : NSObject
+@end
+@implementation PodsDummy_Pods_TorusDirectSDKDemo_TorusDirectSDKDemoUITests
+@end
