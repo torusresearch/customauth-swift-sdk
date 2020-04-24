@@ -10,19 +10,11 @@ import SwiftUI
 import OAuthSwift
 
 struct ContentView: View {
+    let googleURL  = "https://accounts.google.com/o/oauth2/v2/auth?response_type=token&client_id=238941746713-qqe4a7rduuk256d8oi5l0q34qtu9gpfg.apps.googleusercontent.com&redirect_uri=http://localhost:3050/redirect&scope=https://www.googleapis.com/auth/userinfo.email"
     var body: some View {
         Button(action: {
-            let oauthswift = OAuth2Swift(
-                consumerKey:    "238941746713-qqe4a7rduuk256d8oi5l0q34qtu9gpfg.apps.googleusercontent.com",
-                consumerSecret: "1OazY7zW3tn2ziEMqIhKWuW6",
-                authorizeUrl:   "https://accounts.google.com/o/oauth2/auth",
-                accessTokenUrl: "https://accounts.google.com/o/oauth2/token",
-                responseType:   "token"
-            )
-            
-            // in plist define a url schem with: your.bundle.id:
-            let _ = oauthswift.authorize(
-            withCallbackURL: URL(string: "http://localhost:3050/redirect")!, scope: "https://www.googleapis.com/auth/userinfo.email", state: "") { result in print(result)
+            if let url = URL(string: self.googleURL) {
+                UIApplication.shared.open(url)
             }
         }, label: {
             Text("Google Login")
