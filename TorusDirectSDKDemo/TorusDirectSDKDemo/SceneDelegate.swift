@@ -8,7 +8,6 @@
 
 import UIKit
 import SwiftUI
-import OAuthSwift
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -18,9 +17,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             guard let url = URLContexts.first?.url else {
                 return
             }
-            print(url)
             if (url.host == "oauth-callback") {
-                OAuthSwift.handle(url: url)
+                print(url)
+
             }
     }
     

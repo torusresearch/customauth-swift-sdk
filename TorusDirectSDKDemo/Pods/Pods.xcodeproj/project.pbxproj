@@ -3,299 +3,71 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		006DD7B84DF4831DD62D5B5579921FE7 /* Collection+OAuthSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC85155843882732032D66083D96FD7F /* Collection+OAuthSwift.swift */; };
-		0419863C4246A43DC6EED71845AB11D3 /* OAuthSwift-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = C3FA4F414EF8AD64E2393C34ABA6B332 /* OAuthSwift-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		087232D20D91903AE7E8AE31AD6ADF73 /* Pods-TorusDirectSDKDemoTests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 91D0246BBCE4CA9B47676BDADB720653 /* Pods-TorusDirectSDKDemoTests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0D72FD00D1FF38E593EE989D1ABC2539 /* OAuthSwiftCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602D4DF5828F637297D154AD6EF15312 /* OAuthSwiftCredential.swift */; };
-		1629C4B5726835A176893197171DD30C /* OAuthSwiftURLHandlerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB066E3425856E359E49B3BE21591D6 /* OAuthSwiftURLHandlerType.swift */; };
-		28985E0EB67584AE9C0FE79F7C85ED01 /* NSError+OAuthSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3188C60EC41F63136FC2EFF1D62F1E60 /* NSError+OAuthSwift.swift */; };
-		2B9372B8007100998FC3968FA60A2B62 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3212113385A8FBBDB272BD23C409FF61 /* Foundation.framework */; };
-		2D5B4F161C175508C1269966646A7F97 /* NotificationCenter+OAuthSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B0BA26B7545A2C55159AD1400866EA2 /* NotificationCenter+OAuthSwift.swift */; };
-		2DC5D4C745D8F3FA17B86F6483C1892C /* OAuthSwiftResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05363A1623A935B2A2693C00F9A8B02 /* OAuthSwiftResponse.swift */; };
-		36385D88156CC42B11548DB3CE618D5A /* UIApplication+OAuthSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = C958C63725C85EE9371C71297E4F3EC8 /* UIApplication+OAuthSwift.swift */; };
-		3A9D32767CC4159C9D2D7C51BF54C2A2 /* Pods-TorusDirectSDKDemo-TorusDirectSDKDemoUITests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 917D6453A29B6EC9A279C689B44F7E9C /* Pods-TorusDirectSDKDemo-TorusDirectSDKDemoUITests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		3CE667DA66A9A231F05CEF3324399BD0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3212113385A8FBBDB272BD23C409FF61 /* Foundation.framework */; };
-		3D1705162B7CCD5DA13C25BF9F08E0AB /* Pods-TorusDirectSDKDemo-TorusDirectSDKDemoUITests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EF5042227F5370EEA40E6EF03909BF3 /* Pods-TorusDirectSDKDemo-TorusDirectSDKDemoUITests-dummy.m */; };
-		48771968DB2B53BC5096BEFC1F416B7F /* OAuthSwiftHTTPRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7F2AE28EF5593C650771EAC560FA72 /* OAuthSwiftHTTPRequest.swift */; };
-		4F8EDBDDBBB9C640ABB64A8947FB24F8 /* URLConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45174C3854DDAFB5BF219E1E653EAC57 /* URLConvertible.swift */; };
-		51379581E67362A18BF16CEDADB8C956 /* OAuthSwift-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = D93362BE782EC54BEA8A1C47E3DF8532 /* OAuthSwift-dummy.m */; };
-		5566E0822D5B7688097407A43A0CE2E8 /* SHA1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8675811BE89A7E82188D4F17B4367648 /* SHA1.swift */; };
-		5C9DA4967AD51ED9EF15329DAB60E176 /* Pods-TorusDirectSDKDemo-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = AE30FCE5AAF9FEEBDC813AAAA5B6BEFB /* Pods-TorusDirectSDKDemo-dummy.m */; };
-		700ED1A5C0A766B293223FD3818AFFBA /* URL+OAuthSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8C4F82F9A42E52E93564E455F050085 /* URL+OAuthSwift.swift */; };
-		731BABF8341920C565BDF9D58283C500 /* OAuthSwiftError.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC71BE6C8C6B24ED7DF6FBD497C9860C /* OAuthSwiftError.swift */; };
-		79F9E680847862CAA7AD498865D66E6D /* Int+OAuthSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 237ADE37E4E189017FDEACE40FB80C4A /* Int+OAuthSwift.swift */; };
-		7E32CB3466E7C9B18FE854E229A0C9E1 /* Pods-TorusDirectSDKDemoTests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 57CC5CBC0523A35FC45CB28AE46F1C80 /* Pods-TorusDirectSDKDemoTests-dummy.m */; };
-		86AC21E47BE8FC247FE1FEE71AA17929 /* String+OAuthSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 616F06AC5338071313F66B8ACFAF2706 /* String+OAuthSwift.swift */; };
-		924BF391A230C4F9F1983C6515505F40 /* Dictionary+OAuthSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476645788BD58C0131CA9A7A5C050F0A /* Dictionary+OAuthSwift.swift */; };
-		9385149B9A22B987F4FC8DB1C6860652 /* OAuth1Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12CCE2C58FFC9DE8D3F83833082E07F7 /* OAuth1Swift.swift */; };
-		A2B9C6C78D2D80824E569943CAFDCFD9 /* Pods-TorusDirectSDKDemo-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = A8BA0F36F976922E95C6E86AC57FE021 /* Pods-TorusDirectSDKDemo-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AF6AF2193ABFBC721D0999AC5AFA59A4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3212113385A8FBBDB272BD23C409FF61 /* Foundation.framework */; };
-		C3AE2E522DA7C7EC0AE89A36CF3D5D26 /* OAuthWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FF64DF02B275399ED8B9206D26A215A /* OAuthWebViewController.swift */; };
-		C637809D777E60C7C968006DB6813DC8 /* OAuthSwiftMultipartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91C196F20192A361571C25926E7EFBE9 /* OAuthSwiftMultipartData.swift */; };
-		D142D105A2B254B0CB7166A31FDF18F3 /* OAuthSwiftClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3583F121681080368DC41153D0A49F /* OAuthSwiftClient.swift */; };
-		D33D6D0305E5BB03D60948D963ABC2C5 /* OAuth2Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA5406CBAEED8F650BEC8149F59B534 /* OAuth2Swift.swift */; };
-		DE8334776A8AF143A6EC8BBC663A7E5D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3212113385A8FBBDB272BD23C409FF61 /* Foundation.framework */; };
-		E52797125AD2E2D9BA35438ECBF96D8E /* HMAC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20D10C4687BCFCDE75849CB96023B858 /* HMAC.swift */; };
-		EFA90FA94C23EEAF85DCA6E7B8492C7E /* OAuthSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022C440AEF672CCDFC3D9D684C9ED177 /* OAuthSwift.swift */; };
-		F659137D17D1E461A59EB7340D16BA82 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28B5D4B71472648320D755C82A3226D /* Utils.swift */; };
-		FB67E162F70E22C08F56C4BCC20CAD91 /* Data+OAuthSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 201679404811FAA58169DCA31CCB9D65 /* Data+OAuthSwift.swift */; };
+		B645C8945C8E2B073F655719C45F3F26 /* Pods-TorusDirectSDKDemo-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 1D8885394642849539177124A8E5560D /* Pods-TorusDirectSDKDemo-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BB20659820B053018229D238527BFE55 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3212113385A8FBBDB272BD23C409FF61 /* Foundation.framework */; };
+		E18180168949624557B20FCB732AC1A6 /* Pods-TorusDirectSDKDemo-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = F6EDE78560E820136FAE3C126BDCD562 /* Pods-TorusDirectSDKDemo-dummy.m */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		001FAC5FAC78018CEBB0B7D3589F9E34 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 3C91E7D1D6000FAB10BA1FA4D7DC1553;
-			remoteInfo = OAuthSwift;
-		};
-		68FB5BBD09776EEEE27A6E4DCA01E4F0 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 856F616510F767E41423AB8120413E42;
-			remoteInfo = "Pods-TorusDirectSDKDemo";
-		};
-		EC2AC7C2CC8FE623ED69F47BDF1E5B18 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 3C91E7D1D6000FAB10BA1FA4D7DC1553;
-			remoteInfo = OAuthSwift;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
-		022C440AEF672CCDFC3D9D684C9ED177 /* OAuthSwift.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OAuthSwift.swift; path = Sources/OAuthSwift.swift; sourceTree = "<group>"; };
-		0CB066E3425856E359E49B3BE21591D6 /* OAuthSwiftURLHandlerType.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OAuthSwiftURLHandlerType.swift; path = Sources/OAuthSwiftURLHandlerType.swift; sourceTree = "<group>"; };
-		0CB43699DCF77882D918B863079D3B1C /* Pods_TorusDirectSDKDemo_TorusDirectSDKDemoUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_TorusDirectSDKDemo_TorusDirectSDKDemoUITests.framework; path = "Pods-TorusDirectSDKDemo-TorusDirectSDKDemoUITests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
-		1073AFFED876FCCB33A70D3767CF4126 /* Pods-TorusDirectSDKDemo-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-TorusDirectSDKDemo-frameworks.sh"; sourceTree = "<group>"; };
-		12CCE2C58FFC9DE8D3F83833082E07F7 /* OAuth1Swift.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OAuth1Swift.swift; path = Sources/OAuth1Swift.swift; sourceTree = "<group>"; };
-		18958DC22204A006A9A3A828729F0A41 /* Pods-TorusDirectSDKDemoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-TorusDirectSDKDemoTests.release.xcconfig"; sourceTree = "<group>"; };
+		120273CB8AE54458DEDD530AB8BFCB38 /* Pods-TorusDirectSDKDemo-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-TorusDirectSDKDemo-Info.plist"; sourceTree = "<group>"; };
+		1D8885394642849539177124A8E5560D /* Pods-TorusDirectSDKDemo-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-TorusDirectSDKDemo-umbrella.h"; sourceTree = "<group>"; };
 		1E4C3160043CC47DD32008E9EF2A33AA /* Pods_TorusDirectSDKDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_TorusDirectSDKDemo.framework; path = "Pods-TorusDirectSDKDemo.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
-		201679404811FAA58169DCA31CCB9D65 /* Data+OAuthSwift.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Data+OAuthSwift.swift"; path = "Sources/Data+OAuthSwift.swift"; sourceTree = "<group>"; };
-		2055DAE5582F5262A671103BA679FEFA /* Pods-TorusDirectSDKDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-TorusDirectSDKDemo.debug.xcconfig"; sourceTree = "<group>"; };
-		20D10C4687BCFCDE75849CB96023B858 /* HMAC.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HMAC.swift; path = Sources/HMAC.swift; sourceTree = "<group>"; };
-		237ADE37E4E189017FDEACE40FB80C4A /* Int+OAuthSwift.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Int+OAuthSwift.swift"; path = "Sources/Int+OAuthSwift.swift"; sourceTree = "<group>"; };
-		266AA6DE06CC914822CD8804DFB92E8A /* Pods-TorusDirectSDKDemoTests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-TorusDirectSDKDemoTests.modulemap"; sourceTree = "<group>"; };
-		2EF373F032019D1582CF761EB506DB1A /* OAuthSwift.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = OAuthSwift.modulemap; sourceTree = "<group>"; };
-		2EF5042227F5370EEA40E6EF03909BF3 /* Pods-TorusDirectSDKDemo-TorusDirectSDKDemoUITests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-TorusDirectSDKDemo-TorusDirectSDKDemoUITests-dummy.m"; sourceTree = "<group>"; };
-		2FF64DF02B275399ED8B9206D26A215A /* OAuthWebViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OAuthWebViewController.swift; path = Sources/OAuthWebViewController.swift; sourceTree = "<group>"; };
-		3188C60EC41F63136FC2EFF1D62F1E60 /* NSError+OAuthSwift.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "NSError+OAuthSwift.swift"; path = "Sources/NSError+OAuthSwift.swift"; sourceTree = "<group>"; };
+		21D2D8F48C6A5F4FE5B3C2984EA04CD2 /* Pods-TorusDirectSDKDemo-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-TorusDirectSDKDemo-acknowledgements.plist"; sourceTree = "<group>"; };
 		3212113385A8FBBDB272BD23C409FF61 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.2.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
-		3AD49DFB4608EFC55485D4DA7CA9B6C9 /* Pods-TorusDirectSDKDemoTests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-TorusDirectSDKDemoTests-acknowledgements.markdown"; sourceTree = "<group>"; };
-		411E9B2BA2A61ADDB983D48252C73CBF /* OAuthSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = OAuthSwift.framework; path = OAuthSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		45174C3854DDAFB5BF219E1E653EAC57 /* URLConvertible.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = URLConvertible.swift; path = Sources/URLConvertible.swift; sourceTree = "<group>"; };
-		476645788BD58C0131CA9A7A5C050F0A /* Dictionary+OAuthSwift.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Dictionary+OAuthSwift.swift"; path = "Sources/Dictionary+OAuthSwift.swift"; sourceTree = "<group>"; };
-		4EB9C581E13C0A5900C2B1771C246F91 /* Pods-TorusDirectSDKDemo-TorusDirectSDKDemoUITests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-TorusDirectSDKDemo-TorusDirectSDKDemoUITests-frameworks.sh"; sourceTree = "<group>"; };
-		5786C83326CC4458B783E615EC9CFDDB /* Pods-TorusDirectSDKDemoTests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-TorusDirectSDKDemoTests-acknowledgements.plist"; sourceTree = "<group>"; };
-		57CC5CBC0523A35FC45CB28AE46F1C80 /* Pods-TorusDirectSDKDemoTests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-TorusDirectSDKDemoTests-dummy.m"; sourceTree = "<group>"; };
-		5B145595FE87272D2F3504A4ED082C8D /* Pods-TorusDirectSDKDemoTests-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-TorusDirectSDKDemoTests-Info.plist"; sourceTree = "<group>"; };
-		602D4DF5828F637297D154AD6EF15312 /* OAuthSwiftCredential.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OAuthSwiftCredential.swift; path = Sources/OAuthSwiftCredential.swift; sourceTree = "<group>"; };
-		616F06AC5338071313F66B8ACFAF2706 /* String+OAuthSwift.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "String+OAuthSwift.swift"; path = "Sources/String+OAuthSwift.swift"; sourceTree = "<group>"; };
-		6C58206DAADA150800DE721DC26B403A /* Pods-TorusDirectSDKDemo-TorusDirectSDKDemoUITests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-TorusDirectSDKDemo-TorusDirectSDKDemoUITests-acknowledgements.markdown"; sourceTree = "<group>"; };
-		6F7F52A4F392C7918A8F86A70D658A9C /* OAuthSwift-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "OAuthSwift-prefix.pch"; sourceTree = "<group>"; };
-		724CD94DB7422A673607B2447F32CA16 /* OAuthSwift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = OAuthSwift.release.xcconfig; sourceTree = "<group>"; };
-		7B0BA26B7545A2C55159AD1400866EA2 /* NotificationCenter+OAuthSwift.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "NotificationCenter+OAuthSwift.swift"; path = "Sources/NotificationCenter+OAuthSwift.swift"; sourceTree = "<group>"; };
-		8675811BE89A7E82188D4F17B4367648 /* SHA1.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SHA1.swift; path = Sources/SHA1.swift; sourceTree = "<group>"; };
-		8AF98AD836363648D6A98012A6D8F937 /* Pods-TorusDirectSDKDemo-TorusDirectSDKDemoUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-TorusDirectSDKDemo-TorusDirectSDKDemoUITests.release.xcconfig"; sourceTree = "<group>"; };
-		8B7F2AE28EF5593C650771EAC560FA72 /* OAuthSwiftHTTPRequest.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OAuthSwiftHTTPRequest.swift; path = Sources/OAuthSwiftHTTPRequest.swift; sourceTree = "<group>"; };
-		8FA64B942CC313718CDD361C283EC09B /* Pods-TorusDirectSDKDemoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-TorusDirectSDKDemoTests.debug.xcconfig"; sourceTree = "<group>"; };
-		917D6453A29B6EC9A279C689B44F7E9C /* Pods-TorusDirectSDKDemo-TorusDirectSDKDemoUITests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-TorusDirectSDKDemo-TorusDirectSDKDemoUITests-umbrella.h"; sourceTree = "<group>"; };
-		91C196F20192A361571C25926E7EFBE9 /* OAuthSwiftMultipartData.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OAuthSwiftMultipartData.swift; path = Sources/OAuthSwiftMultipartData.swift; sourceTree = "<group>"; };
-		91D0246BBCE4CA9B47676BDADB720653 /* Pods-TorusDirectSDKDemoTests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-TorusDirectSDKDemoTests-umbrella.h"; sourceTree = "<group>"; };
-		93A6A9BF1FEAD18EF6358187F8B039F1 /* Pods-TorusDirectSDKDemo-TorusDirectSDKDemoUITests-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-TorusDirectSDKDemo-TorusDirectSDKDemoUITests-Info.plist"; sourceTree = "<group>"; };
+		5827E99EF48DBA6947A4BDA1A1CA4B81 /* Pods-TorusDirectSDKDemo.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-TorusDirectSDKDemo.modulemap"; sourceTree = "<group>"; };
+		8F5BB0DD46FFBD73E854AB81368013A2 /* Pods-TorusDirectSDKDemo-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-TorusDirectSDKDemo-acknowledgements.markdown"; sourceTree = "<group>"; };
 		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		A16DA04E7534559DEB677972F987F768 /* Pods-TorusDirectSDKDemo-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-TorusDirectSDKDemo-acknowledgements.markdown"; sourceTree = "<group>"; };
-		A8BA0F36F976922E95C6E86AC57FE021 /* Pods-TorusDirectSDKDemo-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-TorusDirectSDKDemo-umbrella.h"; sourceTree = "<group>"; };
-		AE30FCE5AAF9FEEBDC813AAAA5B6BEFB /* Pods-TorusDirectSDKDemo-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-TorusDirectSDKDemo-dummy.m"; sourceTree = "<group>"; };
-		B07A50A0A7B3719BC66B65CAF68EF1A1 /* Pods_TorusDirectSDKDemoTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_TorusDirectSDKDemoTests.framework; path = "Pods-TorusDirectSDKDemoTests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
-		BC1AB7578D0B5A4CBD68B1955198F81D /* Pods-TorusDirectSDKDemo-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-TorusDirectSDKDemo-Info.plist"; sourceTree = "<group>"; };
-		BD3583F121681080368DC41153D0A49F /* OAuthSwiftClient.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OAuthSwiftClient.swift; path = Sources/OAuthSwiftClient.swift; sourceTree = "<group>"; };
-		BD85D7262BD2185046C556D11561E7A9 /* OAuthSwift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = OAuthSwift.debug.xcconfig; sourceTree = "<group>"; };
-		C28B5D4B71472648320D755C82A3226D /* Utils.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Utils.swift; path = Sources/Utils.swift; sourceTree = "<group>"; };
-		C3FA4F414EF8AD64E2393C34ABA6B332 /* OAuthSwift-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "OAuthSwift-umbrella.h"; sourceTree = "<group>"; };
-		C4C1E8C315D65191D3837953E6B63F2E /* Pods-TorusDirectSDKDemo-TorusDirectSDKDemoUITests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-TorusDirectSDKDemo-TorusDirectSDKDemoUITests.modulemap"; sourceTree = "<group>"; };
-		C8C4F82F9A42E52E93564E455F050085 /* URL+OAuthSwift.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "URL+OAuthSwift.swift"; path = "Sources/URL+OAuthSwift.swift"; sourceTree = "<group>"; };
-		C8CDD4CFB9554A16AB697F44E50C6106 /* Pods-TorusDirectSDKDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-TorusDirectSDKDemo.release.xcconfig"; sourceTree = "<group>"; };
-		C958C63725C85EE9371C71297E4F3EC8 /* UIApplication+OAuthSwift.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UIApplication+OAuthSwift.swift"; path = "Sources/UIApplication+OAuthSwift.swift"; sourceTree = "<group>"; };
-		CBF21F16B4D3652A59BC2D491BBE1C79 /* Pods-TorusDirectSDKDemo-TorusDirectSDKDemoUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-TorusDirectSDKDemo-TorusDirectSDKDemoUITests.debug.xcconfig"; sourceTree = "<group>"; };
-		CF39125318D80C3BCD19BBF1E5604C40 /* Pods-TorusDirectSDKDemo-TorusDirectSDKDemoUITests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-TorusDirectSDKDemo-TorusDirectSDKDemoUITests-acknowledgements.plist"; sourceTree = "<group>"; };
-		CFA5406CBAEED8F650BEC8149F59B534 /* OAuth2Swift.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OAuth2Swift.swift; path = Sources/OAuth2Swift.swift; sourceTree = "<group>"; };
-		D05363A1623A935B2A2693C00F9A8B02 /* OAuthSwiftResponse.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OAuthSwiftResponse.swift; path = Sources/OAuthSwiftResponse.swift; sourceTree = "<group>"; };
-		D93362BE782EC54BEA8A1C47E3DF8532 /* OAuthSwift-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "OAuthSwift-dummy.m"; sourceTree = "<group>"; };
-		DC71BE6C8C6B24ED7DF6FBD497C9860C /* OAuthSwiftError.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OAuthSwiftError.swift; path = Sources/OAuthSwiftError.swift; sourceTree = "<group>"; };
-		EA590C94E5657C8343183D57045F0BD6 /* Pods-TorusDirectSDKDemo-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-TorusDirectSDKDemo-acknowledgements.plist"; sourceTree = "<group>"; };
-		F317E3F832AE2760217D897A0586AC43 /* OAuthSwift-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "OAuthSwift-Info.plist"; sourceTree = "<group>"; };
-		FC85155843882732032D66083D96FD7F /* Collection+OAuthSwift.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Collection+OAuthSwift.swift"; path = "Sources/Collection+OAuthSwift.swift"; sourceTree = "<group>"; };
-		FF3E1837C72D6985FEA525770FE2541C /* Pods-TorusDirectSDKDemo.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-TorusDirectSDKDemo.modulemap"; sourceTree = "<group>"; };
+		C346D26642AC254C58B3EC7ECEEC17AF /* Pods-TorusDirectSDKDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-TorusDirectSDKDemo.debug.xcconfig"; sourceTree = "<group>"; };
+		E2F4787E317331466D873CE2FCF19115 /* Pods-TorusDirectSDKDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-TorusDirectSDKDemo.release.xcconfig"; sourceTree = "<group>"; };
+		F6EDE78560E820136FAE3C126BDCD562 /* Pods-TorusDirectSDKDemo-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-TorusDirectSDKDemo-dummy.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		37DF6FE4412A0C3CD0A127B3E392A447 /* Frameworks */ = {
+		FF6E8EF292DC3790FA0D135A71F425EA /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DE8334776A8AF143A6EC8BBC663A7E5D /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		5FADCC4A50ED20486C7465C464435C5B /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				3CE667DA66A9A231F05CEF3324399BD0 /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		8D60C86FC87296E7C43DAAD7FF82DFB0 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				2B9372B8007100998FC3968FA60A2B62 /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		989B78CDFC1C02854020CB49A4E071CF /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				AF6AF2193ABFBC721D0999AC5AFA59A4 /* Foundation.framework in Frameworks */,
+				BB20659820B053018229D238527BFE55 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		21C412841ABAC1151D49AFE8764182B4 /* Targets Support Files */ = {
+		2F99C7C356E3D7C101EDFFFCAFBFEAEC /* Targets Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				506F737FA03B38C6748AC661DBBA5A50 /* Pods-TorusDirectSDKDemo */,
-				7468E5A811619A8E8E54210A2A9EB297 /* Pods-TorusDirectSDKDemo-TorusDirectSDKDemoUITests */,
-				482A93D6548D5B134A4FA7ED057EE39F /* Pods-TorusDirectSDKDemoTests */,
+				ADE1FD1AE6DBE8221DDA10CD1C28D3EF /* Pods-TorusDirectSDKDemo */,
 			);
 			name = "Targets Support Files";
 			sourceTree = "<group>";
 		};
-		29CB57CB1B68387C35F90A02667EF73B /* Support Files */ = {
+		5959394F9DA0B436873B025FEDAFBE77 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				2EF373F032019D1582CF761EB506DB1A /* OAuthSwift.modulemap */,
-				D93362BE782EC54BEA8A1C47E3DF8532 /* OAuthSwift-dummy.m */,
-				F317E3F832AE2760217D897A0586AC43 /* OAuthSwift-Info.plist */,
-				6F7F52A4F392C7918A8F86A70D658A9C /* OAuthSwift-prefix.pch */,
-				C3FA4F414EF8AD64E2393C34ABA6B332 /* OAuthSwift-umbrella.h */,
-				BD85D7262BD2185046C556D11561E7A9 /* OAuthSwift.debug.xcconfig */,
-				724CD94DB7422A673607B2447F32CA16 /* OAuthSwift.release.xcconfig */,
+				1E4C3160043CC47DD32008E9EF2A33AA /* Pods_TorusDirectSDKDemo.framework */,
 			);
-			name = "Support Files";
-			path = "../Target Support Files/OAuthSwift";
+			name = Products;
 			sourceTree = "<group>";
 		};
-		482A93D6548D5B134A4FA7ED057EE39F /* Pods-TorusDirectSDKDemoTests */ = {
+		ADE1FD1AE6DBE8221DDA10CD1C28D3EF /* Pods-TorusDirectSDKDemo */ = {
 			isa = PBXGroup;
 			children = (
-				266AA6DE06CC914822CD8804DFB92E8A /* Pods-TorusDirectSDKDemoTests.modulemap */,
-				3AD49DFB4608EFC55485D4DA7CA9B6C9 /* Pods-TorusDirectSDKDemoTests-acknowledgements.markdown */,
-				5786C83326CC4458B783E615EC9CFDDB /* Pods-TorusDirectSDKDemoTests-acknowledgements.plist */,
-				57CC5CBC0523A35FC45CB28AE46F1C80 /* Pods-TorusDirectSDKDemoTests-dummy.m */,
-				5B145595FE87272D2F3504A4ED082C8D /* Pods-TorusDirectSDKDemoTests-Info.plist */,
-				91D0246BBCE4CA9B47676BDADB720653 /* Pods-TorusDirectSDKDemoTests-umbrella.h */,
-				8FA64B942CC313718CDD361C283EC09B /* Pods-TorusDirectSDKDemoTests.debug.xcconfig */,
-				18958DC22204A006A9A3A828729F0A41 /* Pods-TorusDirectSDKDemoTests.release.xcconfig */,
-			);
-			name = "Pods-TorusDirectSDKDemoTests";
-			path = "Target Support Files/Pods-TorusDirectSDKDemoTests";
-			sourceTree = "<group>";
-		};
-		506F737FA03B38C6748AC661DBBA5A50 /* Pods-TorusDirectSDKDemo */ = {
-			isa = PBXGroup;
-			children = (
-				FF3E1837C72D6985FEA525770FE2541C /* Pods-TorusDirectSDKDemo.modulemap */,
-				A16DA04E7534559DEB677972F987F768 /* Pods-TorusDirectSDKDemo-acknowledgements.markdown */,
-				EA590C94E5657C8343183D57045F0BD6 /* Pods-TorusDirectSDKDemo-acknowledgements.plist */,
-				AE30FCE5AAF9FEEBDC813AAAA5B6BEFB /* Pods-TorusDirectSDKDemo-dummy.m */,
-				1073AFFED876FCCB33A70D3767CF4126 /* Pods-TorusDirectSDKDemo-frameworks.sh */,
-				BC1AB7578D0B5A4CBD68B1955198F81D /* Pods-TorusDirectSDKDemo-Info.plist */,
-				A8BA0F36F976922E95C6E86AC57FE021 /* Pods-TorusDirectSDKDemo-umbrella.h */,
-				2055DAE5582F5262A671103BA679FEFA /* Pods-TorusDirectSDKDemo.debug.xcconfig */,
-				C8CDD4CFB9554A16AB697F44E50C6106 /* Pods-TorusDirectSDKDemo.release.xcconfig */,
+				5827E99EF48DBA6947A4BDA1A1CA4B81 /* Pods-TorusDirectSDKDemo.modulemap */,
+				8F5BB0DD46FFBD73E854AB81368013A2 /* Pods-TorusDirectSDKDemo-acknowledgements.markdown */,
+				21D2D8F48C6A5F4FE5B3C2984EA04CD2 /* Pods-TorusDirectSDKDemo-acknowledgements.plist */,
+				F6EDE78560E820136FAE3C126BDCD562 /* Pods-TorusDirectSDKDemo-dummy.m */,
+				120273CB8AE54458DEDD530AB8BFCB38 /* Pods-TorusDirectSDKDemo-Info.plist */,
+				1D8885394642849539177124A8E5560D /* Pods-TorusDirectSDKDemo-umbrella.h */,
+				C346D26642AC254C58B3EC7ECEEC17AF /* Pods-TorusDirectSDKDemo.debug.xcconfig */,
+				E2F4787E317331466D873CE2FCF19115 /* Pods-TorusDirectSDKDemo.release.xcconfig */,
 			);
 			name = "Pods-TorusDirectSDKDemo";
 			path = "Target Support Files/Pods-TorusDirectSDKDemo";
-			sourceTree = "<group>";
-		};
-		5928A260C0282B0374C97A7CA7DDE38F /* OAuthSwift */ = {
-			isa = PBXGroup;
-			children = (
-				FC85155843882732032D66083D96FD7F /* Collection+OAuthSwift.swift */,
-				201679404811FAA58169DCA31CCB9D65 /* Data+OAuthSwift.swift */,
-				476645788BD58C0131CA9A7A5C050F0A /* Dictionary+OAuthSwift.swift */,
-				20D10C4687BCFCDE75849CB96023B858 /* HMAC.swift */,
-				237ADE37E4E189017FDEACE40FB80C4A /* Int+OAuthSwift.swift */,
-				7B0BA26B7545A2C55159AD1400866EA2 /* NotificationCenter+OAuthSwift.swift */,
-				3188C60EC41F63136FC2EFF1D62F1E60 /* NSError+OAuthSwift.swift */,
-				12CCE2C58FFC9DE8D3F83833082E07F7 /* OAuth1Swift.swift */,
-				CFA5406CBAEED8F650BEC8149F59B534 /* OAuth2Swift.swift */,
-				022C440AEF672CCDFC3D9D684C9ED177 /* OAuthSwift.swift */,
-				BD3583F121681080368DC41153D0A49F /* OAuthSwiftClient.swift */,
-				602D4DF5828F637297D154AD6EF15312 /* OAuthSwiftCredential.swift */,
-				DC71BE6C8C6B24ED7DF6FBD497C9860C /* OAuthSwiftError.swift */,
-				8B7F2AE28EF5593C650771EAC560FA72 /* OAuthSwiftHTTPRequest.swift */,
-				91C196F20192A361571C25926E7EFBE9 /* OAuthSwiftMultipartData.swift */,
-				D05363A1623A935B2A2693C00F9A8B02 /* OAuthSwiftResponse.swift */,
-				0CB066E3425856E359E49B3BE21591D6 /* OAuthSwiftURLHandlerType.swift */,
-				2FF64DF02B275399ED8B9206D26A215A /* OAuthWebViewController.swift */,
-				8675811BE89A7E82188D4F17B4367648 /* SHA1.swift */,
-				616F06AC5338071313F66B8ACFAF2706 /* String+OAuthSwift.swift */,
-				C958C63725C85EE9371C71297E4F3EC8 /* UIApplication+OAuthSwift.swift */,
-				C8C4F82F9A42E52E93564E455F050085 /* URL+OAuthSwift.swift */,
-				45174C3854DDAFB5BF219E1E653EAC57 /* URLConvertible.swift */,
-				C28B5D4B71472648320D755C82A3226D /* Utils.swift */,
-				29CB57CB1B68387C35F90A02667EF73B /* Support Files */,
-			);
-			name = OAuthSwift;
-			path = OAuthSwift;
-			sourceTree = "<group>";
-		};
-		6B4541EEE8749FA54C31BB159A50065B /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				5928A260C0282B0374C97A7CA7DDE38F /* OAuthSwift */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
-		7468E5A811619A8E8E54210A2A9EB297 /* Pods-TorusDirectSDKDemo-TorusDirectSDKDemoUITests */ = {
-			isa = PBXGroup;
-			children = (
-				C4C1E8C315D65191D3837953E6B63F2E /* Pods-TorusDirectSDKDemo-TorusDirectSDKDemoUITests.modulemap */,
-				6C58206DAADA150800DE721DC26B403A /* Pods-TorusDirectSDKDemo-TorusDirectSDKDemoUITests-acknowledgements.markdown */,
-				CF39125318D80C3BCD19BBF1E5604C40 /* Pods-TorusDirectSDKDemo-TorusDirectSDKDemoUITests-acknowledgements.plist */,
-				2EF5042227F5370EEA40E6EF03909BF3 /* Pods-TorusDirectSDKDemo-TorusDirectSDKDemoUITests-dummy.m */,
-				4EB9C581E13C0A5900C2B1771C246F91 /* Pods-TorusDirectSDKDemo-TorusDirectSDKDemoUITests-frameworks.sh */,
-				93A6A9BF1FEAD18EF6358187F8B039F1 /* Pods-TorusDirectSDKDemo-TorusDirectSDKDemoUITests-Info.plist */,
-				917D6453A29B6EC9A279C689B44F7E9C /* Pods-TorusDirectSDKDemo-TorusDirectSDKDemoUITests-umbrella.h */,
-				CBF21F16B4D3652A59BC2D491BBE1C79 /* Pods-TorusDirectSDKDemo-TorusDirectSDKDemoUITests.debug.xcconfig */,
-				8AF98AD836363648D6A98012A6D8F937 /* Pods-TorusDirectSDKDemo-TorusDirectSDKDemoUITests.release.xcconfig */,
-			);
-			name = "Pods-TorusDirectSDKDemo-TorusDirectSDKDemoUITests";
-			path = "Target Support Files/Pods-TorusDirectSDKDemo-TorusDirectSDKDemoUITests";
-			sourceTree = "<group>";
-		};
-		AB4CDF06F9F31436B56A9CAEE10F6EE4 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				411E9B2BA2A61ADDB983D48252C73CBF /* OAuthSwift.framework */,
-				1E4C3160043CC47DD32008E9EF2A33AA /* Pods_TorusDirectSDKDemo.framework */,
-				0CB43699DCF77882D918B863079D3B1C /* Pods_TorusDirectSDKDemo_TorusDirectSDKDemoUITests.framework */,
-				B07A50A0A7B3719BC66B65CAF68EF1A1 /* Pods_TorusDirectSDKDemoTests.framework */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		C0834CEBB1379A84116EF29F93051C60 /* iOS */ = {
@@ -311,9 +83,8 @@
 			children = (
 				9D940727FF8FB9C785EB98E56350EF41 /* Podfile */,
 				D210D550F4EA176C3123ED886F8F87F5 /* Frameworks */,
-				6B4541EEE8749FA54C31BB159A50065B /* Pods */,
-				AB4CDF06F9F31436B56A9CAEE10F6EE4 /* Products */,
-				21C412841ABAC1151D49AFE8764182B4 /* Targets Support Files */,
+				5959394F9DA0B436873B025FEDAFBE77 /* Products */,
+				2F99C7C356E3D7C101EDFFFCAFBFEAEC /* Targets Support Files */,
 			);
 			sourceTree = "<group>";
 		};
@@ -328,114 +99,33 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		0A73B187B495D902F503CB4E22DCD8FB /* Headers */ = {
+		EA726259FD7F9241E8F4855501772DAC /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				087232D20D91903AE7E8AE31AD6ADF73 /* Pods-TorusDirectSDKDemoTests-umbrella.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		7C11228AE98A34BAC0F29F940C5FEB72 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				0419863C4246A43DC6EED71845AB11D3 /* OAuthSwift-umbrella.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		9E11DF71FF1019AC294EEACB56894080 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				A2B9C6C78D2D80824E569943CAFDCFD9 /* Pods-TorusDirectSDKDemo-umbrella.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		CE8C7F063F44A7064DD024328C93CC91 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				3A9D32767CC4159C9D2D7C51BF54C2A2 /* Pods-TorusDirectSDKDemo-TorusDirectSDKDemoUITests-umbrella.h in Headers */,
+				B645C8945C8E2B073F655719C45F3F26 /* Pods-TorusDirectSDKDemo-umbrella.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		3C91E7D1D6000FAB10BA1FA4D7DC1553 /* OAuthSwift */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 984E9E4ACADC834F85B8DA4ABE20DC4D /* Build configuration list for PBXNativeTarget "OAuthSwift" */;
-			buildPhases = (
-				7C11228AE98A34BAC0F29F940C5FEB72 /* Headers */,
-				75CC3461D0E875E7DA6C7AA41A3D1ABC /* Sources */,
-				37DF6FE4412A0C3CD0A127B3E392A447 /* Frameworks */,
-				FFA93836E5F908DD2413929F5394B6D2 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = OAuthSwift;
-			productName = OAuthSwift;
-			productReference = 411E9B2BA2A61ADDB983D48252C73CBF /* OAuthSwift.framework */;
-			productType = "com.apple.product-type.framework";
-		};
-		7E7856703A6636773357D67B1A9E8E26 /* Pods-TorusDirectSDKDemo-TorusDirectSDKDemoUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 2A24471FBCB248AACD1DBAD21F47E240 /* Build configuration list for PBXNativeTarget "Pods-TorusDirectSDKDemo-TorusDirectSDKDemoUITests" */;
-			buildPhases = (
-				CE8C7F063F44A7064DD024328C93CC91 /* Headers */,
-				D5E3E6461172B002ED699050DE67DA99 /* Sources */,
-				989B78CDFC1C02854020CB49A4E071CF /* Frameworks */,
-				9AB55D1ACE1174A1C31CE119469481AF /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				FA7A8F4E9481F37A4BFACDAFFFC2AD07 /* PBXTargetDependency */,
-			);
-			name = "Pods-TorusDirectSDKDemo-TorusDirectSDKDemoUITests";
-			productName = "Pods-TorusDirectSDKDemo-TorusDirectSDKDemoUITests";
-			productReference = 0CB43699DCF77882D918B863079D3B1C /* Pods_TorusDirectSDKDemo_TorusDirectSDKDemoUITests.framework */;
-			productType = "com.apple.product-type.framework";
-		};
 		856F616510F767E41423AB8120413E42 /* Pods-TorusDirectSDKDemo */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 06077238CF566B761D27C16ED68E547B /* Build configuration list for PBXNativeTarget "Pods-TorusDirectSDKDemo" */;
+			buildConfigurationList = F8E803A29C53DA1862AFA11DD959A7FF /* Build configuration list for PBXNativeTarget "Pods-TorusDirectSDKDemo" */;
 			buildPhases = (
-				9E11DF71FF1019AC294EEACB56894080 /* Headers */,
-				EB9C63A7D5DD0997CF2485341251BF28 /* Sources */,
-				8D60C86FC87296E7C43DAAD7FF82DFB0 /* Frameworks */,
-				87EE72C3A0AF6D36DA1F8124F490CCBC /* Resources */,
+				EA726259FD7F9241E8F4855501772DAC /* Headers */,
+				134EB6CBD398D3D172AD85D09DF17E9D /* Sources */,
+				FF6E8EF292DC3790FA0D135A71F425EA /* Frameworks */,
+				F271B3960633A58E122E3E30B91439C1 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				B11F7299F03B06242E7A128C48F650F9 /* PBXTargetDependency */,
 			);
 			name = "Pods-TorusDirectSDKDemo";
 			productName = "Pods-TorusDirectSDKDemo";
 			productReference = 1E4C3160043CC47DD32008E9EF2A33AA /* Pods_TorusDirectSDKDemo.framework */;
-			productType = "com.apple.product-type.framework";
-		};
-		9E421F1A770549D7A5E7009B9DDC0E79 /* Pods-TorusDirectSDKDemoTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = E8DFAB5330D48595F590E300136BEF0D /* Build configuration list for PBXNativeTarget "Pods-TorusDirectSDKDemoTests" */;
-			buildPhases = (
-				0A73B187B495D902F503CB4E22DCD8FB /* Headers */,
-				3313BB8F5953B688DDE579B6A11E3456 /* Sources */,
-				5FADCC4A50ED20486C7465C464435C5B /* Frameworks */,
-				3837E8EB12F7677E5606846DD5940506 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				1E1F57C89594FFE3B8532B05D154CF4E /* PBXTargetDependency */,
-			);
-			name = "Pods-TorusDirectSDKDemoTests";
-			productName = "Pods-TorusDirectSDKDemoTests";
-			productReference = B07A50A0A7B3719BC66B65CAF68EF1A1 /* Pods_TorusDirectSDKDemoTests.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
@@ -448,7 +138,7 @@
 				LastUpgradeCheck = 1100;
 			};
 			buildConfigurationList = 4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */;
-			compatibilityVersion = "Xcode 9.3";
+			compatibilityVersion = "Xcode 10.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -456,41 +146,17 @@
 				Base,
 			);
 			mainGroup = CF1408CF629C7361332E53B88F7BD30C;
-			productRefGroup = AB4CDF06F9F31436B56A9CAEE10F6EE4 /* Products */;
+			productRefGroup = 5959394F9DA0B436873B025FEDAFBE77 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				3C91E7D1D6000FAB10BA1FA4D7DC1553 /* OAuthSwift */,
 				856F616510F767E41423AB8120413E42 /* Pods-TorusDirectSDKDemo */,
-				7E7856703A6636773357D67B1A9E8E26 /* Pods-TorusDirectSDKDemo-TorusDirectSDKDemoUITests */,
-				9E421F1A770549D7A5E7009B9DDC0E79 /* Pods-TorusDirectSDKDemoTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		3837E8EB12F7677E5606846DD5940506 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		87EE72C3A0AF6D36DA1F8124F490CCBC /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		9AB55D1ACE1174A1C31CE119469481AF /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		FFA93836E5F908DD2413929F5394B6D2 /* Resources */ = {
+		F271B3960633A58E122E3E30B91439C1 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -500,160 +166,17 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		3313BB8F5953B688DDE579B6A11E3456 /* Sources */ = {
+		134EB6CBD398D3D172AD85D09DF17E9D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7E32CB3466E7C9B18FE854E229A0C9E1 /* Pods-TorusDirectSDKDemoTests-dummy.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		75CC3461D0E875E7DA6C7AA41A3D1ABC /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				006DD7B84DF4831DD62D5B5579921FE7 /* Collection+OAuthSwift.swift in Sources */,
-				FB67E162F70E22C08F56C4BCC20CAD91 /* Data+OAuthSwift.swift in Sources */,
-				924BF391A230C4F9F1983C6515505F40 /* Dictionary+OAuthSwift.swift in Sources */,
-				E52797125AD2E2D9BA35438ECBF96D8E /* HMAC.swift in Sources */,
-				79F9E680847862CAA7AD498865D66E6D /* Int+OAuthSwift.swift in Sources */,
-				2D5B4F161C175508C1269966646A7F97 /* NotificationCenter+OAuthSwift.swift in Sources */,
-				28985E0EB67584AE9C0FE79F7C85ED01 /* NSError+OAuthSwift.swift in Sources */,
-				9385149B9A22B987F4FC8DB1C6860652 /* OAuth1Swift.swift in Sources */,
-				D33D6D0305E5BB03D60948D963ABC2C5 /* OAuth2Swift.swift in Sources */,
-				51379581E67362A18BF16CEDADB8C956 /* OAuthSwift-dummy.m in Sources */,
-				EFA90FA94C23EEAF85DCA6E7B8492C7E /* OAuthSwift.swift in Sources */,
-				D142D105A2B254B0CB7166A31FDF18F3 /* OAuthSwiftClient.swift in Sources */,
-				0D72FD00D1FF38E593EE989D1ABC2539 /* OAuthSwiftCredential.swift in Sources */,
-				731BABF8341920C565BDF9D58283C500 /* OAuthSwiftError.swift in Sources */,
-				48771968DB2B53BC5096BEFC1F416B7F /* OAuthSwiftHTTPRequest.swift in Sources */,
-				C637809D777E60C7C968006DB6813DC8 /* OAuthSwiftMultipartData.swift in Sources */,
-				2DC5D4C745D8F3FA17B86F6483C1892C /* OAuthSwiftResponse.swift in Sources */,
-				1629C4B5726835A176893197171DD30C /* OAuthSwiftURLHandlerType.swift in Sources */,
-				C3AE2E522DA7C7EC0AE89A36CF3D5D26 /* OAuthWebViewController.swift in Sources */,
-				5566E0822D5B7688097407A43A0CE2E8 /* SHA1.swift in Sources */,
-				86AC21E47BE8FC247FE1FEE71AA17929 /* String+OAuthSwift.swift in Sources */,
-				36385D88156CC42B11548DB3CE618D5A /* UIApplication+OAuthSwift.swift in Sources */,
-				700ED1A5C0A766B293223FD3818AFFBA /* URL+OAuthSwift.swift in Sources */,
-				4F8EDBDDBBB9C640ABB64A8947FB24F8 /* URLConvertible.swift in Sources */,
-				F659137D17D1E461A59EB7340D16BA82 /* Utils.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D5E3E6461172B002ED699050DE67DA99 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				3D1705162B7CCD5DA13C25BF9F08E0AB /* Pods-TorusDirectSDKDemo-TorusDirectSDKDemoUITests-dummy.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		EB9C63A7D5DD0997CF2485341251BF28 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				5C9DA4967AD51ED9EF15329DAB60E176 /* Pods-TorusDirectSDKDemo-dummy.m in Sources */,
+				E18180168949624557B20FCB732AC1A6 /* Pods-TorusDirectSDKDemo-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXTargetDependency section */
-		1E1F57C89594FFE3B8532B05D154CF4E /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "Pods-TorusDirectSDKDemo";
-			target = 856F616510F767E41423AB8120413E42 /* Pods-TorusDirectSDKDemo */;
-			targetProxy = 68FB5BBD09776EEEE27A6E4DCA01E4F0 /* PBXContainerItemProxy */;
-		};
-		B11F7299F03B06242E7A128C48F650F9 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = OAuthSwift;
-			target = 3C91E7D1D6000FAB10BA1FA4D7DC1553 /* OAuthSwift */;
-			targetProxy = 001FAC5FAC78018CEBB0B7D3589F9E34 /* PBXContainerItemProxy */;
-		};
-		FA7A8F4E9481F37A4BFACDAFFFC2AD07 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = OAuthSwift;
-			target = 3C91E7D1D6000FAB10BA1FA4D7DC1553 /* OAuthSwift */;
-			targetProxy = EC2AC7C2CC8FE623ED69F47BDF1E5B18 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
-
 /* Begin XCBuildConfiguration section */
-		2A65EA68028148C866F756D86D078394 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = BD85D7262BD2185046C556D11561E7A9 /* OAuthSwift.debug.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/OAuthSwift/OAuthSwift-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/OAuthSwift/OAuthSwift-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MODULEMAP_FILE = "Target Support Files/OAuthSwift/OAuthSwift.modulemap";
-				PRODUCT_MODULE_NAME = OAuthSwift;
-				PRODUCT_NAME = OAuthSwift;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		695792C00D74968DA14E545835059926 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 18958DC22204A006A9A3A828729F0A41 /* Pods-TorusDirectSDKDemoTests.release.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "Target Support Files/Pods-TorusDirectSDKDemoTests/Pods-TorusDirectSDKDemoTests-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-TorusDirectSDKDemoTests/Pods-TorusDirectSDKDemoTests.modulemap";
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
 		6C61D818ACD3C2C116FED6A9C67E91B4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -718,44 +241,6 @@
 			};
 			name = Debug;
 		};
-		7198E9FABB6284587C8869C47BF4B56B /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = CBF21F16B4D3652A59BC2D491BBE1C79 /* Pods-TorusDirectSDKDemo-TorusDirectSDKDemoUITests.debug.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "Target Support Files/Pods-TorusDirectSDKDemo-TorusDirectSDKDemoUITests/Pods-TorusDirectSDKDemo-TorusDirectSDKDemoUITests-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-TorusDirectSDKDemo-TorusDirectSDKDemoUITests/Pods-TorusDirectSDKDemo-TorusDirectSDKDemoUITests.modulemap";
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
 		7DC5F11AFBEAE473E8D3C24A2D11338D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -816,160 +301,9 @@
 			};
 			name = Release;
 		};
-		7DE80564A27492E12D74BB55DFEFEB9B /* Debug */ = {
+		D112FD0BFBE0075AD450890A34DBDCA0 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2055DAE5582F5262A671103BA679FEFA /* Pods-TorusDirectSDKDemo.debug.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "Target Support Files/Pods-TorusDirectSDKDemo/Pods-TorusDirectSDKDemo-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-TorusDirectSDKDemo/Pods-TorusDirectSDKDemo.modulemap";
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		8B1A78F88A11A8D7A1201239CC19A0E6 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8FA64B942CC313718CDD361C283EC09B /* Pods-TorusDirectSDKDemoTests.debug.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "Target Support Files/Pods-TorusDirectSDKDemoTests/Pods-TorusDirectSDKDemoTests-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-TorusDirectSDKDemoTests/Pods-TorusDirectSDKDemoTests.modulemap";
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		A80BD90387AF0DD79817D5ABAD50DBE9 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8AF98AD836363648D6A98012A6D8F937 /* Pods-TorusDirectSDKDemo-TorusDirectSDKDemoUITests.release.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "Target Support Files/Pods-TorusDirectSDKDemo-TorusDirectSDKDemoUITests/Pods-TorusDirectSDKDemo-TorusDirectSDKDemoUITests-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-TorusDirectSDKDemo-TorusDirectSDKDemoUITests/Pods-TorusDirectSDKDemo-TorusDirectSDKDemoUITests.modulemap";
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
-		AF91EC416E1666512C870269A55A0677 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 724CD94DB7422A673607B2447F32CA16 /* OAuthSwift.release.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/OAuthSwift/OAuthSwift-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/OAuthSwift/OAuthSwift-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MODULEMAP_FILE = "Target Support Files/OAuthSwift/OAuthSwift.modulemap";
-				PRODUCT_MODULE_NAME = OAuthSwift;
-				PRODUCT_NAME = OAuthSwift;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
-		F8B8800F3CE53E594E0EEE89F86327EF /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = C8CDD4CFB9554A16AB697F44E50C6106 /* Pods-TorusDirectSDKDemo.release.xcconfig */;
+			baseConfigurationReference = E2F4787E317331466D873CE2FCF19115 /* Pods-TorusDirectSDKDemo.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CLANG_ENABLE_OBJC_WEAK = NO;
@@ -1005,28 +339,48 @@
 				VERSION_INFO_PREFIX = "";
 			};
 			name = Release;
+		};
+		FEF2F1181E3FC6014EAA59E09F6EAAD8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = C346D26642AC254C58B3EC7ECEEC17AF /* Pods-TorusDirectSDKDemo.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "Target Support Files/Pods-TorusDirectSDKDemo/Pods-TorusDirectSDKDemo-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-TorusDirectSDKDemo/Pods-TorusDirectSDKDemo.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		06077238CF566B761D27C16ED68E547B /* Build configuration list for PBXNativeTarget "Pods-TorusDirectSDKDemo" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				7DE80564A27492E12D74BB55DFEFEB9B /* Debug */,
-				F8B8800F3CE53E594E0EEE89F86327EF /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		2A24471FBCB248AACD1DBAD21F47E240 /* Build configuration list for PBXNativeTarget "Pods-TorusDirectSDKDemo-TorusDirectSDKDemoUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				7198E9FABB6284587C8869C47BF4B56B /* Debug */,
-				A80BD90387AF0DD79817D5ABAD50DBE9 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1036,20 +390,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		984E9E4ACADC834F85B8DA4ABE20DC4D /* Build configuration list for PBXNativeTarget "OAuthSwift" */ = {
+		F8E803A29C53DA1862AFA11DD959A7FF /* Build configuration list for PBXNativeTarget "Pods-TorusDirectSDKDemo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				2A65EA68028148C866F756D86D078394 /* Debug */,
-				AF91EC416E1666512C870269A55A0677 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		E8DFAB5330D48595F590E300136BEF0D /* Build configuration list for PBXNativeTarget "Pods-TorusDirectSDKDemoTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				8B1A78F88A11A8D7A1201239CC19A0E6 /* Debug */,
-				695792C00D74968DA14E545835059926 /* Release */,
+				FEF2F1181E3FC6014EAA59E09F6EAAD8 /* Debug */,
+				D112FD0BFBE0075AD450890A34DBDCA0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

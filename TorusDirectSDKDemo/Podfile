@@ -4,18 +4,4 @@
 target 'TorusDirectSDKDemo' do
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
-
-  # Pods for TorusDirectSDKDemo
-
-  pod 'OAuthSwift', '~> 2.0.0'
-
-  target 'TorusDirectSDKDemoTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
-
-  target 'TorusDirectSDKDemoUITests' do
-    # Pods for testing
-  end
-
 end

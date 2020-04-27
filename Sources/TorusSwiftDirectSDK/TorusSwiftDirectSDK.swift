@@ -8,12 +8,19 @@
 import Foundation
 import UIKit
 
-class TorusSwiftDirectSDK{
-    init(url: URL){
+open class TorusSwiftDirectSDK{
+    public init(){
+        
+    }
+    
+    public func openURL(url: String) {
         if #available(iOS 10.0, *) {
-            UIApplication.shared.open(url)
+            UIApplication.shared.open(URL(string: url)!)
         } else {
-            UIApplication.shared.openURL(url)
+            UIApplication.shared.openURL(URL(string: url)!)
         }
+    }
+    public func handle(token: String){
+        print(token)
     }
 }
