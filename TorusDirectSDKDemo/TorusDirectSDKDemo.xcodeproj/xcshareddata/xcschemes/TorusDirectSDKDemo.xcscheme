@@ -20,6 +20,34 @@
                ReferencedContainer = "container:TorusDirectSDKDemo.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "TorusSwiftDirectSDK"
+               BuildableName = "TorusSwiftDirectSDK"
+               BlueprintName = "TorusSwiftDirectSDK"
+               ReferencedContainer = "container:..">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "TorusSwiftDirectSDKTests"
+               BuildableName = "TorusSwiftDirectSDKTests"
+               BlueprintName = "TorusSwiftDirectSDKTests"
+               ReferencedContainer = "container:..">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -46,6 +74,16 @@
                BuildableName = "TorusDirectSDKDemoUITests.xctest"
                BlueprintName = "TorusDirectSDKDemoUITests"
                ReferencedContainer = "container:TorusDirectSDKDemo.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "TorusSwiftDirectSDKTests"
+               BuildableName = "TorusSwiftDirectSDKTests"
+               BlueprintName = "TorusSwiftDirectSDKTests"
+               ReferencedContainer = "container:..">
             </BuildableReference>
          </TestableReference>
       </Testables>

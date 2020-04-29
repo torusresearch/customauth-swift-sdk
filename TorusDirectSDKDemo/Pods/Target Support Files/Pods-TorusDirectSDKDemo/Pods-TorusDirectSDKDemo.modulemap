@@ -1,6 +1,0 @@
-framework module Pods_TorusDirectSDKDemo {
-  umbrella header "Pods-TorusDirectSDKDemo-umbrella.h"
-
-  export *
-  module * { export * }
-}

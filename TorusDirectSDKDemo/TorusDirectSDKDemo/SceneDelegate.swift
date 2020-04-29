@@ -8,6 +8,7 @@
 
 import UIKit
 import SwiftUI
+import TorusSwiftDirectSDK
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -18,8 +19,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 return
             }
             if (url.host == "oauth-callback") {
-                print(url)
-
+                let fd = TorusSwiftDirectSDK()
+                fd.handle(url: url)
             }
     }
     
