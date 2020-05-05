@@ -30,16 +30,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISceneDelegate {
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
     
-    func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
-        guard let url = URLContexts.first?.url else {
-            return
-        }
-        print(url)
-        
-        let fd = TorusSwiftDirectSDK()
-        if (url.host == "oauth-callback") {
-            fd.handle(url: url)
-        }
-    }
     
 }

@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5109CDBE2456E75F0002BEF8 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = 5109CDBD2456E75F0002BEF8 /* SwiftPackageProductDependency */; };
 		511CEACC2452D4EC00A7ACE9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 511CEACB2452D4EC00A7ACE9 /* AppDelegate.swift */; };
 		511CEACE2452D4EC00A7ACE9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 511CEACD2452D4EC00A7ACE9 /* SceneDelegate.swift */; };
 		511CEAD02452D4EC00A7ACE9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 511CEACF2452D4EC00A7ACE9 /* ContentView.swift */; };
@@ -16,6 +15,7 @@
 		511CEAD82452D4EF00A7ACE9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 511CEAD62452D4EF00A7ACE9 /* LaunchScreen.storyboard */; };
 		511CEAE32452D4EF00A7ACE9 /* TorusDirectSDKDemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 511CEAE22452D4EF00A7ACE9 /* TorusDirectSDKDemoTests.swift */; };
 		511CEAEE2452D4EF00A7ACE9 /* TorusDirectSDKDemoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 511CEAED2452D4EF00A7ACE9 /* TorusDirectSDKDemoUITests.swift */; };
+		51C17457245FD02D0035A60E /* TorusSwiftDirectSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 51C17456245FD02D0035A60E /* TorusSwiftDirectSDK */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,7 +36,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		5109CDBC2456E6900002BEF8 /* torus-direct-swift-sdk */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "torus-direct-swift-sdk"; path = ..; sourceTree = "<group>"; };
 		511CEAC82452D4EC00A7ACE9 /* TorusDirectSDKDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TorusDirectSDKDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		511CEACB2452D4EC00A7ACE9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		511CEACD2452D4EC00A7ACE9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -51,6 +50,7 @@
 		511CEAE92452D4EF00A7ACE9 /* TorusDirectSDKDemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TorusDirectSDKDemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		511CEAED2452D4EF00A7ACE9 /* TorusDirectSDKDemoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TorusDirectSDKDemoUITests.swift; sourceTree = "<group>"; };
 		511CEAEF2452D4EF00A7ACE9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		51C17455245FCFBC0035A60E /* torus-direct-swift-sdk */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "torus-direct-swift-sdk"; path = ..; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,7 +58,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5109CDBE2456E75F0002BEF8 /* BuildFile in Frameworks */,
+				51C17457245FD02D0035A60E /* TorusSwiftDirectSDK in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -82,7 +82,7 @@
 		18B4F998A7F88C302F18BA73 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				5109CDBC2456E6900002BEF8 /* torus-direct-swift-sdk */,
+				51C17455245FCFBC0035A60E /* torus-direct-swift-sdk */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -173,7 +173,7 @@
 			);
 			name = TorusDirectSDKDemo;
 			packageProductDependencies = (
-				5109CDBD2456E75F0002BEF8 /* SwiftPackageProductDependency */,
+				51C17456245FD02D0035A60E /* TorusSwiftDirectSDK */,
 			);
 			productName = TorusDirectSDKDemo;
 			productReference = 511CEAC82452D4EC00A7ACE9 /* TorusDirectSDKDemo.app */;
@@ -613,7 +613,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		5109CDBD2456E75F0002BEF8 /* SwiftPackageProductDependency */ = {
+		51C17456245FD02D0035A60E /* TorusSwiftDirectSDK */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = TorusSwiftDirectSDK;
 		};
