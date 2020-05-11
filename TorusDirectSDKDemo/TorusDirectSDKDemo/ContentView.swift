@@ -18,9 +18,8 @@ struct ContentView: View {
         Button(action: {
             if let url = URL(string: self.googleURL) {
                 let fd = TorusSwiftDirectSDK()
-                SafariView(url: url)
                 self.showSafari = true
-                // fd.openURL(url: self.googleURL)
+//                fd.openURL(url: self.googleURL)
             }
         }, label: {
             Text("Google Login")
