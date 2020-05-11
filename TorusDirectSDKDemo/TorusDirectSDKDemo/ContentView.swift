@@ -8,18 +8,38 @@
 
 import SwiftUI
 import TorusSwiftDirectSDK
+import SafariServices
 
 struct ContentView: View {
-    let googleURL  = "https://accounts.google.com/o/oauth2/v2/auth?response_type=token+id_token&client_id=238941746713-qqe4a7rduuk256d8oi5l0q34qtu9gpfg.apps.googleusercontent.com&nonce=123&redirect_uri=http://localhost:3050/redirect&scope=profile+email+openid"
+    let googleURL  = "https://accounts.google.com/o/oauth2/v2/auth?response_type=token+id_token&client_id=238941746713-qqe4a7rduuk256d8oi5l0q34qtu9gpfg.apps.googleusercontent.com&nonce=123&redirect_uri=https://backend.relayer.dev.tor.us/redirect&scope=profile+email+openid"
+    @State var showSafari = false
+    
     var body: some View {
         Button(action: {
             if let url = URL(string: self.googleURL) {
                 let fd = TorusSwiftDirectSDK()
-                fd.openURL(url: self.googleURL)
+                SafariView(url: url)
+                self.showSafari = true
+                // fd.openURL(url: self.googleURL)
             }
         }, label: {
             Text("Google Login")
-        })
+        }).sheet(isPresented: $showSafari) {
+                SafariView(url:URL(string: self.googleURL)!)
+        }
+    }
+}
+
+struct SafariView: UIViewControllerRepresentable {
+    typealias UIViewControllerType = SFSafariViewController
+    
+    var url: URL?
+    
+    func makeUIViewController(context: UIViewControllerRepresentableContext<SafariView>) -> SFSafariViewController {
+        return SFSafariViewController(url: url!)
+    }
+    
+    func updateUIViewController(_ safariViewController: SFSafariViewController, context: UIViewControllerRepresentableContext<SafariView>) {
     }
 }
 

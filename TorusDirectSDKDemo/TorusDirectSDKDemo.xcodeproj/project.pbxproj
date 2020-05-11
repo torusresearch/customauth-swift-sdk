@@ -50,6 +50,7 @@
 		511CEAE92452D4EF00A7ACE9 /* TorusDirectSDKDemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TorusDirectSDKDemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		511CEAED2452D4EF00A7ACE9 /* TorusDirectSDKDemoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TorusDirectSDKDemoUITests.swift; sourceTree = "<group>"; };
 		511CEAEF2452D4EF00A7ACE9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		517C5F5D24693F9D006D5A43 /* TorusDirectSDKDemo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TorusDirectSDKDemo.entitlements; sourceTree = "<group>"; };
 		51C17455245FCFBC0035A60E /* torus-direct-swift-sdk */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "torus-direct-swift-sdk"; path = ..; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -112,6 +113,7 @@
 		511CEACA2452D4EC00A7ACE9 /* TorusDirectSDKDemo */ = {
 			isa = PBXGroup;
 			children = (
+				517C5F5D24693F9D006D5A43 /* TorusDirectSDKDemo.entitlements */,
 				511CEACB2452D4EC00A7ACE9 /* AppDelegate.swift */,
 				511CEACD2452D4EC00A7ACE9 /* SceneDelegate.swift */,
 				511CEACF2452D4EC00A7ACE9 /* ContentView.swift */,
@@ -457,6 +459,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = TorusDirectSDKDemo/TorusDirectSDKDemo.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"TorusDirectSDKDemo/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
@@ -476,6 +479,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = TorusDirectSDKDemo/TorusDirectSDKDemo.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"TorusDirectSDKDemo/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
