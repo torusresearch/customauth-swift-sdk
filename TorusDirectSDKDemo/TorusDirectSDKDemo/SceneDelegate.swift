@@ -19,10 +19,22 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 return
             }
             if (url.host == "oauth-callback") {
-                let fd = TorusSwiftDirectSDK()
-                fd.handle(url: url)
+//                let fd = TorusSwiftDirectSDK(aggregateVerifierType: "google", aggregateVerifierName: <#String#>, subVerifierDetails: <#[[String : String]]#>)
+//                fd.handle(url: url)
             }
     }
+    
+    func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
+        
+        guard userActivity.activityType == NSUserActivityTypeBrowsingWeb,
+            let urlToOpen = userActivity.webpageURL else {
+                return
+        }
+        
+        print("ASDF", urlToOpen)
+        
+    }
+    
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
