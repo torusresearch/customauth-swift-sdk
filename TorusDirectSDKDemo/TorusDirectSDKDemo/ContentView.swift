@@ -19,20 +19,15 @@ struct ContentView: View {
     var body: some View {
         Button(action: {
             if let url = URL(string: self.googleURL) {
-                let subVerifierDetails = [["GOOGLE_CLIENT_ID": "238941746713-qqe4a7rduuk256d8oi5l0q34qtu9gpfg.apps.googleusercontent.com",
+                let subVerifierDetails = [["clientId": "238941746713-qqe4a7rduuk256d8oi5l0q34qtu9gpfg.apps.googleusercontent.com",
                     "typeOfLogin": "google",
                     "verifier": "google-shubs"]]
-                let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: "singleLogin", aggregateVerifierName: "google-shubs", subVerifierDetails: subVerifierDetails)
+                let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: "single_id_verifier", aggregateVerifierName: "google-shubs", subVerifierDetails: subVerifierDetails)
                 tdsdk.triggerLogin()
-                
-                self.showSafari = true
-//                fd.openURL(url: self.googleURL)
             }
         }, label: {
             Text("Google Login")
-        }).sheet(isPresented: $showSafari) {
-                SafariView(url:URL(string: self.googleURL)!)
-        }
+        })
     }
 }
 

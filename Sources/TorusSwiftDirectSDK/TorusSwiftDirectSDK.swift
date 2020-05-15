@@ -29,7 +29,10 @@ open class TorusSwiftDirectSDK{
         switch self.aggregateVerifierType{
         case .singleLogin:
             /// Do repective Login
+            print("called")
+
             if let temp = self.subVerifierDetails.first{
+                print(temp)
                 let sub = try! SubVerifierDetails(dictionary: temp)
                 let loginURL = getLoginURLString(svd: sub)
                 openURL(url: loginURL)
@@ -40,6 +43,12 @@ open class TorusSwiftDirectSDK{
         case .orAggregateVerifier:
             break
         case .singleIdVerifier:
+            if let temp = self.subVerifierDetails.first{
+                print(temp)
+                let sub = try! SubVerifierDetails(dictionary: temp)
+                let loginURL = getLoginURLString(svd: sub)
+                openURL(url: loginURL)
+            }
             break
         case .none:
             print("error occured")
@@ -47,6 +56,7 @@ open class TorusSwiftDirectSDK{
     }
     
     public func openURL(url: String) {
+        print("opening URL \(url)")
         if #available(iOS 10.0, *) {
             UIApplication.shared.open(URL(string: url)!)
         } else {
