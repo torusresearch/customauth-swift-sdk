@@ -14,25 +14,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
     
-    func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
-            guard let url = URLContexts.first?.url else {
-                return
-            }
-            if (url.host == "oauth-callback") {
-//                let fd = TorusSwiftDirectSDK(aggregateVerifierType: "google", aggregateVerifierName: <#String#>, subVerifierDetails: <#[[String : String]]#>)
-//                fd.handle(url: url)
-            }
-    }
     
     func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
-        
         guard userActivity.activityType == NSUserActivityTypeBrowsingWeb,
             let urlToOpen = userActivity.webpageURL else {
                 return
         }
-        
-        print("ASDF", urlToOpen)
-        
+        TorusSwiftDirectSDK.handle(url: urlToOpen)
     }
     
     
