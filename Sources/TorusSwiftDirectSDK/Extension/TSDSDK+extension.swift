@@ -12,6 +12,37 @@ import PromiseKit
 
 extension TorusSwiftDirectSDK{
     
+    open class var notificationCenter: NotificationCenter {
+        return NotificationCenter.default
+    }
+    open class var notificationQueue: OperationQueue {
+        return OperationQueue.main
+    }
+    
+    static let didHandleCallbackURL: Notification.Name = .init("OAuthSwiftCallbackNotificationName")
+    
+    /// Remove internal observer on authentification
+    public func removeCallbackNotificationObserver() {
+        if let observer = self.observer {
+            TorusSwiftDirectSDK.notificationCenter.removeObserver(observer)
+        }
+    }
+    
+    func observeCallback(_ block: @escaping (_ url: URL) -> Void) {
+        self.observer = TorusSwiftDirectSDK.notificationCenter.addObserver(
+            forName: TorusSwiftDirectSDK.didHandleCallbackURL,
+            object: nil,
+            queue: OperationQueue.main) { [weak self] notification in
+                self?.removeCallbackNotificationObserver()
+                // print(notification.userInfo)
+                if let urlFromUserInfo = notification.userInfo?["URL"] as? URL {
+                    block(urlFromUserInfo)
+                }else{
+                    assertionFailure()
+                }
+        }
+    }
+    
     public func openURL(url: String) {
         // print("opening URL \(url)")
         if #available(iOS 10.0, *) {
@@ -22,7 +53,7 @@ extension TorusSwiftDirectSDK{
     }
     
     // Todo: Change Type Function
-    class func makeUrlRequest(url: String) -> URLRequest {
+    func makeUrlRequest(url: String) -> URLRequest {
         var rq = URLRequest(url: URL(string: url)!)
         rq.httpMethod = "POST"
         rq.addValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -31,7 +62,7 @@ extension TorusSwiftDirectSDK{
     }
     
     // Todo: Change Type Function
-    class func getUserInfo(accessToken : String) -> Promise<[String: Any]>{
+    func getUserInfo(accessToken : String) -> Promise<[String: Any]>{
         var request = makeUrlRequest(url: "https://www.googleapis.com/oauth2/v3/userinfo")
         request.addValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
         
@@ -55,22 +86,9 @@ extension TorusSwiftDirectSDK{
     }
     
     open class func handle(url: URL){
-        var responseParameters = [String: String]()
-        // print(url)
-        if let query = url.query {
-            responseParameters += query.parametersFromQueryString
-        }
-        if let fragment = url.fragment, !fragment.isEmpty {
-            responseParameters += fragment.parametersFromQueryString
-        }
         
-        if let accessToken = responseParameters["access_token"]{
-            print(accessToken)
-            
-            getUserInfo(accessToken: accessToken).done{ data in
-                print(data)
-            }
-        }
+        let notification = Notification(name: TorusSwiftDirectSDK.didHandleCallbackURL, object: nil, userInfo: ["URL":url])
+        notificationCenter.post(notification)
         
         //        if let idToken = responseParameters["id_token"] {
         //             print(idToken)

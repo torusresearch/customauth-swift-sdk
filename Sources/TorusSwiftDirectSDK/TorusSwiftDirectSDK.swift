@@ -16,7 +16,8 @@ open class TorusSwiftDirectSDK{
     let aggregateVerifierType : verifierTypes?
     let aggregateVerifierName : String
     let subVerifierDetails : [[String:String]]
-    
+    var observer: NSObjectProtocol?
+
     /// Todo: Make initialiser failable for invalid aggregateVerifierType
     public init(aggregateVerifierType: String, aggregateVerifierName: String, subVerifierDetails: [[String:String]]){
         torusUtils = TorusUtils()
@@ -30,13 +31,14 @@ open class TorusSwiftDirectSDK{
         switch self.aggregateVerifierType{
         case .singleLogin:
             /// Do repective Login
-            print("called")
+            // print("called")
 
             if let temp = self.subVerifierDetails.first{
                 print(temp)
                 let sub = try! SubVerifierDetails(dictionary: temp)
                 let loginURL = getLoginURLString(svd: sub)
                 openURL(url: loginURL)
+
             }
             break
         case .andAggregateVerifier:
@@ -48,6 +50,26 @@ open class TorusSwiftDirectSDK{
                 print(temp)
                 let sub = try! SubVerifierDetails(dictionary: temp)
                 let loginURL = getLoginURLString(svd: sub)
+                observeCallback{ [weak self] url in
+                    
+                    print(url)
+                    var responseParameters = [String: String]()
+                    if let query = url.query {
+                        responseParameters += query.parametersFromQueryString
+                    }
+                    if let fragment = url.fragment, !fragment.isEmpty {
+                        responseParameters += fragment.parametersFromQueryString
+                    }
+
+                    if let accessToken = responseParameters["access_token"], let idToken = responseParameters["id_token"]{
+                        print(accessToken)
+
+                        self!.getUserInfo(accessToken: accessToken).done{ data in
+                            let email = data["email"] as! String
+                            print(email)
+                        }
+                    }
+                }
                 openURL(url: loginURL)
             }
             break
