@@ -30,15 +30,11 @@ open class TorusSwiftDirectSDK{
     public func triggerLogin(){
         switch self.aggregateVerifierType{
         case .singleLogin:
-            /// Do repective Login
-            // print("called")
-
             if let temp = self.subVerifierDetails.first{
                 print(temp)
                 let sub = try! SubVerifierDetails(dictionary: temp)
                 let loginURL = getLoginURLString(svd: sub)
                 openURL(url: loginURL)
-
             }
             break
         case .andAggregateVerifier:
@@ -50,9 +46,7 @@ open class TorusSwiftDirectSDK{
                 print(temp)
                 let sub = try! SubVerifierDetails(dictionary: temp)
                 let loginURL = getLoginURLString(svd: sub)
-                observeCallback{ [weak self] url in
-                    
-                    print(url)
+                observeCallback{ url in
                     var responseParameters = [String: String]()
                     if let query = url.query {
                         responseParameters += query.parametersFromQueryString
@@ -62,12 +56,16 @@ open class TorusSwiftDirectSDK{
                     }
 
                     if let accessToken = responseParameters["access_token"], let idToken = responseParameters["id_token"]{
-                        print(accessToken)
+                        print(accessToken, idToken)
 
-                        self!.getUserInfo(accessToken: accessToken).done{ data in
+                        self.getUserInfo(accessToken: accessToken).then{ data in
                             let email = data["email"] as! String
-                            print(email)
+                            return torusUtils?.retreiveShares(endpoints: self.endpoints, verifierIdentifier: self.aggregateVerifierName, verifierParams: [["idtoken":idToken, "verifier_id":email]], subVerifierIds: [sub.subVerifierId], verifierId: email)
+                        }.done{ data in
+                            print("final private Key", data)
                         }
+
+
                     }
                 }
                 openURL(url: loginURL)

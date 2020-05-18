@@ -86,20 +86,8 @@ extension TorusSwiftDirectSDK{
     }
     
     open class func handle(url: URL){
-        
         let notification = Notification(name: TorusSwiftDirectSDK.didHandleCallbackURL, object: nil, userInfo: ["URL":url])
         notificationCenter.post(notification)
-        
-        //        if let idToken = responseParameters["id_token"] {
-        //             print(idToken)
-        ////            torusUtils.retreiveShares(endpoints: self.endpoints, verifier: "google-shubs", verifierParams: ["verifier_id":"shubham@tor.us"], idToken: idToken).done{ data in
-        ////                print(data)
-        ////                self.privateKey = data
-        ////            }.catch{err in
-        ////                print(err)
-        ////            }
-        //       }
-        
     }
     
     
