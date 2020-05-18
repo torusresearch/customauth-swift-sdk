@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import TorusUtils
+import PromiseKit
 
 open class TorusSwiftDirectSDK{
     let torusUtils : TorusUtils?
@@ -58,9 +59,9 @@ open class TorusSwiftDirectSDK{
                     if let accessToken = responseParameters["access_token"], let idToken = responseParameters["id_token"]{
                         print(accessToken, idToken)
 
-                        self.getUserInfo(accessToken: accessToken).then{ data in
+                        self.getUserInfo(accessToken: accessToken).then{ data -> Promise<String> in
                             let email = data["email"] as! String
-                            return torusUtils?.retreiveShares(endpoints: self.endpoints, verifierIdentifier: self.aggregateVerifierName, verifierParams: [["idtoken":idToken, "verifier_id":email]], subVerifierIds: [sub.subVerifierId], verifierId: email)
+                            return (self.torusUtils?.retreiveShares(endpoints: self.endpoints, verifierIdentifier: self.aggregateVerifierName, verifierParams: [["idtoken":idToken, "verifier_id":email]], subVerifierIds: [sub.subVerifierId], verifierId: email))!
                         }.done{ data in
                             print("final private Key", data)
                         }

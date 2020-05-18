@@ -146,7 +146,7 @@ struct SubVerifierDetails {
     init(dictionary: [String: String]) throws {
         self.clientId = dictionary["clientId"] ?? ""
         self.typeOfLogin = LoginProviders(rawValue: dictionary["typeOfLogin"] ?? "")!
-        self.subVerifierId = dictionary["subVerifierId"] ?? ""
+        self.subVerifierId = dictionary["verifier"] ?? ""
     }
 }
 

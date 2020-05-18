@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import TorusSwiftDirectSDK
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UISceneDelegate {
