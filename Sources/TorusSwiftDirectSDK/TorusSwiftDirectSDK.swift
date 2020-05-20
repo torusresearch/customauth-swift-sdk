@@ -66,13 +66,11 @@ open class TorusSwiftDirectSDK{
                     // print(accessToken, idToken)
                     
                     self.getUserInfo(accessToken: accessToken).then{ data -> Promise<String> in
-                        
                         let email = data["email"] as! String
                         let extraParams = ["verifieridentifier": self.aggregateVerifierName, "verifier_id":email] as [String : Any]
                         let dataExample: Data = try! NSKeyedArchiver.archivedData(withRootObject: extraParams, requiringSecureCoding: false)
-                        let hashedOnce = idToken.sha3(.keccak256)
                         
-                        return (self.torusUtils?.retrieveShares(endpoints: self.endpoints, verifierIdentifier: self.aggregateVerifierName, verifierId: email, idToken: hashedOnce, extraParams: dataExample))!
+                        return (self.torusUtils?.retrieveShares(endpoints: self.endpoints, verifierIdentifier: self.aggregateVerifierName, verifierId: email, idToken: idToken, extraParams: dataExample))!
                     }.done{ data in
                         print("final private Key", data)
                     }.catch{err in
@@ -82,7 +80,7 @@ open class TorusSwiftDirectSDK{
                     
                 }
             }
-            openURL(url: loginURL)
+            openURL(url: loginURL) // Open in external safari
         }
     }
     

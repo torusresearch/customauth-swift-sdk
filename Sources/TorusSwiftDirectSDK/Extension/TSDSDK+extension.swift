@@ -106,6 +106,7 @@ extension TorusSwiftDirectSDK{
         case .reddit:
             break
         case .discord:
+            returnURL = "https://discordapp.com/api/oauth2/authorize?response_type=token&client_id=\(svd.clientId)&scope=email+identity&redirect_uri=tdsdk://tdsdk/oauthCallback"
             break
         case .auth0:
             break

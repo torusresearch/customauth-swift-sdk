@@ -22,7 +22,7 @@ struct ContentView: View {
                 let subVerifierDetails = [["clientId": "238941746713-qqe4a7rduuk256d8oi5l0q34qtu9gpfg.apps.googleusercontent.com",
                     "typeOfLogin": "google",
                     "verifier": "google-shubs"]]
-                let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: "single_id_verifier", aggregateVerifierName: "google-google", subVerifierDetails: subVerifierDetails)
+                let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: "single_login", aggregateVerifierName: "google-shubs", subVerifierDetails: subVerifierDetails)
                 tdsdk.triggerLogin()
             }
         }, label: {

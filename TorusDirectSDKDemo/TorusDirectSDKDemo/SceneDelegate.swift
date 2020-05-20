@@ -1,4 +1,4 @@
-//
+
 //  SceneDelegate.swift
 //  TorusDirectSDKDemo
 //
@@ -22,6 +22,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         TorusSwiftDirectSDK.handle(url: urlToOpen)
     }
     
+    func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+        guard let url = URLContexts.first?.url else {
+            return
+        }
+        
+        print(url)
+    }
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
