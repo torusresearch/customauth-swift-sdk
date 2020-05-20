@@ -10,6 +10,7 @@ import UIKit
 import TorusUtils
 import PromiseKit
 
+@available(iOS 11.0, *)
 extension TorusSwiftDirectSDK{
     
     open class var notificationCenter: NotificationCenter {

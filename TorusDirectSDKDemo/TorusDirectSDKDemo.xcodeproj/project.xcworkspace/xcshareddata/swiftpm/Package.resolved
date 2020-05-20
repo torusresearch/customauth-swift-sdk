@@ -74,24 +74,6 @@
         }
       },
       {
-        "package": "TorusSwiftDirectSDK",
-        "repositoryURL": "https://github.com/torusresearch/torus-direct-swift-sdk",
-        "state": {
-          "branch": null,
-          "revision": "fec27aa00922d02654e06412016db4ecfdc02564",
-          "version": "0.0.1"
-        }
-      },
-      {
-        "package": "TorusUtils",
-        "repositoryURL": "https://github.com/torusresearch/torus-utils-swift/",
-        "state": {
-          "branch": null,
-          "revision": "52a0cb374631992ffe1697c55f0787b3a16afe57",
-          "version": "0.0.10"
-        }
-      },
-      {
         "package": "Web3swift",
         "repositoryURL": "https://github.com/rathishubham7/web3swift",
         "state": {

@@ -15,7 +15,7 @@
 		511CEAD82452D4EF00A7ACE9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 511CEAD62452D4EF00A7ACE9 /* LaunchScreen.storyboard */; };
 		511CEAE32452D4EF00A7ACE9 /* TorusDirectSDKDemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 511CEAE22452D4EF00A7ACE9 /* TorusDirectSDKDemoTests.swift */; };
 		511CEAEE2452D4EF00A7ACE9 /* TorusDirectSDKDemoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 511CEAED2452D4EF00A7ACE9 /* TorusDirectSDKDemoUITests.swift */; };
-		517E17AA247294DF0035983A /* TorusSwiftDirectSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 517E17A9247294DF0035983A /* TorusSwiftDirectSDK */; };
+		51721D862474E5B400C22BAD /* TorusSwiftDirectSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 51721D852474E5B400C22BAD /* TorusSwiftDirectSDK */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,8 +50,8 @@
 		511CEAE92452D4EF00A7ACE9 /* TorusDirectSDKDemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TorusDirectSDKDemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		511CEAED2452D4EF00A7ACE9 /* TorusDirectSDKDemoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TorusDirectSDKDemoUITests.swift; sourceTree = "<group>"; };
 		511CEAEF2452D4EF00A7ACE9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		51721D842474E4B700C22BAD /* torus-direct-swift-sdk */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "torus-direct-swift-sdk"; path = ..; sourceTree = "<group>"; };
 		517C5F5D24693F9D006D5A43 /* TorusDirectSDKDemo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TorusDirectSDKDemo.entitlements; sourceTree = "<group>"; };
-		517E17A8247294D00035983A /* torus-direct-swift-sdk */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "torus-direct-swift-sdk"; path = ..; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,7 +59,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				517E17AA247294DF0035983A /* TorusSwiftDirectSDK in Frameworks */,
+				51721D862474E5B400C22BAD /* TorusSwiftDirectSDK in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,7 +83,7 @@
 		18B4F998A7F88C302F18BA73 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				517E17A8247294D00035983A /* torus-direct-swift-sdk */,
+				51721D842474E4B700C22BAD /* torus-direct-swift-sdk */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -175,7 +175,7 @@
 			);
 			name = TorusDirectSDKDemo;
 			packageProductDependencies = (
-				517E17A9247294DF0035983A /* TorusSwiftDirectSDK */,
+				51721D852474E5B400C22BAD /* TorusSwiftDirectSDK */,
 			);
 			productName = TorusDirectSDKDemo;
 			productReference = 511CEAC82452D4EC00A7ACE9 /* TorusDirectSDKDemo.app */;
@@ -250,8 +250,6 @@
 			);
 			mainGroup = 511CEABF2452D4EC00A7ACE9;
 			packageReferences = (
-				517E17A0247292AB0035983A /* XCRemoteSwiftPackageReference "torus-utils-swift" */,
-				517E17A3247294180035983A /* XCRemoteSwiftPackageReference "torus-direct-swift-sdk" */,
 			);
 			productRefGroup = 511CEAC92452D4EC00A7ACE9 /* Products */;
 			projectDirPath = "";
@@ -624,27 +622,8 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCRemoteSwiftPackageReference section */
-		517E17A0247292AB0035983A /* XCRemoteSwiftPackageReference "torus-utils-swift" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/torusresearch/torus-utils-swift/";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.0.1;
-			};
-		};
-		517E17A3247294180035983A /* XCRemoteSwiftPackageReference "torus-direct-swift-sdk" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/torusresearch/torus-direct-swift-sdk";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.0.1;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
 /* Begin XCSwiftPackageProductDependency section */
-		517E17A9247294DF0035983A /* TorusSwiftDirectSDK */ = {
+		51721D852474E5B400C22BAD /* TorusSwiftDirectSDK */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = TorusSwiftDirectSDK;
 		};

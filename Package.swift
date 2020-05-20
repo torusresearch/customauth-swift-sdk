@@ -13,7 +13,8 @@ let package = Package(
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
-        .package(name:"TorusUtils", url: "https://github.com/torusresearch/torus-utils-swift", from: "0.0.1"),
+        //.package(name:"TorusUtils", url: "https://github.com/torusresearch/torus-utils-swift", from: "0.0.1"),
+        .package(name: "TorusUtils", path: "../torus-utils-swift")
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.

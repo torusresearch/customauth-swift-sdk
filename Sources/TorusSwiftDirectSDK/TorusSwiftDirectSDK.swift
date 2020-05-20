@@ -10,6 +10,7 @@ import UIKit
 import TorusUtils
 import PromiseKit
 
+@available(iOS 11.0, *)
 open class TorusSwiftDirectSDK{
     let torusUtils : TorusUtils?
     let endpoints = ["https://lrc-test-13-a.torusnode.com/jrpc", "https://lrc-test-13-b.torusnode.com/jrpc", "https://lrc-test-13-c.torusnode.com/jrpc", "https://lrc-test-13-d.torusnode.com/jrpc", "https://lrc-test-13-e.torusnode.com/jrpc"]
@@ -31,49 +32,103 @@ open class TorusSwiftDirectSDK{
     public func triggerLogin(){
         switch self.aggregateVerifierType{
         case .singleLogin:
-            if let temp = self.subVerifierDetails.first{
-                print(temp)
-                let sub = try! SubVerifierDetails(dictionary: temp)
-                let loginURL = getLoginURLString(svd: sub)
-                openURL(url: loginURL)
-            }
+            handleSingleLogins()
             break
         case .andAggregateVerifier:
+            handleAndAggregateVerifier()
             break
         case .orAggregateVerifier:
+            handleOrAggregateVerifier()
             break
         case .singleIdVerifier:
-            if let temp = self.subVerifierDetails.first{
-                print(temp)
-                let sub = try! SubVerifierDetails(dictionary: temp)
-                let loginURL = getLoginURLString(svd: sub)
-                observeCallback{ url in
-                    var responseParameters = [String: String]()
-                    if let query = url.query {
-                        responseParameters += query.parametersFromQueryString
-                    }
-                    if let fragment = url.fragment, !fragment.isEmpty {
-                        responseParameters += fragment.parametersFromQueryString
-                    }
-
-                    if let accessToken = responseParameters["access_token"], let idToken = responseParameters["id_token"]{
-                        print(accessToken, idToken)
-
-                        self.getUserInfo(accessToken: accessToken).then{ data -> Promise<String> in
-                            let email = data["email"] as! String
-                            return (self.torusUtils?.retreiveShares(endpoints: self.endpoints, verifierIdentifier: self.aggregateVerifierName, verifierParams: [["idtoken":idToken, "verifier_id":email]], subVerifierIds: [sub.subVerifierId], verifierId: email))!
-                        }.done{ data in
-                            print("final private Key", data)
-                        }
-
-
-                    }
-                }
-                openURL(url: loginURL)
-            }
+            handleSingleIdVerifier()
             break
         case .none:
             print("error occured")
         }
+    }
+    
+    func handleSingleLogins(){
+        if let temp = self.subVerifierDetails.first{
+            print(temp)
+            let sub = try! SubVerifierDetails(dictionary: temp)
+            let loginURL = getLoginURLString(svd: sub)
+            observeCallback{ url in
+                var responseParameters = [String: String]()
+                if let query = url.query {
+                    responseParameters += query.parametersFromQueryString
+                }
+                if let fragment = url.fragment, !fragment.isEmpty {
+                    responseParameters += fragment.parametersFromQueryString
+                }
+                
+                if let accessToken = responseParameters["access_token"], let idToken = responseParameters["id_token"]{
+                    // print(accessToken, idToken)
+                    
+                    self.getUserInfo(accessToken: accessToken).then{ data -> Promise<String> in
+                        
+                        let email = data["email"] as! String
+                        let extraParams = ["verifieridentifier": self.aggregateVerifierName, "verifier_id":email] as [String : Any]
+                        let dataExample: Data = try! NSKeyedArchiver.archivedData(withRootObject: extraParams, requiringSecureCoding: false)
+                        let hashedOnce = idToken.sha3(.keccak256)
+                        
+                        return (self.torusUtils?.retrieveShares(endpoints: self.endpoints, verifierIdentifier: self.aggregateVerifierName, verifierId: email, idToken: hashedOnce, extraParams: dataExample))!
+                    }.done{ data in
+                        print("final private Key", data)
+                    }.catch{err in
+                        print("err in ", err)
+                    }
+                    
+                    
+                }
+            }
+            openURL(url: loginURL)
+        }
+    }
+    
+    func handleSingleIdVerifier(){
+        if let temp = self.subVerifierDetails.first{
+            print(temp)
+            let sub = try! SubVerifierDetails(dictionary: temp)
+            let loginURL = getLoginURLString(svd: sub)
+            observeCallback{ url in
+                var responseParameters = [String: String]()
+                if let query = url.query {
+                    responseParameters += query.parametersFromQueryString
+                }
+                if let fragment = url.fragment, !fragment.isEmpty {
+                    responseParameters += fragment.parametersFromQueryString
+                }
+                
+                if let accessToken = responseParameters["access_token"], let idToken = responseParameters["id_token"]{
+                    // print(accessToken, idToken)
+                    
+                    self.getUserInfo(accessToken: accessToken).then{ data -> Promise<String> in
+                        
+                        let email = data["email"] as! String
+                        let extraParams = ["verifieridentifier": self.aggregateVerifierName, "verifier_id":email, "sub_verifier_ids":[sub.subVerifierId], "verify_params": [["verifier_id": email, "idtoken": idToken]]] as [String : Any]
+                        let dataExample: Data = try! NSKeyedArchiver.archivedData(withRootObject: extraParams, requiringSecureCoding: false)
+                        let hashedOnce = idToken.sha3(.keccak256)
+                        
+                        return (self.torusUtils?.retrieveShares(endpoints: self.endpoints, verifierIdentifier: self.aggregateVerifierName, verifierId: email, idToken: hashedOnce, extraParams: dataExample))!
+                    }.done{ data in
+                        print("final private Key", data)
+                    }.catch{err in
+                        print("err in ", err)
+                    }
+                    
+                    
+                }
+            }
+            openURL(url: loginURL)
+        }
+    }
+    
+    func handleAndAggregateVerifier(){
+        
+    }
+    
+    func handleOrAggregateVerifier(){
+        
     }
 }
