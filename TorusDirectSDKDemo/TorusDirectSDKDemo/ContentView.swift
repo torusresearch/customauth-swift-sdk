@@ -30,6 +30,13 @@ struct ContentView: View {
                         Text("Google Login")
                     })
                     
+                    Button(action: {
+                        let subverifierDiscord = [["clientId": "rXIp6g2y3h1wqg", "typeOfLogin": "reddit", "verifier":"reddit-shubs"]]
+                        let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: "single_login", aggregateVerifierName: "reddit-shubs", subVerifierDetails: subverifierDiscord)
+                        tdsdk.triggerLogin()
+                    }, label: {
+                        Text("Reddit Login")
+                    })
                     
                     Button(action: {
                         let subverifierDiscord = [["clientId": "700259843063152661", "typeOfLogin": "discord", "verifier":"discord-shubs"]]
@@ -40,6 +47,17 @@ struct ContentView: View {
                     })
                 }
                
+                Section(header: Text("Single ID verifier")){
+                    Button(action: {
+                        let subVerifierDetails = [["clientId": "238941746713-qqe4a7rduuk256d8oi5l0q34qtu9gpfg.apps.googleusercontent.com",
+                                                   "typeOfLogin": "google",
+                                                   "verifier": "google-shubs"]]
+                        let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: "single_id_verifier", aggregateVerifierName: "google-google", subVerifierDetails: subVerifierDetails)
+                        tdsdk.triggerLogin()
+                    }, label: {
+                        Text("Google Login")
+                    })
+                }
                 
             }.navigationBarTitle(Text("DirectAuth app"))
         }

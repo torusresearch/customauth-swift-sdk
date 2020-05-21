@@ -28,7 +28,6 @@ open class TorusSwiftDirectSDK{
         self.subVerifierDetails = subVerifierDetails
     }
     
-    
     public func triggerLogin(){
         switch self.aggregateVerifierType{
         case .singleLogin:
@@ -75,22 +74,6 @@ open class TorusSwiftDirectSDK{
                 }.catch{err in
                     print("err in ", err)
                 }
-                
-//                if let accessToken = responseParameters["access_token"], let idToken = responseParameters["id_token"]{
-//                    print(accessToken, idToken)
-//
-//                    subVerifier.typeOfLogin.getUserInfo(accessToken: accessToken).then{ data -> Promise<String> in
-//                        let email = data["email"] as! String
-//                        let extraParams = ["verifieridentifier": self.aggregateVerifierName, "verifier_id":email] as [String : Any]
-//                        let dataExample: Data = try! NSKeyedArchiver.archivedData(withRootObject: extraParams, requiringSecureCoding: false)
-//
-//                        return (self.torusUtils?.retrieveShares(endpoints: self.endpoints, verifierIdentifier: self.aggregateVerifierName, verifierId: email, idToken: idToken, extraParams: dataExample))!
-//                    }.done{ data in
-//                        print("final private Key", data)
-//                    }.catch{err in
-//                        print("err in ", err)
-//                    }
-//                }
             }
             openURL(url: loginURL) // Open in external safari
         }
@@ -111,13 +94,13 @@ open class TorusSwiftDirectSDK{
                 }
                 
                 subVerifier.typeOfLogin.getUserInfo(responseParameters: responseParameters).then{ data -> Promise<String> in
-                    let email = data["email"] as! String
-                    let idToken = data["id_token"] as! String
-                    let extraParams = ["verifieridentifier": self.aggregateVerifierName, "verifier_id":email, "sub_verifier_ids":[subVerifier.subVerifierId], "verify_params": [["verifier_id": email, "idtoken": idToken]]] as [String : Any]
+                    let verifierId = data["verifierId"] as! String
+                    let idToken = data["tokenForKeys"] as! String
+                    let extraParams = ["verifieridentifier": self.aggregateVerifierName, "verifier_id":verifierId, "sub_verifier_ids":[subVerifier.subVerifierId], "verify_params": [["verifier_id": verifierId, "idtoken": idToken]]] as [String : Any]
                     let dataExample: Data = try! NSKeyedArchiver.archivedData(withRootObject: extraParams, requiringSecureCoding: false)
                     let hashedOnce = idToken.sha3(.keccak256)
                     
-                    return (self.torusUtils?.retrieveShares(endpoints: self.endpoints, verifierIdentifier: self.aggregateVerifierName, verifierId: email, idToken: hashedOnce, extraParams: dataExample))!
+                    return (self.torusUtils?.retrieveShares(endpoints: self.endpoints, verifierIdentifier: self.aggregateVerifierName, verifierId: verifierId, idToken: hashedOnce, extraParams: dataExample))!
                 }.done{ data in
                     print("final private Key", data)
                 }.catch{err in

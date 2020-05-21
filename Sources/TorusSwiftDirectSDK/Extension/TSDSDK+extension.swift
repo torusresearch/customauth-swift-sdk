@@ -130,16 +130,15 @@ enum LoginProviders : String {
         switch self{
         case .google:
             return "https://accounts.google.com/o/oauth2/v2/auth?response_type=token+id_token&client_id=\(clientId)&nonce=123&redirect_uri=https://backend.relayer.dev.tor.us/redirect&scope=profile+email+openid"
-            break
         case .facebook:
             break
         case .twitch:
             break
         case .reddit:
+            return "https://www.reddit.com/api/v1/authorize?client_id=\(clientId)&redirect_uri=tdsdk://tdsdk/oauthCallback&response_type=token&scope=identity&state=dfasdfs"
             break
         case .discord:
             return "https://discord.com/api/oauth2/authorize?response_type=token" + "&client_id=\(clientId)&scope=email identify&redirect_uri=tdsdk://tdsdk/oauthCallback".addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
-            break
         case .auth0:
             break
         }
@@ -173,6 +172,11 @@ enum LoginProviders : String {
         case .twitch:
             break
         case .reddit:
+            if let accessToken = responseParameters["access_token"] {
+                request = makeUrlRequest(url: "https://oauth.reddit.com/api/v1/me", method: "GET")
+                request.addValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+                tokenForKeys = accessToken
+            }
             break
         case .discord:
             if let accessToken = responseParameters["access_token"] {
@@ -215,7 +219,7 @@ enum LoginProviders : String {
         case .twitch:
             break
         case .reddit:
-            break
+            return data["name"] as! String
         case .discord:
             return data["id"] as! String
         case .auth0:
