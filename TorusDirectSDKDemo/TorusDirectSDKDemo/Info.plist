@@ -23,7 +23,8 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>tdsdk://</string>
+				<string>tdsdk-swift</string>
+				<string>tdsdk</string>
 			</array>
 		</dict>
 	</array>

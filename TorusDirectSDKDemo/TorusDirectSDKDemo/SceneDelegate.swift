@@ -14,6 +14,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
     
+    // Handle Universal logins
     func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
         guard userActivity.activityType == NSUserActivityTypeBrowsingWeb,
             let urlToOpen = userActivity.webpageURL else {
@@ -22,12 +23,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         TorusSwiftDirectSDK.handle(url: urlToOpen)
     }
     
+    // Hanlde Deep linkings
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
         guard let url = URLContexts.first?.url else {
             return
         }
         
-        print(url)
+        // print(url)
+        TorusSwiftDirectSDK.handle(url: url)
+
     }
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {

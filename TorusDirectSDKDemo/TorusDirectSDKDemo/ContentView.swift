@@ -12,22 +12,37 @@ import SafariServices
 
 struct ContentView: View {
     let googleURL  = "https://accounts.google.com/o/oauth2/v2/auth?response_type=token+id_token&client_id=238941746713-qqe4a7rduuk256d8oi5l0q34qtu9gpfg.apps.googleusercontent.com&nonce=123&redirect_uri=https://backend.relayer.dev.tor.us/redirect&scope=profile+email+openid"
-//    let localhost = "http://localhost:3050"
+    //    let localhost = "http://localhost:3050"
     
     @State var showSafari = false
     
     var body: some View {
-        Button(action: {
-            if let url = URL(string: self.googleURL) {
-                let subVerifierDetails = [["clientId": "238941746713-qqe4a7rduuk256d8oi5l0q34qtu9gpfg.apps.googleusercontent.com",
-                    "typeOfLogin": "google",
-                    "verifier": "google-shubs"]]
-                let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: "single_login", aggregateVerifierName: "google-shubs", subVerifierDetails: subVerifierDetails)
-                tdsdk.triggerLogin()
-            }
-        }, label: {
-            Text("Google Login")
-        })
+        NavigationView{
+            List {
+                Section(header: Text("Single Logins")) {
+                    Button(action: {
+                        let subVerifierDetails = [["clientId": "238941746713-qqe4a7rduuk256d8oi5l0q34qtu9gpfg.apps.googleusercontent.com",
+                                                   "typeOfLogin": "google",
+                                                   "verifier": "google-shubs"]]
+                        let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: "single_login", aggregateVerifierName: "google-shubs", subVerifierDetails: subVerifierDetails)
+                        tdsdk.triggerLogin()
+                    }, label: {
+                        Text("Google Login")
+                    })
+                    
+                    
+                    Button(action: {
+                        let subverifierDiscord = [["clientId": "700259843063152661", "typeOfLogin": "discord", "verifier":"discord-shubs"]]
+                        let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: "single_login", aggregateVerifierName: "discord-shubs", subVerifierDetails: subverifierDiscord)
+                        tdsdk.triggerLogin()
+                    }, label: {
+                        Text("Discord Login")
+                    })
+                }
+               
+                
+            }.navigationBarTitle(Text("DirectAuth app"))
+        }
     }
 }
 
