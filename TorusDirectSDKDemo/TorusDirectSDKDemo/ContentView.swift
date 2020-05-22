@@ -53,6 +53,14 @@ struct ContentView: View {
                     }, label: {
                         Text("Facebook Login")
                     })
+                    
+                    Button(action: {
+                        let subverifierDiscord = [["clientId": "p560duf74b2bidzqu6uo0b3ot7qaao", "typeOfLogin": "twitch", "verifier":"twitch-shubs"]]
+                        let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: "single_login", aggregateVerifierName: "twitch-shubs", subVerifierDetails: subverifierDiscord)
+                        tdsdk.triggerLogin()
+                    }, label: {
+                        Text("Twitch Login")
+                    })
                 }
                
                 Section(header: Text("Single ID verifier")){

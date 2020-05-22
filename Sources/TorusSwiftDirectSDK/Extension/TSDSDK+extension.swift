@@ -98,10 +98,9 @@ enum LoginProviders : String {
         case .facebook:
             return "https://www.facebook.com/v6.0/dialog/oauth?response_type=token&client_id=\(clientId)" + "&state=random&scope=public_profile email&redirect_uri=https://backend.relayer.dev.tor.us/redirect".addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
         case .twitch:
-            break
+            return "https://id.twitch.tv/oauth2/authorize?client_id=p560duf74b2bidzqu6uo0b3ot7qaao&redirect_uri=tdsdk://tdsdk/oauthCallback" +"&response_type=token&scope=user:read:email&state=${state}&force_verify=true".addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
         case .reddit:
             return "https://www.reddit.com/api/v1/authorize?client_id=\(clientId)&redirect_uri=tdsdk://tdsdk/oauthCallback&response_type=token&scope=identity&state=dfasdfs"
-            break
         case .discord:
             return "https://discord.com/api/oauth2/authorize?response_type=token" + "&client_id=\(clientId)&scope=email identify&redirect_uri=tdsdk://tdsdk/oauthCallback".addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
         case .auth0:
@@ -133,6 +132,11 @@ enum LoginProviders : String {
             }
             break
         case .twitch:
+            if let accessToken = responseParameters["access_token"]{
+                request = makeUrlRequest(url: "https://api.twitch.tv/helix/users", method: "GET")
+                request.addValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+                tokenForKeys = accessToken
+            }
             break
         case .reddit:
             if let accessToken = responseParameters["access_token"] {
