@@ -25,6 +25,7 @@
 			<array>
 				<string>tdsdk-swift</string>
 				<string>tdsdk</string>
+				<string>com.torus.TorusDirectSDKDemo</string>
 			</array>
 		</dict>
 	</array>

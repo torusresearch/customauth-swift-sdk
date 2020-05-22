@@ -12,7 +12,7 @@ import PromiseKit
 
 @available(iOS 11.0, *)
 open class TorusSwiftDirectSDK{
-    let torusUtils : TorusUtils?
+    let torusUtils : TorusUtils
     let endpoints = ["https://lrc-test-13-a.torusnode.com/jrpc", "https://lrc-test-13-b.torusnode.com/jrpc", "https://lrc-test-13-c.torusnode.com/jrpc", "https://lrc-test-13-d.torusnode.com/jrpc", "https://lrc-test-13-e.torusnode.com/jrpc"]
     var privateKey = ""
     let aggregateVerifierType : verifierTypes?
@@ -68,7 +68,7 @@ open class TorusSwiftDirectSDK{
                     let extraParams = ["verifieridentifier": self.aggregateVerifierName, "verifier_id":verifierId] as [String : Any]
                     let buffer: Data = try! NSKeyedArchiver.archivedData(withRootObject: extraParams, requiringSecureCoding: false)
                     
-                    return (self.torusUtils?.retrieveShares(endpoints: self.endpoints, verifierIdentifier: self.aggregateVerifierName, verifierId: verifierId, idToken: idToken, extraParams: buffer))!
+                    return self.torusUtils.retrieveShares(endpoints: self.endpoints, verifierIdentifier: self.aggregateVerifierName, verifierId: verifierId, idToken: idToken, extraParams: buffer)
                 }.done{ data in
                     print("final private Key", data)
                 }.catch{err in
@@ -100,7 +100,7 @@ open class TorusSwiftDirectSDK{
                     let dataExample: Data = try! NSKeyedArchiver.archivedData(withRootObject: extraParams, requiringSecureCoding: false)
                     let hashedOnce = idToken.sha3(.keccak256)
                     
-                    return (self.torusUtils?.retrieveShares(endpoints: self.endpoints, verifierIdentifier: self.aggregateVerifierName, verifierId: verifierId, idToken: hashedOnce, extraParams: dataExample))!
+                    return self.torusUtils.retrieveShares(endpoints: self.endpoints, verifierIdentifier: self.aggregateVerifierName, verifierId: verifierId, idToken: hashedOnce, extraParams: dataExample)
                 }.done{ data in
                     print("final private Key", data)
                 }.catch{err in
