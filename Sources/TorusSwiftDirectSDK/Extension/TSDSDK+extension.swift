@@ -98,7 +98,7 @@ enum LoginProviders : String {
         case .facebook:
             return "https://www.facebook.com/v6.0/dialog/oauth?response_type=token&client_id=\(clientId)" + "&state=random&scope=public_profile email&redirect_uri=https://backend.relayer.dev.tor.us/redirect".addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
         case .twitch:
-            return "https://id.twitch.tv/oauth2/authorize?client_id=p560duf74b2bidzqu6uo0b3ot7qaao&redirect_uri=tdsdk://tdsdk/oauthCallback" +"&response_type=token&scope=user:read:email&state=${state}&force_verify=true".addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
+            return "https://id.twitch.tv/oauth2/authorize?client_id=p560duf74b2bidzqu6uo0b3ot7qaao&redirect_uri=tdsdk://tdsdk/oauthCallback"+"&response_type=token&scope=user:read:email&state=554455&force_verify=false".addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
         case .reddit:
             return "https://www.reddit.com/api/v1/authorize?client_id=\(clientId)&redirect_uri=tdsdk://tdsdk/oauthCallback&response_type=token&scope=identity&state=dfasdfs"
         case .discord:
@@ -135,6 +135,7 @@ enum LoginProviders : String {
             if let accessToken = responseParameters["access_token"]{
                 request = makeUrlRequest(url: "https://api.twitch.tv/helix/users", method: "GET")
                 request.addValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+                request.addValue("p560duf74b2bidzqu6uo0b3ot7qaao", forHTTPHeaderField: "Client-ID")
                 tokenForKeys = accessToken
             }
             break
@@ -167,7 +168,6 @@ enum LoginProviders : String {
                     var json = try JSONSerialization.jsonObject(with: data!) as! [String: Any]
                     json["tokenForKeys"] = tokenForKeys
                     json["verifierId"] = self.getUserInfoVerifier(data: json)
-                    print(json)
                     seal.fulfill(json)
                 } catch {
                     print("JSON error: \(error.localizedDescription)")
@@ -176,6 +176,7 @@ enum LoginProviders : String {
             }.resume()
         }
     }
+   
     
     func getUserInfoVerifier(data: [String: Any]) -> String{
         switch self{
@@ -184,7 +185,10 @@ enum LoginProviders : String {
         case .facebook:
             return data["id"] as! String
         case .twitch:
-            break
+            let newData = data["data"] as! [[String:Any]]
+            if let temp = newData.first{
+                return temp["id"] as! String
+            }
         case .reddit:
             return data["name"] as! String
         case .discord:
@@ -193,6 +197,18 @@ enum LoginProviders : String {
             break
         }
         return "false"
+    }
+    
+    
+    func revokeAccessToken(){
+        switch self{
+        case .google: break
+        case .facebook: break
+        case .twitch: break
+        case .reddit: break
+        case .discord: break
+        case .auth0: break
+        }
     }
 }
 
