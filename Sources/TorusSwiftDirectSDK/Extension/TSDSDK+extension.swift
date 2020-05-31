@@ -47,11 +47,7 @@ extension TorusSwiftDirectSDK{
     
     public func openURL(url: String) {
         print("opening URL \(url)")
-        if #available(iOS 10.0, *) {
-            UIApplication.shared.open(URL(string: url)!)
-        } else {
-            UIApplication.shared.openURL(URL(string: url)!)
-        }
+        UIApplication.shared.open(URL(string: url)!)
     }
     
     func makeUrlRequest(url: String, method: String) -> URLRequest {
@@ -163,7 +159,6 @@ enum LoginProviders : String {
                     print("Client error!")
                     return
                 }
-                // print(response)
                 do {
                     var json = try JSONSerialization.jsonObject(with: data!) as! [String: Any]
                     json["tokenForKeys"] = tokenForKeys
