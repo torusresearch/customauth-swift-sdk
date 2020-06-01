@@ -12,14 +12,14 @@ This repo allows iOS applications to retrieve keys stored on the Torus Network d
 
 ### Swift package manager
 In project settings, add the Github URL as a swift package dependency.
-```
+```swift
 import PackageDescription
 
 let package = Package(
-name: "TorusSwiftDirectSDK",
-dependencies: [
-.package(name: "OAuthSwift", url: "https://github.com/torusresearch/torus-direct-swift-sdk", .upToNextMajor(from: "0.0.1"))
-]
+    name: "TorusSwiftDirectSDK", 
+    dependencies: [
+        .package(name: "OAuthSwift", url: "https://github.com/torusresearch/torus-direct-swift-sdk", .upToNextMajor(from: "0.0.1"))
+    ]
 )
 ```
 

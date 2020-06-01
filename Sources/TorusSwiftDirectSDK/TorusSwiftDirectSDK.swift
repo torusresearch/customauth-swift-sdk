@@ -69,8 +69,6 @@ open class TorusSwiftDirectSDK{
                     let buffer: Data = try! NSKeyedArchiver.archivedData(withRootObject: extraParams, requiringSecureCoding: false)
                     
                     return self.torusUtils.retrieveShares(endpoints: self.endpoints, verifierIdentifier: self.aggregateVerifierName, verifierId: verifierId, idToken: idToken, extraParams: buffer)
-                }.done{ data in
-                    print("final private Key", data)
                 }.catch{err in
                     print("err in ", err)
                 }

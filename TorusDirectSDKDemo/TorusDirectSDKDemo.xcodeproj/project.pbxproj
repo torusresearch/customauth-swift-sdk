@@ -15,7 +15,7 @@
 		511CEAD82452D4EF00A7ACE9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 511CEAD62452D4EF00A7ACE9 /* LaunchScreen.storyboard */; };
 		511CEAE32452D4EF00A7ACE9 /* TorusDirectSDKDemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 511CEAE22452D4EF00A7ACE9 /* TorusDirectSDKDemoTests.swift */; };
 		511CEAEE2452D4EF00A7ACE9 /* TorusDirectSDKDemoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 511CEAED2452D4EF00A7ACE9 /* TorusDirectSDKDemoUITests.swift */; };
-		51721D862474E5B400C22BAD /* TorusSwiftDirectSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 51721D852474E5B400C22BAD /* TorusSwiftDirectSDK */; };
+		51775EB72484B66A00A29680 /* TorusSwiftDirectSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 51775EB62484B66A00A29680 /* TorusSwiftDirectSDK */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,7 +59,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				51721D862474E5B400C22BAD /* TorusSwiftDirectSDK in Frameworks */,
+				51775EB72484B66A00A29680 /* TorusSwiftDirectSDK in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -175,7 +175,7 @@
 			);
 			name = TorusDirectSDKDemo;
 			packageProductDependencies = (
-				51721D852474E5B400C22BAD /* TorusSwiftDirectSDK */,
+				51775EB62484B66A00A29680 /* TorusSwiftDirectSDK */,
 			);
 			productName = TorusDirectSDKDemo;
 			productReference = 511CEAC82452D4EC00A7ACE9 /* TorusDirectSDKDemo.app */;
@@ -625,7 +625,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		51721D852474E5B400C22BAD /* TorusSwiftDirectSDK */ = {
+		51775EB62484B66A00A29680 /* TorusSwiftDirectSDK */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = TorusSwiftDirectSDK;
 		};
