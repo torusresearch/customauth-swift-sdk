@@ -12,7 +12,7 @@ This repo allows iOS applications to retrieve keys stored on the Torus Network d
 
 ### Swift package manager
 In project settings, add the Github URL as a swift package dependency.
-```
+``` swift
 import PackageDescription
 
 let package = Package(
