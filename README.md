@@ -24,9 +24,14 @@ let package = Package(
 )
 ```
 
+#### Cocoapods
+```swift
+pod 'Torus-directSDK'
+```
+
 #### Manual import or other packages
 
-If you require a package manager other than SPM, do reach out to hello@tor.us or alternatively clone the repo manually and import as a framework in your project
+If you require a package manager other than SPM or Cocoapods, do reach out to hello@tor.us or alternatively clone the repo manually and import as a framework in your project
 
 ### 2. Initialization
 
