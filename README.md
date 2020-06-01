@@ -36,12 +36,14 @@ Clone the repo manually and import as a framework in your project
 ### Initialization
 
 We support 4 different types of verifiers. `single_id_verifier`, `and_aggregate_verifier`, `or_aggregate_verifier` and `single_logins`
-```
+```swift
 import TorusSwiftDirectSDK
 
-let subVerifierDetails = [["clientId": "876733105116-i0hj3s53qiio5k95prpfmj0hp0gmgtor.apps.googleusercontent.com",
-"typeOfLogin": "google",
-"verifier": "google"]]
+let subVerifierDetails = [
+    ["clientId": "876733105116-i0hj3s53qiio5k95prpfmj0hp0gmgtor.apps.googleusercontent.com",
+    "typeOfLogin": "google",
+    "verifier": "google"]
+]
 
 let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: "single_login", aggregateVerifierName: "google", subVerifierDetails: subVerifierDetails)
 
@@ -50,29 +52,29 @@ tdsdk.triggerLogin()
 
 ### Handling URL redirects 
 
-A successful login generates an `id_token`, which is required by Torus-utils. There are two ways for this redirect, URL Schemes, and Universal logins
+A successful login generates an `id_token`, which is required by Torus-utils. The `handle(url: URL)` class method implements a NSNotification to handle URL callbacks. There are two ways for this redirect, URL Schemes, and Universal links
 
 #### Setting up URL Schemes
 
 In the info tab of your target, add your application name (ex. my-wallet-app). Add the redirect URL to the list of allowed redirect URLs in the OAuth providers settings page.
 
 - For SwiftUI, implement the following in your SceneDelegate
-```
+```swift
 func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
-guard let url = URLContexts.first?.url else {
-return
-}
-TorusSwiftDirectSDK.handle(url: url)
+    guard let url = URLContexts.first?.url else {
+        return
+    }
+    TorusSwiftDirectSDK.handle(url: url)
 }
 ```
 
 - For Storyboard, implement the following in your app AppDelegate:
-```
+```swift
 func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
-if url.host == "my-wallet-app" {
-OAuthSwift.handle(url: url)
-}
-return true
+    if url.host == "my-wallet-app" {
+        OAuthSwift.handle(url: url)
+    }
+    return true
 }
 ```
 
@@ -80,12 +82,12 @@ return true
 
 Universal Links allow your users to intelligently follow links to content inside your app or to your website. Checkout [Documentation](https://developer.apple.com/ios/universal-links/) for implementation. 
 - For Swift UI,
-```
+```swift
 func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
-guard userActivity.activityType == NSUserActivityTypeBrowsingWeb, let urlToOpen = userActivity.webpageURL else {
-return
-}
-TorusSwiftDirectSDK.handle(url: urlToOpen)
+    guard userActivity.activityType == NSUserActivityTypeBrowsingWeb, let urlToOpen = userActivity.webpageURL else {
+        return
+    }
+    TorusSwiftDirectSDK.handle(url: urlToOpen)
 }
 ```
 
@@ -93,14 +95,13 @@ TorusSwiftDirectSDK.handle(url: urlToOpen)
 ```
 func application(_ application: UIApplication, continue userActivity: UIUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool
 {
-// Get URL components from the incoming user activity
-guard userActivity.activityType == NSUserActivityTypeBrowsingWeb,
-let incomingURL = userActivity.webpageURL,
-let components = NSURLComponents(url: incomingURL, resolvingAgainstBaseURL: true) else {
-return false
-}
-TorusSwiftDirectSDK.handle(url: incomingURL)
-
+    // Get URL components from the incoming user activity
+    guard userActivity.activityType == NSUserActivityTypeBrowsingWeb,
+        let incomingURL = userActivity.webpageURL,
+        let components = NSURLComponents(url: incomingURL, resolvingAgainstBaseURL: true) else {
+            return false
+    }
+    TorusSwiftDirectSDK.handle(url: incomingURL)
 }
 
 ```
