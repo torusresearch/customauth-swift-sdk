@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  SubverifierDetails.swift
 //  
 //
 //  Created by Shubham on 1/6/20.
@@ -10,9 +10,9 @@ import PromiseKit
 
 struct SubVerifierDetails {
     let clientId: String
-    let typeOfLogin: LoginProviders
     let subVerifierId: String
-    
+    let typeOfLogin: LoginProviders
+
     enum codingKeys: String, CodingKey{
         case clientId
         case typeOfLogin
@@ -53,7 +53,7 @@ struct SubVerifierDetails {
     
     func getUserInfo(responseParameters: [String:String]) -> Promise<[String:Any]>{
         
-        // Modify to fit closure value init
+        // TODO: Modify to fit closure value init
         var request: URLRequest = makeUrlRequest(url: "https://www.googleapis.com/userinfo/v2/me", method: "GET")
         var tokenForKeys = ""
         
