@@ -25,7 +25,7 @@ let package = Package(
 ```
 
 #### Cocoapods
-```swift
+```ruby
 pod 'Torus-directSDK'
 ```
 
