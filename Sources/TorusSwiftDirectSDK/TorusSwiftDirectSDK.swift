@@ -12,15 +12,15 @@ import PromiseKit
 
 @available(iOS 11.0, *)
 open class TorusSwiftDirectSDK{
+    
     let torusUtils : TorusUtils
     let endpoints = ["https://lrc-test-13-a.torusnode.com/jrpc", "https://lrc-test-13-b.torusnode.com/jrpc", "https://lrc-test-13-c.torusnode.com/jrpc", "https://lrc-test-13-d.torusnode.com/jrpc", "https://lrc-test-13-e.torusnode.com/jrpc"]
-    var privateKey = ""
     let aggregateVerifierType : verifierTypes?
     let aggregateVerifierName : String
     let subVerifierDetails : [[String:String]]
     var observer: NSObjectProtocol?
-
-    /// Todo: Make initialiser failable for invalid aggregateVerifierType
+    
+    // TODO: Make initialiser w for invalid aggregateVerifierType
     public init(aggregateVerifierType: String, aggregateVerifierName: String, subVerifierDetails: [[String:String]]){
         torusUtils = TorusUtils()
         self.aggregateVerifierName = aggregateVerifierName
@@ -29,9 +29,6 @@ open class TorusSwiftDirectSDK{
     }
     
     public func triggerLogin() -> Promise<String>{
-        
-        // return handleSingleLogins()
-        
         switch self.aggregateVerifierType{
         case .singleLogin:
             return handleSingleLogins()
@@ -51,7 +48,7 @@ open class TorusSwiftDirectSDK{
         if let temp = self.subVerifierDetails.first{
             // print(temp)
             let subVerifier = try! SubVerifierDetails(dictionary: temp)
-            let loginURL = subVerifier.typeOfLogin.getLoginURL(clientId: subVerifier.clientId)
+            let loginURL = subVerifier.getLoginURL()
             observeCallback{ url in
                 print(url)
                 var responseParameters = [String: String]()
@@ -62,7 +59,7 @@ open class TorusSwiftDirectSDK{
                     responseParameters += fragment.parametersFromQueryString
                 }
                 
-                subVerifier.typeOfLogin.getUserInfo(responseParameters: responseParameters).then{ data -> Promise<String> in
+                subVerifier.getUserInfo(responseParameters: responseParameters).then{ data -> Promise<String> in
                     let verifierId = data["verifierId"] as! String
                     let idToken = data["tokenForKeys"] as! String
                     let extraParams = ["verifieridentifier": self.aggregateVerifierName, "verifier_id":verifierId] as [String : Any]
@@ -86,7 +83,7 @@ open class TorusSwiftDirectSDK{
         if let temp = self.subVerifierDetails.first{
             // print(temp)
             let subVerifier = try! SubVerifierDetails(dictionary: temp)
-            let loginURL = subVerifier.typeOfLogin.getLoginURL(clientId: subVerifier.clientId)
+            let loginURL = subVerifier.getLoginURL()
             observeCallback{ url in
                 var responseParameters = [String: String]()
                 if let query = url.query {
@@ -96,7 +93,7 @@ open class TorusSwiftDirectSDK{
                     responseParameters += fragment.parametersFromQueryString
                 }
                 
-                subVerifier.typeOfLogin.getUserInfo(responseParameters: responseParameters).then{ data -> Promise<String> in
+                subVerifier.getUserInfo(responseParameters: responseParameters).then{ data -> Promise<String> in
                     let verifierId = data["verifierId"] as! String
                     let idToken = data["tokenForKeys"] as! String
                     let extraParams = ["verifieridentifier": self.aggregateVerifierName, "verifier_id":verifierId, "sub_verifier_ids":[subVerifier.subVerifierId], "verify_params": [["verifier_id": verifierId, "idtoken": idToken]]] as [String : Any]
