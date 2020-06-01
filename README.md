@@ -92,7 +92,7 @@ func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
 ```
 
 - For Storyboard,
-```
+```swift
 func application(_ application: UIApplication, continue userActivity: UIUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool
 {
     // Get URL components from the incoming user activity
