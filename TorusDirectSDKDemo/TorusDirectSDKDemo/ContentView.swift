@@ -8,11 +8,10 @@
 
 import SwiftUI
 import TorusSwiftDirectSDK
+import PromiseKit
 import SafariServices
 
 struct ContentView: View {
-    let googleURL  = "https://accounts.google.com/o/oauth2/v2/auth?response_type=token+id_token&client_id=238941746713-qqe4a7rduuk256d8oi5l0q34qtu9gpfg.apps.googleusercontent.com&nonce=123&redirect_uri=https://backend.relayer.dev.tor.us/redirect&scope=profile+email+openid"
-    //    let localhost = "http://localhost:3050"
     
     @State var showSafari = false
     
@@ -25,7 +24,11 @@ struct ContentView: View {
                                                    "typeOfLogin": "google",
                                                    "verifier": "google-shubs"]]
                         let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: "single_login", aggregateVerifierName: "google-shubs", subVerifierDetails: subVerifierDetails)
-                        tdsdk.triggerLogin()
+                        tdsdk.triggerLogin().done{ data in
+                            print("contentview", data)
+                        }.catch{ err in
+                            print(err)
+                        }
                     }, label: {
                         Text("Google Login")
                     })
@@ -33,7 +36,11 @@ struct ContentView: View {
                     Button(action: {
                         let subverifierDiscord = [["clientId": "rXIp6g2y3h1wqg", "typeOfLogin": "reddit", "verifier":"reddit-shubs"]]
                         let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: "single_login", aggregateVerifierName: "reddit-shubs", subVerifierDetails: subverifierDiscord)
-                        tdsdk.triggerLogin()
+                        tdsdk.triggerLogin().done{ data in
+                            print("contentview", data)
+                        }.catch{ err in
+                            print(err)
+                        }
                     }, label: {
                         Text("Reddit Login")
                     })
@@ -41,7 +48,11 @@ struct ContentView: View {
                     Button(action: {
                         let subverifierDiscord = [["clientId": "700259843063152661", "typeOfLogin": "discord", "verifier":"discord-shubs"]]
                         let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: "single_login", aggregateVerifierName: "discord-shubs", subVerifierDetails: subverifierDiscord)
-                        tdsdk.triggerLogin()
+                        tdsdk.triggerLogin().done{ data in
+                            print("contentview", data)
+                        }.catch{ err in
+                            print(err)
+                        }
                     }, label: {
                         Text("Discord Login")
                     })
@@ -49,7 +60,11 @@ struct ContentView: View {
                     Button(action: {
                         let subverifierDiscord = [["clientId": "659561074900150", "typeOfLogin": "facebook", "verifier":"facebook-shubs"]]
                         let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: "single_login", aggregateVerifierName: "facebook-shubs", subVerifierDetails: subverifierDiscord)
-                        tdsdk.triggerLogin()
+                        tdsdk.triggerLogin().done{ data in
+                            print("contentview", data)
+                        }.catch{ err in
+                            print(err)
+                        }
                     }, label: {
                         Text("Facebook Login")
                     })
@@ -57,7 +72,11 @@ struct ContentView: View {
                     Button(action: {
                         let subverifierDiscord = [["clientId": "p560duf74b2bidzqu6uo0b3ot7qaao", "typeOfLogin": "twitch", "verifier":"twitch-shubs"]]
                         let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: "single_login", aggregateVerifierName: "twitch-shubs", subVerifierDetails: subverifierDiscord)
-                        tdsdk.triggerLogin()
+                        tdsdk.triggerLogin().done{ data in
+                            print("contentview", data)
+                        }.catch{ err in
+                            print(err)
+                        }
                     }, label: {
                         Text("Twitch Login")
                     })
@@ -69,7 +88,11 @@ struct ContentView: View {
                                                    "typeOfLogin": "google",
                                                    "verifier": "google-shubs"]]
                         let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: "single_id_verifier", aggregateVerifierName: "google-google", subVerifierDetails: subVerifierDetails)
-                        tdsdk.triggerLogin()
+                        tdsdk.triggerLogin().done{ data in
+                            print("contentview", data)
+                        }.catch{ err in
+                            print(err)
+                        }
                     }, label: {
                         Text("Google Login")
                     })

@@ -19,7 +19,6 @@ extension TorusSwiftDirectSDK{
     open class var notificationQueue: OperationQueue {
         return OperationQueue.main
     }
-    
     static let didHandleCallbackURL: Notification.Name = .init("TSDSDKCallbackNotification")
     
     /// Remove internal observer on authentification
@@ -100,9 +99,8 @@ enum LoginProviders : String {
         case .discord:
             return "https://discord.com/api/oauth2/authorize?response_type=token" + "&client_id=\(clientId)&scope=email identify&redirect_uri=tdsdk://tdsdk/oauthCallback".addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
         case .auth0:
-            break
+            return "nil"
         }
-        return "false"
     }
     
     
@@ -162,7 +160,7 @@ enum LoginProviders : String {
                 do {
                     var json = try JSONSerialization.jsonObject(with: data!) as! [String: Any]
                     json["tokenForKeys"] = tokenForKeys
-                    json["verifierId"] = self.getUserInfoVerifier(data: json)
+                    json["verifierId"] = self.getUserInfoVerifier(data: json) ?? "nil"
                     seal.fulfill(json)
                 } catch {
                     print("JSON error: \(error.localizedDescription)")
@@ -173,25 +171,26 @@ enum LoginProviders : String {
     }
    
     
-    func getUserInfoVerifier(data: [String: Any]) -> String{
+    func getUserInfoVerifier(data: [String: Any]) -> String?{
         switch self{
         case .google:
-            return data["email"] as! String
+            return data["email"] as? String
         case .facebook:
-            return data["id"] as! String
+            return data["id"] as? String
         case .twitch:
             let newData = data["data"] as! [[String:Any]]
             if let temp = newData.first{
-                return temp["id"] as! String
+                return temp["id"] as? String
+            }else{
+                return nil
             }
         case .reddit:
-            return data["name"] as! String
+            return data["name"] as? String
         case .discord:
-            return data["id"] as! String
+            return data["id"] as? String
         case .auth0:
-            break
+            return nil
         }
-        return "false"
     }
     
     
@@ -206,22 +205,3 @@ enum LoginProviders : String {
         }
     }
 }
-
-struct SubVerifierDetails {
-    let clientId: String
-    let typeOfLogin: LoginProviders
-    let subVerifierId: String
-    
-    enum codingKeys: String, CodingKey{
-        case clientId
-        case typeOfLogin
-        case subVerifierId
-    }
-    
-    init(dictionary: [String: String]) throws {
-        self.clientId = dictionary["clientId"] ?? ""
-        self.typeOfLogin = LoginProviders(rawValue: dictionary["typeOfLogin"] ?? "")!
-        self.subVerifierId = dictionary["verifier"] ?? ""
-    }
-}
-

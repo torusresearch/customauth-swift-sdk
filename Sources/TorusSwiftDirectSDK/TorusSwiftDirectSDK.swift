@@ -28,26 +28,26 @@ open class TorusSwiftDirectSDK{
         self.subVerifierDetails = subVerifierDetails
     }
     
-    public func triggerLogin(){
+    public func triggerLogin() -> Promise<String>{
+        
+        // return handleSingleLogins()
+        
         switch self.aggregateVerifierType{
         case .singleLogin:
-            handleSingleLogins()
-            break
+            return handleSingleLogins()
         case .andAggregateVerifier:
-            handleAndAggregateVerifier()
-            break
+            return handleAndAggregateVerifier()
         case .orAggregateVerifier:
-            handleOrAggregateVerifier()
-            break
+            return handleOrAggregateVerifier()
         case .singleIdVerifier:
-            handleSingleIdVerifier()
-            break
+            return handleSingleIdVerifier()
         case .none:
-            print("error occured")
+            return Promise<String>.value("nil")
         }
     }
     
-    func handleSingleLogins(){
+    func handleSingleLogins() -> Promise<String>{
+        let (tempPromise, seal) = Promise<String>.pending()
         if let temp = self.subVerifierDetails.first{
             // print(temp)
             let subVerifier = try! SubVerifierDetails(dictionary: temp)
@@ -69,15 +69,20 @@ open class TorusSwiftDirectSDK{
                     let buffer: Data = try! NSKeyedArchiver.archivedData(withRootObject: extraParams, requiringSecureCoding: false)
                     
                     return self.torusUtils.retrieveShares(endpoints: self.endpoints, verifierIdentifier: self.aggregateVerifierName, verifierId: verifierId, idToken: idToken, extraParams: buffer)
+                }.done{data in
+                    seal.fulfill(data)
                 }.catch{err in
                     print("err in ", err)
+                    seal.reject(err)
                 }
             }
             openURL(url: loginURL) // Open in external safari
         }
+        return tempPromise
     }
     
-    func handleSingleIdVerifier(){
+    func handleSingleIdVerifier() -> Promise<String>{
+        let (tempPromise, seal) = Promise<String>.pending()
         if let temp = self.subVerifierDetails.first{
             // print(temp)
             let subVerifier = try! SubVerifierDetails(dictionary: temp)
@@ -99,21 +104,25 @@ open class TorusSwiftDirectSDK{
                     let hashedOnce = idToken.sha3(.keccak256)
                     
                     return self.torusUtils.retrieveShares(endpoints: self.endpoints, verifierIdentifier: self.aggregateVerifierName, verifierId: verifierId, idToken: hashedOnce, extraParams: dataExample)
-                }.done{ data in
-                    print("final private Key", data)
+                }.done{data in
+                    seal.fulfill(data)
                 }.catch{err in
                     print("err in ", err)
+                    seal.reject(err)
                 }
             }
             openURL(url: loginURL)
         }
+        return tempPromise
     }
     
-    func handleAndAggregateVerifier(){
-        
+    func handleAndAggregateVerifier() -> Promise<String>{
+        // TODO: implement verifier
+        return Promise<String>.value("nil")
     }
     
-    func handleOrAggregateVerifier(){
-        
+    func handleOrAggregateVerifier() -> Promise<String>{
+        // TODO: implement verifier
+        return Promise<String>.value("nil")
     }
 }
