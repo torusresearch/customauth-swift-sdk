@@ -102,7 +102,7 @@ func application(_ application: UIApplication, continue userActivity: UIUserActi
 
 ```
 
-Reach out to hello@tor.us to get your verifier spun up on the testnet today!
+After this you're good to go, reach out to hello@tor.us to get your verifier spun up on the testnet today!
 
 
 ## Requirements
