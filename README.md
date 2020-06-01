@@ -48,7 +48,7 @@ Logins are dependent on verifier scripts/verifiers. There are other verifiers in
 
 ### 3. Handling the OAuth/Authentication URL redirects 
 
-You can setup the redirect in two ways; URL Schemes or Universal links. The `handle(url: URL)` class method implements a NSNotification to handle URL callbacks.
+You can setup the redirect in two ways; URL Schemes or Universal links. Typically we recommend users to use URL Schemes as Universal Links require an additional user interaction. The `handle(url: URL)` class method implements a NSNotification to handle URL callbacks.
 
 #### Setting up URL Schemes
 
