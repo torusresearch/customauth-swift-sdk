@@ -2,15 +2,16 @@
 
 ## Introduction
 
-This repo allows iOS applications to retrieve keys stored on the Torus Network directly. The attestation layer for the Torus Network is generalizable, below is an example of how to access keys via the SDK via Google.
+This repo allows iOS applications to retrieve keys stored on the Torus Network directly. The attestation layer for the Torus Network is generalizable, below is an example of how to access keys via the SDK via Google. You can read more about interactions with the Torus Network [here](https://medium.com/toruslabs/key-assignments-resolution-and-retrieval-afb984500612).
 
 ## Features
 
 - All API's return Promises (mxcl/PromiseKit). You can import "yannickl/AwaitKit" to convert APIs to async/await format.
 
-## Installation
+## Usage
+### 1. Installation
 
-### Swift package manager
+#### Swift package manager
 In project settings, add the Github URL as a swift package dependency.
 ```swift
 import PackageDescription
@@ -23,19 +24,13 @@ let package = Package(
 )
 ```
 
-### Cocoapods
-Coming soon
+#### Manual import or other packages
 
-### Manual import
+If you require a package manager other than SPM, do reach out to hello@tor.us or alternatively clone the repo manually and import as a framework in your project
 
-Clone the repo manually and import as a framework in your project
+### 2. Initialization
 
-
-## Usage
-
-### Initialization
-
-We support 4 different types of verifiers. `single_id_verifier`, `and_aggregate_verifier`, `or_aggregate_verifier` and `single_logins`
+Initalize the SDK depending on the login you require. The example below does so for a single google login. 
 ```swift
 import TorusSwiftDirectSDK
 
@@ -49,10 +44,11 @@ let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: "single_login", aggregate
 
 tdsdk.triggerLogin()
 ```
+Logins are dependent on verifier scripts/verifiers. There are other verifiers including `single_id_verifier`, `and_aggregate_verifier`, `or_aggregate_verifier` and `single_logins` of which you may need to use depending on your required logins. To read more about verifiers do checkout [the docs](https://docs.tor.us/direct-auth/supported-authenticators-verifiers).
 
-### Handling URL redirects 
+### 3. Handling the OAuth/Authentication URL redirects 
 
-A successful login generates an `id_token`, which is required by Torus-utils. The `handle(url: URL)` class method implements a NSNotification to handle URL callbacks. There are two ways for this redirect, URL Schemes, and Universal links
+You can setup the redirect in two ways; URL Schemes or Universal links. The `handle(url: URL)` class method implements a NSNotification to handle URL callbacks.
 
 #### Setting up URL Schemes
 
