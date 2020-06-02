@@ -47,8 +47,6 @@ let subVerifierDetails = [
 
 let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: "single_login", aggregateVerifierName: "google", subVerifierDetails: subVerifierDetails)
 
-let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: "single_login", aggregateVerifierName: "google", subVerifierDetails: subVerifierDetails)
-
 tdsdk.triggerLogin().done{ data in
     // Handle Private key. You can convert promises to async/await using yannickl/AwaitKit
     print("contentview", data)
