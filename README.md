@@ -42,7 +42,12 @@ let subVerifierDetails = [
 
 let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: "single_login", aggregateVerifierName: "google", subVerifierDetails: subVerifierDetails)
 
-tdsdk.triggerLogin()
+tdsdk.triggerLogin().done{ data in
+    // Handle Private key. You can convert promises to async/await using yannickl/AwaitKit
+    print("contentview", data)
+}.catch{ err in
+    print(err)
+}
 ```
 Logins are dependent on verifier scripts/verifiers. There are other verifiers including `single_id_verifier`, `and_aggregate_verifier`, `or_aggregate_verifier` and `single_logins` of which you may need to use depending on your required logins. To get your application's verifier script setup, do reach out to hello@tor.us or to read more about verifiers do checkout [the docs](https://docs.tor.us/direct-auth/supported-authenticators-verifiers). 
 
