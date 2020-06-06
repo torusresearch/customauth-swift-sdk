@@ -111,6 +111,7 @@ struct SubVerifierDetails {
                     seal.fulfill(json)
                 } catch {
                     print("JSON error: \(error.localizedDescription)")
+                    seal.reject(error)
                 }
                 
             }.resume()
