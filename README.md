@@ -78,7 +78,7 @@ func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>)
 ```swift
 func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
     if url.host == "my-wallet-app" {
-        OAuthSwift.handle(url: url)
+        TorusSwiftDirectSDK.handle(url: url)
     }
     return true
 }
