@@ -24,6 +24,23 @@ enum LoginProviders : String {
     case reddit = "reddit"
     case discord = "discord"
     case auth0 = "auth0"
+    
+    func defaultRedirectURL() -> String{
+        switch self {
+        case .google:
+            return "https://backend.relayer.dev.tor.us/redirect"
+        case .facebook:
+            return "https://backend.relayer.dev.tor.us/redirect"
+        case .twitch:
+            return "tdsdk://tdsdk/oauthCallback"
+        case .reddit:
+            return "tdsdk://tdsdk/oauthCallback"
+        case .discord:
+            return "tdsdk://tdsdk/oauthCallback"
+        case .auth0:
+            return "nil"
+        }
+    }
 }
 
 @available(iOS 11.0, *)
@@ -72,7 +89,7 @@ extension TorusSwiftDirectSDK{
         rq.addValue("application/json", forHTTPHeaderField: "Accept")
         return rq
     }
-
+    
     open class func handle(url: URL){
         let notification = Notification(name: TorusSwiftDirectSDK.didHandleCallbackURL, object: nil, userInfo: ["URL":url])
         notificationCenter.post(notification)

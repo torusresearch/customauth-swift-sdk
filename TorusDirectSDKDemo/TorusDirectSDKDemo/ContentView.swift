@@ -22,7 +22,8 @@ struct ContentView: View {
                     Button(action: {
                         let subVerifierDetails = [["clientId": "238941746713-qqe4a7rduuk256d8oi5l0q34qtu9gpfg.apps.googleusercontent.com",
                                                    "typeOfLogin": "google",
-                                                   "verifier": "google-shubs"]]
+                                                   "verifier": "google-shubs",
+                                                   "redirectURL": "https://backend.relayer.dev.tor.us/redirect"]]
                         let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: "single_login", aggregateVerifierName: "google-shubs", subVerifierDetails: subVerifierDetails)
                         tdsdk.triggerLogin().done{ data in
                             print("contentview", data)

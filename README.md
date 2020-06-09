@@ -42,7 +42,8 @@ import TorusSwiftDirectSDK
 let subVerifierDetails = [
     ["clientId": "876733105116-i0hj3s53qiio5k95prpfmj0hp0gmgtor.apps.googleusercontent.com",
     "typeOfLogin": "google",
-    "verifier": "google"]
+    "verifier": "google",
+    "redirectURL": "<your-app-scheme>"]
 ]
 
 let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: "single_login", aggregateVerifierName: "google", subVerifierDetails: subVerifierDetails)

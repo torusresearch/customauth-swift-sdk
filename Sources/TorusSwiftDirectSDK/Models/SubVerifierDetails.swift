@@ -12,6 +12,7 @@ struct SubVerifierDetails {
     let clientId: String
     let subVerifierId: String
     let typeOfLogin: LoginProviders
+    let redirectURL: String?
 
     enum codingKeys: String, CodingKey{
         case clientId
@@ -23,6 +24,7 @@ struct SubVerifierDetails {
         self.clientId = dictionary["clientId"] ?? ""
         self.typeOfLogin = LoginProviders(rawValue: dictionary["typeOfLogin"] ?? "")!
         self.subVerifierId = dictionary["verifier"] ?? ""
+        self.redirectURL = dictionary["redirectURL"]
     }
     
     func makeUrlRequest(url: String, method: String) -> URLRequest {
@@ -34,17 +36,19 @@ struct SubVerifierDetails {
     }
     
     func getLoginURL() -> String{
+        let newRedirectURL = self.redirectURL ?? typeOfLogin.defaultRedirectURL()
+        
         switch typeOfLogin{
         case .google:
-            return "https://accounts.google.com/o/oauth2/v2/auth?response_type=token+id_token&client_id=\(self.clientId)&nonce=123&redirect_uri=https://backend.relayer.dev.tor.us/redirect&scope=profile+email+openid"
+            return "https://accounts.google.com/o/oauth2/v2/auth?response_type=token+id_token&client_id=\(self.clientId)&nonce=123&redirect_uri=\(newRedirectURL)&scope=profile+email+openid"
         case .facebook:
-            return "https://www.facebook.com/v6.0/dialog/oauth?response_type=token&client_id=\(self.clientId)" + "&state=random&scope=public_profile email&redirect_uri=https://backend.relayer.dev.tor.us/redirect".addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
+            return "https://www.facebook.com/v6.0/dialog/oauth?response_type=token&client_id=\(self.clientId)" + "&state=random&scope=public_profile email&redirect_uri=\(newRedirectURL)".addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
         case .twitch:
-            return "https://id.twitch.tv/oauth2/authorize?client_id=p560duf74b2bidzqu6uo0b3ot7qaao&redirect_uri=tdsdk://tdsdk/oauthCallback"+"&response_type=token&scope=user:read:email&state=554455&force_verify=false".addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
+            return "https://id.twitch.tv/oauth2/authorize?client_id=p560duf74b2bidzqu6uo0b3ot7qaao&redirect_uri=\(newRedirectURL)&response_type=token&scope=user:read:email&state=554455&force_verify=false".addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
         case .reddit:
-            return "https://www.reddit.com/api/v1/authorize?client_id=\(self.clientId)&redirect_uri=tdsdk://tdsdk/oauthCallback&response_type=token&scope=identity&state=dfasdfs"
+            return "https://www.reddit.com/api/v1/authorize?client_id=\(self.clientId)&redirect_uri=\(newRedirectURL)&response_type=token&scope=identity&state=dfasdfs"
         case .discord:
-            return "https://discord.com/api/oauth2/authorize?response_type=token" + "&client_id=\(self.clientId)&scope=email identify&redirect_uri=tdsdk://tdsdk/oauthCallback".addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
+            return "https://discord.com/api/oauth2/authorize?response_type=token" + "&client_id=\(self.clientId)&scope=email identify&redirect_uri=\(newRedirectURL)".addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
         case .auth0:
             return "nil"
         }
