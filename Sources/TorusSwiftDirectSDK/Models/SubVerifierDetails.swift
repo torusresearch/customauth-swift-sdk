@@ -8,23 +8,42 @@
 import Foundation
 import PromiseKit
 
-struct SubVerifierDetails {
+public enum SubVerifierType{
+    case installed
+    case web
+}
+
+public struct SubVerifierDetails {
+    let loginType: SubVerifierType
     let clientId: String
+    let clientSecret: String?
     let subVerifierId: String
-    let typeOfLogin: LoginProviders
+    let loginProvider: LoginProviders
     let redirectURL: String?
 
     enum codingKeys: String, CodingKey{
         case clientId
-        case typeOfLogin
+        case loginProvider
         case subVerifierId
     }
     
-    init(dictionary: [String: String]) throws {
+    public init(loginType: SubVerifierType, loginProvider: LoginProviders, clientId: String, verifierName subverifierId: String, clientSecret: String? = nil, redirectURL: String? = nil) {
+        self.loginType = .installed
+        self.clientId = clientId
+        self.clientSecret = clientSecret
+        self.loginProvider = loginProvider
+        self.subVerifierId = subverifierId
+        self.redirectURL = redirectURL
+        //self.clientSecret = dictionary["clientSecret"]
+    }
+    
+    public init(dictionary: [String: String]) throws {
         self.clientId = dictionary["clientId"] ?? ""
-        self.typeOfLogin = LoginProviders(rawValue: dictionary["typeOfLogin"] ?? "")!
+        self.loginProvider = LoginProviders(rawValue: dictionary["loginProvider"] ?? "")!
         self.subVerifierId = dictionary["verifier"] ?? ""
         self.redirectURL = dictionary["redirectURL"]
+        self.clientSecret = dictionary["clientSecret"]
+        self.loginType = .installed
     }
     
     func makeUrlRequest(url: String, method: String) -> URLRequest {
@@ -36,11 +55,11 @@ struct SubVerifierDetails {
     }
     
     func getLoginURL() -> String{
-        let newRedirectURL = self.redirectURL ?? typeOfLogin.defaultRedirectURL()
+        let newRedirectURL = self.redirectURL ?? loginProvider.defaultRedirectURL()
         
-        switch typeOfLogin{
+        switch loginProvider{
         case .google:
-            return "https://accounts.google.com/o/oauth2/v2/auth?response_type=token+id_token&client_id=\(self.clientId)&nonce=123&redirect_uri=\(newRedirectURL)&scope=profile+email+openid"
+            return "https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=\(self.clientId)&nonce=123&redirect_uri=\(newRedirectURL)&scope=profile+email+openid"
         case .facebook:
             return "https://www.facebook.com/v6.0/dialog/oauth?response_type=token&client_id=\(self.clientId)" + "&state=random&scope=public_profile email&redirect_uri=\(newRedirectURL)".addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
         case .twitch:
@@ -61,7 +80,7 @@ struct SubVerifierDetails {
         var request: URLRequest = makeUrlRequest(url: "https://www.googleapis.com/userinfo/v2/me", method: "GET")
         var tokenForKeys = ""
         
-        switch typeOfLogin{
+        switch loginProvider{
         case .google:
             if let accessToken = responseParameters["access_token"], let idToken = responseParameters["id_token"]{
                 request = makeUrlRequest(url: "https://www.googleapis.com/userinfo/v2/me", method: "GET")
@@ -124,7 +143,7 @@ struct SubVerifierDetails {
     
     
     func getUserInfoVerifier(data: [String: Any]) -> String?{
-        switch typeOfLogin{
+        switch loginProvider{
         case .google:
             return data["email"] as? String
         case .facebook:
@@ -147,7 +166,7 @@ struct SubVerifierDetails {
     
     
     func revokeAccessToken(){
-        switch typeOfLogin{
+        switch loginProvider{
         case .google: break
         case .facebook: break
         case .twitch: break

@@ -10,14 +10,14 @@ import UIKit
 import TorusUtils
 import PromiseKit
 
-enum verifierTypes : String{
+public enum verifierTypes : String{
     case singleLogin = "single_login"
     case singleIdVerifier = "single_id_verifier"
     case andAggregateVerifier =  "and_aggregate_verifier"
     case orAggregateVerifier = "or_aggregate_verifier"
 }
 
-enum LoginProviders : String {
+public enum LoginProviders : String {
     case google = "google"
     case facebook = "facebook"
     case twitch = "twitch"
@@ -28,9 +28,9 @@ enum LoginProviders : String {
     func defaultRedirectURL() -> String{
         switch self {
         case .google:
-            return "https://backend.relayer.dev.tor.us/redirect"
+            return "https://backend.relayer.dev.tor.us/demoapp/redirect"
         case .facebook:
-            return "https://backend.relayer.dev.tor.us/redirect"
+            return "https://backend.relayer.dev.tor.us/demoapp/redirect"
         case .twitch:
             return "tdsdk://tdsdk/oauthCallback"
         case .reddit:

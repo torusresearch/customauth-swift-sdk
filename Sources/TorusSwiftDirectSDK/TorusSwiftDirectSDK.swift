@@ -17,16 +17,25 @@ open class TorusSwiftDirectSDK{
     let endpoints = ["https://lrc-test-13-a.torusnode.com/jrpc", "https://lrc-test-13-b.torusnode.com/jrpc", "https://lrc-test-13-c.torusnode.com/jrpc", "https://lrc-test-13-d.torusnode.com/jrpc", "https://lrc-test-13-e.torusnode.com/jrpc"]
     let aggregateVerifierType : verifierTypes?
     let aggregateVerifierName : String
-    let subVerifierDetails : [[String:String]]
+    let subVerifierDetails : [SubVerifierDetails]
     var observer: NSObjectProtocol?
     
+//    // TODO: Make initialiser w for invalid aggregateVerifierType
+//    public init(aggregateVerifierType: String, aggregateVerifierName: String, subVerifierDetails: [[String:String]]){
+//        torusUtils = TorusUtils()
+//        self.aggregateVerifierName = aggregateVerifierName
+//        self.aggregateVerifierType = verifierTypes(rawValue: aggregateVerifierType)
+//        self.subVerifierDetails = subVerifierDetails
+//    }
+    
     // TODO: Make initialiser w for invalid aggregateVerifierType
-    public init(aggregateVerifierType: String, aggregateVerifierName: String, subVerifierDetails: [[String:String]]){
+    public init(aggregateVerifierType: verifierTypes, aggregateVerifierName: String, subVerifierDetails: [SubVerifierDetails]){
         torusUtils = TorusUtils()
         self.aggregateVerifierName = aggregateVerifierName
-        self.aggregateVerifierType = verifierTypes(rawValue: aggregateVerifierType)
+        self.aggregateVerifierType = aggregateVerifierType
         self.subVerifierDetails = subVerifierDetails
     }
+    
     
     public func triggerLogin() -> Promise<String>{
         switch self.aggregateVerifierType{
@@ -45,9 +54,9 @@ open class TorusSwiftDirectSDK{
     
     func handleSingleLogins() -> Promise<String>{
         let (tempPromise, seal) = Promise<String>.pending()
-        if let temp = self.subVerifierDetails.first{
+        if let subVerifier = self.subVerifierDetails.first{
             // print(temp)
-            let subVerifier = try! SubVerifierDetails(dictionary: temp)
+            // let subVerifier = try! SubVerifierDetails(dictionary: temp)
             let loginURL = subVerifier.getLoginURL()
             observeCallback{ url in
                 print(url)
@@ -80,9 +89,9 @@ open class TorusSwiftDirectSDK{
     
     func handleSingleIdVerifier() -> Promise<String>{
         let (tempPromise, seal) = Promise<String>.pending()
-        if let temp = self.subVerifierDetails.first{
+        if let subVerifier = self.subVerifierDetails.first{
             // print(temp)
-            let subVerifier = try! SubVerifierDetails(dictionary: temp)
+            //let subVerifier = try! SubVerifierDetails(dictionary: temp)
             let loginURL = subVerifier.getLoginURL()
             observeCallback{ url in
                 var responseParameters = [String: String]()
