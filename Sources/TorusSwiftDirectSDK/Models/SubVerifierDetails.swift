@@ -4,7 +4,7 @@
 //
 //  Created by Shubham on 1/6/20.
 //
-
+import UIKit
 import Foundation
 import PromiseKit
 
@@ -16,7 +16,6 @@ public enum SubVerifierType{
 public struct SubVerifierDetails {
     let loginType: SubVerifierType
     let clientId: String
-    let clientSecret: String?
     let subVerifierId: String
     let loginProvider: LoginProviders
     let redirectURL: String?
@@ -27,10 +26,9 @@ public struct SubVerifierDetails {
         case subVerifierId
     }
     
-    public init(loginType: SubVerifierType, loginProvider: LoginProviders, clientId: String, verifierName subverifierId: String, clientSecret: String? = nil, redirectURL: String? = nil) {
+    public init(loginType: SubVerifierType, loginProvider: LoginProviders, clientId: String, verifierName subverifierId: String, redirectURL: String? = nil) {
         self.loginType = .installed
         self.clientId = clientId
-        self.clientSecret = clientSecret
         self.loginProvider = loginProvider
         self.subVerifierId = subverifierId
         self.redirectURL = redirectURL
@@ -42,7 +40,6 @@ public struct SubVerifierDetails {
         self.loginProvider = LoginProviders(rawValue: dictionary["loginProvider"] ?? "")!
         self.subVerifierId = dictionary["verifier"] ?? ""
         self.redirectURL = dictionary["redirectURL"]
-        self.clientSecret = dictionary["clientSecret"]
         self.loginType = .installed
     }
     
@@ -72,6 +69,84 @@ public struct SubVerifierDetails {
             return "nil"
         }
     }
+    
+    func getUserInfo2(responseParameters: [String:String]) -> Promise<[String:Any]>{
+        
+        return handleGoogleLogin(responseParameters: responseParameters)
+
+//        switch loginProvider{
+//        case .google:
+//            return handleGoogleLogin(responseParameters: responseParameters)
+//        case .facebook:
+//            return handleFacebookLogin(responseParameters: responseParameters)
+//        case .twitch:
+//            return handleTwitchLogin(responseParameters: responseParameters)
+//        case .reddit:
+//            return handleRedditLogin(responseParameters: responseParameters)
+//        case .discord:
+//            return handleDiscordLogin(responseParameters: responseParameters)
+//        case .auth0:
+//            break
+//        }
+    }
+    
+    func handleGoogleLogin(responseParameters: [String:String]) -> Promise<[String:Any]>{
+        let (tempPromise, seal) = Promise<[String:Any]>.pending()
+        
+        var request : URLRequest =  makeUrlRequest(url: "https://oauth2.googleapis.com/token", method: "POST")
+        var data : Data
+        if let code = responseParameters["code"]{
+            request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+            let dictionary = ["grant_type": "authorization_code",
+                              "redirect_uri": self.redirectURL,
+                              "client_id": self.clientId,
+                              "code": code]
+            
+//            data = try! JSONSerialization.data(withJSONObject: dictionary, options: [])
+            print("grant_type=authorization_code&redirect_uri=\(self.redirectURL!)&client_id=\(self.clientId)&code=\(code)")
+            
+            data = "grant_type=authorization_code&redirect_uri=\(self.redirectURL!)&client_id=\(self.clientId)&code=\(code)".data(using: .utf8)!
+//            print(request, String(data: data, encoding: .utf8))
+            
+            URLSession.shared.uploadTask(.promise, with: request, from: data).compactMap{
+                try JSONSerialization.jsonObject(with: $0.data) as? [String:Any]
+            }.then{ data -> Promise<(Data, Any)> in
+                if let accessToken = data["access_token"], let idToken = data["id_token"]{
+                    var request = self.makeUrlRequest(url: "https://www.googleapis.com/userinfo/v2/me", method: "GET")
+                    request.addValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+                    return URLSession.shared.dataTask(.promise, with: request).map{ ($0.data, "\(idToken)")}
+                }else{
+                    throw "err"
+                }
+            }.done{ data, idToken in
+                var dictionary = try! JSONSerialization.jsonObject(with: data, options: []) as! [String:Any]
+                dictionary["tokenForKeys"] = idToken
+                dictionary["verifierId"] = self.getUserInfoVerifier(data: dictionary)
+                seal.fulfill(dictionary)
+            }.catch{err in
+                seal.reject("Code Request failed")
+            }
+        }else{
+            seal.reject("error occured")
+        }
+        return tempPromise
+    }
+//        func handleFacebookLogin(responseParameters: [String:String]) -> Promise<[String:Any]>{
+//
+//    }
+//            func handleTwitchLogin(responseParameters: [String:String]) -> Promise<[String:Any]>{
+//
+//    }
+//                func handleRedditLogin(responseParameters: [String:String]) -> Promise<[String:Any]>{
+//
+//    }
+//                    func handleDiscordLogin(responseParameters: [String:String]) -> Promise<[String:Any]>{
+//
+//    }
+//
+    
+    
+    
     
     
     func getUserInfo(responseParameters: [String:String]) -> Promise<[String:Any]>{

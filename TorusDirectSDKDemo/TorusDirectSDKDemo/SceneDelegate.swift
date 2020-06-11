@@ -29,7 +29,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             return
         }
         
-        // print(url)
+        print(url)
         TorusSwiftDirectSDK.handle(url: url)
 
     }

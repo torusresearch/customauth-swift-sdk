@@ -68,7 +68,7 @@ open class TorusSwiftDirectSDK{
                     responseParameters += fragment.parametersFromQueryString
                 }
                 
-                subVerifier.getUserInfo(responseParameters: responseParameters).then{ data -> Promise<String> in
+                subVerifier.getUserInfo2(responseParameters: responseParameters).then{ data -> Promise<String> in
                     let verifierId = data["verifierId"] as! String
                     let idToken = data["tokenForKeys"] as! String
                     let extraParams = ["verifieridentifier": self.aggregateVerifierName, "verifier_id":verifierId] as [String : Any]
