@@ -10,6 +10,11 @@ import UIKit
 import TorusUtils
 import PromiseKit
 
+
+@available(iOS 11.0, *)
+typealias torus = TorusSwiftDirectSDK
+
+// MARK: - verifier types
 public enum verifierTypes : String{
     case singleLogin = "single_login"
     case singleIdVerifier = "single_id_verifier"
@@ -17,6 +22,7 @@ public enum verifierTypes : String{
     case orAggregateVerifier = "or_aggregate_verifier"
 }
 
+// MARK: - login providers
 public enum LoginProviders : String {
     case google = "google"
     case facebook = "facebook"
@@ -43,6 +49,7 @@ public enum LoginProviders : String {
     }
 }
 
+// MARK:- torus extension
 @available(iOS 11.0, *)
 extension TorusSwiftDirectSDK{
     
@@ -93,5 +100,19 @@ extension TorusSwiftDirectSDK{
     open class func handle(url: URL){
         let notification = Notification(name: TorusSwiftDirectSDK.didHandleCallbackURL, object: nil, userInfo: ["URL":url])
         notificationCenter.post(notification)
+    }
+}
+
+
+// MARK: - Logging
+
+@available(iOS 11.0, *)
+extension TorusSwiftDirectSDK {
+    
+    static var log: LoggerProtocol?
+    
+    public static func setLogLevel(_ level: Loglevel) {
+        Self.log = DebugLogger(level)
+        TorusSwiftDirectSDK.log?.trace("Logging enabled with level: \(level)")
     }
 }
