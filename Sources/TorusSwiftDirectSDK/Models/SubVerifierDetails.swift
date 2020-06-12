@@ -98,8 +98,8 @@ public struct SubVerifierDetails {
         
         switch self.loginType {
         case .installed:
-            var request:URLRequest =  makeUrlRequest(url: "https://oauth2.googleapis.com/token", method: "POST")
-            var data : Data
+            var request: URLRequest =  makeUrlRequest(url: "https://oauth2.googleapis.com/token", method: "POST")
+            var data: Data
             if let code = responseParameters["code"]{
                 request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
                 data = "grant_type=authorization_code&redirect_uri=\(self.redirectURL!)&client_id=\(self.clientId)&code=\(code)".data(using: .utf8)!
@@ -156,7 +156,6 @@ public struct SubVerifierDetails {
         if let accessToken = responseParameters["access_token"]{
             var request = makeUrlRequest(url: "https://graph.facebook.com/me?fields=name,email,picture.type(large)", method: "GET")
             request.addValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
-            
             URLSession.shared.dataTask(.promise, with: request).map{
                 try JSONSerialization.jsonObject(with: $0.data) as! [String:Any]
             }.done{ data in

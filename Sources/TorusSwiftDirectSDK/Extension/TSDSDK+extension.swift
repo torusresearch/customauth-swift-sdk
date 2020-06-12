@@ -105,14 +105,14 @@ extension TorusSwiftDirectSDK{
 
 
 // MARK: - Logging
-
-@available(iOS 11.0, *)
-extension TorusSwiftDirectSDK {
-    
-    static var log: LoggerProtocol?
-    
-    public static func setLogLevel(_ level: Loglevel) {
-        Self.log = DebugLogger(level)
-        TorusSwiftDirectSDK.log?.trace("Logging enabled with level: \(level)")
-    }
-}
+//
+//@available(iOS 11.0, *)
+//extension TorusSwiftDirectSDK {
+//    
+//    static var log: LoggerProtocol?
+//    
+//    public static func setLogLevel(_ level: Loglevel) {
+//        Self.log = DebugLogger(level)
+//        TorusSwiftDirectSDK.log?.trace("Logging enabled with level: \(level)")
+//    }
+//}

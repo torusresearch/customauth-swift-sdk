@@ -15,16 +15,18 @@ open class TorusSwiftDirectSDK{
     
     let torusUtils : TorusUtils
     let endpoints = ["https://lrc-test-13-a.torusnode.com/jrpc", "https://lrc-test-13-b.torusnode.com/jrpc", "https://lrc-test-13-c.torusnode.com/jrpc", "https://lrc-test-13-d.torusnode.com/jrpc", "https://lrc-test-13-e.torusnode.com/jrpc"]
-    let aggregateVerifierType : verifierTypes?
-    let aggregateVerifierName : String
-    let subVerifierDetails : [SubVerifierDetails]
+    let aggregateVerifierType: verifierTypes?
+    let aggregateVerifierName: String
+    let subVerifierDetails: [SubVerifierDetails]
+    let logger: TorusLogger
     var observer: NSObjectProtocol?
     
-    public init(aggregateVerifierType: verifierTypes, aggregateVerifierName: String, subVerifierDetails: [SubVerifierDetails]){
+    public init(aggregateVerifierType: verifierTypes, aggregateVerifierName: String, subVerifierDetails: [SubVerifierDetails], loglevel: TorusLogger.Level = .none){
         torusUtils = TorusUtils()
         self.aggregateVerifierName = aggregateVerifierName
         self.aggregateVerifierType = aggregateVerifierType
         self.subVerifierDetails = subVerifierDetails
+        self.logger = TorusLogger(label: "TorusLogger", level: loglevel)
     }
     
     
@@ -39,7 +41,7 @@ open class TorusSwiftDirectSDK{
         case .singleIdVerifier:
             return handleSingleIdVerifier()
         case .none:
-            return Promise<String>.value("nil")
+            return Promise(error: TSDSError.methodUnavailable)
         }
     }
     
@@ -50,7 +52,7 @@ open class TorusSwiftDirectSDK{
             // let subVerifier = try! SubVerifierDetails(dictionary: temp)
             let loginURL = subVerifier.getLoginURL()
             observeCallback{ url in
-                print(url)
+                self.logger.info(url)
                 var responseParameters = [String: String]()
                 if let query = url.query {
                     responseParameters += query.parametersFromQueryString
@@ -60,6 +62,8 @@ open class TorusSwiftDirectSDK{
                 }
                 
                 subVerifier.getUserInfo(responseParameters: responseParameters).then{ data -> Promise<String> in
+                    self.logger.info(data)
+                    
                     let verifierId = data["verifierId"] as! String
                     let idToken = data["tokenForKeys"] as! String
                     let extraParams = ["verifieridentifier": self.aggregateVerifierName, "verifier_id":verifierId] as [String : Any]
@@ -115,11 +119,11 @@ open class TorusSwiftDirectSDK{
     
     func handleAndAggregateVerifier() -> Promise<String>{
         // TODO: implement verifier
-        return Promise<String>.value("nil")
+        return Promise(error: TSDSError.methodUnavailable)
     }
     
     func handleOrAggregateVerifier() -> Promise<String>{
         // TODO: implement verifier
-        return Promise<String>.value("nil")
+        return Promise(error: TSDSError.methodUnavailable)
     }
 }
