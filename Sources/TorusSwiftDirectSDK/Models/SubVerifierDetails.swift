@@ -32,7 +32,6 @@ public struct SubVerifierDetails {
         self.loginProvider = loginProvider
         self.subVerifierId = subverifierId
         self.redirectURL = redirectURL
-        //self.clientSecret = dictionary["clientSecret"]
     }
     
     public init(dictionary: [String: String]) throws {
@@ -72,7 +71,7 @@ public struct SubVerifierDetails {
         case .discord:
             return "https://discord.com/api/oauth2/authorize?response_type=token" + "&client_id=\(self.clientId)&scope=email identify&redirect_uri=\(newRedirectURL)".addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
         case .auth0:
-            return "nil"
+            return TSDSError.methodUnavailable.errorDescription
         }
     }
     
@@ -90,7 +89,7 @@ public struct SubVerifierDetails {
         case .discord:
             return handleDiscordLogin(responseParameters: responseParameters)
         case .auth0:
-            return Promise(error: "Method unavailable yet")
+            return Promise(error: TSDSError.methodUnavailable)
         }
     }
     
@@ -116,7 +115,7 @@ public struct SubVerifierDetails {
                         request.addValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
                         return URLSession.shared.dataTask(.promise, with: request).map{ ($0.data, "\(idToken)")}
                     }else{
-                        throw "Token retreival failed"
+                        throw TSDSError.accessTokenNotProvided
                     }
                 }.done{ data, idToken in
                     var dictionary = try! JSONSerialization.jsonObject(with: data, options: []) as! [String:Any]
@@ -124,10 +123,10 @@ public struct SubVerifierDetails {
                     dictionary["verifierId"] = self.getUserInfoVerifier(data: dictionary)
                     seal.fulfill(dictionary)
                 }.catch{err in
-                    seal.reject("Code Request failed")
+                    seal.reject(TSDSError.accessTokenAPIFailed)
                 }
             }else{
-                seal.reject("Couldn't received code")
+                seal.reject(TSDSError.authGrantNotProvided)
             }
         case .web:
             if let accessToken = responseParameters["access_token"], let idToken = responseParameters["id_token"]{
@@ -141,10 +140,10 @@ public struct SubVerifierDetails {
                     dictionary["verifierId"] = self.getUserInfoVerifier(data: dictionary)
                     seal.fulfill(dictionary)
                 }.catch{err in
-                    seal.reject("Code Request failed")
+                    seal.reject(TSDSError.accessTokenAPIFailed)
                 }
             }else{
-                seal.reject("Get user info failed")
+                seal.reject(TSDSError.getUserInfoFailed)
             }
         }
         return tempPromise
@@ -167,10 +166,10 @@ public struct SubVerifierDetails {
                 seal.fulfill(json)
 
             }.catch{err in
-                seal.reject("Get user info failed")
+                seal.reject(TSDSError.getUserInfoFailed)
             }
         }else{
-            seal.reject("No access token error in URL")
+            seal.reject(TSDSError.accessTokenNotProvided)
         }
         
         return tempPromise
@@ -193,10 +192,10 @@ public struct SubVerifierDetails {
                 seal.fulfill(json)
 
             }.catch{err in
-                seal.reject("Get user info failed")
+                seal.reject(TSDSError.getUserInfoFailed)
             }
         }else{
-            seal.reject("No access token error in URL")
+            seal.reject(TSDSError.accessTokenNotProvided)
         }
         
         return tempPromise
@@ -217,10 +216,10 @@ public struct SubVerifierDetails {
                 json["verifierId"] = self.getUserInfoVerifier(data: json) ?? "nil"
                 seal.fulfill(json)
             }.catch{err in
-                seal.reject("Get user info failed")
+                seal.reject(TSDSError.getUserInfoFailed)
             }
         }else{
-            seal.reject("No access token error in URL")
+            seal.reject(TSDSError.accessTokenNotProvided)
         }
         
         return tempPromise
@@ -242,10 +241,10 @@ public struct SubVerifierDetails {
                 seal.fulfill(json)
 
             }.catch{err in
-                seal.reject("Get user info failed")
+                seal.reject(TSDSError.getUserInfoFailed)
             }
         }else{
-            seal.reject("No access token error in URL")
+            seal.reject(TSDSError.accessTokenNotProvided)
         }
         
         return tempPromise
