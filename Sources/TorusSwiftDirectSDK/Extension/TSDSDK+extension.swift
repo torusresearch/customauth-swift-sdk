@@ -85,7 +85,7 @@ extension TorusSwiftDirectSDK{
     }
     
     public func openURL(url: String) {
-        print("opening URL \(url)")
+        self.logger.info("opening URL \(url)")
         UIApplication.shared.open(URL(string: url)!)
     }
     

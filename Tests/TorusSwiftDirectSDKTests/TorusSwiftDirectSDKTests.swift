@@ -5,11 +5,11 @@ import UIKit
 @available(iOS 11.0, *)
 final class TorusSwiftDirectSDKTests: XCTestCase {
     func testHandle() {
-        let subVerifierDetails = [["clientId": "238941746713-qqe4a7rduuk256d8oi5l0q34qtu9gpfg.apps.googleusercontent.com",
-                                   "typeOfLogin": "google",
-                                   "verifier": "google-shubs"]]
-        let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: "single_id_verifier", aggregateVerifierName: "google-google", subVerifierDetails: subVerifierDetails)
-        tdsdk.triggerLogin()
+//        let subVerifierDetails = [["clientId": "238941746713-qqe4a7rduuk256d8oi5l0q34qtu9gpfg.apps.googleusercontent.com",
+//                                   "typeOfLogin": "google",
+//                                   "verifier": "google-shubs"]]
+//        let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: "single_id_verifier", aggregateVerifierName: "google-google", subVerifierDetails: subVerifierDetails)
+//        tdsdk.triggerLogin()
 //        
 //        let safariApp = XCUIApplication(bundleIdentifier: "com.apple.mobilesafari")
 //        

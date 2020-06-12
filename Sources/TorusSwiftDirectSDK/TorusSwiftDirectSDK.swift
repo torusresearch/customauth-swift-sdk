@@ -22,7 +22,7 @@ open class TorusSwiftDirectSDK{
     var observer: NSObjectProtocol?
     
     public init(aggregateVerifierType: verifierTypes, aggregateVerifierName: String, subVerifierDetails: [SubVerifierDetails], loglevel: TorusLogger.Level = .none){
-        torusUtils = TorusUtils()
+        torusUtils = TorusUtils(label: "TorusUtils", loglevel: .error)
         self.aggregateVerifierName = aggregateVerifierName
         self.aggregateVerifierType = aggregateVerifierType
         self.subVerifierDetails = subVerifierDetails

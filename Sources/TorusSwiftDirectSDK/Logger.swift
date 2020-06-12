@@ -5,10 +5,10 @@
 import Foundation
 
 public struct TorusLogger{
-        
+    
     public let label: String
     public var logLevel: Level
-
+    
     internal init(label: String, level: Level) {
         self.label = label
         self.logLevel = level
@@ -38,8 +38,8 @@ public struct TorusLogger{
                 return 5
             }
         }
-        
     }
+    
 }
 
 extension TorusLogger.Level: Comparable {
@@ -49,29 +49,44 @@ extension TorusLogger.Level: Comparable {
 }
 
 extension TorusLogger{
-    public func trace<T>(_ message: @autoclosure () -> T,
-                      file: String = #file, function: String = #function, line: UInt = #line) {
-        print("[TRACE] \((file as NSString).lastPathComponent) [\(line)]: \(message())")
+    public func trace(_ message: Any..., file: String = #file, function: String = #function, line: UInt = #line) {
+        if self.logLevel <= .trace{
+            print("[TRACE] \((file as NSString).lastPathComponent) [\(line)]:", terminator: " ")
+            _ = message.map{ return print($0, terminator: ", ")}
+            print("\n")
+        }
     }
     
-    public func debug<T>(_ message: @autoclosure () -> T,
-                      file: String = #file, function: String = #function, line: UInt = #line) {
-        print("[DEBUG] \((file as NSString).lastPathComponent) [\(line)]: \(message())")
+    public func debug(_ message: Any..., file: String = #file, function: String = #function, line: UInt = #line) {
+        if self.logLevel <= .debug{
+            print("[DEBUG]\((file as NSString).lastPathComponent) [\(line)]:", terminator: " ")
+            _ = message.map{ print($0, terminator: ", ")}
+            print("\n")
+        }
     }
     
-    public func info<T>(_ message: @autoclosure () -> T,
-                      file: String = #file, function: String = #function, line: UInt = #line) {
-        print("[INFO] \((file as NSString).lastPathComponent) [\(line)]: \(message())")
+    public func info(_ message: Any..., file: String = #file, function: String = #function, line: UInt = #line) {
+        if self.logLevel <= .info{
+            print("[INFO] \((file as NSString).lastPathComponent) [\(line)]:", terminator: " ")
+            _ = message.map{ print($0, terminator: ", ")}
+            print("\n")
+        }
     }
     
-    public func warning<T>(_ message: @autoclosure () -> T,
-                      file: String = #file, function: String = #function, line: UInt = #line) {
-        print("[WARNING] \((file as NSString).lastPathComponent) [\(line)]: \(message())")
+    public func warning(_ message: Any..., file: String = #file, function: String = #function, line: UInt = #line) {
+        if self.logLevel <= .warning{
+            print("[WARNING] \((file as NSString).lastPathComponent) [\(line)]:", terminator: " ")
+            _ = message.map{ print($0, terminator: ", ")}
+            print("\n")
+        }
     }
     
-    public func error<T>(_ message: @autoclosure () -> T,
-                      file: String = #file, function: String = #function, line: UInt = #line) {
-        print("[ERROR] \((file as NSString).lastPathComponent) [\(line)]: \(message())")
+    public func error(_ message: Any..., file: String = #file, function: String = #function, line: UInt = #line) {
+        if self.logLevel <= .error{
+            print("[ERROR] \((file as NSString).lastPathComponent) [\(line)]:", terminator: " ")
+            _ = message.map{ print($0, terminator: ", ")}
+            print("\n")
+        }
     }
-
+    
 }
