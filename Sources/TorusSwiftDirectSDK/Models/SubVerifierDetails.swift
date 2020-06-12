@@ -26,8 +26,8 @@ public struct SubVerifierDetails {
         case subVerifierId
     }
     
-    public init(loginType: SubVerifierType, loginProvider: LoginProviders, clientId: String, verifierName subverifierId: String, redirectURL: String? = nil) {
-        self.loginType = .installed
+    public init(loginType: SubVerifierType = .web, loginProvider: LoginProviders, clientId: String, verifierName subverifierId: String, redirectURL: String? = nil) {
+        self.loginType = loginType
         self.clientId = clientId
         self.loginProvider = loginProvider
         self.subVerifierId = subverifierId
@@ -54,13 +54,19 @@ public struct SubVerifierDetails {
     func getLoginURL() -> String{
         let newRedirectURL = self.redirectURL ?? loginProvider.defaultRedirectURL()
         
+        let googleResposeType: String
+        switch self.loginType {
+        case .installed: googleResposeType = "code"
+        case .web: googleResposeType = "id_token+token"
+        }
+        
         switch loginProvider{
         case .google:
-            return "https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=\(self.clientId)&nonce=123&redirect_uri=\(newRedirectURL)&scope=profile+email+openid"
+            return "https://accounts.google.com/o/oauth2/v2/auth?response_type=\(googleResposeType)&client_id=\(self.clientId)&nonce=123&redirect_uri=\(newRedirectURL)&scope=profile+email+openid"
         case .facebook:
             return "https://www.facebook.com/v6.0/dialog/oauth?response_type=token&client_id=\(self.clientId)" + "&state=random&scope=public_profile email&redirect_uri=\(newRedirectURL)".addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
         case .twitch:
-            return "https://id.twitch.tv/oauth2/authorize?client_id=p560duf74b2bidzqu6uo0b3ot7qaao&redirect_uri=\(newRedirectURL)&response_type=token&scope=user:read:email&state=554455&force_verify=false".addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
+            return "https://id.twitch.tv/oauth2/authorize?client_id=p560duf74b2bidzqu6uo0b3ot7qaao&"+"redirect_uri=\(newRedirectURL)&response_type=token&scope=user:read:email&state=554455&force_verify=false".addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
         case .reddit:
             return "https://www.reddit.com/api/v1/authorize?client_id=\(self.clientId)&redirect_uri=\(newRedirectURL)&response_type=token&scope=identity&state=dfasdfs"
         case .discord:
@@ -70,7 +76,7 @@ public struct SubVerifierDetails {
         }
     }
     
-    func getUserInfo2(responseParameters: [String:String]) -> Promise<[String:Any]>{
+    func getUserInfo(responseParameters: [String:String]) -> Promise<[String:Any]>{
         
         switch loginProvider{
         case .google:
@@ -91,35 +97,55 @@ public struct SubVerifierDetails {
     func handleGoogleLogin(responseParameters: [String:String]) -> Promise<[String:Any]>{
         let (tempPromise, seal) = Promise<[String:Any]>.pending()
         
-        var request:URLRequest =  makeUrlRequest(url: "https://oauth2.googleapis.com/token", method: "POST")
-        var data : Data
-        if let code = responseParameters["code"]{
-            request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-            data = "grant_type=authorization_code&redirect_uri=\(self.redirectURL!)&client_id=\(self.clientId)&code=\(code)".data(using: .utf8)!
-            
-            // Send request to retreive access token and id_token
-            URLSession.shared.uploadTask(.promise, with: request, from: data).compactMap{
-                try JSONSerialization.jsonObject(with: $0.data) as? [String:Any]
-            }.then{ data -> Promise<(Data, Any)> in
+        switch self.loginType {
+        case .installed:
+            var request:URLRequest =  makeUrlRequest(url: "https://oauth2.googleapis.com/token", method: "POST")
+            var data : Data
+            if let code = responseParameters["code"]{
+                request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+                data = "grant_type=authorization_code&redirect_uri=\(self.redirectURL!)&client_id=\(self.clientId)&code=\(code)".data(using: .utf8)!
                 
-                // Retreive user info
-                if let accessToken = data["access_token"], let idToken = data["id_token"]{
-                    var request = self.makeUrlRequest(url: "https://www.googleapis.com/userinfo/v2/me", method: "GET")
-                    request.addValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
-                    return URLSession.shared.dataTask(.promise, with: request).map{ ($0.data, "\(idToken)")}
-                }else{
-                    throw "Token retreival failed"
+                // Send request to retreive access token and id_token
+                URLSession.shared.uploadTask(.promise, with: request, from: data).compactMap{
+                    try JSONSerialization.jsonObject(with: $0.data) as? [String:Any]
+                }.then{ data -> Promise<(Data, Any)> in
+                    
+                    // Retreive user info
+                    if let accessToken = data["access_token"], let idToken = data["id_token"]{
+                        var request = self.makeUrlRequest(url: "https://www.googleapis.com/userinfo/v2/me", method: "GET")
+                        request.addValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+                        return URLSession.shared.dataTask(.promise, with: request).map{ ($0.data, "\(idToken)")}
+                    }else{
+                        throw "Token retreival failed"
+                    }
+                }.done{ data, idToken in
+                    var dictionary = try! JSONSerialization.jsonObject(with: data, options: []) as! [String:Any]
+                    dictionary["tokenForKeys"] = idToken
+                    dictionary["verifierId"] = self.getUserInfoVerifier(data: dictionary)
+                    seal.fulfill(dictionary)
+                }.catch{err in
+                    seal.reject("Code Request failed")
                 }
-            }.done{ data, idToken in
-                var dictionary = try! JSONSerialization.jsonObject(with: data, options: []) as! [String:Any]
-                dictionary["tokenForKeys"] = idToken
-                dictionary["verifierId"] = self.getUserInfoVerifier(data: dictionary)
-                seal.fulfill(dictionary)
-            }.catch{err in
-                seal.reject("Code Request failed")
+            }else{
+                seal.reject("Couldn't received code")
             }
-        }else{
-            seal.reject("Couldn't received code")
+        case .web:
+            if let accessToken = responseParameters["access_token"], let idToken = responseParameters["id_token"]{
+                var request = self.makeUrlRequest(url: "https://www.googleapis.com/userinfo/v2/me", method: "GET")
+                request.addValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+                URLSession.shared.dataTask(.promise, with: request).map{
+                    try JSONSerialization.jsonObject(with: $0.data) as? [String:Any]
+                }.done{ data in
+                    var dictionary = data!
+                    dictionary["tokenForKeys"] = idToken
+                    dictionary["verifierId"] = self.getUserInfoVerifier(data: dictionary)
+                    seal.fulfill(dictionary)
+                }.catch{err in
+                    seal.reject("Code Request failed")
+                }
+            }else{
+                seal.reject("Get user info failed")
+            }
         }
         return tempPromise
     }
@@ -138,6 +164,8 @@ public struct SubVerifierDetails {
                 var json = data
                 json["tokenForKeys"] = accessToken
                 json["verifierId"] = self.getUserInfoVerifier(data: json) ?? "nil"
+                seal.fulfill(json)
+
             }.catch{err in
                 seal.reject("Get user info failed")
             }
@@ -162,6 +190,8 @@ public struct SubVerifierDetails {
                 var json = data
                 json["tokenForKeys"] = accessToken
                 json["verifierId"] = self.getUserInfoVerifier(data: json) ?? "nil"
+                seal.fulfill(json)
+
             }.catch{err in
                 seal.reject("Get user info failed")
             }
@@ -185,6 +215,7 @@ public struct SubVerifierDetails {
                 var json = data
                 json["tokenForKeys"] = accessToken
                 json["verifierId"] = self.getUserInfoVerifier(data: json) ?? "nil"
+                seal.fulfill(json)
             }.catch{err in
                 seal.reject("Get user info failed")
             }
@@ -208,6 +239,8 @@ public struct SubVerifierDetails {
                 var json = data
                 json["tokenForKeys"] = accessToken
                 json["verifierId"] = self.getUserInfoVerifier(data: json) ?? "nil"
+                seal.fulfill(json)
+
             }.catch{err in
                 seal.reject("Get user info failed")
             }
@@ -217,74 +250,6 @@ public struct SubVerifierDetails {
         
         return tempPromise
     }
-    
-    func getUserInfo(responseParameters: [String:String]) -> Promise<[String:Any]>{
-        
-        // TODO: Modify to fit closure value init
-        var request: URLRequest = makeUrlRequest(url: "https://www.googleapis.com/userinfo/v2/me", method: "GET")
-        var tokenForKeys = ""
-        
-        switch loginProvider{
-        case .google:
-            if let accessToken = responseParameters["access_token"], let idToken = responseParameters["id_token"]{
-                request = makeUrlRequest(url: "https://www.googleapis.com/userinfo/v2/me", method: "GET")
-                request.addValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
-                tokenForKeys = idToken
-            }
-            break
-        case .facebook:
-            if let accessToken = responseParameters["access_token"]{
-                request = makeUrlRequest(url: "https://graph.facebook.com/me?fields=name,email,picture.type(large)", method: "GET")
-                request.addValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
-                tokenForKeys = accessToken
-            }
-            break
-        case .twitch:
-            if let accessToken = responseParameters["access_token"]{
-                request = makeUrlRequest(url: "https://api.twitch.tv/helix/users", method: "GET")
-                request.addValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
-                request.addValue("p560duf74b2bidzqu6uo0b3ot7qaao", forHTTPHeaderField: "Client-ID")
-                tokenForKeys = accessToken
-            }
-            break
-        case .reddit:
-            if let accessToken = responseParameters["access_token"] {
-                request = makeUrlRequest(url: "https://oauth.reddit.com/api/v1/me", method: "GET")
-                request.addValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
-                tokenForKeys = accessToken
-            }
-            break
-        case .discord:
-            if let accessToken = responseParameters["access_token"] {
-                request = makeUrlRequest(url: "https://discordapp.com/api/users/@me", method: "GET")
-                request.addValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
-                tokenForKeys = accessToken
-            }
-            break
-        case .auth0:
-            break
-        }
-        
-        return Promise<[String:Any]>{ seal in
-            URLSession.shared.dataTask(with: request) { data, response, error in
-                if error != nil || data == nil {
-                    print("Client error!")
-                    return
-                }
-                do {
-                    var json = try JSONSerialization.jsonObject(with: data!) as! [String: Any]
-                    json["tokenForKeys"] = tokenForKeys
-                    json["verifierId"] = self.getUserInfoVerifier(data: json) ?? "nil"
-                    seal.fulfill(json)
-                } catch {
-                    print("JSON error: \(error.localizedDescription)")
-                    seal.reject(error)
-                }
-                
-            }.resume()
-        }
-    }
-    
     
     func getUserInfoVerifier(data: [String: Any]) -> String?{
         switch loginProvider{

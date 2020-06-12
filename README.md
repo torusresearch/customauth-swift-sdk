@@ -26,7 +26,7 @@ let package = Package(
 
 #### Cocoapods
 ```ruby
-pod 'Torus-directSDK'
+pod 'Torus-directSDK', '~> 0.0.1'
 ```
 
 #### Manual import or other packages
@@ -39,18 +39,14 @@ Initalize the SDK depending on the login you require. The example below does so 
 ```swift
 import TorusSwiftDirectSDK
 
-let subVerifierDetails = [
-    ["clientId": "876733105116-i0hj3s53qiio5k95prpfmj0hp0gmgtor.apps.googleusercontent.com",
-    "typeOfLogin": "google",
-    "verifier": "google",
-    "redirectURL": "<your-app-scheme>"]
-]
-
-let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: "single_login", aggregateVerifierName: "google", subVerifierDetails: subVerifierDetails)
-
+let sub = SubVerifierDetails(loginType: .installed, // default .web
+                            loginProvider: .google,
+                            clientId: "<your-client-id>",
+                            verifierName: "google",
+                            redirectURL: "<your-redirect-url>")
+let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: .singleLogin, aggregateVerifierName: "google", subVerifierDetails: [sub])
 tdsdk.triggerLogin().done{ data in
-    // Handle Private key. You can convert promises to async/await using yannickl/AwaitKit
-    print("contentview", data)
+    print("private key rebuild", data)
 }.catch{ err in
     print(err)
 }

@@ -36,53 +36,66 @@ struct ContentView: View {
                         Text("Google Login")
                     })
                     
-//                    Button(action: {
-//                        let subverifierDiscord = [["clientId": "rXIp6g2y3h1wqg", "typeOfLogin": "reddit", "verifier":"reddit-shubs"]]
-//                        let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: "single_login", aggregateVerifierName: "reddit-shubs", subVerifierDetails: subverifierDiscord)
-//                        tdsdk.triggerLogin().done{ data in
-//                            print("private key rebuild", data)
-//                        }.catch{ err in
-//                            print(err)
-//                        }
-//                    }, label: {
-//                        Text("Reddit Login")
-//                    })
-//
-//                    Button(action: {
-//                        let subverifierDiscord = [["clientId": "700259843063152661", "typeOfLogin": "discord", "verifier":"discord-shubs"]]
-//                        let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: "single_login", aggregateVerifierName: "discord-shubs", subVerifierDetails: subverifierDiscord)
-//                        tdsdk.triggerLogin().done{ data in
-//                            print("private key rebuild", data)
-//                        }.catch{ err in
-//                            print(err)
-//                        }
-//                    }, label: {
-//                        Text("Discord Login")
-//                    })
-//
-//                    Button(action: {
-//                        let subverifierDiscord = [["clientId": "659561074900150", "typeOfLogin": "facebook", "verifier":"facebook-shubs"]]
-//                        let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: "single_login", aggregateVerifierName: "facebook-shubs", subVerifierDetails: subverifierDiscord)
-//                        tdsdk.triggerLogin().done{ data in
-//                            print("private key rebuild", data)
-//                        }.catch{ err in
-//                            print(err)
-//                        }
-//                    }, label: {
-//                        Text("Facebook Login")
-//                    })
-//
-//                    Button(action: {
-//                        let subverifierDiscord = [["clientId": "p560duf74b2bidzqu6uo0b3ot7qaao", "typeOfLogin": "twitch", "verifier":"twitch-shubs"]]
-//                        let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: "single_login", aggregateVerifierName: "twitch-shubs", subVerifierDetails: subverifierDiscord)
-//                        tdsdk.triggerLogin().done{ data in
-//                            print("private key rebuild", data)
-//                        }.catch{ err in
-//                            print(err)
-//                        }
-//                    }, label: {
-//                        Text("Twitch Login")
-//                    })
+                    Button(action: {
+                        let sub = SubVerifierDetails(loginType: .web,
+                                                     loginProvider: .reddit,
+                                                     clientId: "rXIp6g2y3h1wqg",
+                                                     verifierName: "reddit-shubs")
+                        let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: .singleLogin, aggregateVerifierName: "reddit-shubs", subVerifierDetails: [sub])
+                        tdsdk.triggerLogin().done{ data in
+                            print("private key rebuild", data)
+                        }.catch{ err in
+                            print(err)
+                        }
+                    }, label: {
+                        Text("Reddit Login")
+                    })
+
+                    Button(action: {
+                        let sub = SubVerifierDetails(loginType: .web,
+                                                     loginProvider: .discord,
+                                                     clientId: "700259843063152661",
+                                                     verifierName: "discord-shubs")
+                        let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: .singleLogin, aggregateVerifierName: "discord-shubs", subVerifierDetails: [sub])
+                        tdsdk.triggerLogin().done{ data in
+                            print("private key rebuild", data)
+                        }.catch{ err in
+                            print(err)
+                        }
+                    }, label: {
+                        Text("Discord Login")
+                    })
+
+                    Button(action: {
+                        let sub = SubVerifierDetails(loginType: .web,
+                                                     loginProvider: .facebook,
+                                                     clientId: "659561074900150",
+                                                     verifierName: "facebook-shubs")
+                        
+                        let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: .singleLogin, aggregateVerifierName: "facebook-shubs", subVerifierDetails: [sub])
+                        tdsdk.triggerLogin().done{ data in
+                            print("private key rebuild", data)
+                        }.catch{ err in
+                            print(err)
+                        }
+                    }, label: {
+                        Text("Facebook Login")
+                    })
+
+                    Button(action: {
+                        let sub = SubVerifierDetails(loginType: .web,
+                                                     loginProvider: .twitch,
+                                                     clientId: "p560duf74b2bidzqu6uo0b3ot7qaao",
+                                                     verifierName: "twitch-shubs")
+                        let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: .singleLogin, aggregateVerifierName: "twitch-shubs", subVerifierDetails: [sub])
+                        tdsdk.triggerLogin().done{ data in
+                            print("private key rebuild", data)
+                        }.catch{ err in
+                            print(err)
+                        }
+                    }, label: {
+                        Text("Twitch Login")
+                    })
                 }
                
                 Section(header: Text("Single ID verifier")){
@@ -99,7 +112,23 @@ struct ContentView: View {
                             print(err)
                         }
                     }, label: {
-                        Text("Google Login")
+                        Text("Google Login - Deep link flow")
+                    })
+                    
+                    Button(action: {
+                        let sub = SubVerifierDetails(loginType: .web,
+                                                     loginProvider: .google,
+                                                     clientId: "238941746713-qqe4a7rduuk256d8oi5l0q34qtu9gpfg.apps.googleusercontent.com",
+                                                     verifierName: "google-shubs",
+                                                     redirectURL: "https://backend.relayer.dev.tor.us/demoapp/redirect")
+                        let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: .singleIdVerifier, aggregateVerifierName: "multigoogle-torus", subVerifierDetails: [sub])
+                        tdsdk.triggerLogin().done{ data in
+                            print("private key rebuild", data)
+                        }.catch{ err in
+                            print(err)
+                        }
+                    }, label: {
+                        Text("Google Login - Universal link flow")
                     })
                 }
                 

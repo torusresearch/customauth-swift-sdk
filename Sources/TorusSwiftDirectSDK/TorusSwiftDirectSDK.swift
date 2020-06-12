@@ -20,15 +20,6 @@ open class TorusSwiftDirectSDK{
     let subVerifierDetails : [SubVerifierDetails]
     var observer: NSObjectProtocol?
     
-//    // TODO: Make initialiser w for invalid aggregateVerifierType
-//    public init(aggregateVerifierType: String, aggregateVerifierName: String, subVerifierDetails: [[String:String]]){
-//        torusUtils = TorusUtils()
-//        self.aggregateVerifierName = aggregateVerifierName
-//        self.aggregateVerifierType = verifierTypes(rawValue: aggregateVerifierType)
-//        self.subVerifierDetails = subVerifierDetails
-//    }
-    
-    // TODO: Make initialiser w for invalid aggregateVerifierType
     public init(aggregateVerifierType: verifierTypes, aggregateVerifierName: String, subVerifierDetails: [SubVerifierDetails]){
         torusUtils = TorusUtils()
         self.aggregateVerifierName = aggregateVerifierName
@@ -68,7 +59,7 @@ open class TorusSwiftDirectSDK{
                     responseParameters += fragment.parametersFromQueryString
                 }
                 
-                subVerifier.getUserInfo2(responseParameters: responseParameters).then{ data -> Promise<String> in
+                subVerifier.getUserInfo(responseParameters: responseParameters).then{ data -> Promise<String> in
                     let verifierId = data["verifierId"] as! String
                     let idToken = data["tokenForKeys"] as! String
                     let extraParams = ["verifieridentifier": self.aggregateVerifierName, "verifier_id":verifierId] as [String : Any]
@@ -102,7 +93,7 @@ open class TorusSwiftDirectSDK{
                     responseParameters += fragment.parametersFromQueryString
                 }
                 
-                subVerifier.getUserInfo2(responseParameters: responseParameters).then{ data -> Promise<String> in
+                subVerifier.getUserInfo(responseParameters: responseParameters).then{ data -> Promise<String> in
                     let verifierId = data["verifierId"] as! String
                     let idToken = data["tokenForKeys"] as! String
                     let extraParams = ["verifieridentifier": self.aggregateVerifierName, "verifier_id":verifierId, "sub_verifier_ids":[subVerifier.subVerifierId], "verify_params": [["verifier_id": verifierId, "idtoken": idToken]]] as [String : Any]
