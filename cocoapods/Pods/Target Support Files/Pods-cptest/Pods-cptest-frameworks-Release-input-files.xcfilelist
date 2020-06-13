@@ -1,0 +1,9 @@
+${PODS_ROOT}/Target Support Files/Pods-cptest/Pods-cptest-frameworks.sh
+${BUILT_PRODUCTS_DIR}/BigInt/BigInt.framework
+${BUILT_PRODUCTS_DIR}/CryptoSwift/CryptoSwift.framework
+${BUILT_PRODUCTS_DIR}/PromiseKit/PromiseKit.framework
+${BUILT_PRODUCTS_DIR}/Starscream/Starscream.framework
+${BUILT_PRODUCTS_DIR}/Torus-directSDK/TorusSwiftDirectSDK.framework
+${BUILT_PRODUCTS_DIR}/Torus-fetchNodeDetails/FetchNodeDetails.framework
+${BUILT_PRODUCTS_DIR}/Torus-utils/TorusUtils.framework
+${BUILT_PRODUCTS_DIR}/Torus-web3swift/web3swift.framework
