@@ -8,22 +8,24 @@
 import Foundation
 import web3swift
 import BigInt
+import BestLogger
 
 public final class FetchNodeDetails {
     
-     var web3 : web3
-     var network : EthereumNetwork = EthereumNetwork.ROPSTEN;
-     var proxyAddress : EthereumAddress = EthereumAddress("0x638646503746d5456209e33a2ff5e3226d698bea")!
-     var walletAddress : EthereumAddress = EthereumAddress("0x5F7A02a42bF621da3211aCE9c120a47AA5229fBA")!
-     let yourContractABI: String = contractABIString
-     var contract : web3.web3contract
-     var nodeDetails : NodeDetails?
+    var web3 : web3
+    var network : EthereumNetwork = EthereumNetwork.ROPSTEN;
+    var proxyAddress : EthereumAddress = EthereumAddress("0x638646503746d5456209e33a2ff5e3226d698bea")!
+    var walletAddress : EthereumAddress = EthereumAddress("0x5F7A02a42bF621da3211aCE9c120a47AA5229fBA")!
+    let yourContractABI: String = contractABIString
+    var contract : web3.web3contract
+    var nodeDetails : NodeDetails?
+    let logger: BestLogger?
     
-    
-    public init(){
+    public init(proxyAddress: String = "0x638646503746d5456209e33a2ff5e3226d698bea", logLevel: BestLogger.Level = .none){
+        self.proxyAddress = EthereumAddress(proxyAddress)!
         self.web3 = Web3.InfuraMainnetWeb3()
-        self.contract = web3.contract(yourContractABI, at: proxyAddress, abiVersion: 2)!
-        // self.nodeDetails = NodeDetails() //Initialize with default values
+        self.contract = web3.contract(yourContractABI, at: self.proxyAddress, abiVersion: 2)!
+        self.logger = BestLogger(label: "fetch node details", level: logLevel)
     }
     
     public func getCurrentEpoch() -> Int{
@@ -149,11 +151,11 @@ public final class FetchNodeDetails {
         }
         
         self.nodeDetails = NodeDetails(_currentEpoch: "\(currentEpoch)", _nodeListAddress: self.proxyAddress.address, _torusNodeEndpoints: updatedEndpoints, _torusIndexes: torusIndexes, _torusNodePub: updatedNodePub, _updated: true)
-//        self.nodeDetails.setNodeListAddress(nodeListAddress: self.proxyAddress.address);
-//        self.nodeDetails.setCurrentEpoch(currentEpoch: String(currentEpoch));
-//        self.nodeDetails.setTorusNodeEndpoints(torusNodeEndpoints: updatedEndpoints);
-//        self.nodeDetails.setTorusNodePub(torusNodePub: updatedNodePub);
-//        self.nodeDetails.setUpdated(updated: true);
+        //        self.nodeDetails.setNodeListAddress(nodeListAddress: self.proxyAddress.address);
+        //        self.nodeDetails.setCurrentEpoch(currentEpoch: String(currentEpoch));
+        //        self.nodeDetails.setTorusNodeEndpoints(torusNodeEndpoints: updatedEndpoints);
+        //        self.nodeDetails.setTorusNodePub(torusNodePub: updatedNodePub);
+        //        self.nodeDetails.setUpdated(updated: true);
         return self.nodeDetails!
     }
     

@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 import TorusUtils
 import PromiseKit
+import BestLogger
 
 @available(iOS 11.0, *)
 open class TorusSwiftDirectSDK{
@@ -18,15 +19,15 @@ open class TorusSwiftDirectSDK{
     let aggregateVerifierType: verifierTypes?
     let aggregateVerifierName: String
     let subVerifierDetails: [SubVerifierDetails]
-    let logger: TorusLogger
+    let logger: BestLogger
     var observer: NSObjectProtocol?
     
-    public init(aggregateVerifierType: verifierTypes, aggregateVerifierName: String, subVerifierDetails: [SubVerifierDetails], loglevel: TorusLogger.Level = .none){
-        torusUtils = TorusUtils(label: "TorusUtils", loglevel: .error)
+    public init(aggregateVerifierType: verifierTypes, aggregateVerifierName: String, subVerifierDetails: [SubVerifierDetails], loglevel: BestLogger.Level = .none){
+        self.torusUtils = TorusUtils(label: "TorusUtils", loglevel: loglevel)
         self.aggregateVerifierName = aggregateVerifierName
         self.aggregateVerifierType = aggregateVerifierType
         self.subVerifierDetails = subVerifierDetails
-        self.logger = TorusLogger(label: "TorusLogger", level: loglevel)
+        self.logger = BestLogger(label: "TorusLogger", level: loglevel)
     }
     
     

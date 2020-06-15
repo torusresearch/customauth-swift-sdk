@@ -1,4 +1,5 @@
 ${PODS_ROOT}/Target Support Files/Pods-cptest/Pods-cptest-frameworks.sh
+${BUILT_PRODUCTS_DIR}/BestLogger/BestLogger.framework
 ${BUILT_PRODUCTS_DIR}/BigInt/BigInt.framework
 ${BUILT_PRODUCTS_DIR}/CryptoSwift/CryptoSwift.framework
 ${BUILT_PRODUCTS_DIR}/PromiseKit/PromiseKit.framework
