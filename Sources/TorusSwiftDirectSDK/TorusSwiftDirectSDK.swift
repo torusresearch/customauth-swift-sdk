@@ -20,37 +20,43 @@ open class TorusSwiftDirectSDK{
     let aggregateVerifierName: String
     let subVerifierDetails: [SubVerifierDetails]
     let logger: BestLogger
-    var observer: NSObjectProtocol?
-    
+    var authorizeURLHandler: URLOpenerTypes?
+    var observer: NSObjectProtocol? // useful for Notifications
+        
     public init(aggregateVerifierType: verifierTypes, aggregateVerifierName: String, subVerifierDetails: [SubVerifierDetails], loglevel: BestLogger.Level = .none){
+        // loggers
         self.torusUtils = TorusUtils(label: "TorusUtils", loglevel: loglevel)
+        self.logger = BestLogger(label: "TorusLogger", level: loglevel)
+        
+        // verifier details
         self.aggregateVerifierName = aggregateVerifierName
         self.aggregateVerifierType = aggregateVerifierType
         self.subVerifierDetails = subVerifierDetails
-        self.logger = BestLogger(label: "TorusLogger", level: loglevel)
     }
     
     
-    public func triggerLogin() -> Promise<String>{
+    public func triggerLogin(controller: UIViewController, browserType: URLOpenerTypes = .sfsafari) -> Promise<String>{
+        
+        // Set browser
+        self.authorizeURLHandler = browserType
+        
         switch self.aggregateVerifierType{
         case .singleLogin:
-            return handleSingleLogins()
+            return handleSingleLogins(controller: controller)
         case .andAggregateVerifier:
-            return handleAndAggregateVerifier()
+            return handleAndAggregateVerifier(controller: controller)
         case .orAggregateVerifier:
-            return handleOrAggregateVerifier()
+            return handleOrAggregateVerifier(controller: controller)
         case .singleIdVerifier:
-            return handleSingleIdVerifier()
+            return handleSingleIdVerifier(controller: controller)
         case .none:
             return Promise(error: TSDSError.methodUnavailable)
         }
     }
     
-    func handleSingleLogins() -> Promise<String>{
+    func handleSingleLogins(controller: UIViewController) -> Promise<String>{
         let (tempPromise, seal) = Promise<String>.pending()
         if let subVerifier = self.subVerifierDetails.first{
-            // print(temp)
-            // let subVerifier = try! SubVerifierDetails(dictionary: temp)
             let loginURL = subVerifier.getLoginURL()
             observeCallback{ url in
                 self.logger.info(url)
@@ -78,16 +84,14 @@ open class TorusSwiftDirectSDK{
                     seal.reject(err)
                 }
             }
-            openURL(url: loginURL) // Open in external safari
+            openURL(url: loginURL, view: controller) // Open in external safari
         }
         return tempPromise
     }
     
-    func handleSingleIdVerifier() -> Promise<String>{
+    func handleSingleIdVerifier(controller: UIViewController) -> Promise<String>{
         let (tempPromise, seal) = Promise<String>.pending()
         if let subVerifier = self.subVerifierDetails.first{
-            // print(temp)
-            //let subVerifier = try! SubVerifierDetails(dictionary: temp)
             let loginURL = subVerifier.getLoginURL()
             observeCallback{ url in
                 var responseParameters = [String: String]()
@@ -113,17 +117,17 @@ open class TorusSwiftDirectSDK{
                     seal.reject(err)
                 }
             }
-            openURL(url: loginURL)
+            openURL(url: loginURL, view: controller)
         }
         return tempPromise
     }
     
-    func handleAndAggregateVerifier() -> Promise<String>{
+    func handleAndAggregateVerifier(controller: UIViewController) -> Promise<String>{
         // TODO: implement verifier
         return Promise(error: TSDSError.methodUnavailable)
     }
     
-    func handleOrAggregateVerifier() -> Promise<String>{
+    func handleOrAggregateVerifier(controller: UIViewController) -> Promise<String>{
         // TODO: implement verifier
         return Promise(error: TSDSError.methodUnavailable)
     }

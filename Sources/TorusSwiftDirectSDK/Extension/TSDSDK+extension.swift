@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 import TorusUtils
 import PromiseKit
+import SafariServices
 
 
 @available(iOS 11.0, *)
@@ -61,7 +62,6 @@ extension TorusSwiftDirectSDK{
     }
     static let didHandleCallbackURL: Notification.Name = .init("TSDSDKCallbackNotification")
     
-    /// Remove internal observer on authentification
     public func removeCallbackNotificationObserver() {
         if let observer = self.observer {
             TorusSwiftDirectSDK.notificationCenter.removeObserver(observer)
@@ -74,9 +74,9 @@ extension TorusSwiftDirectSDK{
             object: nil,
             queue: OperationQueue.main) { [weak self] notification in
                 self?.removeCallbackNotificationObserver()
-                // print(notification.userInfo)
+                self?.logger.info(notification.userInfo)
                 if let urlFromUserInfo = notification.userInfo?["URL"] as? URL {
-                    // print("calling block")
+                    self?.logger.debug("executing callback block")
                     block(urlFromUserInfo)
                 }else{
                     assertionFailure()
@@ -84,9 +84,20 @@ extension TorusSwiftDirectSDK{
         }
     }
     
-    public func openURL(url: String) {
+    public func openURL(url: String, view: UIViewController) {
         self.logger.info("opening URL \(url)")
-        UIApplication.shared.open(URL(string: url)!)
+        
+        switch self.authorizeURLHandler {
+        case .external:
+            logger.warning("Apple rejects application which use the extenal browser flow for user logins. If possible, please use SFSafari flow")
+            let handler = ExternalURLHanlder()
+            handler.handle(URL(string: url)!)
+        case .sfsafari:
+            let handler = SFURLHandler(viewController: view)
+            handler.handle(URL(string: url)!)
+        case .none:
+            logger.error("Cannot access specified browser")
+        }
     }
     
     func makeUrlRequest(url: String, method: String) -> URLRequest {
@@ -98,21 +109,19 @@ extension TorusSwiftDirectSDK{
     }
     
     open class func handle(url: URL){
+        // TorusSwiftDirectSDK.logger.info("Posting notification after Universal link/deep link flow")
         let notification = Notification(name: TorusSwiftDirectSDK.didHandleCallbackURL, object: nil, userInfo: ["URL":url])
         notificationCenter.post(notification)
     }
+    
+    // Run on main block
+    static func main(block: @escaping () -> Void) {
+        if Thread.isMainThread {
+            block()
+        } else {
+            DispatchQueue.main.async {
+                block()
+            }
+        }
+    }
 }
-
-
-// MARK: - Logging
-//
-//@available(iOS 11.0, *)
-//extension TorusSwiftDirectSDK {
-//    
-//    static var log: LoggerProtocol?
-//    
-//    public static func setLogLevel(_ level: Loglevel) {
-//        Self.log = DebugLogger(level)
-//        TorusSwiftDirectSDK.log?.trace("Logging enabled with level: \(level)")
-//    }
-//}

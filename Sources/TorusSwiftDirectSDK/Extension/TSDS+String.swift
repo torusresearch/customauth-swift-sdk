@@ -1,11 +1,3 @@
-//
-//  String+OAuthSwift.swift
-//  OAuthSwift
-//
-//  Created by Dongri Jin on 6/21/14.
-//  Copyright (c) 2014 Dongri Jin. All rights reserved.
-//
-
 import Foundation
 
 extension String {
@@ -108,10 +100,6 @@ extension String {
 
         return parameters
     }
-
-//    public var headerDictionary: OAuthSwift.Headers {
-//        return dictionaryBySplitting(",", keyValueSeparator: "=")
-//    }
 
     var safeStringByRemovingPercentEncoding: String {
         return self.removingPercentEncoding ?? self
