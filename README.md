@@ -45,7 +45,9 @@ let sub = SubVerifierDetails(loginType: .installed, // default .web
                             verifierName: "google",
                             redirectURL: "<your-redirect-url>")
 let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: .singleLogin, aggregateVerifierName: "google", subVerifierDetails: [sub])
-tdsdk.triggerLogin().done{ data in
+
+// controller is used to present a SFSafariViewController.
+tdsdk.triggerLogin(controller: <UIViewController>).done{ data in
     print("private key rebuild", data)
 }.catch{ err in
     print(err)
