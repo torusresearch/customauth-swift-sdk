@@ -74,7 +74,7 @@ extension TorusSwiftDirectSDK{
             object: nil,
             queue: OperationQueue.main) { [weak self] notification in
                 self?.removeCallbackNotificationObserver()
-                self?.logger.info(notification.userInfo)
+                self?.logger.info(notification.userInfo as Any)
                 if let urlFromUserInfo = notification.userInfo?["URL"] as? URL {
                     self?.logger.debug("executing callback block")
                     block(urlFromUserInfo)
@@ -84,7 +84,7 @@ extension TorusSwiftDirectSDK{
         }
     }
     
-    public func openURL(url: String, view: UIViewController) {
+    public func openURL(url: String, view: UIViewController?) {
         self.logger.info("opening URL \(url)")
         
         switch self.authorizeURLHandler {
@@ -93,7 +93,11 @@ extension TorusSwiftDirectSDK{
             let handler = ExternalURLHanlder()
             handler.handle(URL(string: url)!)
         case .sfsafari:
-            let handler = SFURLHandler(viewController: view)
+            guard let controller = view else{
+                logger.error("UIViewController not available. Please modify triggerLogin(controller:)")
+                return
+            }
+            let handler = SFURLHandler(viewController: controller)
             handler.handle(URL(string: url)!)
         case .none:
             logger.error("Cannot access specified browser")

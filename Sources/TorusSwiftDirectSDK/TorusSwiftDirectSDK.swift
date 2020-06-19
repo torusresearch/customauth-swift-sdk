@@ -35,7 +35,7 @@ open class TorusSwiftDirectSDK{
     }
     
     
-    public func triggerLogin(controller: UIViewController, browserType: URLOpenerTypes = .sfsafari) -> Promise<String>{
+    public func triggerLogin(controller: UIViewController? = nil, browserType: URLOpenerTypes = .sfsafari) -> Promise<String>{
         
         // Set browser
         self.authorizeURLHandler = browserType
@@ -54,7 +54,7 @@ open class TorusSwiftDirectSDK{
         }
     }
     
-    func handleSingleLogins(controller: UIViewController) -> Promise<String>{
+    func handleSingleLogins(controller: UIViewController?) -> Promise<String>{
         let (tempPromise, seal) = Promise<String>.pending()
         if let subVerifier = self.subVerifierDetails.first{
             let loginURL = subVerifier.getLoginURL()
@@ -89,7 +89,7 @@ open class TorusSwiftDirectSDK{
         return tempPromise
     }
     
-    func handleSingleIdVerifier(controller: UIViewController) -> Promise<String>{
+    func handleSingleIdVerifier(controller: UIViewController?) -> Promise<String>{
         let (tempPromise, seal) = Promise<String>.pending()
         if let subVerifier = self.subVerifierDetails.first{
             let loginURL = subVerifier.getLoginURL()
@@ -122,12 +122,12 @@ open class TorusSwiftDirectSDK{
         return tempPromise
     }
     
-    func handleAndAggregateVerifier(controller: UIViewController) -> Promise<String>{
+    func handleAndAggregateVerifier(controller: UIViewController?) -> Promise<String>{
         // TODO: implement verifier
         return Promise(error: TSDSError.methodUnavailable)
     }
     
-    func handleOrAggregateVerifier(controller: UIViewController) -> Promise<String>{
+    func handleOrAggregateVerifier(controller: UIViewController?) -> Promise<String>{
         // TODO: implement verifier
         return Promise(error: TSDSError.methodUnavailable)
     }
