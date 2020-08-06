@@ -33,8 +33,8 @@
         "repositoryURL": "https://github.com/torusresearch/fetch-node-details-swift",
         "state": {
           "branch": null,
-          "revision": "8b5de60504f6d875f6530cb0dad5935bc6a76643",
-          "version": "0.0.14"
+          "revision": "b0072dde780cb1d852c2c0ae664fd6f809e1fb27",
+          "version": "0.0.15"
         }
       },
       {
@@ -51,8 +51,8 @@
         "repositoryURL": "https://github.com/mxcl/PromiseKit.git",
         "state": {
           "branch": null,
-          "revision": "f14f16cc2602afec1030e4f492100d6d43dca544",
-          "version": "6.13.1"
+          "revision": "f6b15b7626a4399864ffa1d5ec2ed9cf0cea5556",
+          "version": "6.13.2"
         }
       },
       {

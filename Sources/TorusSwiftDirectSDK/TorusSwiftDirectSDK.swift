@@ -9,15 +9,18 @@ import Foundation
 import UIKit
 import TorusUtils
 import PromiseKit
+import FetchNodeDetails
 import BestLogger
 
 @available(iOS 11.0, *)
 open class TorusSwiftDirectSDK{
     
-    let torusUtils : TorusUtils
-    let endpoints = ["https://lrc-test-13-a.torusnode.com/jrpc", "https://lrc-test-13-b.torusnode.com/jrpc", "https://lrc-test-13-c.torusnode.com/jrpc", "https://lrc-test-13-d.torusnode.com/jrpc", "https://lrc-test-13-e.torusnode.com/jrpc"]
+    var torusUtils : TorusUtils!
+    var endpoints = Array<String>()
+    var torusNodePubKeys = Array<TorusNodePub>()
     let aggregateVerifierType: verifierTypes?
     let aggregateVerifierName: String
+    let fnd: FetchNodeDetails
     let subVerifierDetails: [SubVerifierDetails]
     let logger: BestLogger
     var authorizeURLHandler: URLOpenerTypes?
@@ -25,8 +28,12 @@ open class TorusSwiftDirectSDK{
         
     public init(aggregateVerifierType: verifierTypes, aggregateVerifierName: String, subVerifierDetails: [SubVerifierDetails], loglevel: BestLogger.Level = .none){
         // loggers
-        self.torusUtils = TorusUtils(label: "TorusUtils", loglevel: loglevel)
+        // self.torusUtils = TorusUtils(label: "TorusUtils", loglevel: loglevel)
         self.logger = BestLogger(label: "TorusLogger", level: loglevel)
+        
+        // FetchNodedetails - Initialised with ropsten proxyaddress
+        // for mainnet - 0x638646503746d5456209e33a2ff5e3226d698bea
+        self.fnd = FetchNodeDetails(proxyAddress: "0x4023d2a0D330bF11426B12C6144Cfb96B7fa6183", network: EthereumNetwork.ROPSTEN, logLevel: .error)
         
         // verifier details
         self.aggregateVerifierName = aggregateVerifierName
@@ -34,6 +41,27 @@ open class TorusSwiftDirectSDK{
         self.subVerifierDetails = subVerifierDetails
     }
     
+    public func getEndpoints() -> Promise<Bool>{
+        let (tempPromise, seal) = Promise<Bool>.pending()
+        if(self.endpoints.isEmpty ||  self.torusNodePubKeys.isEmpty){
+            do{
+                try self.fnd.getNodeDetailsPromise().done{ NodeDetails  in
+                    
+                    // Reinit for the 1st login or if data is missing
+                    self.torusNodePubKeys = NodeDetails.getTorusNodePub()
+                    self.endpoints = NodeDetails.getTorusNodeEndpoints()
+                    self.torusUtils = TorusUtils(label: "TorusUtils", loglevel: self.logger.logLevel, nodePubKeys: self.torusNodePubKeys)
+                    seal.fulfill(true)
+                }
+            }catch{
+                seal.reject("failed")
+            }
+        }else{
+            seal.fulfill(true)
+        }
+        
+        return tempPromise
+    }
     
     public func triggerLogin(controller: UIViewController? = nil, browserType: URLOpenerTypes = .sfsafari) -> Promise<[String:Any]>{
         
@@ -79,9 +107,13 @@ open class TorusSwiftDirectSDK{
                     let extraParams = ["verifieridentifier": self.aggregateVerifierName, "verifier_id":verifierId] as [String : Any]
                     let buffer: Data = try! NSKeyedArchiver.archivedData(withRootObject: extraParams, requiringSecureCoding: false)
                     
-                    return self.torusUtils.retrieveShares(endpoints: self.endpoints, verifierIdentifier: self.aggregateVerifierName, verifierId: verifierId, idToken: idToken, extraParams: buffer).map{ ($0, data)}
+                    
+                    return self.getEndpoints().then{ boolean in
+                        return self.torusUtils.retrieveShares(endpoints: self.endpoints, verifierIdentifier: self.aggregateVerifierName, verifierId: verifierId, idToken: idToken, extraParams: buffer).map{ ($0, data)}
+                    }
                 }.done{privateKey, newData in
                     var data = newData
+                    
                     data["privateKey"] = privateKey
                     seal.fulfill(data)
                 }.catch{err in
@@ -115,10 +147,13 @@ open class TorusSwiftDirectSDK{
                     data.removeValue(forKey: "verifierId")
 
                     let extraParams = ["verifieridentifier": self.aggregateVerifierName, "verifier_id":verifierId, "sub_verifier_ids":[subVerifier.subVerifierId], "verify_params": [["verifier_id": verifierId, "idtoken": idToken]]] as [String : Any]
-                    let dataExample: Data = try! NSKeyedArchiver.archivedData(withRootObject: extraParams, requiringSecureCoding: false)
+                    let buffer: Data = try! NSKeyedArchiver.archivedData(withRootObject: extraParams, requiringSecureCoding: false)
                     let hashedOnce = idToken.sha3(.keccak256)
                     
-                    return self.torusUtils.retrieveShares(endpoints: self.endpoints, verifierIdentifier: self.aggregateVerifierName, verifierId: verifierId, idToken: hashedOnce, extraParams: dataExample).map{ ($0, data)}
+                    
+                    return self.getEndpoints().then{ boolean in
+                        return self.torusUtils.retrieveShares(endpoints: self.endpoints, verifierIdentifier: self.aggregateVerifierName, verifierId: verifierId, idToken: hashedOnce, extraParams: buffer).map{ ($0, data)}
+                    }
                 }.done{privateKey, newData in
                     var data = newData
                     data["privateKey"] = privateKey
