@@ -8,6 +8,7 @@ import UIKit
 import Foundation
 import PromiseKit
 
+// Type of OAuth application created. ex. google web app/iOS app
 public enum SubVerifierType{
     case installed
     case web
@@ -51,7 +52,7 @@ public struct SubVerifierDetails {
     }
     
     func getLoginURL() -> String{
-        let newRedirectURL = self.redirectURL ?? loginProvider.defaultRedirectURL()
+        let newRedirectURL = self.redirectURL
         
         let googleResposeType: String
         switch self.loginType {
@@ -270,7 +271,6 @@ public struct SubVerifierDetails {
             return nil
         }
     }
-    
     
     func revokeAccessToken(){
         switch loginProvider{

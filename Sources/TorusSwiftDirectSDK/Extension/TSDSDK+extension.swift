@@ -30,24 +30,32 @@ public enum LoginProviders : String {
     case twitch = "twitch"
     case reddit = "reddit"
     case discord = "discord"
-    case auth0 = "auth0"
+    case apple = "apple"
+    case github = "github"
+    case linkedin = "linkedin"
+    case twitter = "twitter"
+    case weibo = "weibo"
+    case line = "line"
+    case email_password = "Username-Password-Authentication"
+    case passwordless = "email"
+    case jwt = "jwt"
     
-    func defaultRedirectURL() -> String{
-        switch self {
-        case .google:
-            return "https://backend.relayer.dev.tor.us/demoapp/redirect"
-        case .facebook:
-            return "https://backend.relayer.dev.tor.us/demoapp/redirect"
-        case .twitch:
-            return "tdsdk://tdsdk/oauthCallback"
-        case .reddit:
-            return "tdsdk://tdsdk/oauthCallback"
-        case .discord:
-            return "tdsdk://tdsdk/oauthCallback"
-        case .auth0:
-            return "nil"
-        }
-    }
+//    func defaultRedirectURL() -> String{
+//        switch self {
+//        case .google:
+//            return "https://backend.relayer.dev.tor.us/demoapp/redirect"
+//        case .facebook:
+//            return "https://backend.relayer.dev.tor.us/demoapp/redirect"
+//        case .twitch:
+//            return "tdsdk://tdsdk/oauthCallback"
+//        case .reddit:
+//            return "tdsdk://tdsdk/oauthCallback"
+//        case .discord:
+//            return "tdsdk://tdsdk/oauthCallback"
+//        case .auth0:
+//            return "nil"
+//        }
+//    }
 }
 
 // MARK:- torus extension

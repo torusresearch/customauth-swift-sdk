@@ -28,7 +28,7 @@ open class TorusSwiftDirectSDK{
         
     public init(aggregateVerifierType: verifierTypes, aggregateVerifierName: String, subVerifierDetails: [SubVerifierDetails], loglevel: BestLogger.Level = .none){
         // loggers
-        // self.torusUtils = TorusUtils(label: "TorusUtils", loglevel: loglevel)
+        self.torusUtils = TorusUtils(label: "TorusUtils", loglevel: loglevel)
         self.logger = BestLogger(label: "TorusLogger", level: loglevel)
         
         // FetchNodedetails - Initialised with ropsten proxyaddress

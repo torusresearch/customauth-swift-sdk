@@ -1,6 +1,6 @@
 {
   "name": "Torus-directSDK",
-  "version": "0.0.8",
+  "version": "0.0.12",
   "platforms": {
     "ios": "10.0"
   },
@@ -17,7 +17,7 @@
   "module_name": "TorusSwiftDirectSDK",
   "source": {
     "git": "https://github.com/torusresearch/torus-direct-swift-sdk.git",
-    "tag": "0.0.8"
+    "tag": "0.0.12"
   },
   "source_files": [
     "Sources/TorusSwiftDirectSDK/*.{swift}",

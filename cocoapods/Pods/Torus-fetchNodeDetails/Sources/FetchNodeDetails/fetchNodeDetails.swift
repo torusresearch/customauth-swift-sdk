@@ -14,17 +14,26 @@ public final class FetchNodeDetails {
     
     var web3 : web3
     var network : EthereumNetwork = EthereumNetwork.ROPSTEN;
-    var proxyAddress : EthereumAddress = EthereumAddress("0x638646503746d5456209e33a2ff5e3226d698bea")!
+    var proxyAddress : EthereumAddress
     var walletAddress : EthereumAddress = EthereumAddress("0x5F7A02a42bF621da3211aCE9c120a47AA5229fBA")!
     let yourContractABI: String = contractABIString
     var contract : web3.web3contract
     var nodeDetails : NodeDetails?
     let logger: BestLogger?
     
-    public init(proxyAddress: String = "0x638646503746d5456209e33a2ff5e3226d698bea", logLevel: BestLogger.Level = .none){
+    public init(proxyAddress: String, network: EthereumNetwork, logLevel: BestLogger.Level = .none){
         self.proxyAddress = EthereumAddress(proxyAddress)!
-        self.web3 = Web3.InfuraMainnetWeb3()
-        self.contract = web3.contract(yourContractABI, at: self.proxyAddress, abiVersion: 2)!
+        self.network = network
+        
+        //self.web3 = Web3.InfuraMainnetWeb3()
+        if(network == EthereumNetwork.MAINNET){
+            self.web3 = Web3.InfuraMainnetWeb3()
+            self.contract = web3.contract(yourContractABI, at: self.proxyAddress, abiVersion: 2)!
+        }else{
+            self.web3 = Web3.InfuraRopstenWeb3()
+            self.contract = web3.contract(yourContractABI, at: self.proxyAddress, abiVersion: 2)!
+        }
+        
         self.logger = BestLogger(label: "fetch node details", level: logLevel)
     }
     
@@ -52,7 +61,7 @@ public final class FetchNodeDetails {
     
     public func getEpochInfo(epoch : Int) throws -> EpochInfo{
         let contractMethod = "getEpochInfo"
-        let parameters: [AnyObject] = [18 as AnyObject] // Parameters for contract method
+        let parameters: [AnyObject] = [epoch as AnyObject] // Parameters for contract method
         let extraData: Data = Data() // Extra data for contract method
         var options = TransactionOptions.defaultOptions
         options.from = walletAddress

@@ -73,7 +73,7 @@ extension FetchNodeDetails {
                 guard let nextEpoch = response["nextEpoch"] else { throw "Casting for nextEpoch from Any? -> Any failed"}
                 
                 let object = EpochInfo(_id: "\(id)", _n: "\(n)", _k: "\(k)", _t: "\(t)", _nodeList: nodeList as! Array<String>, _prevEpoch: "\(prevEpoch)", _nextEpoch: "\(nextEpoch)")
-                print()
+                //print()
                 seal.fulfill(object)
                 
             }.catch{error in
@@ -122,11 +122,11 @@ extension FetchNodeDetails {
         return returnPromise
     }
     
-    public func getNodeDetailsPromise() throws -> Promise<Bool>{
+    public func getNodeDetailsPromise() throws -> Promise<NodeDetails>{
         var currentEpoch: Int = -1;
         var torusIndexes:[BigInt] = Array()
         
-        let returnPromise = Promise<Bool> { seal in
+        let returnPromise = Promise<NodeDetails> { seal in
             let currentEpochPromise = try self.getCurrentEpochPromise();
             currentEpochPromise.then{ response -> Promise<EpochInfo> in
                 currentEpoch = response
@@ -161,9 +161,9 @@ extension FetchNodeDetails {
                 
                 self.nodeDetails = NodeDetails(_currentEpoch: "\(currentEpoch)", _nodeListAddress: self.proxyAddress.address, _torusNodeEndpoints: updatedEndpoints, _torusIndexes: torusIndexes, _torusNodePub: updatedNodePub, _updated: true)
                 
-                seal.fulfill(true)
+                seal.fulfill(self.nodeDetails!)
             }.catch { error in
-                print(error)
+                //print(error)
                 seal.reject("get epoch info failed")
             }
         }
