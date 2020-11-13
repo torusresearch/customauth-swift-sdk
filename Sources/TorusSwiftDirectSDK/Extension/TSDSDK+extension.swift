@@ -23,41 +23,6 @@ public enum verifierTypes : String{
     case orAggregateVerifier = "or_aggregate_verifier"
 }
 
-// MARK: - login providers
-public enum LoginProviders : String {
-    case google = "google"
-    case facebook = "facebook"
-    case twitch = "twitch"
-    case reddit = "reddit"
-    case discord = "discord"
-    case apple = "apple"
-    case github = "github"
-    case linkedin = "linkedin"
-    case twitter = "twitter"
-    case weibo = "weibo"
-    case line = "line"
-    case email_password = "Username-Password-Authentication"
-    case passwordless = "email"
-    case jwt = "jwt"
-    
-//    func defaultRedirectURL() -> String{
-//        switch self {
-//        case .google:
-//            return "https://backend.relayer.dev.tor.us/demoapp/redirect"
-//        case .facebook:
-//            return "https://backend.relayer.dev.tor.us/demoapp/redirect"
-//        case .twitch:
-//            return "tdsdk://tdsdk/oauthCallback"
-//        case .reddit:
-//            return "tdsdk://tdsdk/oauthCallback"
-//        case .discord:
-//            return "tdsdk://tdsdk/oauthCallback"
-//        case .auth0:
-//            return "nil"
-//        }
-//    }
-}
-
 // MARK:- torus extension
 @available(iOS 11.0, *)
 extension TorusSwiftDirectSDK{

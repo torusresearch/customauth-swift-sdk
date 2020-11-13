@@ -10,6 +10,7 @@ import PromiseKit
 
 protocol AbstractLoginHandler {
     func getLoginURL() -> String;
+    func getUserInfo(responseParameters: [String : String]) ->Promise<[String : Any]>;
     func getVerifierFromUserInfo() -> String;
     func handleLogin(responseParameters: [String:String]) -> Promise<[String:Any]>
 }

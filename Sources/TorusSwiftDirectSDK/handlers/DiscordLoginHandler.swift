@@ -23,6 +23,10 @@ class DiscordLoginHandler: AbstractLoginHandler{
         self.extraParams = extraParams
     }
     
+    func getUserInfo(responseParameters: [String : String]) -> Promise<[String : Any]> {
+        return self.handleLogin(responseParameters: responseParameters)
+    }
+    
     func getLoginURL() -> String{
         // left join
         var tempParams = self.defaultParams
