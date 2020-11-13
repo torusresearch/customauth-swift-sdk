@@ -9,20 +9,21 @@ import Foundation
 import PromiseKit
 
 class JWTLoginHandler: AbstractLoginHandler{
+
     let loginType: SubVerifierType
     let clientID: String
     let redirectURL: String
     var userInfo: [String: Any]?
-    let extraParams: [String: String]
+    let extraQueryParams: [String: String]
     let defaultParams: [String:String] = ["scope": "openid profile email", "response_type": "token id_token", "nonce": "123"]
     let jwtParams: [String:String]
     let connection: LoginProviders
     
-    public init(loginType: SubVerifierType = .web, clientID: String, redirectURL: String, jwtParams: [String: String], extraParams: [String: String] = [:], connection: LoginProviders){
+    public init(loginType: SubVerifierType = .web, clientID: String, redirectURL: String, jwtParams: [String: String], extraQueryParams: [String: String] = [:], connection: LoginProviders){
         self.loginType = loginType
         self.clientID = clientID
         self.redirectURL = redirectURL
-        self.extraParams = extraParams
+        self.extraQueryParams = extraQueryParams
         self.connection = connection
         self.jwtParams = jwtParams
     }
@@ -35,7 +36,7 @@ class JWTLoginHandler: AbstractLoginHandler{
         // left join
         var tempParams = self.defaultParams
         tempParams.merge(["redirect_uri": self.redirectURL, "client_id": self.clientID, "connection": self.connection.rawValue]){(_, new ) in new}
-        tempParams.merge(self.extraParams){(_, new ) in new}
+        tempParams.merge(self.extraQueryParams){(_, new ) in new}
         
         // Reconstruct URL
         var urlComponents = URLComponents()
@@ -49,13 +50,22 @@ class JWTLoginHandler: AbstractLoginHandler{
     }
     
     func getVerifierFromUserInfo() -> String {
+        let res: String
+        let lowerCased = self.jwtParams["isVerifierIdCaseSensitive"]!
+        
         switch self.connection {
-        case .apple, .weibo, .github, .twitter, .linkedin, .line:
-            return self.userInfo!["sub"] as! String
-        case .email_password, .passwordless:
-            return self.userInfo!["name"] as! String
-        default:
-            return "verifier not supported"
+            case .apple, .weibo, .github, .twitter, .linkedin, .line:
+                res = self.userInfo!["sub"] as! String
+            case .email_password, .passwordless:
+                res = self.userInfo!["name"] as! String
+            default:
+                return "verifier not supported"
+        }
+        
+        if(lowerCased == "true") {
+            return res.lowercased()
+        }else{
+            return res
         }
     }
     

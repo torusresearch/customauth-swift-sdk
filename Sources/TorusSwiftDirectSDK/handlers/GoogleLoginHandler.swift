@@ -13,14 +13,14 @@ class GoogleloginHandler: AbstractLoginHandler{
     let clientID: String
     let redirectURL: String
     var userInfo: [String: Any]?
-    let extraParams: [String: String]
+    let extraQueryParams: [String: String]
     let defaultParams: [String:String] = ["nonce": "123", "scope": "profile+email+openid"]
     
-    public init(loginType: SubVerifierType = .web, clientID: String, redirectURL: String, extraParams: [String: String] = [:]){
+    public init(loginType: SubVerifierType = .web, clientID: String, redirectURL: String, extraQueryParams: [String: String] = [:]){
         self.loginType = loginType
         self.clientID = clientID
         self.redirectURL = redirectURL
-        self.extraParams = extraParams
+        self.extraQueryParams = extraQueryParams
     }
     
     func getUserInfo(responseParameters: [String : String]) -> Promise<[String : Any]> {
@@ -38,7 +38,7 @@ class GoogleloginHandler: AbstractLoginHandler{
         // left join
         var tempParams = self.defaultParams
         tempParams.merge(["redirect_uri": self.redirectURL, "client_id": self.clientID, "response_type":googleResponseType]){(_, new ) in new}
-        tempParams.merge(self.extraParams){(_, new ) in new}
+        tempParams.merge(self.extraQueryParams){(_, new ) in new}
             
         // Reconstruct URL
         var urlComponents = URLComponents()
