@@ -12,9 +12,11 @@ public enum LoginProviders : String {
     case apple = "apple"
     case github = "github"
     case linkedin = "linkedin"
+    case kakao = "kakao"
     case twitter = "twitter"
     case weibo = "weibo"
     case line = "line"
+    case wechat = "wechat"
     case email_password = "Username-Password-Authentication"
     case passwordless = "email"
     case jwt = "jwt"
@@ -31,7 +33,7 @@ public enum LoginProviders : String {
                 return RedditLoginHandler(loginType: loginType, clientID: clientID, redirectURL: redirectURL, extraQueryParams: extraQueryParams)
             case .discord:
                 return DiscordLoginHandler(loginType: loginType, clientID: clientID, redirectURL: redirectURL, extraQueryParams: extraQueryParams)
-            case .apple, .github, .linkedin, .twitter, .weibo, .line, .email_password, .passwordless, .jwt:
+            case .apple, .github, .linkedin, .twitter, .weibo, .kakao, .line, .wechat, .email_password, .passwordless, .jwt:
                 return JWTLoginHandler(loginType: loginType, clientID: clientID, redirectURL: redirectURL, jwtParams: jwtParams, extraQueryParams: extraQueryParams, connection: self)
         }
     }
