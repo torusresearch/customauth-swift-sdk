@@ -23,26 +23,18 @@ struct ContentView: View {
             List {
                 Section(header: Text("Single Logins")) {
                     Button(action: {
-                            
-//                        let input = "0xfb6916095ca1df60bb79ce92ce3ea74c37c5d359"
-//                        let output = EthereumAddress.toChecksumAddress(input);
-//
-//                        print(output)
                         
-                        let data = Data(hex: "fb6916095ca")
-                        print(data.sha3(.keccak256))
-                        
-//                        let sub = SubVerifierDetails(loginType: .installed,
-//                                                    loginProvider: .google,
-//                                                    clientId: "238941746713-vfap8uumijal4ump28p9jd3lbe6onqt4.apps.googleusercontent.com",
-//                                                    verifierName: "google-ios",
-//                                                    redirectURL: "com.googleusercontent.apps.238941746713-vfap8uumijal4ump28p9jd3lbe6onqt4:/oauthredirect")
-//                        let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: .singleIdVerifier, aggregateVerifierName: "multigoogle-torus", subVerifierDetails: [sub], loglevel: .info)
-//                        tdsdk.triggerLogin(browserType: .external).done{ data in
-//                            print("private key rebuild", data)
-//                        }.catch{ err in
-//                            print(err)
-//                        }
+                        let sub = SubVerifierDetails(loginType: .installed,
+                                                    loginProvider: .google,
+                                                    clientId: "238941746713-vfap8uumijal4ump28p9jd3lbe6onqt4.apps.googleusercontent.com",
+                                                    verifierName: "google-ios",
+                                                    redirectURL: "com.googleusercontent.apps.238941746713-vfap8uumijal4ump28p9jd3lbe6onqt4:/oauthredirect")
+                        let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: .singleIdVerifier, aggregateVerifierName: "multigoogle-torus", subVerifierDetails: [sub], loglevel: .info)
+                        tdsdk.triggerLogin(browserType: .external).done{ data in
+                            print("private key rebuild", data)
+                        }.catch{ err in
+                            print(err)
+                        }
                     }, label: {
                         Text("Google Login")
                     })
@@ -128,6 +120,24 @@ struct ContentView: View {
                         }
                     }, label: {
                         Text("Twitter Login")
+                    })
+                    
+                    Button(action: {
+                        let sub = SubVerifierDetails(loginType: .web,
+                                                     loginProvider: .github,
+                                                     clientId: "PC2a4tfNRvXbT48t89J5am0oFM21Nxff",
+                                                     verifierName: "torus-auth0-github-lrc",
+                                                     redirectURL: "tdsdk://tdsdk/oauthCallback",
+                                                     jwtParams: ["domain":"torus-test.auth0.com"])
+                        
+                        let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: .singleLogin, aggregateVerifierName: "torus-auth0-github-lrc", subVerifierDetails: [sub], loglevel: .info)
+                        tdsdk.triggerLogin(browserType: .external).done{ data in
+                            print("private key rebuild", data)
+                        }.catch{ err in
+                            print(err)
+                        }
+                    }, label: {
+                        Text("Github Login")
                     })
                 }
                

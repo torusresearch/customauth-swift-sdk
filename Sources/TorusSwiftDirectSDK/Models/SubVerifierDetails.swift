@@ -14,41 +14,6 @@ public enum SubVerifierType{
     case web
 }
 
-// MARK: - login providers
-public enum LoginProviders : String {
-    case google = "google"
-    case facebook = "facebook"
-    case twitch = "twitch"
-    case reddit = "reddit"
-    case discord = "discord"
-    case apple = "apple"
-    case github = "github"
-    case linkedin = "linkedin"
-    case twitter = "twitter"
-    case weibo = "weibo"
-    case line = "line"
-    case email_password = "Username-Password-Authentication"
-    case passwordless = "email"
-    case jwt = "jwt"
-    
-    func getHandler(loginType: SubVerifierType, clientID: String, redirectURL: String, extraQueryParams: [String:String], jwtParams: [String: String]) -> AbstractLoginHandler{
-        switch self {
-            case .google:
-                return GoogleloginHandler(loginType: loginType, clientID: clientID, redirectURL: redirectURL, extraQueryParams: extraQueryParams)
-            case .facebook:
-                return FacebookLoginHandler(loginType: loginType, clientID: clientID, redirectURL: redirectURL, extraQueryParams: extraQueryParams)
-            case .twitch:
-                return TwitchLoginHandler(loginType: loginType, clientID: clientID, redirectURL: redirectURL, extraQueryParams: extraQueryParams)
-            case .reddit:
-                return RedditLoginHandler(loginType: loginType, clientID: clientID, redirectURL: redirectURL, extraQueryParams: extraQueryParams)
-            case .discord:
-                return DiscordLoginHandler(loginType: loginType, clientID: clientID, redirectURL: redirectURL, extraQueryParams: extraQueryParams)
-            case .apple, .github, .linkedin, .twitter, .weibo, .line, .email_password, .passwordless, .jwt:
-                return JWTLoginHandler(loginType: loginType, clientID: clientID, redirectURL: redirectURL, jwtParams: jwtParams, extraQueryParams: extraQueryParams, connection: self)
-        }
-    }
-}
-
 // MARK: - subverifierdetails
 public struct SubVerifierDetails {
     let loginType: SubVerifierType

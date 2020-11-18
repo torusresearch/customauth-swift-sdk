@@ -95,7 +95,7 @@ open class TorusSwiftDirectSDK{
                 if let fragment = url.fragment, !fragment.isEmpty {
                     responseParameters += fragment.parametersFromQueryString
                 }
-                
+                self.logger.info("ResponseParams after redirect: ", responseParameters)
                 subVerifier.getUserInfo(responseParameters: responseParameters).then{ newData -> Promise<(String, [String:Any])> in
                     self.logger.info(newData)
                     var data = newData
