@@ -117,7 +117,7 @@ open class TorusSwiftDirectSDK{
                     data["privateKey"] = privateKey
                     seal.fulfill(data)
                 }.catch{err in
-                    print("err in ", err)
+                    print("handleSingleLogin: err:", err)
                     seal.reject(err)
                 }
             }

@@ -6,8 +6,8 @@
         "repositoryURL": "https://github.com/attaswift/BigInt.git",
         "state": {
           "branch": null,
-          "revision": "e1f28276687d7661cbb2754771bd9fc281784e32",
-          "version": "5.2.0"
+          "revision": "889a1ecacd73ccc189c5cb29288048f186c44ed9",
+          "version": "5.2.1"
         }
       },
       {
@@ -80,15 +80,6 @@
           "branch": null,
           "revision": "37760e9a52030bb9011972c5213c3350fa9d41fd",
           "version": "1.0.0"
-        }
-      },
-      {
-        "package": "TorusUtils",
-        "repositoryURL": "https://github.com/torusresearch/torus-utils-swift",
-        "state": {
-          "branch": null,
-          "revision": "49a4d9ff0f7c0d68fbd05441a71717a583112628",
-          "version": "0.0.21"
         }
       },
       {

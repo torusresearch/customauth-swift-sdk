@@ -43,23 +43,7 @@ public enum LoginProviders : String {
                 return RedditLoginHandler(loginType: loginType, clientID: clientID, redirectURL: redirectURL, extraQueryParams: extraQueryParams)
             case .discord:
                 return DiscordLoginHandler(loginType: loginType, clientID: clientID, redirectURL: redirectURL, extraQueryParams: extraQueryParams)
-            case .apple:
-                return JWTLoginHandler(loginType: loginType, clientID: clientID, redirectURL: redirectURL, jwtParams: jwtParams, extraQueryParams: extraQueryParams, connection: self)
-            case .github:
-                return JWTLoginHandler(loginType: loginType, clientID: clientID, redirectURL: redirectURL, jwtParams: jwtParams, extraQueryParams: extraQueryParams, connection: self)
-            case .linkedin:
-                return JWTLoginHandler(loginType: loginType, clientID: clientID, redirectURL: redirectURL, jwtParams: jwtParams, extraQueryParams: extraQueryParams, connection: self)
-            case .twitter:
-                return JWTLoginHandler(loginType: loginType, clientID: clientID, redirectURL: redirectURL, jwtParams: jwtParams, extraQueryParams: extraQueryParams, connection: self)
-            case .weibo:
-                return JWTLoginHandler(loginType: loginType, clientID: clientID, redirectURL: redirectURL, jwtParams: jwtParams, extraQueryParams: extraQueryParams, connection: self)
-            case .line:
-                return JWTLoginHandler(loginType: loginType, clientID: clientID, redirectURL: redirectURL, jwtParams: jwtParams, extraQueryParams: extraQueryParams, connection: self)
-            case .email_password:
-                return JWTLoginHandler(loginType: loginType, clientID: clientID, redirectURL: redirectURL, jwtParams: jwtParams, extraQueryParams: extraQueryParams, connection: self)
-            case .passwordless:
-                return JWTLoginHandler(loginType: loginType, clientID: clientID, redirectURL: redirectURL, jwtParams: jwtParams, extraQueryParams: extraQueryParams, connection: self)
-            case .jwt:
+            case .apple, .github, .linkedin, .twitter, .weibo, .line, .email_password, .passwordless, .jwt:
                 return JWTLoginHandler(loginType: loginType, clientID: clientID, redirectURL: redirectURL, jwtParams: jwtParams, extraQueryParams: extraQueryParams, connection: self)
         }
     }
@@ -71,7 +55,7 @@ public struct SubVerifierDetails {
     let clientId: String
     let subVerifierId: String
     let loginProvider: LoginProviders
-    let redirectURL: String?
+    let redirectURL: String
     let handler: AbstractLoginHandler
     
     enum codingKeys: String, CodingKey{
@@ -80,13 +64,13 @@ public struct SubVerifierDetails {
         case subVerifierId
     }
     
-    public init(loginType: SubVerifierType = .web, loginProvider: LoginProviders, clientId: String, verifierName subverifierId: String, redirectURL: String? = nil, extraQueryParams: [String:String] = [:], jwtParams: [String:String] = [:]) {
+    public init(loginType: SubVerifierType = .web, loginProvider: LoginProviders, clientId: String, verifierName subverifierId: String, redirectURL: String, extraQueryParams: [String:String] = [:], jwtParams: [String:String] = [:]) {
         self.loginType = loginType
         self.clientId = clientId
         self.loginProvider = loginProvider
         self.subVerifierId = subverifierId
         self.redirectURL = redirectURL
-        self.handler = self.loginProvider.getHandler(loginType: loginType, clientID: self.clientId, redirectURL: self.redirectURL!, extraQueryParams: extraQueryParams, jwtParams: jwtParams)
+        self.handler = self.loginProvider.getHandler(loginType: loginType, clientID: self.clientId, redirectURL: self.redirectURL, extraQueryParams: extraQueryParams, jwtParams: jwtParams)
     }
     
     func getLoginURL() -> String{

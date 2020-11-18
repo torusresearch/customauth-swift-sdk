@@ -14,8 +14,9 @@ let package = Package(
     dependencies: [
         // Dependencies declare other packages that this package depends on.
         .package(name:"BestLogger", url: "https://github.com/rathishubham7/swift-logger", from: "0.0.1"),
-        .package(name:"TorusUtils", url: "https://github.com/torusresearch/torus-utils-swift", from: "0.0.1")
-//        .package(name: "TorusUtils", path: "../torus-utils-swift")
+        .package(name: "TorusUtils", path: "../torus-utils-swift"),
+//        .package(name:"TorusUtils", url: "https://github.com/torusresearch/torus-utils-swift", from: "0.0.1"),
+        .package(url: "https://github.com/krzyzanowskim/CryptoSwift.git", ._exactItem("1.3.2"))
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.

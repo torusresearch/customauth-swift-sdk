@@ -51,7 +51,7 @@ class JWTLoginHandler: AbstractLoginHandler{
     
     func getVerifierFromUserInfo() -> String {
         let res: String
-        let lowerCased = self.jwtParams["isVerifierIdCaseSensitive"]!
+        let lowerCased = self.jwtParams["isVerifierIdCaseSensitive"] ?? "false"
         
         switch self.connection {
             case .apple, .weibo, .github, .twitter, .linkedin, .line:
@@ -85,10 +85,13 @@ class JWTLoginHandler: AbstractLoginHandler{
             URLSession.shared.dataTask(.promise, with: request).map{
                 try JSONSerialization.jsonObject(with: $0.data) as! [String:Any]
             }.done{ data in
-                var json = data
-                print(json)
+                var json = data // because data is let
                 self.userInfo = json
-                json["tokenForKeys"] = accessToken
+                if(responseParameters["error"] != nil){
+                    throw responseParameters["error"]!
+                }
+                
+                json["tokenForKeys"] = responseParameters["id_token"]
                 json["verifierId"] = self.getVerifierFromUserInfo()
                 seal.fulfill(json)
                 
