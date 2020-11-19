@@ -18,7 +18,6 @@ public enum LoginProviders : String {
     case line = "line"
     case wechat = "wechat"
     case email_password = "Username-Password-Authentication"
-    case passwordless = "email"
     case jwt = "jwt"
     
     func getHandler(loginType: SubVerifierType, clientID: String, redirectURL: String, extraQueryParams: [String:String], jwtParams: [String: String]) -> AbstractLoginHandler{
@@ -33,7 +32,7 @@ public enum LoginProviders : String {
                 return RedditLoginHandler(loginType: loginType, clientID: clientID, redirectURL: redirectURL, extraQueryParams: extraQueryParams)
             case .discord:
                 return DiscordLoginHandler(loginType: loginType, clientID: clientID, redirectURL: redirectURL, extraQueryParams: extraQueryParams)
-            case .apple, .github, .linkedin, .twitter, .weibo, .kakao, .line, .wechat, .email_password, .passwordless, .jwt:
+            case .apple, .github, .linkedin, .twitter, .weibo, .kakao, .line, .wechat, .email_password, .jwt:
                 return JWTLoginHandler(loginType: loginType, clientID: clientID, redirectURL: redirectURL, jwtParams: jwtParams, extraQueryParams: extraQueryParams, connection: self)
         }
     }

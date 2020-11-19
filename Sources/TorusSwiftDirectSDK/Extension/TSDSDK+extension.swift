@@ -62,7 +62,7 @@ extension TorusSwiftDirectSDK{
         
         switch self.authorizeURLHandler {
         case .external:
-            logger.warning("Apple rejects application which use the extenal browser flow for user logins. If possible, please use SFSafari flow")
+            // logger.warning("If possible, please use SFSafari flow")
             let handler = ExternalURLHanlder()
             handler.handle(URL(string: url)!)
         case .sfsafari:

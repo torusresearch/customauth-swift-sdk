@@ -15,7 +15,7 @@ class JWTLoginHandler: AbstractLoginHandler{
     let redirectURL: String
     var userInfo: [String: Any]?
     let extraQueryParams: [String: String]
-    let defaultParams: [String:String] = ["scope": "openid profile email", "response_type": "token id_token", "nonce": "123"]
+    let defaultParams: [String:String] = ["scope": "openid profile email", "response_type": "token id_token", "nonce": "112323", "state":"1284719kjfh9asdfawndfh"]
     let jwtParams: [String:String]
     let connection: LoginProviders
     
@@ -35,7 +35,7 @@ class JWTLoginHandler: AbstractLoginHandler{
     func getLoginURL() -> String{
         // left join
         var tempParams = self.defaultParams
-        tempParams.merge(["redirect_uri": self.redirectURL, "client_id": self.clientID, "connection": self.connection.rawValue]){(_, new ) in new}
+        tempParams.merge(["redirect_uri": self.redirectURL, "client_id": self.clientID, "domain": jwtParams["domain"]!]){(_, new ) in new}
         tempParams.merge(self.extraQueryParams){(_, new ) in new}
         
         // Reconstruct URL
@@ -56,7 +56,7 @@ class JWTLoginHandler: AbstractLoginHandler{
         switch self.connection {
             case .apple, .weibo, .github, .twitter, .linkedin, .line:
                 res = self.userInfo!["sub"] as! String
-            case .email_password, .passwordless:
+            case .email_password, .jwt:
                 res = self.userInfo!["name"] as! String
             default:
                 return "verifier not supported"

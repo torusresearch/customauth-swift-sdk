@@ -32,7 +32,7 @@ struct ContentView: View {
                                                          verifierName: "google-ios",
                                                          redirectURL: "com.googleusercontent.apps.238941746713-vfap8uumijal4ump28p9jd3lbe6onqt4:/oauthredirect")
                             let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: .singleIdVerifier, aggregateVerifierName: "multigoogle-torus", subVerifierDetails: [sub], loglevel: .trace)
-                            tdsdk.triggerLogin(browserType: .external).done{ data in
+                            tdsdk.triggerLogin(browserType: .sfsafari).done{ data in
                                 print("private key rebuild", data)
                             }.catch{ err in
                                 print(err)
@@ -183,20 +183,20 @@ struct ContentView: View {
                     Group {
                         Button(action: {
                             let sub = SubVerifierDetails(loginType: .web,
-                                                         loginProvider: .apple,
+                                                         loginProvider: .jwt,
                                                          clientId: "P7PJuBCXIHP41lcyty0NEb7Lgf7Zme8Q",
-                                                         verifierName: "torus-auth0-passwordless",
+                                                         verifierName: "torus-auth0-email-passwordless",
                                                          redirectURL: "tdsdk://tdsdk/oauthCallback",
                                                          jwtParams: ["domain":"torus-test.auth0.com"])
                             
-                            let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: .singleLogin, aggregateVerifierName: "torus-auth0-passwordless", subVerifierDetails: [sub], loglevel: .trace)
+                            let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: .singleLogin, aggregateVerifierName: "torus-auth0-email-passwordless", subVerifierDetails: [sub], loglevel: .trace)
                             tdsdk.triggerLogin(browserType: .external).done{ data in
                                 print("private key rebuild", data)
                             }.catch{ err in
                                 print(err)
                             }
                         }, label: {
-                            Text("Email-passwordless Login")
+                            Text("Email-password Login")
                         })
                         
                         Button(action: {
