@@ -14,7 +14,7 @@ class GoogleloginHandler: AbstractLoginHandler{
     let redirectURL: String
     var userInfo: [String: Any]?
     let extraQueryParams: [String: String]
-    let defaultParams: [String:String] = ["nonce": "123", "scope": "profile+email+openid"]
+    let defaultParams: [String:String] = ["nonce": String.randomString(length: 10), "scope": "profile+email+openid"]
     
     public init(loginType: SubVerifierType = .web, clientID: String, redirectURL: String, extraQueryParams: [String: String] = [:]){
         self.loginType = loginType

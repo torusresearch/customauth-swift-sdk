@@ -14,7 +14,7 @@ class FacebookLoginHandler: AbstractLoginHandler{
     let redirectURL: String
     var userInfo: [String: Any]?
     let extraQueryParams: [String: String]
-    let defaultParams: [String:String] = ["scope": "public_profile email", "response_type": "token", "state": "random"]
+    let defaultParams: [String:String] = ["scope": "public_profile email", "response_type": "token", "state": String.randomString(length: 10)]
     
     public init(loginType: SubVerifierType = .web, clientID: String, redirectURL: String, extraQueryParams: [String: String] = [:]){
         self.loginType = loginType

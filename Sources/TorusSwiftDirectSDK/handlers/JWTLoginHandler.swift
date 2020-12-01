@@ -15,7 +15,7 @@ class JWTLoginHandler: AbstractLoginHandler{
     let redirectURL: String
     var userInfo: [String: Any]?
     let extraQueryParams: [String: String]
-    let defaultParams: [String:String] = ["scope": "openid profile email", "response_type": "token id_token", "nonce": "112323", "state":"1284719kjfh9asdfawndfh"]
+    let defaultParams: [String:String] = ["scope": "openid profile email", "response_type": "token id_token", "nonce": String.randomString(length: 10)]
     let jwtParams: [String:String]
     let connection: LoginProviders
     
@@ -35,7 +35,8 @@ class JWTLoginHandler: AbstractLoginHandler{
     func getLoginURL() -> String{
         // left join
         var tempParams = self.defaultParams
-        tempParams.merge(["redirect_uri": self.redirectURL, "client_id": self.clientID, "domain": jwtParams["domain"]!]){(_, new ) in new}
+        let paramsToJoin = ["redirect_uri": self.redirectURL, "client_id": self.clientID, "domain": jwtParams["domain"]!]
+        tempParams.merge(paramsToJoin){(_, new ) in new}
         tempParams.merge(self.extraQueryParams){(_, new ) in new}
         
         // Reconstruct URL
@@ -50,16 +51,21 @@ class JWTLoginHandler: AbstractLoginHandler{
     }
     
     func getVerifierFromUserInfo() -> String {
-        let res: String
+        var res: String
         let lowerCased = self.jwtParams["isVerifierIdCaseSensitive"] ?? "false"
         
-        switch self.connection {
-            case .apple, .weibo, .github, .twitter, .linkedin, .line:
-                res = self.userInfo!["sub"] as! String
-            case .email_password, .jwt:
-                res = self.userInfo!["name"] as! String
-            default:
-                return "verifier not supported"
+        if(self.extraQueryParams["verifier_id_field"] != nil){
+            let field = self.extraQueryParams["verifier_id_field"]!
+            res = self.userInfo![field] as! String
+        }else{
+            switch self.connection {
+                case .apple, .weibo, .github, .twitter, .linkedin, .line, .jwt:
+                    res = self.userInfo!["sub"] as! String
+                case .email_password:
+                    res = self.userInfo!["name"] as! String
+                default:
+                    return "verifier not supported"
+            }
         }
         
         if(lowerCased == "true") {

@@ -181,12 +181,13 @@ struct ContentView: View {
                     }
                     
                     Group {
-                        Button(action: {
+                         Button(action: {
                             let sub = SubVerifierDetails(loginType: .web,
                                                          loginProvider: .jwt,
                                                          clientId: "P7PJuBCXIHP41lcyty0NEb7Lgf7Zme8Q",
                                                          verifierName: "torus-auth0-email-passwordless",
                                                          redirectURL: "tdsdk://tdsdk/oauthCallback",
+                                                         extraQueryParams: ["verifier_id_field": "name"],
                                                          jwtParams: ["domain":"torus-test.auth0.com"])
                             
                             let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: .singleLogin, aggregateVerifierName: "torus-auth0-email-passwordless", subVerifierDetails: [sub], loglevel: .trace)
@@ -310,6 +311,7 @@ struct SafariView: UIViewControllerRepresentable {
     func updateUIViewController(_ safariViewController: SFSafariViewController, context: UIViewControllerRepresentableContext<SafariView>) {
     }
 }
+
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {

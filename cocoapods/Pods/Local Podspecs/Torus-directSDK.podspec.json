@@ -24,10 +24,10 @@
     "Sources/TorusSwiftDirectSDK/**/*.{swift}"
   ],
   "dependencies": {
-    "Torus-utils": [
+    "BestLogger": [
       "~> 0.0.1"
     ],
-    "BestLogger": [
+    "Torus-utils": [
       "~> 0.0.1"
     ]
   },

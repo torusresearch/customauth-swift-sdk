@@ -7,4 +7,5 @@ ${BUILT_PRODUCTS_DIR}/Starscream/Starscream.framework
 ${BUILT_PRODUCTS_DIR}/Torus-directSDK/TorusSwiftDirectSDK.framework
 ${BUILT_PRODUCTS_DIR}/Torus-fetchNodeDetails/FetchNodeDetails.framework
 ${BUILT_PRODUCTS_DIR}/Torus-utils/TorusUtils.framework
-${BUILT_PRODUCTS_DIR}/Torus-web3swift/web3swift.framework
+${BUILT_PRODUCTS_DIR}/secp256k1.c/secp256k1.framework
+${BUILT_PRODUCTS_DIR}/web3swift/web3swift.framework

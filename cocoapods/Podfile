@@ -6,5 +6,11 @@ target 'cptest' do
   use_frameworks!
   pod 'Torus-directSDK', :path=>"../"
   # Pods for cptest
-
+  
+  post_install do |installer|
+    installer.pods_project.build_configurations.each do |config|
+      config.build_settings["EXCLUDED_ARCHS[sdk=iphonesimulator*]"] = "arm64"
+    end
+  end
 end
+  	

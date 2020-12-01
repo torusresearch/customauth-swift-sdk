@@ -82,7 +82,7 @@ open class TorusSwiftDirectSDK{
         }
     }
     
-    func handleSingleLogins(controller: UIViewController?) -> Promise<[String:Any]>{
+    public func handleSingleLogins(controller: UIViewController?) -> Promise<[String:Any]>{
         let (tempPromise, seal) = Promise<[String:Any]>.pending()
         if let subVerifier = self.subVerifierDetails.first{
             let loginURL = subVerifier.getLoginURL()
