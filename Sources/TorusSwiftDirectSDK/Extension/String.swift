@@ -46,54 +46,28 @@ extension String {
         let scanner = Scanner(string: string)
 
         while !scanner.isAtEnd {
-            if #available(iOS 13.0, OSX 10.15, watchOS 6.0, *) {
-                let key = scanner.scanUpToString(keyValueSeparator)
-                _ = scanner.scanString(keyValueSeparator)
+            var key: NSString?
+            scanner.scanUpTo(keyValueSeparator, into: &key)
+            scanner.scanString(keyValueSeparator, into: nil)
 
-                let value = scanner.scanUpToString(elementSeparator)
-                _ = scanner.scanString(elementSeparator)
-
-                if let key = key {
-                    if let value = value {
-                        if key.contains(elementSeparator) {
-                            var keys = key.components(separatedBy: elementSeparator)
-                            if let key = keys.popLast() {
-                                parameters.updateValue(value, forKey: String(key))
-                            }
-                            for flag in keys {
-                                parameters.updateValue("", forKey: flag)
-                            }
-                        } else {
-                            parameters.updateValue(value, forKey: key)
+            var value: NSString?
+            scanner.scanUpTo(elementSeparator, into: &value)
+            scanner.scanString(elementSeparator, into: nil)
+            if let key = key as String? {
+                if let value = value as String? {
+                    if key.contains(elementSeparator) {
+                        var keys = key.components(separatedBy: elementSeparator)
+                        if let key = keys.popLast() {
+                            parameters.updateValue(value, forKey: String(key))
+                        }
+                        for flag in keys {
+                            parameters.updateValue("", forKey: flag)
                         }
                     } else {
-                        parameters.updateValue("", forKey: key)
+                        parameters.updateValue(value, forKey: key)
                     }
-                }
-            } else {
-                var key: NSString?
-                scanner.scanUpTo(keyValueSeparator, into: &key)
-                scanner.scanString(keyValueSeparator, into: nil)
-
-                var value: NSString?
-                scanner.scanUpTo(elementSeparator, into: &value)
-                scanner.scanString(elementSeparator, into: nil)
-                if let key = key as String? {
-                    if let value = value as String? {
-                        if key.contains(elementSeparator) {
-                            var keys = key.components(separatedBy: elementSeparator)
-                            if let key = keys.popLast() {
-                                parameters.updateValue(value, forKey: String(key))
-                            }
-                            for flag in keys {
-                                parameters.updateValue("", forKey: flag)
-                            }
-                        } else {
-                            parameters.updateValue(value, forKey: key)
-                        }
-                    } else {
-                        parameters.updateValue("", forKey: key)
-                    }
+                } else {
+                    parameters.updateValue("", forKey: key)
                 }
             }
         }

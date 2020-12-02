@@ -33,7 +33,8 @@ public class TorusUtils{
         keyLookup.then{ lookupData -> Promise<[String: String]> in
             let error = lookupData["err"]
             
-            if(error != nil){
+            if(true){
+            // if(error != nil){
                 // Assign key to the user and return (wraped in a promise)
                 return self.keyAssign(endpoints: endpoints, torusNodePubs: torusNodePubs, verifier: verifier, verifierId: verifierId).then{ data -> Promise<[String:String]> in
                     // Do keylookup again
@@ -53,7 +54,6 @@ public class TorusUtils{
             if(nonce != BigUInt(0)) {
                 let address = self.privateKeyToAddress(key: nonce.serialize().addLeading0sForLength64())
                 let newAddress = BigUInt(address.toHexString(), radix: 16)! + BigUInt(data["address"]!.strip0xPrefix(), radix: 16)!
-                // logger.info(newAddress, "newAddress")
                 newData["address"] = newAddress.serialize().toHexString()
             }
             
@@ -64,8 +64,8 @@ public class TorusUtils{
             }
             
         }.catch{err in
-            self.logger.error(err)
-            seal.reject(TorusError.decodingError)
+            self.logger.error("getPublicAddress: err: ", err)
+            seal.reject(err)
         }
         
         return tempPromise
@@ -93,24 +93,24 @@ public class TorusUtils{
         var nodeReturnedPubKeyX:String = ""
         var nodeReturnedPubKeyY:String = ""
         
-        self.logger.info(privateKey?.toHexString() as Any, publicKeyHex as Any, pubKeyX as Any, pubKeyY as Any, hashedOnce)
+        self.logger.debug("RetrieveShares: ", privateKey?.toHexString() as Any, publicKeyHex as Any, pubKeyX as Any, pubKeyY as Any, hashedOnce)
         
         return Promise<String>{ seal in
             
             getPublicAddress(endpoints: endpoints, torusNodePubs: nodePubKeys, verifier: verifierIdentifier, verifierId: verifierId, isExtended: true).then{ data in
                 return self.commitmentRequest(endpoints: endpoints, verifier: verifierIdentifier, pubKeyX: pubKeyX!, pubKeyY: pubKeyY!, timestamp: timestamp, tokenCommitment: hashedOnce)
             }.then{ data -> Promise<[Int:[String:String]]> in
-                    self.logger.info("data after commitment requrest", data)
+                    self.logger.info("retrieveShares: data after commitment request", data)
                     return self.retrieveIndividualNodeShare(endpoints: endpoints, extraParams: extraParams, verifier: verifierIdentifier, tokenCommitment: idToken, nodeSignatures: data, verifierId: verifierId)
             }.then{ data -> Promise<[Int:String]> in
-                self.logger.trace("data after retrieve shares", data)
+                self.logger.trace("retrieveShares: data after retrieveIndividualNodeShare", data)
                 if let temp  = data.first{
                     nodeReturnedPubKeyX = temp.value["pubKeyX"]!.addLeading0sForLength64()
                     nodeReturnedPubKeyY = temp.value["pubKeyY"]!.addLeading0sForLength64()
                 }
                 return self.decryptIndividualShares(shares: data, privateKey: privateKey!.toHexString())
             }.then{ data -> Promise<String> in
-                self.logger.trace("individual shares array", data)
+                self.logger.trace("retrieveShares: data after decryptIndividualShares", data)
                 return self.lagrangeInterpolation(shares: data)
             }.then{ data -> Promise<(String, String, String)> in
                 
@@ -118,7 +118,7 @@ public class TorusUtils{
                 let publicKey = SECP256K1.privateToPublic(privateKey: Data.init(hex: data) , compressed: false)?.suffix(64) // take last 64
                 let pubKeyX = publicKey?.prefix(publicKey!.count/2).toHexString()
                 let pubKeyY = publicKey?.suffix(publicKey!.count/2).toHexString()
-                self.logger.trace("private key rebuild", data, pubKeyX as Any, pubKeyY as Any)
+                self.logger.trace("retrieveShares: private key rebuild", data, pubKeyX as Any, pubKeyY as Any)
                 
                 // Verify
                 if( pubKeyX == nodeReturnedPubKeyX && pubKeyY == nodeReturnedPubKeyY) {
@@ -137,7 +137,7 @@ public class TorusUtils{
                 seal.fulfill(key)
                 
             }.catch{ err in
-                self.logger.error(err)
+                self.logger.error("retrieveShares: err: ",err)
                 seal.reject(err)
             }
             

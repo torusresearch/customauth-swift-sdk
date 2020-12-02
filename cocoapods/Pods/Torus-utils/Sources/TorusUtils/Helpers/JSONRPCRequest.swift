@@ -8,12 +8,92 @@
 import Foundation
 import BigInt
 
+
+public struct SignerResponse: Codable {
+    public var torusNonce: String
+    public var torusSignature: String
+    public var torusTimestamp: String
+    
+    enum SignerResponseKeys: String, CodingKey {
+        case torusNonce="torus-nonce"
+        case torusTimestamp="torus-timestamp"
+        case torusSignature="torus-signature"
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: SignerResponseKeys.self)
+        try container.encode(torusNonce, forKey: .torusNonce)
+        try container.encode(torusSignature, forKey: .torusSignature)
+        try container.encode(torusTimestamp, forKey: .torusTimestamp)
+    }
+    
+    public init(torusNonce: String, torusTimestamp: String, torusSignature: String){
+        self.torusNonce = torusNonce
+        self.torusTimestamp = torusTimestamp
+        self.torusSignature = torusSignature
+    }
+    
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: SignerResponseKeys.self)
+        let nonce: String = try container.decode(String.self, forKey: .torusNonce)
+        let signature: String = try container.decode(String.self, forKey: .torusSignature)
+        let timestamp: String = try container.decode(String.self, forKey: .torusTimestamp)
+        self.init(torusNonce: nonce, torusTimestamp: timestamp, torusSignature: signature)
+    }
+}
+
+public struct KeyAssignRequest: Encodable{
+    public var id: Int = 10
+    public var jsonrpc: String = "2.0"
+    public var method: String = "KeyAssign"
+    public var params: Any
+    public var torusNonce: String
+    public var torusSignature: String
+    public var torusTimestamp: String
+    
+    enum KeyAssignRequestKeys: String, CodingKey {
+        case id
+        case jsonrpc
+        case method
+        case params
+        case torusNonce="torus-nonce"
+        case torusTimestamp="torus-timestamp"
+        case torusSignature="torus-signature"
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: KeyAssignRequestKeys.self)
+        try container.encode(id, forKey: .id)
+
+        try container.encode(jsonrpc, forKey: .jsonrpc)
+        try container.encode(method, forKey: .method)
+
+        if let newParams = params as? [String:String] {
+            try container.encode(params as! [String:String], forKey: .params)
+        }
+        if let newParams = params as? [String: [String:[String:String]]] {
+            try container.encode(params as! [String: [String:[String:String]]], forKey: .params)
+        }
+
+        try container.encode(torusNonce, forKey: .torusNonce)
+        try container.encode(torusTimestamp, forKey: .torusTimestamp)
+        try container.encode(torusSignature, forKey: .torusSignature)
+    }
+    
+    public init(params: Any, signerResponse: SignerResponse){
+        self.params = params
+        self.torusNonce = signerResponse.torusNonce
+        self.torusSignature = signerResponse.torusSignature
+        self.torusTimestamp = signerResponse.torusTimestamp
+    }
+}
+
 /// JSON RPC request structure for serialization and deserialization purposes.
 public struct JSONRPCrequest: Encodable {
     public var jsonrpc: String = "2.0"
     public var method: String
     public var params: Any
-    public var id: Int = Int.random(in: 0 ... 10)
+    public var id: Int = 10
     
     enum CodingKeys: String, CodingKey {
         case jsonrpc

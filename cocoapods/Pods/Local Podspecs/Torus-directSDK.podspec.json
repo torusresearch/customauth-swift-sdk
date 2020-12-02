@@ -1,6 +1,6 @@
 {
   "name": "Torus-directSDK",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "platforms": {
     "ios": "10.0"
   },
@@ -17,7 +17,7 @@
   "module_name": "TorusSwiftDirectSDK",
   "source": {
     "git": "https://github.com/torusresearch/torus-direct-swift-sdk.git",
-    "tag": "0.0.12"
+    "tag": "0.0.13"
   },
   "source_files": [
     "Sources/TorusSwiftDirectSDK/*.{swift}",
@@ -30,6 +30,12 @@
     "Torus-utils": [
       "~> 0.0.1"
     ]
+  },
+  "pod_target_xcconfig": {
+    "EXCLUDED_ARCHS[sdk=iphonesimulator*]": "arm64"
+  },
+  "user_target_xcconfig": {
+    "EXCLUDED_ARCHS[sdk=iphonesimulator*]": "arm64"
   },
   "swift_version": "5.0"
 }
