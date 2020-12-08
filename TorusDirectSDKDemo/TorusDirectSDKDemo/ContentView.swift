@@ -47,7 +47,7 @@ struct ContentView: View {
                                                          clientId: "rXIp6g2y3h1wqg",
                                                          verifierName: "reddit-shubs",
                                                          redirectURL: "tdsdk://tdsdk/oauthCallback")
-                            let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: .singleLogin, aggregateVerifierName: "reddit-shubs", subVerifierDetails: [sub])
+                            let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: .singleLogin, aggregateVerifierName: "reddit-shubs", subVerifierDetails: [sub], network: .ROPSTEN, loglevel: .trace)
                             tdsdk.triggerLogin(browserType: .external).done{ data in
                                 print("private key rebuild", data)
                             }.catch{ err in

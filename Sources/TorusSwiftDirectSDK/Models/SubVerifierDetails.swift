@@ -9,9 +9,9 @@ import Foundation
 import PromiseKit
 
 // Type of OAuth application created. ex. google web app/iOS app
-public enum SubVerifierType{
-    case installed
-    case web
+public enum SubVerifierType : String{
+    case installed = "installed"
+    case web = "web"
 }
 
 // MARK: - subverifierdetails

@@ -8,11 +8,28 @@
 
 import UIKit
 import SwiftUI
+import TorusSwiftDirectSDK
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-
+    
+    // Handle Universal logins
+    func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
+        guard userActivity.activityType == NSUserActivityTypeBrowsingWeb,
+              let urlToOpen = userActivity.webpageURL else {
+            return
+        }
+        TorusSwiftDirectSDK.handle(url: urlToOpen)
+    }
+    
+    // Hanlde Deep linkings
+    func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+        guard let url = URLContexts.first?.url else {
+            return
+        }
+        TorusSwiftDirectSDK.handle(url: url)
+    }
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.

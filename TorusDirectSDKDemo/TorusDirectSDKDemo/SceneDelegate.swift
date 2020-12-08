@@ -22,7 +22,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
         TorusSwiftDirectSDK.handle(url: urlToOpen)
     }
-    
+
     // Hanlde Deep linkings
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
         guard let url = URLContexts.first?.url else {
@@ -85,3 +85,4 @@ struct SceneDelegate_Previews: PreviewProvider {
         /*@START_MENU_TOKEN@*/Text("Hello, World!")/*@END_MENU_TOKEN@*/
     }
 }
+

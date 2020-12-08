@@ -10,7 +10,7 @@ public protocol TorusURLHandlerTypes{
     func handle(_ url:URL)
 }
 
-public enum URLOpenerTypes{
-    case external
-    case sfsafari
+public enum URLOpenerTypes : String{
+    case external = "external"
+    case sfsafari = "sfsafari"
 }
