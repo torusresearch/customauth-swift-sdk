@@ -13,19 +13,29 @@ class JWTLoginHandler: AbstractLoginHandler{
     let loginType: SubVerifierType
     let clientID: String
     let redirectURL: String
+    let browserRedirectURL: String?
     var userInfo: [String: Any]?
+    let nonce = String.randomString(length: 10)
+    let state: String
     let extraQueryParams: [String: String]
-    let defaultParams: [String:String] = ["scope": "openid profile email", "response_type": "token id_token", "nonce": String.randomString(length: 10)]
+    let defaultParams: [String:String]
     let jwtParams: [String:String]
     let connection: LoginProviders
     
-    public init(loginType: SubVerifierType = .web, clientID: String, redirectURL: String, jwtParams: [String: String], extraQueryParams: [String: String] = [:], connection: LoginProviders){
+    public init(loginType: SubVerifierType = .web, clientID: String, redirectURL: String, browserRedirectURL: String?, jwtParams: [String: String], extraQueryParams: [String: String] = [:], connection: LoginProviders){
         self.loginType = loginType
         self.clientID = clientID
         self.redirectURL = redirectURL
         self.extraQueryParams = extraQueryParams
         self.connection = connection
+        self.browserRedirectURL = browserRedirectURL
         self.jwtParams = jwtParams
+        self.defaultParams = ["scope": "openid profile email", "response_type": "token id_token", "nonce": self.nonce]
+        
+        let tempState = ["nonce": self.nonce, "redirectUri": self.redirectURL, "redirectToAndroid": "true"]
+        let jsonData = try! JSONSerialization.data(withJSONObject: tempState, options: .prettyPrinted)
+        self.state =  String(data: jsonData, encoding: .utf8)!.toBase64URL()
+//        self.state = ["nonce": self.nonce, "redirectUri": self.redirectURL, "redirectToAndroid": "true"].description.toBase64URL()
     }
     
     func getUserInfo(responseParameters: [String : String]) -> Promise<[String : Any]> {
@@ -35,12 +45,12 @@ class JWTLoginHandler: AbstractLoginHandler{
     func getLoginURL() -> String{
         // left join
         var tempParams = self.defaultParams
-        let paramsToJoin = ["redirect_uri": self.redirectURL, "client_id": self.clientID, "domain": jwtParams["domain"]!]
+        let paramsToJoin : [String: String] = ["redirect_uri": self.browserRedirectURL ?? self.redirectURL, "client_id": self.clientID, "domain": jwtParams["domain"]!, "state": self.state]
         tempParams.merge(paramsToJoin){(_, new ) in new}
         tempParams.merge(self.extraQueryParams){(_, new ) in new}
         
         // Reconstruct URL
-        var urlComponents = URLComponents()
+        var urlComponents = URLComponents() 
         urlComponents.scheme = "https"
         urlComponents.host = jwtParams["domain"]
         urlComponents.path = "/authorize"

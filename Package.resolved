@@ -32,9 +32,9 @@
         "package": "FetchNodeDetails",
         "repositoryURL": "https://github.com/torusresearch/fetch-node-details-swift",
         "state": {
-          "branch": "bigint5",
-          "revision": "dbba9f18871b3973b705da6a2e72decd51dd26be",
-          "version": null
+          "branch": null,
+          "revision": "f9e2a3d9113b830b8ee75f58e1bf138c203e1e02",
+          "version": "0.0.18"
         }
       },
       {
@@ -84,11 +84,11 @@
       },
       {
         "package": "Web3swift",
-        "repositoryURL": "https://github.com/matter-labs/web3swift",
+        "repositoryURL": "https://github.com/rathishubham7/web3swift",
         "state": {
-          "branch": "master",
-          "revision": "a4e4985c9ef97892ba56d78e9249f2485b262d1b",
-          "version": null
+          "branch": null,
+          "revision": "95c8cb18bc8a664963f55e095318c1a180c3f5ec",
+          "version": "2.2.2"
         }
       }
     ]

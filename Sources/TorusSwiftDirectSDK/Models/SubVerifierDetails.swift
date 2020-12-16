@@ -29,13 +29,13 @@ public struct SubVerifierDetails {
         case subVerifierId
     }
     
-    public init(loginType: SubVerifierType = .web, loginProvider: LoginProviders, clientId: String, verifierName subverifierId: String, redirectURL: String, extraQueryParams: [String:String] = [:], jwtParams: [String:String] = [:]) {
+    public init(loginType: SubVerifierType = .web, loginProvider: LoginProviders, clientId: String, verifierName subverifierId: String, redirectURL: String, browserRedirectURL: String? = nil, extraQueryParams: [String:String] = [:], jwtParams: [String:String] = [:]) {
         self.loginType = loginType
         self.clientId = clientId
         self.loginProvider = loginProvider
         self.subVerifierId = subverifierId
         self.redirectURL = redirectURL
-        self.handler = self.loginProvider.getHandler(loginType: loginType, clientID: self.clientId, redirectURL: self.redirectURL, extraQueryParams: extraQueryParams, jwtParams: jwtParams)
+        self.handler = self.loginProvider.getHandler(loginType: loginType, clientID: self.clientId, redirectURL: self.redirectURL, browserRedirectURL: browserRedirectURL, extraQueryParams: extraQueryParams, jwtParams: jwtParams)
     }
     
     func getLoginURL() -> String{

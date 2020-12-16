@@ -20,20 +20,20 @@ public enum LoginProviders : String {
     case email_password = "Username-Password-Authentication"
     case jwt = "jwt"
     
-    func getHandler(loginType: SubVerifierType, clientID: String, redirectURL: String, extraQueryParams: [String:String], jwtParams: [String: String]) -> AbstractLoginHandler{
+    func getHandler(loginType: SubVerifierType, clientID: String, redirectURL: String, browserRedirectURL: String?,  extraQueryParams: [String:String], jwtParams: [String: String]) -> AbstractLoginHandler{
         switch self {
             case .google:
-                return GoogleloginHandler(loginType: loginType, clientID: clientID, redirectURL: redirectURL, extraQueryParams: extraQueryParams)
+                return GoogleloginHandler(loginType: loginType, clientID: clientID, redirectURL: redirectURL, browserRedirectURL: browserRedirectURL, extraQueryParams: extraQueryParams)
             case .facebook:
-                return FacebookLoginHandler(loginType: loginType, clientID: clientID, redirectURL: redirectURL, extraQueryParams: extraQueryParams)
+                return FacebookLoginHandler(loginType: loginType, clientID: clientID, redirectURL: redirectURL, browserRedirectURL: browserRedirectURL, extraQueryParams: extraQueryParams)
             case .twitch:
-                return TwitchLoginHandler(loginType: loginType, clientID: clientID, redirectURL: redirectURL, extraQueryParams: extraQueryParams)
+                return TwitchLoginHandler(loginType: loginType, clientID: clientID, redirectURL: redirectURL, browserRedirectURL: browserRedirectURL, extraQueryParams: extraQueryParams)
             case .reddit:
-                return RedditLoginHandler(loginType: loginType, clientID: clientID, redirectURL: redirectURL, extraQueryParams: extraQueryParams)
+                return RedditLoginHandler(loginType: loginType, clientID: clientID, redirectURL: redirectURL, browserRedirectURL: browserRedirectURL, extraQueryParams: extraQueryParams)
             case .discord:
-                return DiscordLoginHandler(loginType: loginType, clientID: clientID, redirectURL: redirectURL, extraQueryParams: extraQueryParams)
+                return DiscordLoginHandler(loginType: loginType, clientID: clientID, redirectURL: redirectURL, browserRedirectURL: browserRedirectURL, extraQueryParams: extraQueryParams)
             case .apple, .github, .linkedin, .twitter, .weibo, .kakao, .line, .wechat, .email_password, .jwt:
-                return JWTLoginHandler(loginType: loginType, clientID: clientID, redirectURL: redirectURL, jwtParams: jwtParams, extraQueryParams: extraQueryParams, connection: self)
+                return JWTLoginHandler(loginType: loginType, clientID: clientID, redirectURL: redirectURL, browserRedirectURL: browserRedirectURL, jwtParams: jwtParams, extraQueryParams: extraQueryParams, connection: self)
         }
     }
 }

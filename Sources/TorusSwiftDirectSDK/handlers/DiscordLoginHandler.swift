@@ -12,15 +12,24 @@ class DiscordLoginHandler: AbstractLoginHandler{
     let loginType: SubVerifierType
     let clientID: String
     let redirectURL: String
+    let browserRedirectURL: String?
+    let state: String
     var userInfo: [String: Any]?
+    let nonce = String.randomString(length: 10)
     let extraQueryParams: [String: String]
-    let defaultParams: [String:String] = ["scope": "email identify", "response_type": "token"]
+    let defaultParams: [String:String]
     
-    public init(loginType: SubVerifierType = .web, clientID: String, redirectURL: String, extraQueryParams: [String: String] = [:]){
+    public init(loginType: SubVerifierType = .web, clientID: String, redirectURL: String, browserRedirectURL: String?, extraQueryParams: [String: String] = [:]){
         self.loginType = loginType
         self.clientID = clientID
         self.redirectURL = redirectURL
         self.extraQueryParams = extraQueryParams
+        self.browserRedirectURL = browserRedirectURL
+        self.defaultParams = ["scope": "email identify", "response_type": "token"]
+        
+        let tempState = ["nonce": self.nonce, "redirectUri": self.redirectURL, "redirectToAndroid": "true"]
+        let jsonData = try! JSONSerialization.data(withJSONObject: tempState, options: .prettyPrinted)
+        self.state =  String(data: jsonData, encoding: .utf8)!.toBase64URL()
     }
     
     func getUserInfo(responseParameters: [String : String]) -> Promise<[String : Any]> {
@@ -30,7 +39,7 @@ class DiscordLoginHandler: AbstractLoginHandler{
     func getLoginURL() -> String{
         // left join
         var tempParams = self.defaultParams
-        tempParams.merge(["redirect_uri": self.redirectURL, "client_id": self.clientID]){(_, new ) in new}
+        tempParams.merge(["redirect_uri": self.browserRedirectURL ?? self.redirectURL, "client_id": self.clientID, "state": self.state]){(_, new ) in new}
         tempParams.merge(self.extraQueryParams){(_, new ) in new}
         
         // Reconstruct URL

@@ -32,7 +32,7 @@ struct ContentView: View {
                                                          verifierName: "google-ios",
                                                          redirectURL: "com.googleusercontent.apps.238941746713-vfap8uumijal4ump28p9jd3lbe6onqt4:/oauthredirect")
                             let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: .singleIdVerifier, aggregateVerifierName: "multigoogle-torus", subVerifierDetails: [sub], loglevel: .trace)
-                            tdsdk.triggerLogin(browserType: .sfsafari).done{ data in
+                            tdsdk.triggerLogin(browserType: .external).done{ data in
                                 print("private key rebuild", data)
                             }.catch{ err in
                                 print(err)
@@ -130,6 +130,7 @@ struct ContentView: View {
                                                          clientId: "PC2a4tfNRvXbT48t89J5am0oFM21Nxff",
                                                          verifierName: "torus-auth0-github-lrc",
                                                          redirectURL: "tdsdk://tdsdk/oauthCallback",
+                                                         browserRedirectURL: "https://scripts.toruswallet.io/redirect.html",
                                                          jwtParams: ["domain":"torus-test.auth0.com"])
                             
                             let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: .singleLogin, aggregateVerifierName: "torus-auth0-github-lrc", subVerifierDetails: [sub], loglevel: .info)
