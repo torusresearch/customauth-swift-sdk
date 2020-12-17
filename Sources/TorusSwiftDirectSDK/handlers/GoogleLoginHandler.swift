@@ -110,6 +110,7 @@ class GoogleloginHandler: AbstractLoginHandler{
                     try JSONSerialization.jsonObject(with: $0.data) as? [String:Any]
                 }.done{ data in
                     var dictionary = data!
+                    self.userInfo = dictionary
                     dictionary["tokenForKeys"] = idToken
                     dictionary["verifierId"] = self.getVerifierFromUserInfo()
                     seal.fulfill(dictionary)
