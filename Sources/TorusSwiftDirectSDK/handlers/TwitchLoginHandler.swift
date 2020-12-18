@@ -73,11 +73,11 @@ class TwitchLoginHandler: AbstractLoginHandler{
             URLSession.shared.dataTask(.promise, with: request).map{
                 try JSONSerialization.jsonObject(with: $0.data) as! [String:Any]
             }.done{ data in
-                var json = data
-                self.userInfo = json
-                json["tokenForKeys"] = accessToken
-                json["verifierId"] = self.getVerifierFromUserInfo()
-                seal.fulfill(json)
+                self.userInfo = data
+                var newData:[String:Any] = ["userInfo": self.userInfo as Any]
+                newData["tokenForKeys"] = accessToken
+                newData["verifierId"] = self.getVerifierFromUserInfo()
+                seal.fulfill(newData)
                 
             }.catch{err in
                 seal.reject(TSDSError.getUserInfoFailed)

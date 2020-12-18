@@ -78,7 +78,7 @@ struct ContentView: View {
                                                          loginProvider: .facebook,
                                                          clientId: "659561074900150",
                                                          verifierName: "facebook-shubs",
-                                                         redirectURL: "tdsdk://tdsdk/oauthCallback")
+                                                         redirectURL: "tdsdk://tdsdk/oauthCallback", browserRedirectURL: "https://scripts.toruswallet.io/redirect.html")
                             
                             let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: .singleLogin, aggregateVerifierName: "facebook-shubs", subVerifierDetails: [sub])
                             tdsdk.triggerLogin(browserType: .external).done{ data in

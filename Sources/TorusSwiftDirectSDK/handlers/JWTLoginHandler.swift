@@ -101,15 +101,14 @@ class JWTLoginHandler: AbstractLoginHandler{
             URLSession.shared.dataTask(.promise, with: request).map{
                 try JSONSerialization.jsonObject(with: $0.data) as! [String:Any]
             }.done{ data in
-                var json = data // because data is let
-                self.userInfo = json
+                self.userInfo = data
                 if(responseParameters["error"] != nil){
                     throw responseParameters["error"]!
                 }
-                
-                json["tokenForKeys"] = responseParameters["id_token"]
-                json["verifierId"] = self.getVerifierFromUserInfo()
-                seal.fulfill(json)
+                var newData:[String:Any] = ["userInfo": self.userInfo as Any]
+                newData["tokenForKeys"] = responseParameters["id_token"]
+                newData["verifierId"] = self.getVerifierFromUserInfo()
+                seal.fulfill(newData)
                 
             }.catch{err in
                 seal.reject(TSDSError.getUserInfoFailed)

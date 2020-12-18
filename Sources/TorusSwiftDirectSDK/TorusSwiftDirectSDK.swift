@@ -96,7 +96,7 @@ open class TorusSwiftDirectSDK{
                     responseParameters += fragment.parametersFromQueryString
                 }
                 self.logger.info("ResponseParams after redirect: ", responseParameters)
-                subVerifier.getUserInfo(responseParameters: responseParameters).then{ newData -> Promise<(String, [String:Any])> in
+                subVerifier.getUserInfo(responseParameters: responseParameters).then{ newData -> Promise<([String:String], [String:Any])> in
                     self.logger.info(newData)
                     var data = newData
                     let verifierId = data["verifierId"] as! String
@@ -107,17 +107,16 @@ open class TorusSwiftDirectSDK{
                     let extraParams = ["verifieridentifier": self.aggregateVerifierName, "verifier_id":verifierId] as [String : Any]
                     let buffer: Data = try! NSKeyedArchiver.archivedData(withRootObject: extraParams, requiringSecureCoding: false)
                     
-                    
                     return self.getEndpoints().then{ boolean in
                         return self.torusUtils.retrieveShares(endpoints: self.endpoints, verifierIdentifier: self.aggregateVerifierName, verifierId: verifierId, idToken: idToken, extraParams: buffer).map{ ($0, data)}
                     }
-                }.done{privateKey, newData in
+                }.done{responseFromRetrieveShares, newData in
                     var data = newData
-                    
-                    data["privateKey"] = privateKey
+                    data["privateKey"] = responseFromRetrieveShares["privateKey"]
+                    data["publicAddress"] = responseFromRetrieveShares["publicAddress"]
                     seal.fulfill(data)
                 }.catch{err in
-                    print("handleSingleLogin: err:", err)
+                    self.logger.error("handleSingleLogin: err:", err)
                     seal.reject(err)
                 }
             }
@@ -139,7 +138,7 @@ open class TorusSwiftDirectSDK{
                     responseParameters += fragment.parametersFromQueryString
                 }
                 
-                subVerifier.getUserInfo(responseParameters: responseParameters).then{ newData -> Promise<(String, [String:Any])> in
+                subVerifier.getUserInfo(responseParameters: responseParameters).then{ newData -> Promise<([String:String], [String:Any])> in
                     var data = newData
                     let verifierId = data["verifierId"] as! String
                     let idToken = data["tokenForKeys"] as! String
@@ -154,12 +153,14 @@ open class TorusSwiftDirectSDK{
                     return self.getEndpoints().then{ boolean in
                         return self.torusUtils.retrieveShares(endpoints: self.endpoints, verifierIdentifier: self.aggregateVerifierName, verifierId: verifierId, idToken: hashedOnce, extraParams: buffer).map{ ($0, data)}
                     }
-                }.done{privateKey, newData in
+                }.done{responseFromRetrieveShares, newData in
                     var data = newData
-                    data["privateKey"] = privateKey
+                    data["userInfo"] = [data["userInfo"]!]
+                    data["privateKey"] = responseFromRetrieveShares["privateKey"]
+                    data["publicAddress"] = responseFromRetrieveShares["publicAddress"]
                     seal.fulfill(data)
                 }.catch{err in
-                    print("err in ", err)
+                    self.logger.error("handleSingleIdVerifier err:", err)
                     seal.reject(err)
                 }
             }

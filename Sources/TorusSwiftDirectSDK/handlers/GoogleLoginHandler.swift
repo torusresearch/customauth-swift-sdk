@@ -91,11 +91,12 @@ class GoogleloginHandler: AbstractLoginHandler{
                         throw TSDSError.accessTokenNotProvided
                     }
                 }.done{ data, idToken in
-                    var dictionary = try! JSONSerialization.jsonObject(with: data, options: []) as! [String:Any]
+                    let dictionary = try! JSONSerialization.jsonObject(with: data, options: []) as! [String:Any]
                     self.userInfo = dictionary
-                    dictionary["tokenForKeys"] = idToken
-                    dictionary["verifierId"] = self.getVerifierFromUserInfo()
-                    seal.fulfill(dictionary)
+                    var newData:[String:Any] = ["userInfo": self.userInfo as Any]
+                    newData["tokenForKeys"] = idToken
+                    newData["verifierId"] = self.getVerifierFromUserInfo()
+                    seal.fulfill(newData)
                 }.catch{err in
                     seal.reject(TSDSError.accessTokenAPIFailed)
                 }
@@ -109,11 +110,11 @@ class GoogleloginHandler: AbstractLoginHandler{
                 URLSession.shared.dataTask(.promise, with: request).map{
                     try JSONSerialization.jsonObject(with: $0.data) as? [String:Any]
                 }.done{ data in
-                    var dictionary = data!
-                    self.userInfo = dictionary
-                    dictionary["tokenForKeys"] = idToken
-                    dictionary["verifierId"] = self.getVerifierFromUserInfo()
-                    seal.fulfill(dictionary)
+                    self.userInfo =  data!
+                    var newData:[String:Any] = ["userInfo": self.userInfo as Any]
+                    newData["tokenForKeys"] = idToken
+                    newData["verifierId"] = self.getVerifierFromUserInfo()
+                    seal.fulfill(newData)
                 }.catch{err in
                     seal.reject(TSDSError.accessTokenAPIFailed)
                 }
