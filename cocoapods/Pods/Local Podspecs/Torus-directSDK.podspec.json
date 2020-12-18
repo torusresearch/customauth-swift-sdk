@@ -1,6 +1,6 @@
 {
   "name": "Torus-directSDK",
-  "version": "0.0.15",
+  "version": "0.1.0",
   "platforms": {
     "ios": "10.0"
   },
@@ -17,7 +17,7 @@
   "module_name": "TorusSwiftDirectSDK",
   "source": {
     "git": "https://github.com/torusresearch/torus-direct-swift-sdk.git",
-    "tag": "0.0.15"
+    "tag": "0.1.0"
   },
   "source_files": [
     "Sources/TorusSwiftDirectSDK/*.{swift}",
@@ -28,7 +28,7 @@
       "~> 0.0.1"
     ],
     "Torus-utils": [
-      "~> 0.0.1"
+      "~> 0.1.0"
     ]
   },
   "pod_target_xcconfig": {

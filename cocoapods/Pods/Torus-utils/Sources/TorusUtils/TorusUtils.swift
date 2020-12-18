@@ -33,7 +33,7 @@ public class TorusUtils{
         keyLookup.then{ lookupData -> Promise<[String: String]> in
             let error = lookupData["err"]
             
-             if(error != nil){
+            if(error != nil){
                 // Assign key to the user and return (wraped in a promise)
                 return self.keyAssign(endpoints: endpoints, torusNodePubs: torusNodePubs, verifier: verifier, verifierId: verifierId).then{ data -> Promise<[String:String]> in
                     // Do keylookup again
@@ -49,7 +49,7 @@ public class TorusUtils{
             return self.getMetadata(dictionary: ["pub_key_X":data["pub_key_X"]!, "pub_key_Y": data["pub_key_Y"]!]).map{ ($0, data) } // Tuple
         }.done{ nonce, data in
             var newData = data
-                        
+            
             if(nonce != BigUInt(0)) {
                 let address = self.privateKeyToAddress(key: nonce.serialize().addLeading0sForLength64())
                 let newAddress = BigUInt(address.toHexString(), radix: 16)! + BigUInt(data["address"]!.strip0xPrefix(), radix: 16)!
@@ -71,7 +71,7 @@ public class TorusUtils{
         
     }
     
-    public func retrieveShares(endpoints : Array<String>, verifierIdentifier: String, verifierId:String, idToken: String, extraParams: Data) -> Promise<String>{
+    public func retrieveShares(endpoints : Array<String>, verifierIdentifier: String, verifierId:String, idToken: String, extraParams: Data) -> Promise<[String:String]>{
         
         // Generate privatekey
         let privateKey = SECP256K1.generatePrivateKey()
@@ -84,23 +84,25 @@ public class TorusUtils{
         
         // Hash the token from OAuth login
         // let tempIDToken = verifierParams.map{$0["idtoken"]!}.joined(separator: "\u{001d}")
-
+        
         let hashedOnce = idToken.sha3(.keccak256)
         // let tokenCommitment = hashedOnce.sha3(.keccak256)
         let timestamp = String(Int(Date().timeIntervalSince1970))
         
         var nodeReturnedPubKeyX:String = ""
         var nodeReturnedPubKeyY:String = ""
+        var publicAddress: String = ""
         
         self.logger.debug("RetrieveShares: ", privateKey?.toHexString() as Any, publicKeyHex as Any, pubKeyX as Any, pubKeyY as Any, hashedOnce)
         
-        return Promise<String>{ seal in
+        return Promise<[String:String]>{ seal in
             
-            getPublicAddress(endpoints: endpoints, torusNodePubs: nodePubKeys, verifier: verifierIdentifier, verifierId: verifierId, isExtended: true).then{ data in
+            getPublicAddress(endpoints: endpoints, torusNodePubs: nodePubKeys, verifier: verifierIdentifier, verifierId: verifierId, isExtended: true).then{ data -> Promise<[[String:String]]> in
+                publicAddress = data["address"] ?? ""
                 return self.commitmentRequest(endpoints: endpoints, verifier: verifierIdentifier, pubKeyX: pubKeyX!, pubKeyY: pubKeyY!, timestamp: timestamp, tokenCommitment: hashedOnce)
             }.then{ data -> Promise<[Int:[String:String]]> in
-                    self.logger.info("retrieveShares: data after commitment request", data)
-                    return self.retrieveIndividualNodeShare(endpoints: endpoints, extraParams: extraParams, verifier: verifierIdentifier, tokenCommitment: idToken, nodeSignatures: data, verifierId: verifierId)
+                self.logger.info("retrieveShares: data after commitment request", data)
+                return self.retrieveIndividualNodeShare(endpoints: endpoints, extraParams: extraParams, verifier: verifierIdentifier, tokenCommitment: idToken, nodeSignatures: data, verifierId: verifierId)
             }.then{ data -> Promise<[Int:String]> in
                 self.logger.trace("retrieveShares: data after retrieveIndividualNodeShare", data)
                 if let temp  = data.first{
@@ -131,9 +133,9 @@ public class TorusUtils{
                 if(nonce != BigUInt(0)) {
                     let newKey = nonce + BigUInt(key, radix: 16)!
                     self.logger.info(newKey)
-                    seal.fulfill(newKey.serialize().suffix(64).toHexString())
+                    seal.fulfill(["privateKey":newKey.serialize().suffix(64).toHexString(), "publicAddress": publicAddress])
                 }
-                seal.fulfill(key)
+                seal.fulfill(["privateKey":key, "publicAddress": publicAddress])
                 
             }.catch{ err in
                 self.logger.error("retrieveShares: err: ",err)

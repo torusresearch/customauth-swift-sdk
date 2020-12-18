@@ -61,7 +61,7 @@ extension TorusUtils {
         return pubKey2
     }
     
-    func privateKeyToAddress(key: Data) -> Data{
+    public func privateKeyToAddress(key: Data) -> Data{
         print(key)
         let publicKey = SECP256K1.privateToPublic(privateKey: key)!
         let address = Data(publicKey.sha3(.keccak256).suffix(20))
