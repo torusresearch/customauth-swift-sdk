@@ -17,7 +17,7 @@ class FacebookLoginHandler: AbstractLoginHandler{
     let state: String
     var userInfo: [String: Any]?
     let extraQueryParams: [String: String]
-    let defaultParams: [String:String] = ["scope": "public_profile email", "response_type": "token"]
+    let defaultParams: [String:String]
     
     public init(loginType: SubVerifierType = .web, clientID: String, redirectURL: String, browserRedirectURL: String?, extraQueryParams: [String: String] = [:]){
         self.loginType = loginType
@@ -25,6 +25,7 @@ class FacebookLoginHandler: AbstractLoginHandler{
         self.redirectURL = redirectURL
         self.extraQueryParams = extraQueryParams
         self.browserRedirectURL = browserRedirectURL
+        self.defaultParams = ["scope": "public_profile email", "response_type": "token"]
         
         let tempState = ["nonce": self.nonce, "redirectUri": self.redirectURL, "redirectToAndroid": "true"]
         let jsonData = try! JSONSerialization.data(withJSONObject: tempState, options: .prettyPrinted)
@@ -38,14 +39,14 @@ class FacebookLoginHandler: AbstractLoginHandler{
     func getLoginURL() -> String{
         // left join
         var tempParams = self.defaultParams
-        tempParams.merge(["redirect_uri": self.redirectURL, "client_id": self.clientID, "state": self.state]){(_, new ) in new}
+        tempParams.merge(["redirect_uri": self.browserRedirectURL ?? self.redirectURL, "client_id": self.clientID, "state": self.state]){(_, new ) in new}
         tempParams.merge(self.extraQueryParams){(_, new ) in new}
         
         // Reconstruct URL
         var urlComponents = URLComponents()
         urlComponents.scheme = "https"
         urlComponents.host = "www.facebook.com"
-        urlComponents.path = "v6.0/dialog/oauth"
+        urlComponents.path = "/v6.0/dialog/oauth"
         urlComponents.setQueryItems(with: tempParams)
         
         return urlComponents.url!.absoluteString
