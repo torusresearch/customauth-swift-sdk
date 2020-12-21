@@ -2,24 +2,6 @@
   "object": {
     "pins": [
       {
-        "package": "BigInt",
-        "repositoryURL": "https://github.com/attaswift/BigInt.git",
-        "state": {
-          "branch": null,
-          "revision": "889a1ecacd73ccc189c5cb29288048f186c44ed9",
-          "version": "5.2.1"
-        }
-      },
-      {
-        "package": "CryptorECC",
-        "repositoryURL": "https://github.com/IBM-Swift/BlueECC.git",
-        "state": {
-          "branch": null,
-          "revision": "73f362cb0d9c5f1fd0089240d7b293cd2bff18db",
-          "version": "1.2.5"
-        }
-      },
-      {
         "package": "CryptoSwift",
         "repositoryURL": "https://github.com/krzyzanowskim/CryptoSwift.git",
         "state": {
@@ -29,66 +11,12 @@
         }
       },
       {
-        "package": "FetchNodeDetails",
-        "repositoryURL": "https://github.com/torusresearch/fetch-node-details-swift",
-        "state": {
-          "branch": null,
-          "revision": "f9e2a3d9113b830b8ee75f58e1bf138c203e1e02",
-          "version": "0.0.18"
-        }
-      },
-      {
-        "package": "PMKFoundation",
-        "repositoryURL": "https://github.com/PromiseKit/Foundation.git",
-        "state": {
-          "branch": null,
-          "revision": "1a276e598dac59489ed904887e0740fa75e571e0",
-          "version": "3.3.4"
-        }
-      },
-      {
-        "package": "PromiseKit",
-        "repositoryURL": "https://github.com/mxcl/PromiseKit.git",
-        "state": {
-          "branch": null,
-          "revision": "f6b15b7626a4399864ffa1d5ec2ed9cf0cea5556",
-          "version": "6.13.2"
-        }
-      },
-      {
-        "package": "Starscream",
-        "repositoryURL": "https://github.com/daltoniam/Starscream.git",
-        "state": {
-          "branch": null,
-          "revision": "e6b65c6d9077ea48b4a7bdda8994a1d3c6969c8d",
-          "version": "3.1.1"
-        }
-      },
-      {
         "package": "BestLogger",
         "repositoryURL": "https://github.com/rathishubham7/swift-logger",
         "state": {
           "branch": null,
           "revision": "e1e2fa0a6ee9f572432835b70f980a8b36449575",
           "version": "0.0.3"
-        }
-      },
-      {
-        "package": "swift-nio-zlib-support",
-        "repositoryURL": "https://github.com/apple/swift-nio-zlib-support.git",
-        "state": {
-          "branch": null,
-          "revision": "37760e9a52030bb9011972c5213c3350fa9d41fd",
-          "version": "1.0.0"
-        }
-      },
-      {
-        "package": "Web3swift",
-        "repositoryURL": "https://github.com/rathishubham7/web3swift",
-        "state": {
-          "branch": null,
-          "revision": "95c8cb18bc8a664963f55e095318c1a180c3f5ec",
-          "version": "2.2.2"
         }
       }
     ]
