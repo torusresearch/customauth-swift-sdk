@@ -61,13 +61,6 @@ extension TorusUtils {
         return pubKey2
     }
     
-    public func privateKeyToAddress(key: Data) -> Data{
-        print(key)
-        let publicKey = SECP256K1.privateToPublic(privateKey: key)!
-        let address = Data(publicKey.sha3(.keccak256).suffix(20))
-        return address
-    }
-    
     // MARK: metadata API
     func getMetadata(dictionary: [String:String]) -> Promise<BigUInt>{
         
@@ -455,6 +448,28 @@ extension TorusUtils {
     }
     
     // MARK:- Helper functions
+    
+    public func privateKeyToAddress(key: Data) -> Data{
+        print(key)
+        let publicKey = SECP256K1.privateToPublic(privateKey: key)!
+        let address = Data(publicKey.sha3(.keccak256).suffix(20))
+        return address
+    }
+    
+    public func publicKeyToAddress(key: Data) -> Data{
+        return Data(key.sha3(.keccak256).suffix(20))
+    }
+    
+    public func publicKeyToAddress(key: String) -> String{
+        return String(key.sha3(.keccak256).suffix(20))
+    }
+    
+    func combinePublicKeys(keys: [String], compressed: Bool) -> String{
+        let data = keys.map({ return Data(hex: $0)})
+        let added = SECP256K1.combineSerializedPublicKeys(keys: data)
+        return (added?.toHexString())!
+    }
+
     func privateKeyToPublicKey4(privateKey: Data) -> secp256k1_pubkey? {
         if (privateKey.count != 32) {return nil}
         var publicKey = secp256k1_pubkey()

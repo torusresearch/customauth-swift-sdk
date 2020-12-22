@@ -25,13 +25,14 @@ struct ContentView: View {
                     Group{
                         
                         Button(action: {
-                            
-                            let sub = SubVerifierDetails(loginType: .installed,
+
+                            let sub = SubVerifierDetails(loginType: .web,
                                                          loginProvider: .google,
-                                                         clientId: "238941746713-vfap8uumijal4ump28p9jd3lbe6onqt4.apps.googleusercontent.com",
-                                                         verifierName: "google-ios",
-                                                         redirectURL: "com.googleusercontent.apps.238941746713-vfap8uumijal4ump28p9jd3lbe6onqt4:/oauthredirect")
-                            let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: .singleIdVerifier, aggregateVerifierName: "multigoogle-torus", subVerifierDetails: [sub], loglevel: .trace)
+                                                         clientId: "221898609709-obfn3p63741l5333093430j3qeiinaa8.apps.googleusercontent.com",
+                                                         verifierName: "google-lrc",
+                                                         redirectURL: "com.googleusercontent.apps.238941746713-vfap8uumijal4ump28p9jd3lbe6onqt4:/oauthredirect",
+                                                         browserRedirectURL: "https://scripts.toruswallet.io/redirect.html")
+                            let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: .singleLogin, aggregateVerifierName: "google-lrc", subVerifierDetails: [sub], loglevel: .trace)
                             tdsdk.triggerLogin(browserType: .external).done{ data in
                                 print("private key rebuild", data)
                             }.catch{ err in

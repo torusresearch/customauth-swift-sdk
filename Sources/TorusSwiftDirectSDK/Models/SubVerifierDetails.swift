@@ -8,7 +8,7 @@ import UIKit
 import Foundation
 import PromiseKit
 
-// Type of OAuth application created. ex. google web app/iOS app
+// Type of OAuth application created. ex. google web app/google iOS app
 public enum SubVerifierType : String{
     case installed = "installed"
     case web = "web"
@@ -38,7 +38,7 @@ public struct SubVerifierDetails {
         self.handler = self.loginProvider.getHandler(loginType: loginType, clientID: self.clientId, redirectURL: self.redirectURL, browserRedirectURL: browserRedirectURL, extraQueryParams: extraQueryParams, jwtParams: jwtParams)
     }
     
-    func getLoginURL() -> String{
+    public func getLoginURL() -> String{
         return self.handler.getLoginURL()
     }
     

@@ -55,9 +55,6 @@ class GoogleloginHandler: AbstractLoginHandler{
         urlComponents.host = "accounts.google.com"
         urlComponents.path = "/o/oauth2/v2/auth"
         urlComponents.setQueryItems(with: tempParams)
-        
-        print(urlComponents)
-        
         return urlComponents.url!.absoluteString
 //        return "https://accounts.google.com/o/oauth2/v2/auth?response_type=\(googleResponseType)&client_id=\(self.clientID)&nonce=123&redirect_uri=\(self.redirectURL)&scope=profile+email+openid"
     }

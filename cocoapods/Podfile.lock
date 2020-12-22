@@ -19,7 +19,7 @@ PODS:
   - Torus-fetchNodeDetails (0.0.19):
     - BestLogger (~> 0.0.1)
     - web3swift (~> 2.3.0)
-  - Torus-utils (0.1.0):
+  - Torus-utils (0.1.1):
     - BestLogger (~> 0.0.1)
     - PromiseKit/Foundation (~> 6.0)
     - Torus-fetchNodeDetails (~> 0.0.1)
@@ -33,6 +33,7 @@ PODS:
 DEPENDENCIES:
   - secp256k1.c (~> 0.1.2)
   - Torus-directSDK (from `../`)
+  - Torus-utils (~> 0.1.1)
 
 SPEC REPOS:
   trunk:
@@ -59,9 +60,9 @@ SPEC CHECKSUMS:
   Starscream: 4bb2f9942274833f7b4d296a55504dcfc7edb7b0
   Torus-directSDK: 3829e93a0746aa1d1cb46007d60ee828f6f80c1b
   Torus-fetchNodeDetails: 3a2ce2095db598949b923cbaff827632918510ff
-  Torus-utils: 61d4851eef84fb41597bb00c4a185c1f48ec3910
+  Torus-utils: cd8ac44a3397d1dac0132ca414478f9dd55a8825
   web3swift: 0f097eafe1d08f478694b882581b85a01afb6633
 
-PODFILE CHECKSUM: fc5582fd93c9212fdbeb679184f405c81dcf7430
+PODFILE CHECKSUM: 033bac85c9d11d560478e2af7639eb9d8fdb3824
 
 COCOAPODS: 1.10.0

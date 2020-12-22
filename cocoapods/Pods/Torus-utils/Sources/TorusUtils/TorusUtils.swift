@@ -46,14 +46,16 @@ public class TorusUtils{
                 return Promise<[String: String]>.value(lookupData)
             }
         }.then{ data in
-            return self.getMetadata(dictionary: ["pub_key_X":data["pub_key_X"]!, "pub_key_Y": data["pub_key_Y"]!]).map{ ($0, data) } // Tuple
+            return self.getMetadata(dictionary: ["pub_key_X": data["pub_key_X"]!, "pub_key_Y": data["pub_key_Y"]!]).map{ ($0, data) } // Tuple
         }.done{ nonce, data in
             var newData = data
-            
-            if(nonce != BigUInt(0)) {
-                let address = self.privateKeyToAddress(key: nonce.serialize().addLeading0sForLength64())
-                let newAddress = BigUInt(address.toHexString(), radix: 16)! + BigUInt(data["address"]!.strip0xPrefix(), radix: 16)!
-                newData["address"] = newAddress.serialize().toHexString()
+            // Convert to BigInt for modulus
+            let nonce2 = BigInt(nonce).modulus(BigInt("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364141", radix: 16)!)
+            if(nonce != BigInt(0)) {
+                let actualPublicKey = "04" + newData["pub_key_X"]!.addLeading0sForLength64() + newData["pub_key_Y"]!.addLeading0sForLength64()
+                let noncePublicKey = SECP256K1.privateToPublic(privateKey: BigUInt(nonce2).serialize().addLeading0sForLength64())
+                let addedPublicKeys = self.combinePublicKeys(keys: [actualPublicKey, noncePublicKey!.toHexString()], compressed: false)
+                newData["address"] = self.publicKeyToAddress(key: addedPublicKeys)
             }
             
             if(!isExtended){
@@ -130,10 +132,11 @@ public class TorusUtils{
             }.then{ x, y, key in
                 return self.getMetadata(dictionary: ["pub_key_X": x, "pub_key_Y": y]).map{ ($0, key) } // Tuple
             }.done{ nonce, key in
-                if(nonce != BigUInt(0)) {
-                    let newKey = nonce + BigUInt(key, radix: 16)!
+                if(nonce != BigInt(0)) {
+                    let tempNewKey = BigInt(nonce) + BigInt(key, radix: 16)!
+                    let newKey = tempNewKey.modulus(BigInt("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364141", radix: 16)!)
                     self.logger.info(newKey)
-                    seal.fulfill(["privateKey":newKey.serialize().suffix(64).toHexString(), "publicAddress": publicAddress])
+                    seal.fulfill(["privateKey": BigUInt(newKey).serialize().suffix(64).toHexString(), "publicAddress": publicAddress])
                 }
                 seal.fulfill(["privateKey":key, "publicAddress": publicAddress])
                 
