@@ -26,7 +26,7 @@ let package = Package(
 
 #### Cocoapods
 ```ruby
-pod 'Torus-directSDK', '~> 0.0.1'
+pod 'Torus-directSDK', '~> 0.1.0'
 ```
 
 #### Manual import or other packages
@@ -42,12 +42,12 @@ import TorusSwiftDirectSDK
 let sub = SubVerifierDetails(loginType: .installed, // default .web
                             loginProvider: .google,
                             clientId: "<your-client-id>",
-                            verifierName: "google",
+                            verifierName: <verifier-name>,
                             redirectURL: "<your-redirect-url>")
-let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: .singleLogin, aggregateVerifierName: "google", subVerifierDetails: [sub])
+let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: <type-of-verifier>, aggregateVerifierName: <verifier-name>, subVerifierDetails: [sub])
 
 // controller is used to present a SFSafariViewController.
-tdsdk.triggerLogin(controller: <UIViewController>).done{ data in
+tdsdk.triggerLogin(controller: <UIViewController>?).done{ data in
     print("private key rebuild", data)
 }.catch{ err in
     print(err)
