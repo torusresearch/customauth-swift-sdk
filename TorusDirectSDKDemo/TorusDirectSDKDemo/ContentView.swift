@@ -134,7 +134,7 @@ struct ContentView: View {
                                                          browserRedirectURL: "https://scripts.toruswallet.io/redirect.html",
                                                          jwtParams: ["domain":"torus-test.auth0.com"])
                             
-                            let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: .singleLogin, aggregateVerifierName: "torus-auth0-github-lrc", subVerifierDetails: [sub], loglevel: .info)
+                            let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: .singleLogin, aggregateVerifierName: "torus-auth0-github-lrc", subVerifierDetails: [sub], loglevel: .trace)
                             tdsdk.triggerLogin(browserType: .external).done{ data in
                                 print("private key rebuild", data)
                             }.catch{ err in
