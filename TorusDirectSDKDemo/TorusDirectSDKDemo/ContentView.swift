@@ -134,7 +134,7 @@ struct ContentView: View {
                                                          browserRedirectURL: "https://scripts.toruswallet.io/redirect.html",
                                                          jwtParams: ["domain":"torus-test.auth0.com"])
                             
-                            let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: .singleLogin, aggregateVerifierName: "torus-auth0-github-lrc", subVerifierDetails: [sub], loglevel: .trace)
+                            let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: .singleLogin, aggregateVerifierName: "torus-auth0-github-lrc", subVerifierDetails: [sub], loglevel: .error)
                             tdsdk.triggerLogin(browserType: .external).done{ data in
                                 print("private key rebuild", data)
                             }.catch{ err in
@@ -278,21 +278,21 @@ struct ContentView: View {
                         Text("Google Login - Deep link flow")
                     })
                     
-                    Button(action: {
-                        let sub = SubVerifierDetails(loginType: .web,
-                                                     loginProvider: .google,
-                                                     clientId: "238941746713-qqe4a7rduuk256d8oi5l0q34qtu9gpfg.apps.googleusercontent.com",
-                                                     verifierName: "google-shubs",
-                                                     redirectURL: "https://backend.relayer.dev.tor.us/demoapp/redirect")
-                        let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: .singleIdVerifier, aggregateVerifierName: "multigoogle-torus", subVerifierDetails: [sub])
-                        tdsdk.triggerLogin(browserType: .external).done{ data in
-                            print("private key rebuild", data)
-                        }.catch{ err in
-                            print(err)
-                        }
-                    }, label: {
-                        Text("Google Login - Universal link flow")
-                    })
+//                    Button(action: {
+//                        let sub = SubVerifierDetails(loginType: .web,
+//                                                     loginProvider: .google,
+//                                                     clientId: "238941746713-qqe4a7rduuk256d8oi5l0q34qtu9gpfg.apps.googleusercontent.com",
+//                                                     verifierName: "google-shubs",
+//                                                     redirectURL: "https://backend.relayer.dev.tor.us/demoapp/redirect")
+//                        let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: .singleIdVerifier, aggregateVerifierName: "multigoogle-torus", subVerifierDetails: [sub])
+//                        tdsdk.triggerLogin(browserType: .external).done{ data in
+//                            print("private key rebuild", data)
+//                        }.catch{ err in
+//                            print(err)
+//                        }
+//                    }, label: {
+//                        Text("Google Login - Universal link flow")
+//                    })
                     
                 }
                 
