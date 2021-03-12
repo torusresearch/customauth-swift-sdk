@@ -22,15 +22,17 @@ public final class FetchNodeDetails {
     let logger: BestLogger?
     
     public init(proxyAddress: String, network: EthereumNetwork, logLevel: BestLogger.Level = .none){
+        
+        // mainnet proxy contract address - 0x638646503746d5456209e33a2ff5e3226d698bea
+        // testnet proxt contract address - 0x4023d2a0D330bF11426B12C6144Cfb96B7fa6183
         self.proxyAddress = EthereumAddress(proxyAddress)!
         self.network = network
         
-        //self.web3 = Web3.InfuraMainnetWeb3()
         if(network == EthereumNetwork.MAINNET){
-            self.web3 = Web3.InfuraMainnetWeb3()
+            self.web3 = Web3.InfuraMainnetWeb3(accessToken: "b8cdb0e4cff24599a286bf8e87ff1c96")
             self.contract = web3.contract(yourContractABI, at: self.proxyAddress, abiVersion: 2)!
         }else{
-            self.web3 = Web3.InfuraRopstenWeb3()
+            self.web3 = Web3.InfuraRopstenWeb3(accessToken: "b8cdb0e4cff24599a286bf8e87ff1c96")
             self.contract = web3.contract(yourContractABI, at: self.proxyAddress, abiVersion: 2)!
         }
         
@@ -168,7 +170,7 @@ public final class FetchNodeDetails {
         return self.nodeDetails!
     }
     
-    private func getProxyUrl() -> String{
-        return "https://api.infura.io/v1/jsonrpc/" + self.network.rawValue;
-    }
+//    private func getProxyUrl() -> String{
+//        return "https://api.infura.io/v3/b8cdb0e4cff24599a286bf8e87ff1c96/";
+//    }
 }
