@@ -42,9 +42,9 @@ import TorusSwiftDirectSDK
 let sub = SubVerifierDetails(loginType: .installed, // default .web
                             loginProvider: .google,
                             clientId: "<your-client-id>",
-                            verifierName: <verifier-name>,
+                            verifierName: "<verifier-name>",
                             redirectURL: "<your-redirect-url>")
-let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: <type-of-verifier>, aggregateVerifierName: <verifier-name>, subVerifierDetails: [sub])
+let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: "<type-of-verifier>," aggregateVerifierName: "<verifier-name>", subVerifierDetails: [sub])
 
 // controller is used to present a SFSafariViewController.
 tdsdk.triggerLogin(controller: <UIViewController>?).done{ data in
