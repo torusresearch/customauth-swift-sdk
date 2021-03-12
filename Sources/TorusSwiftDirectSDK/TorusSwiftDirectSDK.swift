@@ -117,7 +117,7 @@ open class TorusSwiftDirectSDK{
         return tempPromise
     }
     
-    func handleSingleIdVerifier(controller: UIViewController?) -> Promise<[String:Any]>{
+    public func handleSingleIdVerifier(controller: UIViewController?) -> Promise<[String:Any]>{
         let (tempPromise, seal) = Promise<[String:Any]>.pending()
         if let subVerifier = self.subVerifierDetails.first{
             let loginURL = subVerifier.getLoginURL()
@@ -161,7 +161,7 @@ open class TorusSwiftDirectSDK{
         return Promise(error: TSDSError.methodUnavailable)
     }
     
-    func getTorusKey(verifier: String, verifierId: String, idToken:String, userData: [String: Any]? ) -> Promise<[String: Any]>{
+    public func getTorusKey(verifier: String, verifierId: String, idToken:String, userData: [String: Any] = [:] ) -> Promise<[String: Any]>{
         let extraParams = ["verifieridentifier": self.aggregateVerifierName, "verifier_id":verifierId] as [String : Any]
         let buffer: Data = try! NSKeyedArchiver.archivedData(withRootObject: extraParams, requiringSecureCoding: false)
         
@@ -170,7 +170,7 @@ open class TorusSwiftDirectSDK{
         self.getEndpoints().then{ endpoints in
             return self.torusUtils.retrieveShares(endpoints: endpoints, verifierIdentifier: self.aggregateVerifierName, verifierId: verifierId, idToken: idToken, extraParams: buffer)
         }.done{ responseFromRetrieveShares in
-            var data = userData ?? [String: Any]()
+            var data = userData
             data["privateKey"] = responseFromRetrieveShares["privateKey"]
             data["publicAddress"] = responseFromRetrieveShares["publicAddress"]
             seal.fulfill(data)
@@ -182,7 +182,7 @@ open class TorusSwiftDirectSDK{
         return tempPromise
     }
     
-    func getAggregateTorusKey(verifier: String, verifierId: String, idToken:String, subVerifierDetails: SubVerifierDetails, userData: [String: Any]? ) -> Promise<[String: Any]>{
+    public func getAggregateTorusKey(verifier: String, verifierId: String, idToken:String, subVerifierDetails: SubVerifierDetails, userData: [String: Any] = [:]) -> Promise<[String: Any]>{
         
         let extraParams = ["verifieridentifier": verifier, "verifier_id":verifierId, "sub_verifier_ids":[subVerifierDetails.subVerifierId], "verify_params": [["verifier_id": verifierId, "idtoken": idToken]]] as [String : Any]
         let buffer: Data = try! NSKeyedArchiver.archivedData(withRootObject: extraParams, requiringSecureCoding: false)
@@ -193,7 +193,7 @@ open class TorusSwiftDirectSDK{
         self.getEndpoints().then{ endpoints in
             return self.torusUtils.retrieveShares(endpoints: endpoints, verifierIdentifier: verifier, verifierId: verifierId, idToken: hashedOnce, extraParams: buffer)
         }.done{responseFromRetrieveShares in
-            var data = userData ?? [String: Any]()
+            var data = userData
             data["userInfo"] = [data["userInfo"]!]
             data["privateKey"] = responseFromRetrieveShares["privateKey"]
             data["publicAddress"] = responseFromRetrieveShares["publicAddress"]
