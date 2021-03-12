@@ -194,7 +194,6 @@ open class TorusSwiftDirectSDK{
             return self.torusUtils.retrieveShares(endpoints: endpoints, verifierIdentifier: verifier, verifierId: verifierId, idToken: hashedOnce, extraParams: buffer)
         }.done{responseFromRetrieveShares in
             var data = userData
-            data["userInfo"] = [data["userInfo"]!]
             data["privateKey"] = responseFromRetrieveShares["privateKey"]
             data["publicAddress"] = responseFromRetrieveShares["publicAddress"]
             seal.fulfill(data)
