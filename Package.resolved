@@ -83,15 +83,6 @@
         }
       },
       {
-        "package": "TorusUtils",
-        "repositoryURL": "https://github.com/torusresearch/torus-utils-swift",
-        "state": {
-          "branch": null,
-          "revision": "03f4e6903e48af69aff0ac59e9b53646b59ae1a4",
-          "version": "0.1.2"
-        }
-      },
-      {
         "package": "Web3swift",
         "repositoryURL": "https://github.com/rathishubham7/web3swift",
         "state": {

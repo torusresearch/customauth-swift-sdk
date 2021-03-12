@@ -41,8 +41,8 @@ open class TorusSwiftDirectSDK{
         self.subVerifierDetails = subVerifierDetails
     }
     
-    public func getEndpoints() -> Promise<Bool>{
-        let (tempPromise, seal) = Promise<Bool>.pending()
+    public func getEndpoints() -> Promise<Array<String>>{
+        let (tempPromise, seal) = Promise<Array<String>>.pending()
         if(self.endpoints.isEmpty ||  self.torusNodePubKeys.isEmpty){
             do{
                 let _ = try self.fnd.getNodeDetailsPromise().done{ NodeDetails  in
@@ -51,13 +51,13 @@ open class TorusSwiftDirectSDK{
                     self.torusNodePubKeys = NodeDetails.getTorusNodePub()
                     self.endpoints = NodeDetails.getTorusNodeEndpoints()
                     self.torusUtils = TorusUtils(label: "TorusUtils", loglevel: self.logger.logLevel, nodePubKeys: self.torusNodePubKeys)
-                    seal.fulfill(true)
+                    seal.fulfill(self.endpoints)
                 }
             }catch{
                 seal.reject("failed")
             }
         }else{
-            seal.fulfill(true)
+            seal.fulfill(self.endpoints)
         }
         
         return tempPromise
@@ -96,24 +96,16 @@ open class TorusSwiftDirectSDK{
                     responseParameters += fragment.parametersFromQueryString
                 }
                 self.logger.info("ResponseParams after redirect: ", responseParameters)
-                subVerifier.getUserInfo(responseParameters: responseParameters).then{ newData -> Promise<([String:String], [String:Any])> in
+                subVerifier.getUserInfo(responseParameters: responseParameters).then{ newData -> Promise<[String: Any]> in
                     self.logger.info(newData)
                     var data = newData
                     let verifierId = data["verifierId"] as! String
                     let idToken = data["tokenForKeys"] as! String
                     data.removeValue(forKey: "tokenForKeys")
                     data.removeValue(forKey: "verifierId")
-                    
-                    let extraParams = ["verifieridentifier": self.aggregateVerifierName, "verifier_id":verifierId] as [String : Any]
-                    let buffer: Data = try! NSKeyedArchiver.archivedData(withRootObject: extraParams, requiringSecureCoding: false)
-                    
-                    return self.getEndpoints().then{ boolean in
-                        return self.torusUtils.retrieveShares(endpoints: self.endpoints, verifierIdentifier: self.aggregateVerifierName, verifierId: verifierId, idToken: idToken, extraParams: buffer).map{ ($0, data)}
-                    }
-                }.done{responseFromRetrieveShares, newData in
-                    var data = newData
-                    data["privateKey"] = responseFromRetrieveShares["privateKey"]
-                    data["publicAddress"] = responseFromRetrieveShares["publicAddress"]
+                        
+                    return self.getTorusKey(verifier: self.aggregateVerifierName, verifierId: verifierId, idToken: idToken, userData: data)
+                }.done{data in
                     seal.fulfill(data)
                 }.catch{err in
                     self.logger.error("handleSingleLogin: err:", err)
@@ -138,26 +130,16 @@ open class TorusSwiftDirectSDK{
                     responseParameters += fragment.parametersFromQueryString
                 }
                 
-                subVerifier.getUserInfo(responseParameters: responseParameters).then{ newData -> Promise<([String:String], [String:Any])> in
+                subVerifier.getUserInfo(responseParameters: responseParameters).then{ newData -> Promise<[String:Any]> in
                     var data = newData
                     let verifierId = data["verifierId"] as! String
                     let idToken = data["tokenForKeys"] as! String
                     data.removeValue(forKey: "tokenForKeys")
                     data.removeValue(forKey: "verifierId")
+                    
+                    return self.getAggregateTorusKey(verifier: self.aggregateVerifierName, verifierId: verifierId, idToken: idToken, subVerifierDetails: subVerifier, userData: newData)
 
-                    let extraParams = ["verifieridentifier": self.aggregateVerifierName, "verifier_id":verifierId, "sub_verifier_ids":[subVerifier.subVerifierId], "verify_params": [["verifier_id": verifierId, "idtoken": idToken]]] as [String : Any]
-                    let buffer: Data = try! NSKeyedArchiver.archivedData(withRootObject: extraParams, requiringSecureCoding: false)
-                    let hashedOnce = idToken.sha3(.keccak256)
-                    
-                    
-                    return self.getEndpoints().then{ boolean in
-                        return self.torusUtils.retrieveShares(endpoints: self.endpoints, verifierIdentifier: self.aggregateVerifierName, verifierId: verifierId, idToken: hashedOnce, extraParams: buffer).map{ ($0, data)}
-                    }
-                }.done{responseFromRetrieveShares, newData in
-                    var data = newData
-                    data["userInfo"] = [data["userInfo"]!]
-                    data["privateKey"] = responseFromRetrieveShares["privateKey"]
-                    data["publicAddress"] = responseFromRetrieveShares["publicAddress"]
+                }.done{data in
                     seal.fulfill(data)
                 }.catch{err in
                     self.logger.error("handleSingleIdVerifier err:", err)
@@ -177,5 +159,50 @@ open class TorusSwiftDirectSDK{
     func handleOrAggregateVerifier(controller: UIViewController?) -> Promise<[String:Any]>{
         // TODO: implement verifier
         return Promise(error: TSDSError.methodUnavailable)
+    }
+    
+    func getTorusKey(verifier: String, verifierId: String, idToken:String, userData: [String: Any]? ) -> Promise<[String: Any]>{
+        let extraParams = ["verifieridentifier": self.aggregateVerifierName, "verifier_id":verifierId] as [String : Any]
+        let buffer: Data = try! NSKeyedArchiver.archivedData(withRootObject: extraParams, requiringSecureCoding: false)
+        
+        let (tempPromise, seal) = Promise<[String: Any]>.pending()
+        
+        self.getEndpoints().then{ endpoints in
+            return self.torusUtils.retrieveShares(endpoints: endpoints, verifierIdentifier: self.aggregateVerifierName, verifierId: verifierId, idToken: idToken, extraParams: buffer)
+        }.done{ responseFromRetrieveShares in
+            var data = userData ?? [String: Any]()
+            data["privateKey"] = responseFromRetrieveShares["privateKey"]
+            data["publicAddress"] = responseFromRetrieveShares["publicAddress"]
+            seal.fulfill(data)
+        }.catch{err in
+            self.logger.error("handleSingleLogin: err:", err)
+            seal.reject(err)
+        }
+        
+        return tempPromise
+    }
+    
+    func getAggregateTorusKey(verifier: String, verifierId: String, idToken:String, subVerifierDetails: SubVerifierDetails, userData: [String: Any]? ) -> Promise<[String: Any]>{
+        
+        let extraParams = ["verifieridentifier": verifier, "verifier_id":verifierId, "sub_verifier_ids":[subVerifierDetails.subVerifierId], "verify_params": [["verifier_id": verifierId, "idtoken": idToken]]] as [String : Any]
+        let buffer: Data = try! NSKeyedArchiver.archivedData(withRootObject: extraParams, requiringSecureCoding: false)
+        let hashedOnce = idToken.sha3(.keccak256)
+        
+        let (tempPromise, seal) = Promise<[String: Any]>.pending()
+
+        self.getEndpoints().then{ endpoints in
+            return self.torusUtils.retrieveShares(endpoints: endpoints, verifierIdentifier: verifier, verifierId: verifierId, idToken: hashedOnce, extraParams: buffer)
+        }.done{responseFromRetrieveShares in
+            var data = userData ?? [String: Any]()
+            data["userInfo"] = [data["userInfo"]!]
+            data["privateKey"] = responseFromRetrieveShares["privateKey"]
+            data["publicAddress"] = responseFromRetrieveShares["publicAddress"]
+            seal.fulfill(data)
+        }.catch{err in
+            self.logger.error("handleSingleIdVerifier err:", err)
+            seal.reject(err)
+        }
+        
+        return tempPromise
     }
 }
