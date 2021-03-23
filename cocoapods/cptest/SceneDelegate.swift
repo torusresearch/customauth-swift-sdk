@@ -28,7 +28,21 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let url = URLContexts.first?.url else {
             return
         }
-        TorusSwiftDirectSDK.handle(url: url)
+        
+        let sub = SubVerifierDetails(loginType: .installed,
+                                     loginProvider: .google,
+                                     clientId: "238941746713-vfap8uumijal4ump28p9jd3lbe6onqt4.apps.googleusercontent.com",
+                                     verifierName: "google-ios",
+                                     redirectURL: "com.googleusercontent.apps.238941746713-vfap8uumijal4ump28p9jd3lbe6onqt4:/oauthredirect")
+        let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: .singleIdVerifier, aggregateVerifierName: "multigoogle-torus", subVerifierDetails: [sub], loglevel: .trace)
+        
+        tdsdk.handleSingleLoginWithURL(url: url).done{ data in
+            print("private key rebuild", data)
+        }.catch{ err in
+            print(err)
+        }
+            
+        
     }
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
