@@ -57,21 +57,21 @@ extension TorusSwiftDirectSDK{
         }
     }
     
-    public func openURL(url: String, view: UIViewController?) {
+    public func openURL(url: String, view: UIViewController?, modalPresentationStyle: UIModalPresentationStyle) {
         self.logger.info("opening URL \(url)")
         
         switch self.authorizeURLHandler {
         case .external:
             // logger.warning("If possible, please use SFSafari flow")
             let handler = ExternalURLHanlder()
-            handler.handle(URL(string: url)!)
+            handler.handle(URL(string: url)!, modalPresentationStyle: modalPresentationStyle)
         case .sfsafari:
             guard let controller = view else{
                 logger.error("UIViewController not available. Please modify triggerLogin(controller:)")
                 return
             }
             let handler = SFURLHandler(viewController: controller)
-            handler.handle(URL(string: url)!)
+            handler.handle(URL(string: url)!, modalPresentationStyle: modalPresentationStyle)
         case .none:
             logger.error("Cannot access specified browser")
         }
@@ -89,6 +89,17 @@ extension TorusSwiftDirectSDK{
         // TorusSwiftDirectSDK.logger.info("Posting notification after Universal link/deep link flow")
         let notification = Notification(name: TorusSwiftDirectSDK.didHandleCallbackURL, object: nil, userInfo: ["URL":url])
         notificationCenter.post(notification)
+    }
+    
+    open class func parseURL(url: URL) -> [String: String]{
+        var responseParameters = [String: String]()
+        if let query = url.query {
+            responseParameters += query.parametersFromQueryString
+        }
+        if let fragment = url.fragment, !fragment.isEmpty {
+            responseParameters += fragment.parametersFromQueryString
+        }
+        return responseParameters
     }
     
     // Run on main block

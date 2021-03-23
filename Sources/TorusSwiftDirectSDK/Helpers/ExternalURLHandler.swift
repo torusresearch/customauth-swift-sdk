@@ -11,7 +11,7 @@ import UIKit
 
 class ExternalURLHanlder: TorusURLHandlerTypes{
     
-    open func handle(_ url: URL) {
+    open func handle(_ url: URL, modalPresentationStyle: UIModalPresentationStyle) {
         if #available(iOS 10.0, *) {
             UIApplication.shared.open(url)
         } else {

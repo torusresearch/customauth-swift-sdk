@@ -2,7 +2,7 @@ import Foundation
 
 extension String {
 
-    var parametersFromQueryString: [String: String] {
+    public var parametersFromQueryString: [String: String] {
         return dictionaryBySplitting("&", keyValueSeparator: "=")
     }
 

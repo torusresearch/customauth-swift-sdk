@@ -54,6 +54,10 @@ struct ContentView: View {
                                                          verifierName: "google-ios",
                                                          redirectURL: "com.googleusercontent.apps.238941746713-vfap8uumijal4ump28p9jd3lbe6onqt4:/oauthredirect")
                             let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: .singleIdVerifier, aggregateVerifierName: "multigoogle-torus", subVerifierDetails: [sub], loglevel: .trace)
+//                            let loginURL = sub.getLoginURL()
+                            
+//                            self.showSafari = true
+                            
                             tdsdk.triggerLogin(browserType: .sfsafari).done{ data in
                                 print("private key rebuild", data)
                             }.catch{ err in
