@@ -32,8 +32,10 @@ open class SFURLHandler: NSObject, SFSafariViewControllerDelegate, TorusURLHandl
         self.dismiss = dismiss
     }
     
-    @objc open func handle(_ url: URL) {
+    @objc open func handle(_ url: URL, modalPresentationStyle: UIModalPresentationStyle = .fullScreen) {
         let controller = SFSafariViewController(url: url)
+        controller.modalPresentationStyle = modalPresentationStyle
+        controller.dismissButtonStyle = .cancel
         controller.delegate = self
         
         // Present on main queue
