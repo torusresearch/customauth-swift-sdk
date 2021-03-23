@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
   spec.name         = "Torus-directSDK"
-  spec.version      = "0.2.3"
+  spec.version      = "0.3.0"
   spec.platform = :ios, "10.0"
   spec.summary      = "Swift SDK that allows applications to directly interact with the Torus Network, similar to how Torus Wallet does."
   spec.homepage     = "https://github.com/torusresearch/torus-direct-swift-sdk"
