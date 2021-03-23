@@ -28,7 +28,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let url = URLContexts.first?.url else {
             return
         }
-        TorusSwiftDirectSDK.handle(url: urlToOpen)
+        TorusSwiftDirectSDK.handle(url: url)
     }
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
