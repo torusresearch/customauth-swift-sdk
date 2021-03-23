@@ -63,20 +63,20 @@ open class TorusSwiftDirectSDK{
         return tempPromise
     }
     
-    public func triggerLogin(controller: UIViewController? = nil, browserType: URLOpenerTypes = .sfsafari, modalPresentationStyle: UIModalPresentationStyle? = .fullScreen) -> Promise<[String:Any]>{
+    public func triggerLogin(controller: UIViewController? = nil, browserType: URLOpenerTypes = .sfsafari, modalPresentationStyle: UIModalPresentationStyle = .fullScreen) -> Promise<[String:Any]>{
         
         // Set browser
         self.authorizeURLHandler = browserType
         
         switch self.aggregateVerifierType{
             case .singleLogin:
-                return handleSingleLogins(controller: controller, modalPresentationStyle: modalPresentationStyle ?? .fullScreen)
+                return handleSingleLogins(controller: controller, modalPresentationStyle: modalPresentationStyle)
             case .andAggregateVerifier:
                 return handleAndAggregateVerifier(controller: controller)
             case .orAggregateVerifier:
                 return handleOrAggregateVerifier(controller: controller)
             case .singleIdVerifier:
-                return handleSingleIdVerifier(controller: controller, modalPresentationStyle: modalPresentationStyle!)
+                return handleSingleIdVerifier(controller: controller, modalPresentationStyle: modalPresentationStyle)
             case .none:
                 return Promise(error: TSDSError.methodUnavailable)
         }
@@ -200,38 +200,6 @@ open class TorusSwiftDirectSDK{
         }.catch{err in
             self.logger.error("handleSingleIdVerifier err:", err)
             seal.reject(err)
-        }
-        
-        return tempPromise
-    }
-    
-    public func handleSingleLoginWithURL(url: URL) -> Promise<[String:Any]>{
-        let (tempPromise, seal) = Promise<[String:Any]>.pending()
-        if let subVerifier = self.subVerifierDetails.first{
-            self.logger.info(url)
-            var responseParameters = [String: String]()
-            if let query = url.query {
-                responseParameters += query.parametersFromQueryString
-            }
-            if let fragment = url.fragment, !fragment.isEmpty {
-                responseParameters += fragment.parametersFromQueryString
-            }
-            self.logger.info("ResponseParams after redirect: ", responseParameters)
-            subVerifier.getUserInfo(responseParameters: responseParameters).then{ newData -> Promise<[String: Any]> in
-                self.logger.info(newData)
-                var data = newData
-                let verifierId = data["verifierId"] as! String
-                let idToken = data["tokenForKeys"] as! String
-                data.removeValue(forKey: "tokenForKeys")
-                data.removeValue(forKey: "verifierId")
-                
-                return self.getTorusKey(verifier: self.aggregateVerifierName, verifierId: verifierId, idToken: idToken, userData: data)
-            }.done{data in
-                seal.fulfill(data)
-            }.catch{err in
-                self.logger.error("handleSingleLogin: err:", err)
-                seal.reject(err)
-            }
         }
         
         return tempPromise
