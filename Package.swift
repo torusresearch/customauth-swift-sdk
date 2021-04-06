@@ -12,8 +12,8 @@ let package = Package(
     ],
     dependencies: [
         .package(name:"BestLogger", url: "https://github.com/rathishubham7/swift-logger", from: "0.0.1"),
-//        .package(name:"TorusUtils", url: "https://github.com/torusresearch/torus-utils-swift", .upToNextMinor(from: "0.1.0")),
-        .package(name: "TorusUtils", path: "../torus-utils-swift"),
+        .package(name:"TorusUtils", url: "https://github.com/torusresearch/torus-utils-swift", .upToNextMinor(from: "0.1.0")),
+//        .package(name: "TorusUtils", path: "../torus-utils-swift"),
         .package(url: "https://github.com/krzyzanowskim/CryptoSwift.git", ._exactItem("1.3.2"))
     ],
     targets: [
