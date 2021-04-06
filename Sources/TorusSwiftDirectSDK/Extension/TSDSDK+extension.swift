@@ -41,7 +41,7 @@ extension TorusSwiftDirectSDK{
         }
     }
     
-    func observeCallback(_ block: @escaping (_ url: URL) -> Void) {
+    public func observeCallback(_ block: @escaping (_ url: URL) -> Void) {
         self.observer = TorusSwiftDirectSDK.notificationCenter.addObserver(
             forName: TorusSwiftDirectSDK.didHandleCallbackURL,
             object: nil,
@@ -91,7 +91,7 @@ extension TorusSwiftDirectSDK{
         notificationCenter.post(notification)
     }
     
-    open class func parseURL(url: URL) -> [String: String]{
+    public func parseURL(url: URL) -> [String: String]{
         var responseParameters = [String: String]()
         if let query = url.query {
             responseParameters += query.parametersFromQueryString
