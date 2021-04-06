@@ -1,6 +1,6 @@
 import Foundation
 
-extension String {
+public extension String {
 
     public var parametersFromQueryString: [String: String] {
         return dictionaryBySplitting("&", keyValueSeparator: "=")
@@ -34,7 +34,7 @@ extension String {
         return "\(self)\(self.contains("?") ? "&" : "?")\(query)"
     }
 
-    fileprivate func dictionaryBySplitting(_ elementSeparator: String, keyValueSeparator: String) -> [String: String] {
+    public func dictionaryBySplitting(_ elementSeparator: String, keyValueSeparator: String) -> [String: String] {
         var string = self
 
         if hasPrefix(elementSeparator) {

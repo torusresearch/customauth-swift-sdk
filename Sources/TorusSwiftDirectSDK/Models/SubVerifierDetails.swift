@@ -42,7 +42,7 @@ public struct SubVerifierDetails {
         return self.handler.getLoginURL()
     }
     
-    func getUserInfo(responseParameters: [String:String]) -> Promise<[String:Any]>{
+    public func getUserInfo(responseParameters: [String:String]) -> Promise<[String:Any]>{
         return self.handler.getUserInfo(responseParameters: responseParameters)
     }
 }
