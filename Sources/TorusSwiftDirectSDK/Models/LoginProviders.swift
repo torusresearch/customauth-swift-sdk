@@ -20,7 +20,20 @@ public enum LoginProviders : String {
     case email_password = "Username-Password-Authentication"
     case jwt = "jwt"
     
-    func getHandler(loginType: SubVerifierType, clientID: String, redirectURL: String, browserRedirectURL: String?,  extraQueryParams: [String:String], jwtParams: [String: String]) -> AbstractLoginHandler{
+    func getHandler(loginType: SubVerifierType, clientID: String, subverifierId: String, redirectURL: String, browserRedirectURL: String?,  extraQueryParams: [String:String], jwtParams: [String: String]) throws -> AbstractLoginHandler{
+        
+        // Validate params
+        if(clientID.isEmpty){
+            throw TSDSError.custom(error: "ClientID is empty")
+        }else if(subverifierId.isEmpty){
+            throw TSDSError.custom(error: "VerifierID is missing")
+        }
+        
+        if(loginType == .installed && self != .google){
+            throw TSDSError.loginTypeNotSupported
+        }
+        
+        
         switch self {
             case .google:
                 return GoogleloginHandler(loginType: loginType, clientID: clientID, redirectURL: redirectURL, browserRedirectURL: browserRedirectURL, extraQueryParams: extraQueryParams)

@@ -50,7 +50,6 @@ class RedditLoginHandler: AbstractLoginHandler{
         urlComponents.setQueryItems(with: tempParams)
         
         return urlComponents.url!.absoluteString
-        //      return "https://www.reddit.com/api/v1/authorize?client_id=\(self.clientId)&redirect_uri=\(newRedirectURL)&response_type=token&scope=identity&state=dfasdfs"
     }
     
     func getVerifierFromUserInfo() -> String {

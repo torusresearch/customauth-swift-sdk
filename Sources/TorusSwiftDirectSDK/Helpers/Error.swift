@@ -7,6 +7,8 @@ public enum TSDSError: Error {
     case idTokenFailed
     case unknownError
     case methodUnavailable
+    case loginTypeNotSupported
+    case custom(error: String)
     
     public var errorDescription: String {
         switch self {
@@ -26,6 +28,10 @@ public enum TSDSError: Error {
             return "unknownError"
         case .methodUnavailable:
             return "method unavailable/unimplemented"
+        case .loginTypeNotSupported:
+            return "loginType not supported"
+            case .custom(error: let error):
+                return error
         }
     }
 }

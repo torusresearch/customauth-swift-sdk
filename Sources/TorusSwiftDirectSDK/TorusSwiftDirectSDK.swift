@@ -85,7 +85,10 @@ open class TorusSwiftDirectSDK{
     public func handleSingleLogins(controller: UIViewController?, modalPresentationStyle: UIModalPresentationStyle = .fullScreen) -> Promise<[String:Any]>{
         let (tempPromise, seal) = Promise<[String:Any]>.pending()
         if let subVerifier = self.subVerifierDetails.first{
-            let loginURL = subVerifier.getLoginURL()
+            
+            let loginURL = try? subVerifier.getLoginURL()
+            seal.reject(TSDSError.loginTypeNotSupported)
+            
             observeCallback{ url in
                 self.logger.info(url)
                 var responseParameters = [String: String]()
@@ -112,7 +115,7 @@ open class TorusSwiftDirectSDK{
                     seal.reject(err)
                 }
             }
-            openURL(url: loginURL, view: controller, modalPresentationStyle: modalPresentationStyle) // Open in external safari
+            openURL(url: loginURL!, view: controller, modalPresentationStyle: modalPresentationStyle) // Open in external safari
         }
         return tempPromise
     }
@@ -120,7 +123,10 @@ open class TorusSwiftDirectSDK{
     public func handleSingleIdVerifier(controller: UIViewController?, modalPresentationStyle: UIModalPresentationStyle = .fullScreen) -> Promise<[String:Any]>{
         let (tempPromise, seal) = Promise<[String:Any]>.pending()
         if let subVerifier = self.subVerifierDetails.first{
-            let loginURL = subVerifier.getLoginURL()
+            
+            let loginURL = try? subVerifier.getLoginURL()
+            seal.reject(TSDSError.loginTypeNotSupported)
+
             observeCallback{ url in
                 var responseParameters = [String: String]()
                 if let query = url.query {
@@ -146,7 +152,7 @@ open class TorusSwiftDirectSDK{
                     seal.reject(err)
                 }
             }
-            openURL(url: loginURL, view: controller, modalPresentationStyle: modalPresentationStyle)
+            openURL(url: loginURL!, view: controller, modalPresentationStyle: modalPresentationStyle)
         }
         return tempPromise
     }

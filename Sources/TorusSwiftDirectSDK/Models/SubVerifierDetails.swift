@@ -9,6 +9,7 @@ import Foundation
 import PromiseKit
 
 // Type of OAuth application created. ex. google web app/google iOS app
+// Currently, only google supports .installed applications
 public enum SubVerifierType : String{
     case installed = "installed"
     case web = "web"
@@ -29,17 +30,17 @@ public struct SubVerifierDetails {
         case subVerifierId
     }
     
-    public init(loginType: SubVerifierType = .web, loginProvider: LoginProviders, clientId: String, verifierName subverifierId: String, redirectURL: String, browserRedirectURL: String? = nil, extraQueryParams: [String:String] = [:], jwtParams: [String:String] = [:]) {
+    public init(loginType: SubVerifierType = .web, loginProvider: LoginProviders, clientId: String, verifierName subverifierId: String, redirectURL: String, browserRedirectURL: String? = nil, extraQueryParams: [String:String] = [:], jwtParams: [String:String] = [:]) throws{
         self.loginType = loginType
         self.clientId = clientId
         self.loginProvider = loginProvider
         self.subVerifierId = subverifierId
         self.redirectURL = redirectURL
-        self.handler = self.loginProvider.getHandler(loginType: loginType, clientID: self.clientId, redirectURL: self.redirectURL, browserRedirectURL: browserRedirectURL, extraQueryParams: extraQueryParams, jwtParams: jwtParams)
+        self.handler = try self.loginProvider.getHandler(loginType: loginType, clientID: clientId, subverifierId: subverifierId, redirectURL: self.redirectURL, browserRedirectURL: browserRedirectURL, extraQueryParams: extraQueryParams, jwtParams: jwtParams)
     }
     
-    public func getLoginURL() -> String{
-        return self.handler.getLoginURL()
+    public func getLoginURL() throws -> String{
+        return try self.handler.getLoginURL()
     }
     
     public func getUserInfo(responseParameters: [String:String]) -> Promise<[String:Any]>{

@@ -42,10 +42,15 @@ class JWTLoginHandler: AbstractLoginHandler{
         return self.handleLogin(responseParameters: responseParameters)
     }
     
-    func getLoginURL() -> String{
+    func getLoginURL() throws -> String{
         // left join
         var tempParams = self.defaultParams
-        let paramsToJoin : [String: String] = ["redirect_uri": self.browserRedirectURL ?? self.redirectURL, "client_id": self.clientID, "domain": jwtParams["domain"]!, "state": self.state]
+        
+        guard let domain = jwtParams["domain"] else {
+            throw TSDSError.accessTokenAPIFailed
+        }
+        
+        let paramsToJoin : [String: String] = ["redirect_uri": self.browserRedirectURL ?? self.redirectURL, "client_id": self.clientID, "domain": domain, "state": self.state]
         tempParams.merge(paramsToJoin){(_, new ) in new}
         tempParams.merge(self.extraQueryParams){(_, new ) in new}
         
