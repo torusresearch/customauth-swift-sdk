@@ -14,10 +14,9 @@ import BestLogger
 
 @available(iOS 11.0, *)
 open class TorusSwiftDirectSDK{
-    
-    var torusUtils : TorusUtils!
     var endpoints = Array<String>()
     var torusNodePubKeys = Array<TorusNodePub>()
+    let torusUtils : AbstractTorusUtils
     let aggregateVerifierType: verifierTypes?
     let aggregateVerifierName: String
     let fnd: FetchNodeDetails
@@ -26,9 +25,10 @@ open class TorusSwiftDirectSDK{
     var authorizeURLHandler: URLOpenerTypes?
     var observer: NSObjectProtocol? // useful for Notifications
     
-    public init(aggregateVerifierType: verifierTypes, aggregateVerifierName: String, subVerifierDetails: [SubVerifierDetails], network: EthereumNetwork = .ROPSTEN, loglevel: BestLogger.Level = .none){
+    public init(aggregateVerifierType: verifierTypes, aggregateVerifierName: String, subVerifierDetails: [SubVerifierDetails], network: EthereumNetwork = .ROPSTEN, loglevel: BestLogger.Level = .none, torusUtils: AbstractTorusUtils = MainTorusUtils()) {
         // loggers
-        self.torusUtils = TorusUtils(label: "TorusUtils", loglevel: loglevel)
+        self.torusUtils = torusUtils
+        self.torusUtils.initialize(label: "TorusUtils", loglevel: loglevel)
         self.logger = BestLogger(label: "TorusLogger", level: loglevel)
         
         // FetchNodedetails - Initialised with ropsten proxyaddress
@@ -46,11 +46,10 @@ open class TorusSwiftDirectSDK{
         if(self.endpoints.isEmpty ||  self.torusNodePubKeys.isEmpty){
             do{
                 let _ = try self.fnd.getNodeDetailsPromise().done{ NodeDetails  in
-                    
                     // Reinit for the 1st login or if data is missing
                     self.torusNodePubKeys = NodeDetails.getTorusNodePub()
                     self.endpoints = NodeDetails.getTorusNodeEndpoints()
-                    self.torusUtils = TorusUtils(label: "TorusUtils", loglevel: self.logger.logLevel, nodePubKeys: self.torusNodePubKeys)
+                    self.torusUtils.initialize(label: "TorusUtils", loglevel: self.logger.logLevel, nodePubKeys: self.torusNodePubKeys)
                     seal.fulfill(self.endpoints)
                 }
             }catch{
@@ -64,7 +63,6 @@ open class TorusSwiftDirectSDK{
     }
     
     public func triggerLogin(controller: UIViewController? = nil, browserType: URLOpenerTypes = .sfsafari, modalPresentationStyle: UIModalPresentationStyle = .fullScreen) -> Promise<[String:Any]>{
-        
         // Set browser
         self.authorizeURLHandler = browserType
         
@@ -183,7 +181,6 @@ open class TorusSwiftDirectSDK{
     }
     
     public func getAggregateTorusKey(verifier: String, verifierId: String, idToken:String, subVerifierDetails: SubVerifierDetails, userData: [String: Any] = [:]) -> Promise<[String: Any]>{
-        
         let extraParams = ["verifieridentifier": verifier, "verifier_id":verifierId, "sub_verifier_ids":[subVerifierDetails.subVerifierId], "verify_params": [["verifier_id": verifierId, "idtoken": idToken]]] as [String : Any]
         let buffer: Data = try! NSKeyedArchiver.archivedData(withRootObject: extraParams, requiringSecureCoding: false)
         let hashedOnce = idToken.sha3(.keccak256)

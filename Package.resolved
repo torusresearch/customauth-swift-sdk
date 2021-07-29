@@ -11,7 +11,7 @@
         }
       },
       {
-        "package": "BlueECC",
+        "package": "CryptorECC",
         "repositoryURL": "https://github.com/IBM-Swift/BlueECC.git",
         "state": {
           "branch": null,
@@ -29,7 +29,16 @@
         }
       },
       {
-        "package": "fetch-node-details-swift",
+        "package": "Fakery",
+        "repositoryURL": "https://github.com/vadymmarkov/Fakery",
+        "state": {
+          "branch": null,
+          "revision": "71cb3bf36a808534659d1248780c2bf3c4c4fc91",
+          "version": "5.1.0"
+        }
+      },
+      {
+        "package": "FetchNodeDetails",
         "repositoryURL": "https://github.com/torusresearch/fetch-node-details-swift",
         "state": {
           "branch": null,
@@ -38,7 +47,7 @@
         }
       },
       {
-        "package": "Foundation",
+        "package": "PMKFoundation",
         "repositoryURL": "https://github.com/PromiseKit/Foundation.git",
         "state": {
           "branch": null,
@@ -65,7 +74,7 @@
         }
       },
       {
-        "package": "swift-logger",
+        "package": "BestLogger",
         "repositoryURL": "https://github.com/rathishubham7/swift-logger",
         "state": {
           "branch": null,
@@ -83,7 +92,7 @@
         }
       },
       {
-        "package": "torus-utils-swift",
+        "package": "TorusUtils",
         "repositoryURL": "https://github.com/torusresearch/torus-utils-swift",
         "state": {
           "branch": null,
@@ -92,7 +101,7 @@
         }
       },
       {
-        "package": "web3swift",
+        "package": "Web3swift",
         "repositoryURL": "https://github.com/rathishubham7/web3swift",
         "state": {
           "branch": null,
