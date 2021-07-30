@@ -21,7 +21,10 @@ final class TorusSwiftDirectSDKTests: XCTestCase {
             "publicAddress": expectedPublicAddress
         ]
         
-        let torusSwiftDirectSDK = TorusSwiftDirectSDK(aggregateVerifierType: .singleLogin, aggregateVerifierName: expectedVerifier, subVerifierDetails: [SubVerifierDetails(loginProvider: .jwt, clientId: faker.internet.ipV4Address(), verifierName: expectedVerifier, redirectURL: faker.internet.url())], torusUtils: mockTorusUtils)
+        let torusSwiftDirectSDK = TorusSwiftDirectSDKBuilder(verifierType: .singleLogin, verfierName: expectedVerifier)
+            .withSubVerifierDetails([SubVerifierDetails(loginProvider: .jwt, clientId: faker.internet.ipV4Address(), verifierName: expectedVerifier, redirectURL: faker.internet.url())])
+            .withTorusUtils(mockTorusUtils)
+            .build()
         torusSwiftDirectSDK.getTorusKey(verifier: expectedVerifier, verifierId: expectedVerfierId, idToken: faker.lorem.sentences(amount: 10))
             .done { data in
                 XCTAssertEqual(mockTorusUtils.retrieveShares_input["endpoints"] as? [String], torusSwiftDirectSDK.endpoints)
@@ -51,7 +54,10 @@ final class TorusSwiftDirectSDKTests: XCTestCase {
             "publicAddress": expectedPublicAddress
         ]
         
-        let torusSwiftDirectSDK = TorusSwiftDirectSDK(aggregateVerifierType: .singleLogin, aggregateVerifierName: expectedVerifier, subVerifierDetails: [SubVerifierDetails(loginProvider: .google, clientId: faker.internet.ipV4Address(), verifierName: expectedVerifier, redirectURL: faker.internet.url())], torusUtils: mockTorusUtils)
+        let torusSwiftDirectSDK = TorusSwiftDirectSDKBuilder(verifierType: .singleLogin, verfierName: expectedVerifier)
+            .withSubVerifierDetails([SubVerifierDetails(loginProvider: .jwt, clientId: faker.internet.ipV4Address(), verifierName: expectedVerifier, redirectURL: faker.internet.url())])
+            .withTorusUtils(mockTorusUtils)
+            .build()
         torusSwiftDirectSDK.getAggregateTorusKey(verifier: expectedVerifier, verifierId: expectedVerfierId, idToken: faker.lorem.sentences(amount: 10), subVerifierDetails: SubVerifierDetails(loginProvider: .jwt, clientId: faker.internet.ipV4Address(), verifierName: expectedVerifier, redirectURL: faker.internet.url()))
             .done { data in
                 XCTAssertEqual(mockTorusUtils.retrieveShares_input["endpoints"] as? [String], torusSwiftDirectSDK.endpoints)
