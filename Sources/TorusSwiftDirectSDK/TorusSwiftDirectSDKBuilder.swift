@@ -36,14 +36,13 @@ public class TorusSwiftDirectSDKBuilder {
         self.torusUtils = torusUtils
         return self
     }
-    
-    public func build() -> TorusSwiftDirectSDK {
-        return TorusSwiftDirectSDK(
-            aggregateVerifierType: self.aggregateVerifierType,
-            aggregateVerifierName: self.aggregateVerifierName,
-            subVerifierDetails: self.subVerifierDetails,
-            network: self.network,
-            loglevel: self.loglevel,
-            torusUtils: self.torusUtils)
-    }
+//
+//    public func build() -> TorusSwiftDirectSDK {
+//        return TorusSwiftDirectSDK(
+//            aggregateVerifierType: self.aggregateVerifierType,
+//            aggregateVerifierName: self.aggregateVerifierName,
+//            subVerifierDetails: self.subVerifierDetails, factory: <#TorusDirectSwiftSDKFactory#>,
+//            network: self.network,
+//            loglevel: self.loglevel)
+//    }
 }
