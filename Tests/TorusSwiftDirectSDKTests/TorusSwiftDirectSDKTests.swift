@@ -62,13 +62,6 @@ final class TorusSwiftDirectSDKTests: XCTestCase {
         
         torusSwiftDirectSDK.getAggregateTorusKey(verifier: expectedVerifier, verifierId: expectedVerfierId, idToken: faker.lorem.sentences(amount: 10), subVerifierDetails: subVerifier[0])
             .done { data in
-//                let mockTorusUtils = torusSwiftDirectSDK.torusUtils as! MockAbstractTorusUtils
-//                XCTAssertEqual(mockTorusUtils.retrieveShares_input["endpoints"] as? [String], torusSwiftDirectSDK.endpoints)
-//                XCTAssertEqual(mockTorusUtils.retrieveShares_input["verifierIdentifier"] as? String, expectedVerifier)
-//                XCTAssertEqual(mockTorusUtils.retrieveShares_input["verifierId"] as? String, expectedVerfierId)
-//                XCTAssertEqual(data["privateKey"] as? String, expectedPrivateKey)
-//                XCTAssertEqual(data["publicAddress"] as? String, expectedPublicAddress)
-//
                 let mockTorusUtils = torusSwiftDirectSDK.torusUtils as! MockAbstractTorusUtils
                 XCTAssertEqual(mockTorusUtils.retrieveShares_input["endpoints"] as? [String], torusSwiftDirectSDK.endpoints)
                 XCTAssertEqual(mockTorusUtils.retrieveShares_input["verifierIdentifier"] as? String, expectedVerifier)
