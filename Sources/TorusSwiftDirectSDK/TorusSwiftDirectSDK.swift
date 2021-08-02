@@ -17,9 +17,9 @@ open class TorusSwiftDirectSDK{
     var endpoints = Array<String>()
     var torusNodePubKeys = Array<TorusNodePub>()
 
-    let factory: TorusDirectSwiftSDKFactory
+    let factory: TDSDKFactoryProtocol
     var torusUtils: AbstractTorusUtils
-    let fnd: FetchNodeDetails
+    let fetchNodeDetails: FetchNodeDetails
     let logger: BestLogger
 
     let aggregateVerifierType: verifierTypes?
@@ -28,13 +28,13 @@ open class TorusSwiftDirectSDK{
     var authorizeURLHandler: URLOpenerTypes?
     var observer: NSObjectProtocol? // useful for Notifications
     
-    public init(aggregateVerifierType: verifierTypes, aggregateVerifierName: String, subVerifierDetails: [SubVerifierDetails], factory: TorusDirectSwiftSDKFactory, network: EthereumNetwork = .ROPSTEN,  loglevel: BestLogger.Level = .none) {
+    public init(aggregateVerifierType: verifierTypes, aggregateVerifierName: String, subVerifierDetails: [SubVerifierDetails], factory: TDSDKFactoryProtocol, network: EthereumNetwork = .MAINNET, loglevel: BestLogger.Level = .none) {
         
         // factory method
         self.factory = factory
         self.torusUtils = factory.createTorusUtils(level: loglevel, nodePubKeys: [])
         self.logger = factory.createLogger(label: "TorusSwiftDirectSDK", level: loglevel)
-        self.fnd = factory.createFetchNodeDetails(network: network)
+        self.fetchNodeDetails = factory.createFetchNodeDetails(network: network)
         
         // verifier details
         self.aggregateVerifierName = aggregateVerifierName
@@ -42,11 +42,21 @@ open class TorusSwiftDirectSDK{
         self.subVerifierDetails = subVerifierDetails
     }
     
+    public convenience init(aggregateVerifierType: verifierTypes, aggregateVerifierName: String, subVerifierDetails: [SubVerifierDetails]){
+        let factory = TDSDKFactory()
+        self.init(aggregateVerifierType: aggregateVerifierType, aggregateVerifierName: aggregateVerifierName, subVerifierDetails: subVerifierDetails, factory: factory, network: .MAINNET, loglevel: .none)
+    }
+    
+    public convenience init(aggregateVerifierType: verifierTypes, aggregateVerifierName: String, subVerifierDetails: [SubVerifierDetails], network: EthereumNetwork){
+        let factory = TDSDKFactory()
+        self.init(aggregateVerifierType: aggregateVerifierType, aggregateVerifierName: aggregateVerifierName, subVerifierDetails: subVerifierDetails, factory: factory, network: network, loglevel: .none)
+    }
+    
     public func getNodeDetailsFromContract() -> Promise<Array<String>>{
         let (tempPromise, seal) = Promise<Array<String>>.pending()
         if(self.endpoints.isEmpty ||  self.torusNodePubKeys.isEmpty){
             do{
-                let _ = try self.fnd.getNodeDetailsPromise().done{ NodeDetails  in 
+                let _ = try self.fetchNodeDetails.getNodeDetailsPromise().done{ NodeDetails  in
                     // Reinit for the 1st login or if data is missing
                     self.torusNodePubKeys = NodeDetails.getTorusNodePub()
                     self.endpoints = NodeDetails.getTorusNodeEndpoints()

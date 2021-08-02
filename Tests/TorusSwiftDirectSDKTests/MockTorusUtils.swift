@@ -5,6 +5,7 @@ import TorusUtils
 import FetchNodeDetails
 import TorusSwiftDirectSDK
 
+// Added so the that we can assign values later.
 public protocol MockAbstractTorusUtils{
     var retrieveShares_input: [String: Any] {get set}
     var retrieveShares_output: [String: String] {get set}
@@ -21,12 +22,7 @@ class MockTorusUtils: AbstractTorusUtils, MockAbstractTorusUtils {
     var label: String?
     var loglevel: BestLogger.Level?
     var nodePubKeys: Array<TorusNodePub>?
-    
-    //    init(privateKey: String, publicKey: String){
-    //        self.retrieveShares_output["privateKey"] = privateKey
-    //        self.retrieveShares_output["publicAddress"] = publicKey
-    //    }
-    
+
     init(){
         
     }

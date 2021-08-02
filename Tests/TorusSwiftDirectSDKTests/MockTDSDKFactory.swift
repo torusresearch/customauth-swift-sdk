@@ -12,15 +12,7 @@ import TorusUtils
 import BestLogger
 import TorusSwiftDirectSDK
 
-public class MockFactory: TorusDirectSwiftSDKFactory{
-//    let privateKey: String
-//    let publicKey: String
-    
-//    init(privateKey: String, publicKey: String){
-//        self.privateKey = privateKey
-//        self.publicKey = publicKey
-//    }
-    
+public class MockFactory: TDSDKFactoryProtocol{
     init(){}
     
     public func createFetchNodeDetails(network: EthereumNetwork) -> FetchNodeDetails {

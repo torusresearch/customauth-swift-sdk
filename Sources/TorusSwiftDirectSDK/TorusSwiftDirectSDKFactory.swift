@@ -10,14 +10,14 @@ import TorusUtils
 import FetchNodeDetails
 import BestLogger
 
-public protocol TorusDirectSwiftSDKFactory{
+public protocol TDSDKFactoryProtocol{
     func createTorusUtils(level: BestLogger.Level, nodePubKeys: Array<TorusNodePub>) -> AbstractTorusUtils
     func createFetchNodeDetails(network: EthereumNetwork) -> FetchNodeDetails
     func createLogger(label: String, level: BestLogger.Level) -> BestLogger
 }
 
 
-public class FactoryCreator: TorusDirectSwiftSDKFactory{
+public class TDSDKFactory: TDSDKFactoryProtocol{
     public func createFetchNodeDetails(network: EthereumNetwork) -> FetchNodeDetails {
         let net = network == .MAINNET ? "0x638646503746d5456209e33a2ff5e3226d698bea" : "0x4023d2a0D330bF11426B12C6144Cfb96B7fa6183"
         return FetchNodeDetails(proxyAddress: net, network: network)
@@ -28,6 +28,6 @@ public class FactoryCreator: TorusDirectSwiftSDKFactory{
     }
     
     public func createTorusUtils(level: BestLogger.Level, nodePubKeys: Array<TorusNodePub> = []) -> AbstractTorusUtils {
-        return TorusUtils(label: "TorusUtils", loglevel: level, nodePubKeys: nodePubKeys) as! AbstractTorusUtils
+        return TorusUtils(label: "TorusUtils", loglevel: level, nodePubKeys: nodePubKeys)
     }
 }
