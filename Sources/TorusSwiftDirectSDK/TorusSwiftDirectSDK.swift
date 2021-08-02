@@ -28,7 +28,7 @@ open class TorusSwiftDirectSDK{
     var authorizeURLHandler: URLOpenerTypes?
     var observer: NSObjectProtocol? // useful for Notifications
     
-    public init(aggregateVerifierType: verifierTypes, aggregateVerifierName: String, subVerifierDetails: [SubVerifierDetails], factory: TorusDirectSwiftSDKFactory, network: EthereumNetwork = .ROPSTEN, loglevel: BestLogger.Level = .none) {
+    public init(aggregateVerifierType: verifierTypes, aggregateVerifierName: String, subVerifierDetails: [SubVerifierDetails], factory: TorusDirectSwiftSDKFactory, network: EthereumNetwork = .ROPSTEN,  loglevel: BestLogger.Level = .none) {
         
         // factory method
         self.factory = factory
@@ -42,7 +42,7 @@ open class TorusSwiftDirectSDK{
         self.subVerifierDetails = subVerifierDetails
     }
     
-    public func getEndpoints() -> Promise<Array<String>>{
+    public func getNodeDetailsFromContract() -> Promise<Array<String>>{
         let (tempPromise, seal) = Promise<Array<String>>.pending()
         if(self.endpoints.isEmpty ||  self.torusNodePubKeys.isEmpty){
             do{
@@ -50,7 +50,8 @@ open class TorusSwiftDirectSDK{
                     // Reinit for the 1st login or if data is missing
                     self.torusNodePubKeys = NodeDetails.getTorusNodePub()
                     self.endpoints = NodeDetails.getTorusNodeEndpoints()
-                    self.torusUtils = self.factory.createTorusUtils(level: self.logger.logLevel, nodePubKeys: self.torusNodePubKeys)
+                    self.torusUtils.setTorusNodePubKeys(nodePubKeys: self.torusNodePubKeys)
+                    // self.torusUtils = self.factory.createTorusUtils(level: self.logger.logLevel, nodePubKeys: self.torusNodePubKeys)
                     seal.fulfill(self.endpoints)
                 }
             }catch{
@@ -166,7 +167,7 @@ open class TorusSwiftDirectSDK{
         
         let (tempPromise, seal) = Promise<[String: Any]>.pending()
         
-        self.getEndpoints().then{ endpoints in
+        self.getNodeDetailsFromContract().then{ endpoints in
             return self.torusUtils.retrieveShares(endpoints: endpoints, verifierIdentifier: self.aggregateVerifierName, verifierId: verifierId, idToken: idToken, extraParams: buffer)
         }.done{ responseFromRetrieveShares in
             var data = userData
@@ -188,7 +189,7 @@ open class TorusSwiftDirectSDK{
         
         let (tempPromise, seal) = Promise<[String: Any]>.pending()
         
-        self.getEndpoints().then{ endpoints in
+        self.getNodeDetailsFromContract().then{ endpoints in
             return self.torusUtils.retrieveShares(endpoints: endpoints, verifierIdentifier: verifier, verifierId: verifierId, idToken: hashedOnce, extraParams: buffer)
         }.done{responseFromRetrieveShares in
             var data = userData
