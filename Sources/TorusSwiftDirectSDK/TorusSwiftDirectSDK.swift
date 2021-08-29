@@ -54,19 +54,15 @@ open class TorusSwiftDirectSDK{
     
     public func getNodeDetailsFromContract() -> Promise<Array<String>>{
         let (tempPromise, seal) = Promise<Array<String>>.pending()
-        if(self.endpoints.isEmpty ||  self.torusNodePubKeys.isEmpty){
-            do{
-                let _ = try self.fetchNodeDetails.getAllNodeDetails().done{ NodeDetails  in
-                    // Reinit for the 1st login or if data is missing
-                    self.torusNodePubKeys = NodeDetails.getTorusNodePub()
-                    self.endpoints = NodeDetails.getTorusNodeEndpoints()
-                    self.torusUtils.setTorusNodePubKeys(nodePubKeys: self.torusNodePubKeys)
-                    // self.torusUtils = self.factory.createTorusUtils(level: self.logger.logLevel, nodePubKeys: self.torusNodePubKeys)
-                    seal.fulfill(self.endpoints)
+        if(self.endpoints.isEmpty || self.torusNodePubKeys.isEmpty){
+            self.fetchNodeDetails.getAllNodeDetails().done{ NodeDetails  in
+                // Reinit for the 1st login or if data is missing
+                self.torusNodePubKeys = NodeDetails.getTorusNodePub()
+                self.endpoints = NodeDetails.getTorusNodeEndpoints()
+                self.torusUtils.setTorusNodePubKeys(nodePubKeys: self.torusNodePubKeys)
+                // self.torusUtils = self.factory.createTorusUtils(level: self.logger.logLevel, nodePubKeys: self.torusNodePubKeys)
+                seal.fulfill(self.endpoints)
                 }
-            }catch{
-                seal.reject("failed")
-            }
         }else{
             seal.fulfill(self.endpoints)
         }
