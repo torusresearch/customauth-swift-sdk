@@ -56,7 +56,7 @@ open class TorusSwiftDirectSDK{
         let (tempPromise, seal) = Promise<Array<String>>.pending()
         if(self.endpoints.isEmpty ||  self.torusNodePubKeys.isEmpty){
             do{
-                let _ = try self.fetchNodeDetails.getNodeDetailsPromise().done{ NodeDetails  in
+                let _ = try self.fetchNodeDetails.getAllNodeDetails().done{ NodeDetails  in
                     // Reinit for the 1st login or if data is missing
                     self.torusNodePubKeys = NodeDetails.getTorusNodePub()
                     self.endpoints = NodeDetails.getTorusNodeEndpoints()

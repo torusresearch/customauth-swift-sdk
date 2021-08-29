@@ -7,7 +7,6 @@
 
 import Foundation
 import FetchNodeDetails
-import web3swift
 import TorusUtils
 import BestLogger
 import TorusSwiftDirectSDK
