@@ -1,6 +1,0 @@
-framework module BestLogger {
-  umbrella header "BestLogger-umbrella.h"
-
-  export *
-  module * { export * }
-}

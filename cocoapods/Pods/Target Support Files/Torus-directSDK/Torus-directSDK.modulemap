@@ -1,6 +1,0 @@
-framework module TorusSwiftDirectSDK {
-  umbrella header "Torus-directSDK-umbrella.h"
-
-  export *
-  module * { export * }
-}
