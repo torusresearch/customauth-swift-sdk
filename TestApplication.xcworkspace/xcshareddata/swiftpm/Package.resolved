@@ -29,6 +29,15 @@
         }
       },
       {
+        "package": "Fakery",
+        "repositoryURL": "https://github.com/vadymmarkov/Fakery",
+        "state": {
+          "branch": null,
+          "revision": "71cb3bf36a808534659d1248780c2bf3c4c4fc91",
+          "version": "5.1.0"
+        }
+      },
+      {
         "package": "FetchNodeDetails",
         "repositoryURL": "https://github.com/torusresearch/fetch-node-details-swift",
         "state": {
@@ -42,8 +51,8 @@
         "repositoryURL": "https://github.com/PromiseKit/Foundation.git",
         "state": {
           "branch": null,
-          "revision": "1a276e598dac59489ed904887e0740fa75e571e0",
-          "version": "3.3.4"
+          "revision": "985f17fa69ee0e5b7eb3ff9be87ffc4e05fc0927",
+          "version": "3.4.0"
         }
       },
       {
@@ -51,8 +60,8 @@
         "repositoryURL": "https://github.com/mxcl/PromiseKit.git",
         "state": {
           "branch": null,
-          "revision": "aea48ea1855f5d82e2dffa6027afce3aab8f3dd7",
-          "version": "6.13.3"
+          "revision": "d2f7ba14bcdc45e18f4f60ad9df883fb9055f081",
+          "version": "6.15.3"
         }
       },
       {
@@ -84,11 +93,11 @@
       },
       {
         "package": "Web3swift",
-        "repositoryURL": "https://github.com/rathishubham7/web3swift",
+        "repositoryURL": "https://github.com/skywinder/web3swift",
         "state": {
-          "branch": null,
-          "revision": "95c8cb18bc8a664963f55e095318c1a180c3f5ec",
-          "version": "2.2.2"
+          "branch": "master",
+          "revision": "6eddd2c1d9072affd36d236f92a35ad79b6c559d",
+          "version": null
         }
       }
     ]

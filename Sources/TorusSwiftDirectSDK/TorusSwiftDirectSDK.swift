@@ -14,26 +14,27 @@ import BestLogger
 
 @available(iOS 11.0, *)
 open class TorusSwiftDirectSDK{
-    
-    var torusUtils : TorusUtils!
     var endpoints = Array<String>()
     var torusNodePubKeys = Array<TorusNodePub>()
+
+    let factory: TDSDKFactoryProtocol
+    var torusUtils: AbstractTorusUtils
+    let fetchNodeDetails: FetchNodeDetails
+    let logger: BestLogger
+
     let aggregateVerifierType: verifierTypes?
     let aggregateVerifierName: String
-    let fnd: FetchNodeDetails
     let subVerifierDetails: [SubVerifierDetails]
-    let logger: BestLogger
     var authorizeURLHandler: URLOpenerTypes?
     var observer: NSObjectProtocol? // useful for Notifications
     
-    public init(aggregateVerifierType: verifierTypes, aggregateVerifierName: String, subVerifierDetails: [SubVerifierDetails], network: EthereumNetwork = .ROPSTEN, loglevel: BestLogger.Level = .none){
-        // loggers
-        self.torusUtils = TorusUtils(label: "TorusUtils", loglevel: loglevel)
-        self.logger = BestLogger(label: "TorusLogger", level: loglevel)
+    public init(aggregateVerifierType: verifierTypes, aggregateVerifierName: String, subVerifierDetails: [SubVerifierDetails], factory: TDSDKFactoryProtocol, network: EthereumNetwork = .MAINNET, loglevel: BestLogger.Level = .none) {
         
-        // FetchNodedetails - Initialised with ropsten proxyaddress
-        // for mainnet - 0x638646503746d5456209e33a2ff5e3226d698bea
-        self.fnd = FetchNodeDetails(proxyAddress: (network == .MAINNET ? "0x638646503746d5456209e33a2ff5e3226d698bea" : "0x4023d2a0D330bF11426B12C6144Cfb96B7fa6183"), network: network, logLevel: loglevel)
+        // factory method
+        self.factory = factory
+        self.torusUtils = factory.createTorusUtils(level: loglevel, nodePubKeys: [])
+        self.logger = factory.createLogger(label: "TorusSwiftDirectSDK", level: loglevel)
+        self.fetchNodeDetails = factory.createFetchNodeDetails(network: network)
         
         // verifier details
         self.aggregateVerifierName = aggregateVerifierName
@@ -41,16 +42,26 @@ open class TorusSwiftDirectSDK{
         self.subVerifierDetails = subVerifierDetails
     }
     
-    public func getEndpoints() -> Promise<Array<String>>{
+    public convenience init(aggregateVerifierType: verifierTypes, aggregateVerifierName: String, subVerifierDetails: [SubVerifierDetails]){
+        let factory = TDSDKFactory()
+        self.init(aggregateVerifierType: aggregateVerifierType, aggregateVerifierName: aggregateVerifierName, subVerifierDetails: subVerifierDetails, factory: factory, network: .MAINNET, loglevel: .none)
+    }
+    
+    public convenience init(aggregateVerifierType: verifierTypes, aggregateVerifierName: String, subVerifierDetails: [SubVerifierDetails], network: EthereumNetwork){
+        let factory = TDSDKFactory()
+        self.init(aggregateVerifierType: aggregateVerifierType, aggregateVerifierName: aggregateVerifierName, subVerifierDetails: subVerifierDetails, factory: factory, network: network, loglevel: .none)
+    }
+    
+    public func getNodeDetailsFromContract() -> Promise<Array<String>>{
         let (tempPromise, seal) = Promise<Array<String>>.pending()
         if(self.endpoints.isEmpty ||  self.torusNodePubKeys.isEmpty){
             do{
-                let _ = try self.fnd.getNodeDetailsPromise().done{ NodeDetails  in
-                    
+                let _ = try self.fetchNodeDetails.getAllNodeDetails().done{ NodeDetails  in
                     // Reinit for the 1st login or if data is missing
                     self.torusNodePubKeys = NodeDetails.getTorusNodePub()
                     self.endpoints = NodeDetails.getTorusNodeEndpoints()
-                    self.torusUtils = TorusUtils(label: "TorusUtils", loglevel: self.logger.logLevel, nodePubKeys: self.torusNodePubKeys)
+                    self.torusUtils.setTorusNodePubKeys(nodePubKeys: self.torusNodePubKeys)
+                    // self.torusUtils = self.factory.createTorusUtils(level: self.logger.logLevel, nodePubKeys: self.torusNodePubKeys)
                     seal.fulfill(self.endpoints)
                 }
             }catch{
@@ -64,7 +75,6 @@ open class TorusSwiftDirectSDK{
     }
     
     public func triggerLogin(controller: UIViewController? = nil, browserType: URLOpenerTypes = .sfsafari, modalPresentationStyle: UIModalPresentationStyle = .fullScreen) -> Promise<[String:Any]>{
-        
         // Set browser
         self.authorizeURLHandler = browserType
         
@@ -167,7 +177,7 @@ open class TorusSwiftDirectSDK{
         
         let (tempPromise, seal) = Promise<[String: Any]>.pending()
         
-        self.getEndpoints().then{ endpoints in
+        self.getNodeDetailsFromContract().then{ endpoints in
             return self.torusUtils.retrieveShares(endpoints: endpoints, verifierIdentifier: self.aggregateVerifierName, verifierId: verifierId, idToken: idToken, extraParams: buffer)
         }.done{ responseFromRetrieveShares in
             var data = userData
@@ -183,14 +193,13 @@ open class TorusSwiftDirectSDK{
     }
     
     public func getAggregateTorusKey(verifier: String, verifierId: String, idToken:String, subVerifierDetails: SubVerifierDetails, userData: [String: Any] = [:]) -> Promise<[String: Any]>{
-        
         let extraParams = ["verifieridentifier": verifier, "verifier_id":verifierId, "sub_verifier_ids":[subVerifierDetails.subVerifierId], "verify_params": [["verifier_id": verifierId, "idtoken": idToken]]] as [String : Any]
         let buffer: Data = try! NSKeyedArchiver.archivedData(withRootObject: extraParams, requiringSecureCoding: false)
         let hashedOnce = idToken.sha3(.keccak256)
         
         let (tempPromise, seal) = Promise<[String: Any]>.pending()
         
-        self.getEndpoints().then{ endpoints in
+        self.getNodeDetailsFromContract().then{ endpoints in
             return self.torusUtils.retrieveShares(endpoints: endpoints, verifierIdentifier: verifier, verifierId: verifierId, idToken: hashedOnce, extraParams: buffer)
         }.done{responseFromRetrieveShares in
             var data = userData
