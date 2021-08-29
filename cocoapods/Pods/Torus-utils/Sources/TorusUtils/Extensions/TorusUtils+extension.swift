@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CommonCrypto
 import PromiseKit
 import FetchNodeDetails
 #if canImport(PMKFoundation)
@@ -15,12 +16,12 @@ import PMKFoundation
 import secp256k1
 #endif
 import BigInt
+import web3
 import CryptoSwift
-import web3swift
 
 extension TorusUtils {
     
-    // MARK:- torus utils
+    // MARK:- utils
     func combinations<T>(elements: ArraySlice<T>, k: Int) -> [[T]] {
         if k == 0 {
             return [[]]
@@ -51,7 +52,6 @@ extension TorusUtils {
     }
     
     func thresholdSame<T:Hashable>(arr: Array<T>, threshold: Int) -> T?{
-        // print(threshold)
         var hashmap = [T:Int]()
         for (_, value) in arr.enumerated(){
             if((hashmap[value]) != nil) {hashmap[value]! += 1}
@@ -59,18 +59,17 @@ extension TorusUtils {
             if (hashmap[value] == threshold){
                 return value
             }
-            //print(hashmap)
         }
         return nil
     }
     
     func ecdh(pubKey: secp256k1_pubkey, privateKey: Data) -> secp256k1_pubkey? {
-        var pubKey2 = pubKey // Pointer takes a variable
+        var localPubkey = pubKey // Pointer takes a variable
         if (privateKey.count != 32) {return nil}
         let result = privateKey.withUnsafeBytes { (a: UnsafeRawBufferPointer) -> Int32? in
             if let pkRawPointer = a.baseAddress, a.count > 0 {
                 let privateKeyPointer = pkRawPointer.assumingMemoryBound(to: UInt8.self)
-                let res = secp256k1_ec_pubkey_tweak_mul(TorusUtils.context!, UnsafeMutablePointer<secp256k1_pubkey>(&pubKey2), privateKeyPointer)
+                let res = secp256k1_ec_pubkey_tweak_mul(TorusUtils.context!, UnsafeMutablePointer<secp256k1_pubkey>(&localPubkey), privateKeyPointer)
                 return res
             } else {
                 return nil
@@ -79,29 +78,38 @@ extension TorusUtils {
         guard let res = result, res != 0 else {
             return nil
         }
-        return pubKey2
+        return localPubkey
     }
     
-    // MARK: metadata API
+    // MARK:- metadata API
     func getMetadata(dictionary: [String:String]) -> Promise<BigUInt>{
+        let (promise, seal) = Promise<BigUInt>.pending()
         
-        // Enode data
-        let encoded = try! JSONSerialization.data(withJSONObject: dictionary, options: [])
-        let rq = self.makeUrlRequest(url: "https://metadata.tor.us/get");
-        let request = URLSession.shared.uploadTask(.promise, with: rq, from: encoded)
+        let encoded: Data?
+        do {
+            encoded = try JSONSerialization.data(withJSONObject: dictionary, options: [])
+        } catch {
+            seal.reject(error)
+            return promise
+        }
         
-        let (tempPromise, seal) = Promise<BigUInt>.pending()
+        guard let encoded = encoded else {
+            seal.reject(TorusError.runtime("Unable to serialize dictionary into JSON."))
+            return promise
+        }
         
-        request.compactMap {
+        let request = self.makeUrlRequest(url: "https://metadata.tor.us/get");
+        let task = URLSession.shared.uploadTask(.promise, with: request, from: encoded)
+        task.compactMap {
             try JSONSerialization.jsonObject(with: $0.data) as? [String: Any]
         }.done{ data in
-            self.logger.info("metdata response: ", data)
+            self.logger.info("getMetadata:", data)
             seal.fulfill(BigUInt(data["message"] as! String, radix: 16)!)
         }.catch{ err in
             seal.fulfill(BigUInt("0", radix: 16)!)
         }
         
-        return tempPromise
+        return promise
     }
     
     // MARK:- retreiveDecryptAndReconstuct
@@ -110,108 +118,105 @@ extension TorusUtils {
         var rpcdata : Data = Data.init()
         do {
             if let loadedStrings = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(extraParams) as? [String:Any] {
-                let newValue = ["verifieridentifier":verifier, "verifier_id": verifierId, "nodesignatures": nodeSignatures, "idtoken": tokenCommitment] as [String:AnyObject]
-                let keepingCurrent = loadedStrings.merging(newValue) { (current, _) in current }
-                
-                // todo : look into hetrogeneous array encoding
+                let value = ["verifieridentifier":verifier, "verifier_id": verifierId, "nodesignatures": nodeSignatures, "idtoken": tokenCommitment] as [String : Any]
+                let keepingCurrent = loadedStrings.merging(value) { (current, _) in current }
+                // TODO : Look into hetrogeneous array encoding
                 let dataForRequest = ["jsonrpc": "2.0",
                                       "id":10,
                                       "method": "ShareRequest",
                                       "params": ["encrypted": "yes",
                                                  "item": [keepingCurrent]]] as [String : Any]
-                rpcdata = try! JSONSerialization.data(withJSONObject: dataForRequest)
+                rpcdata = try JSONSerialization.data(withJSONObject: dataForRequest)
             }
         } catch {
-            self.logger.error("RetrieveIndividualNodeShare: Couldn't read file.")
+            self.logger.error("retrieveDecryptAndReconstruct - error:", error)
         }
         
         // Build promises array
-        var promisesArrayReq = Array<Promise<(data: Data, response: URLResponse)> >()
+        var requestPromises = Array<Promise<(data: Data, response: URLResponse)> >()
         for el in endpoints {
             let rq = self.makeUrlRequest(url: el);
-            promisesArrayReq.append(URLSession.shared.uploadTask(.promise, with: rq, from: rpcdata))
+            requestPromises.append(URLSession.shared.uploadTask(.promise, with: rq, from: rpcdata))
         }
         
-        // Promise to return
-        let (tempPromise, seal) = Promise<(String, String, String)>.pending()
+        // Return promise
+        let (promise, seal) = Promise<(String, String, String)>.pending()
         var globalCount = 0
-        
-        var ShareResponses = Array<[String:String]?>.init(repeating: nil, count: promisesArrayReq.count)
+        var shareResponses = Array<[String:String]?>.init(repeating: nil, count: requestPromises.count)
         var resultArray = [Int:[String:String]]()
-        var ErrorStack = [Error]()
-        
-        for (i, pr) in promisesArrayReq.enumerated(){
-            pr.then{ data, response -> Promise<[Int:String]> in
-                self.logger.info("retrieveDecryptAndReconstuct: ",String(decoding: data, as: UTF8.self))
+        var errorStack = [Error]()
+        for (i, rq) in requestPromises.enumerated(){
+            rq.then{ data, response -> Promise<[Int:String]> in
+                self.logger.info("retrieveDecryptAndReconstuct:", String(decoding: data, as: UTF8.self))
                 let decoded = try JSONDecoder().decode(JSONRPCresponse.self, from: data)
                 if(decoded.error != nil) {
-                    self.logger.info("retrieveDecryptAndReconstuct: err: ", decoded)
-                    throw TorusError.decodingError
+                    self.logger.error("retrieveDecryptAndReconstuct - error:", decoded)
+                    throw TorusError.decodingFailed
                 }
                 
-                let decodedResult = decoded.result as? [String:Any]
-                let keyObj = decodedResult!["keys"] as? [[String:Any]]
+                guard
+                    let decodedResult = decoded.result as? [String:Any],
+                    let keyObj = decodedResult["keys"] as? [[String:Any]]
+                else { throw TorusError.decodingFailed }
                 
                 // Due to multiple keyAssign
-                if let temp = keyObj?.first{
-                    let metadata = temp["Metadata"] as! [String : String]
-                    let share = temp["Share"] as! String
-                    let publicKey = temp["PublicKey"] as! [String : String]
-                    
-                    ShareResponses[i] = publicKey //For threshold
-                    
+                if let first = keyObj.first{
+                    guard
+                        let metadata = first["Metadata"] as? [String : String],
+                        let share = first["Share"] as? String,
+                        let publicKey = first["PublicKey"] as? [String : String]
+                    else { throw TorusError.decodingFailed }
+                    shareResponses[i] = publicKey // For threshold
                     resultArray[i] = ["iv": metadata["iv"]!, "ephermalPublicKey": metadata["ephemPublicKey"]!, "share": share, "pubKeyX": publicKey["X"]!, "pubKeyY": publicKey["Y"]!]
                 }
                 
-                let lookupShares = ShareResponses.filter{ $0 != nil } // Nonnil elements
+                let lookupShares = shareResponses.filter{ $0 != nil } // Nonnil elements
                 
                 // Comparing dictionaries, so the order of keys doesn't matter
                 let keyResult = self.thresholdSame(arr: lookupShares.map{$0}, threshold: Int(endpoints.count/2)+1) // Check if threshold is satisfied
-                if(keyResult != nil && !tempPromise.isFulfilled){
-                    self.logger.info("retreiveIndividualNodeShares: fulfill: ", resultArray)
+                if(keyResult != nil && !promise.isFulfilled){
+                    self.logger.info("retreiveIndividualNodeShares - result:", resultArray)
                     return self.decryptIndividualShares(shares: resultArray, privateKey: privateKey)
                 }else{
                     throw TorusError.empty
                 }
             }.then{ data -> Promise<(String, String, String)> in
-                self.logger.trace("retrieveDecryptAndReconstuct: data after decryptIndividualShares", data)
-                let filteredData = data.filter{$0.value != TorusError.decodingError.debugDescription}
+                self.logger.trace("retrieveDecryptAndReconstuct - data after decryptIndividualShares:", data)
+                let filteredData = data.filter{$0.value != TorusError.decodingFailed.debugDescription}
                 if(filteredData.count < Int(endpoints.count/2)+1){ throw TorusError.thresholdError }
                 return self.thresholdLagrangeInterpolation(data: filteredData, endpoints: endpoints, lookupPubkeyX: lookupPubkeyX, lookupPubkeyY: lookupPubkeyY)
             }.done{ x, y, z in
                 seal.fulfill((x, y, z))
             }.catch{ err in
-                ErrorStack.append(err)
-                
-                let tmpError = err as NSError
-                let userInfo = tmpError.userInfo as [String: Any]
-                if(tmpError.code == -1003){
+                errorStack.append(err)
+                let nsErr = err as NSError
+                let userInfo = nsErr.userInfo as [String: Any]
+                if(nsErr.code == -1003){
                     // In case node is offline
-                    self.logger.error("retrieveDecryptAndReconstuct: DNS lookup failed. Node (\(userInfo["NSErrorFailingURLKey"] ?? "")) is probably offline")
-                }else if let tempError = (err as? TorusError) {
-                    if(tempError == TorusError.thresholdError){
-                        self.logger.error("retrieveDecryptAndReconstuct: ", TorusError.thresholdError.debugDescription)
+                    self.logger.error("retrieveDecryptAndReconstuct: DNS lookup failed, node (\(userInfo["NSErrorFailingURLKey"] ?? "")) is probably offline.")
+                }else if let err = (err as? TorusError) {
+                    if(err == TorusError.thresholdError){
+                        self.logger.error("retrieveDecryptAndReconstuct - error:", err)
                     }
                 }else{
-                    self.logger.error("retrieveDecryptAndReconstuct: err: ", err)
+                    self.logger.error("retrieveDecryptAndReconstuct - error:", err)
                 }
             }.finally{
                 globalCount+=1;
-                if (globalCount == endpoints.count && tempPromise.isPending) {
-                    seal.reject("Reconstruction failed, \(ErrorStack)")
+                if (globalCount == endpoints.count && promise.isPending) {
+                    seal.reject(TorusError.runtime("Unable to reconstruct: \(errorStack)"))
                 }
             }
         }
-        return tempPromise
+        return promise
     }
-    
     
     // MARK:- commitment request
     func commitmentRequest(endpoints : Array<String>, verifier: String, pubKeyX: String, pubKeyY: String, timestamp: String, tokenCommitment: String) -> Promise<[[String:String]]>{
+        let (promise, seal) = Promise<[[String:String]]>.pending()
         
-        // Todo: Add try catch for encoding block
         let encoder = JSONEncoder()
-        let rpcdata = try! encoder.encode(JSONRPCrequest(
+        guard let rpcdata = try? encoder.encode(JSONRPCrequest(
             method: "CommitmentRequest",
             params: ["messageprefix": "mug00",
                      "tokencommitment": tokenCommitment,
@@ -220,146 +225,149 @@ extension TorusUtils {
                      "verifieridentifier":verifier,
                      "timestamp": timestamp]
         ))
+        else {
+            seal.reject(TorusError.runtime("Unable to encode request."))
+            return promise
+        }
         
         // Build promises array
-        var promisesArray = Array<Promise<(data: Data, response: URLResponse)> >()
+        var requestPromises = Array<Promise<(data: Data, response: URLResponse)> >()
         for el in endpoints {
             let rq = self.makeUrlRequest(url: el);
-            promisesArray.append(URLSession.shared.uploadTask(.promise, with: rq, from: rpcdata))
+            requestPromises.append(URLSession.shared.uploadTask(.promise, with: rq, from: rpcdata))
         }
         
         // Array to store intermediate results
-        var resultArrayStrings = Array<Any?>.init(repeating: nil, count: promisesArray.count)
-        var resultArrayObjects = Array<JSONRPCresponse?>.init(repeating: nil, count: promisesArray.count)
+        var resultArrayStrings = Array<Any?>.init(repeating: nil, count: requestPromises.count)
+        var resultArrayObjects = Array<JSONRPCresponse?>.init(repeating: nil, count: requestPromises.count)
         var lookupCount = 0
         var globalCount = 0
-        let (tempPromise, seal) = Promise<[[String:String]]>.pending()
-        for (i, pr) in promisesArray.enumerated(){
-            pr.done{ data, response in
-                
+        for (i, rq) in requestPromises.enumerated(){
+            rq.done{ data, response in
                 let encoder = JSONEncoder()
                 let decoded = try JSONDecoder().decode(JSONRPCresponse.self, from: data)
-                self.logger.info("commitmentRequest: reponse: ", decoded)
+                self.logger.info("commitmentRequest - reponse:", decoded)
                 
                 if(decoded.error != nil) {
-                    self.logger.warning("CommitmentRequest: error: ", decoded)
+                    self.logger.warning("commitmentRequest - error:", decoded)
                     throw TorusError.commitmentRequestFailed
                 }
                 
-                // check if k+t responses are back
+                // Check if k+t responses are back
                 resultArrayStrings[i] = String(data: try encoder.encode(decoded), encoding: .utf8)
                 resultArrayObjects[i] = decoded
                 
                 let lookupShares = resultArrayStrings.filter{ $0 as? String != nil } // Nonnil elements
-                if(lookupShares.count >= Int(endpoints.count/4)*3+1 && !tempPromise.isFulfilled){
+                if(lookupShares.count >= Int(endpoints.count/4)*3+1 && !promise.isFulfilled){
                     let nodeSignatures = resultArrayObjects.compactMap{ $0 }.map{return $0.result as! [String:String]}
-                    self.logger.trace("CommitmentRequest: nodeSignatures: ", nodeSignatures)
+                    self.logger.trace("commitmentRequest - nodeSignatures:", nodeSignatures)
                     seal.fulfill(nodeSignatures)
                 }
             }.catch{ err in
-                let tmpError = err as NSError
-                let userInfo = tmpError.userInfo as [String: Any]
-                if(tmpError.code == -1003){
+                let nsErr = err as NSError
+                let userInfo = nsErr.userInfo as [String: Any]
+                if(nsErr.code == -1003){
                     // In case node is offline
-                    self.logger.error("CommitmentRequest: DNS lookup failed. Node (\(userInfo["NSErrorFailingURLKey"] ?? "")) is probably offline")
-                    // reject if threshold nodes unavailable
+                    self.logger.error("commitmentRequest: DNS lookup failed, node (\(userInfo["NSErrorFailingURLKey"] ?? "")) is probably offline.")
+
+                    // Reject if threshold nodes unavailable
                     lookupCount+=1
-                    
-                    if(!tempPromise.isFulfilled && (lookupCount > endpoints.count)){
+                    if(!promise.isFulfilled && (lookupCount > endpoints.count)){
                         seal.reject(TorusError.nodesUnavailable)
                     }
                 }else{
-                    self.logger.error("CommitmentRequest: err: ", err)
+                    self.logger.error("commitmentRequest - error:", err)
                 }
             }.finally{
                 globalCount+=1;
-                if (globalCount == endpoints.count && tempPromise.isPending) {
+                if (globalCount == endpoints.count && promise.isPending) {
                     seal.reject(TorusError.commitmentRequestFailed)
                 }
             }
         }
-        return tempPromise
+        return promise
     }
     
     // MARK:- retrieve each node shares
     func retrieveIndividualNodeShare(endpoints : Array<String>, extraParams: Data, verifier: String, tokenCommitment:String, nodeSignatures: [[String:String]], verifierId: String) -> Promise<[Int:[String:String]]>{
-        
         // Rebuild extraParams
         var rpcdata : Data = Data.init()
         do {
             if let loadedStrings = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(extraParams) as? [String:Any] {
                 // print(loadedStrings)
-                let newValue = ["verifieridentifier":verifier, "verifier_id": verifierId, "nodesignatures": nodeSignatures, "idtoken": tokenCommitment] as [String:AnyObject]
+                let newValue = ["verifieridentifier":verifier, "verifier_id": verifierId, "nodesignatures": nodeSignatures, "idtoken": tokenCommitment] as [String : Any]
                 let keepingCurrent = loadedStrings.merging(newValue) { (current, _) in current }
                 
-                // todo : look into hetrogeneous array encoding
+                // TODO : look into hetrogeneous array encoding
                 let dataForRequest = ["jsonrpc": "2.0",
                                       "id":10,
                                       "method": "ShareRequest",
                                       "params": ["encrypted": "yes",
                                                  "item": [keepingCurrent]]] as [String : Any]
-                rpcdata = try! JSONSerialization.data(withJSONObject: dataForRequest)
+                rpcdata = try JSONSerialization.data(withJSONObject: dataForRequest)
             }
         } catch {
-            self.logger.error("RetrieveIndividualNodeShare: Couldn't read file.")
+            self.logger.error("retrieveIndividualNodeShare - error:", error)
         }
         
         // Build promises array
-        var promisesArrayReq = Array<Promise<(data: Data, response: URLResponse)> >()
+        var requestPromises = Array<Promise<(data: Data, response: URLResponse)>>()
         for el in endpoints {
             let rq = self.makeUrlRequest(url: el);
-            promisesArrayReq.append(URLSession.shared.uploadTask(.promise, with: rq, from: rpcdata))
+            requestPromises.append(URLSession.shared.uploadTask(.promise, with: rq, from: rpcdata))
         }
         
-        let (tempPromise, seal) = Promise<[Int:[String:String]]>.pending()
-        var ShareResponses = Array<[String:String]?>.init(repeating: nil, count: promisesArrayReq.count)
+        let (promise, seal) = Promise<[Int:[String:String]]>.pending()
+        var shareResponses = Array<[String:String]?>.init(repeating: nil, count: requestPromises.count)
         var resultArray = [Int:[String:String]]()
-        
-        for (i, pr) in promisesArrayReq.enumerated(){
-            pr.done{ data, response in
-                self.logger.info("retreiveIndividualNodeShares: ",String(decoding: data, as: UTF8.self))
+        for (i, rq) in requestPromises.enumerated(){
+            rq.done{ data, response in
+                self.logger.info("retreiveIndividualNodeShares:", String(decoding: data, as: UTF8.self))
                 let decoded = try JSONDecoder().decode(JSONRPCresponse.self, from: data)
                 if(decoded.error != nil) {
-                    self.logger.info("retreiveIndividualNodeShares: err: ", decoded)
-                    throw TorusError.decodingError
+                    self.logger.error("retreiveIndividualNodeShares - error:", decoded)
+                    throw TorusError.decodingFailed
                 }
                 
-                let decodedResult = decoded.result as? [String:Any]
-                let keyObj = decodedResult!["keys"] as? [[String:Any]]
+                guard
+                    let decodedResult = decoded.result as? [String:Any],
+                    let keyObj = decodedResult["keys"] as? [[String:Any]]
+                else { throw TorusError.decodingFailed }
                 
                 // Due to multiple keyAssign
-                if let temp = keyObj?.first{
-                    let metadata = temp["Metadata"] as! [String : String]
-                    let share = temp["Share"] as! String
-                    let publicKey = temp["PublicKey"] as! [String : String]
+                if let first = keyObj.first{
+                    guard
+                        let metadata = first["Metadata"] as? [String : String],
+                        let share = first["Share"] as? String,
+                        let publicKey = first["PublicKey"] as? [String : String]
+                    else { throw TorusError.decodingFailed }
                     
-                    ShareResponses[i] = publicKey //For threshold
-                    
+                    shareResponses[i] = publicKey // For threshold
                     resultArray[i] = ["iv": metadata["iv"]!, "ephermalPublicKey": metadata["ephemPublicKey"]!, "share": share, "pubKeyX": publicKey["X"]!, "pubKeyY": publicKey["Y"]!]
                 }
                 
-                let lookupShares = ShareResponses.filter{ $0 != nil } // Nonnil elements
+                let lookupShares = shareResponses.filter{ $0 != nil } // Nonnil elements
                 
                 // Comparing dictionaries, so the order of keys doesn't matter
                 let keyResult = self.thresholdSame(arr: lookupShares.map{$0}, threshold: Int(endpoints.count/2)+1) // Check if threshold is satisfied
-                if(keyResult != nil && !tempPromise.isFulfilled){
-                    self.logger.info("retreiveIndividualNodeShares: fulfill: ", resultArray)
+                if(keyResult != nil && !promise.isFulfilled){
+                    self.logger.info("retreiveIndividualNodeShares - fulfill:", resultArray)
                     seal.fulfill(resultArray)
                 }
             }.catch{ err in
-                let tmpError = err as NSError
-                let userInfo = tmpError.userInfo as [String: Any]
-                if(tmpError.code == -1003){
+                let nsErr = err as NSError
+                let userInfo = nsErr.userInfo as [String: Any]
+                if(nsErr.code == -1003){
                     // In case node is offline
-                    self.logger.error("keyLookup: DNS lookup failed. Node (\(userInfo["NSErrorFailingURLKey"] ?? "")) is probably offline")
+                    self.logger.error("retreiveIndividualNodeShares: DNS lookup failed, node (\(userInfo["NSErrorFailingURLKey"] ?? "")) is probably offline.")
                 }else{
-                    self.logger.error("retreiveIndividualNodeShares: errReject: ", err)
+                    self.logger.error("retreiveIndividualNodeShares - error:", err)
                     seal.reject(err)
                 }
             }
         }
         
-        return tempPromise
+        return promise
     }
     
     // MARK:- decrypt shares
@@ -401,7 +409,7 @@ extension TorusUtils {
                 let decrypt = try aes.decrypt(share)
                 result[nodeIndex] = decrypt.hexa
             }catch{
-                result[nodeIndex] = TorusError.decodingError.debugDescription
+                result[nodeIndex] = TorusError.decodingFailed.debugDescription
             }
             if(shares.count == result.count) {
                 seal.fulfill(result) // Resolve if all shares decrypt
@@ -422,15 +430,19 @@ extension TorusUtils {
             shareIndexSet.forEach{ sharesToInterpolate[$0] = filteredData[$0]}
             self.lagrangeInterpolation(shares: sharesToInterpolate).done{data -> Void in
                 // Split key in 2 parts, X and Y
-                let finalPrivateKey = Data.init(hex: data)
-                let publicKey = SECP256K1.privateToPublic(privateKey: finalPrivateKey , compressed: false)?.suffix(64)
-                let pubKeyX = publicKey?.prefix(publicKey!.count/2).toHexString()
-                let pubKeyY = publicKey?.suffix(publicKey!.count/2).toHexString()
+                let finalPrivateKey = data.web3.hexData!
+                guard let publicKey = SECP256K1.privateToPublic(privateKey: finalPrivateKey)?.subdata(in: 1..<65) else{
+                    seal.reject(TorusError.decodingFailed)
+                    return
+                }
+                
+                let pubKeyX = publicKey.prefix(publicKey.count/2).toHexString()
+                let pubKeyY = publicKey.suffix(publicKey.count/2).toHexString()
                 self.logger.trace("retrieveDecryptAndReconstuct: private key rebuild", data, pubKeyX as Any, pubKeyY as Any)
                 
                 // Verify
                 if( pubKeyX == lookupPubkeyX && pubKeyY == lookupPubkeyY) {
-                    seal.fulfill((pubKeyX!, pubKeyY!, data))
+                    seal.fulfill((pubKeyX, pubKeyY, data))
                 }else{
                     self.logger.error("retrieveDecryptAndReconstuct: verification failed")
                 }
@@ -504,6 +516,17 @@ extension TorusUtils {
         let encoder = JSONEncoder()
         let rpcdata = try! encoder.encode(JSONRPCrequest(method: "VerifierLookupRequest", params: ["verifier":verifier, "verifier_id":verifierId]))
         
+        // allowHost = 'https://signer.tor.us/api/allow'
+        var allowHostRequest = self.makeUrlRequest(url:  "https://signer.tor.us/api/allow")
+        allowHostRequest.httpMethod = "GET"
+        allowHostRequest.addValue("torus-default", forHTTPHeaderField: "x-api-key")
+        allowHostRequest.addValue(verifier, forHTTPHeaderField: "Origin")
+        URLSession.shared.dataTask(.promise, with: allowHostRequest).done{ data in
+            // swallow
+        }.catch{error in
+            self.logger.error("KeyLookup: signer allow:", error)
+        }
+        
         // Create Array of URLRequest Promises
         var promisesArray = Array<Promise<(data: Data, response: URLResponse)> >()
         for el in endpoints {
@@ -518,9 +541,10 @@ extension TorusUtils {
         for (i, pr) in promisesArray.enumerated() {
             pr.done{ data, response in
                 // print("keyLookup", String(data: data, encoding: .utf8))
+                self.logger.trace(String(data: data, encoding: .utf8))
                 let decoder = try? JSONDecoder().decode(JSONRPCresponse.self, from: data) // User decoder to covert to struct
-                if(decoder == nil) { throw TorusError.decodingError }
-                //print(decoder)
+                if(decoder == nil) { throw TorusError.decodingFailed }
+
                 let result = decoder!.result
                 let error = decoder?.error
                 if(error == nil){
@@ -531,7 +555,7 @@ extension TorusUtils {
                     resultArray[i] = ["err": "keyLookupfailed"]
                 }
                 
-                // print(resultArray[i])
+                
                 let lookupShares = resultArray.filter{ $0 != nil } // Nonnil elements
                 let keyResult = self.thresholdSame(arr: lookupShares, threshold: Int(endpoints.count/2)+1) // Check if threshold is satisfied
                 // print("threshold result", keyResult)
@@ -637,12 +661,16 @@ extension TorusUtils {
     }
     
     // MARK:- Helper functions
-    
-    public func privateKeyToAddress(key: Data) -> Data{
-        print(key)
-        let publicKey = SECP256K1.privateToPublic(privateKey: key)!
-        let address = Data(publicKey.sha3(.keccak256).suffix(20))
-        return address
+//
+//    public func privateKeyToAddress(key: Data) -> Data{
+//        print(key)
+//        let publicKey = SECP256K1.privateToPublic(privateKey: key)!
+//        let address = Data(publicKey.sha3(.keccak256).suffix(20))
+//        return address
+//    }
+//
+    func generatePrivateKeyData() -> Data? {
+        return Data.randomOfLength(32)
     }
     
     public func publicKeyToAddress(key: Data) -> Data{
@@ -657,24 +685,6 @@ extension TorusUtils {
         let data = keys.map({ return Data(hex: $0)})
         let added = SECP256K1.combineSerializedPublicKeys(keys: data)
         return (added?.toHexString())!
-    }
-    
-    func privateKeyToPublicKey4(privateKey: Data) -> secp256k1_pubkey? {
-        if (privateKey.count != 32) {return nil}
-        var publicKey = secp256k1_pubkey()
-        let result = privateKey.withUnsafeBytes { (a: UnsafeRawBufferPointer) -> Int32? in
-            if let pkRawPointer = a.baseAddress, a.count > 0 {
-                let privateKeyPointer = pkRawPointer.assumingMemoryBound(to: UInt8.self)
-                let res = secp256k1_ec_pubkey_create(TorusUtils.context!, UnsafeMutablePointer<secp256k1_pubkey>(&publicKey), privateKeyPointer)
-                return res
-            } else {
-                return nil
-            }
-        }
-        guard let res = result, res != 0 else {
-            return nil
-        }
-        return publicKey
     }
     
     func tupleToArray(_ tuple: Any) -> [UInt8] {
@@ -770,4 +780,3 @@ extension Data {
         Data(hex: self.toHexString().addLeading0sForLength64())
     }
 }
-

@@ -124,6 +124,18 @@ public extension Data {
         return uintRepresentation
     }
     
+    static func randomOfLength(_ length: Int) -> Data? {
+        var data = [UInt8](repeating: 0, count: length)
+        let result = SecRandomCopyBytes(kSecRandomDefault,
+                                        data.count,
+                                        &data)
+        if result == errSecSuccess {
+            return Data(data)
+        }
+        
+        return nil
+    }
+    
     //    func bitsInRange(_ startingBit:Int, _ length:Int) -> UInt64? { //return max of 8 bytes for simplicity, non-public
     //        if startingBit + length / 8 > self.count, length > 64, startingBit > 0, length >= 1 {return nil}
     //        let bytes = self[(startingBit/8) ..< (startingBit+length+7)/8]

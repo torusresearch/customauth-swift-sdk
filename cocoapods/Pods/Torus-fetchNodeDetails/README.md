@@ -7,5 +7,5 @@ A description of this package.
 ### Swift Package Manage
 
 ```
-.package(url: "https://github.com/torusresearch/fetch-node-details-swift5.git", from: "0.0.1"),
+.package(url: "https://github.com/torusresearch/fetch-node-details-swift.git", from: "0.0.1"),
 ```

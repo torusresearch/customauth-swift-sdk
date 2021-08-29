@@ -1,11 +1,9 @@
 # Uncomment the next line to define a global platform for your project
-# platform :ios, '9.0'
+ platform :ios, '12.0'
 
 target 'cptest' do
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
-  pod 'secp256k1.c', '~> 0.1.2'
-  pod 'Torus-utils', '~> 0.1.1'
   pod 'Torus-directSDK', :path=>"../"
   # Pods for cptest
   

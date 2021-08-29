@@ -1,8 +1,8 @@
 {
   "name": "Torus-directSDK",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "platforms": {
-    "ios": "10.0"
+    "ios": "11.0"
   },
   "summary": "Swift SDK that allows applications to directly interact with the Torus Network, similar to how Torus Wallet does.",
   "homepage": "https://github.com/torusresearch/torus-direct-swift-sdk",
@@ -17,7 +17,7 @@
   "module_name": "TorusSwiftDirectSDK",
   "source": {
     "git": "https://github.com/torusresearch/torus-direct-swift-sdk.git",
-    "tag": "0.3.0"
+    "tag": "0.3.1"
   },
   "source_files": [
     "Sources/TorusSwiftDirectSDK/*.{swift}",
@@ -28,7 +28,7 @@
       "~> 0.0.1"
     ],
     "Torus-utils": [
-      "~> 0.1.0"
+      "~> 1.0.0"
     ]
   },
   "pod_target_xcconfig": {

@@ -68,10 +68,10 @@ public struct KeyAssignRequest: Encodable{
         try container.encode(jsonrpc, forKey: .jsonrpc)
         try container.encode(method, forKey: .method)
 
-        if let newParams = params as? [String:String] {
+        if let _ = params as? [String:String] {
             try container.encode(params as! [String:String], forKey: .params)
         }
-        if let newParams = params as? [String: [String:[String:String]]] {
+        if let _ = params as? [String: [String:[String:String]]] {
             try container.encode(params as! [String: [String:[String:String]]], forKey: .params)
         }
 
@@ -107,10 +107,10 @@ public struct JSONRPCrequest: Encodable {
         try container.encode(jsonrpc, forKey: .jsonrpc)
         try container.encode(method, forKey: .method)
         
-        if let newParams = params as? [String:String] {
+        if let _ = params as? [String:String] {
             try container.encode(params as! [String:String], forKey: .params)
         }
-        if let newParams = params as? [String: [String:[String:String]]] {
+        if let _ = params as? [String: [String:[String:String]]] {
             try container.encode(params as! [String: [String:[String:String]]], forKey: .params)
         }
         
