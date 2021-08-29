@@ -19,14 +19,14 @@ import PackageDescription
 let package = Package(
     name: "TorusSwiftDirectSDK", 
     dependencies: [
-        .package(name: "TorusSwiftDirectSDK", url: "https://github.com/torusresearch/torus-direct-swift-sdk", .upToNextMajor(from: "0.0.1"))
+        .package(name: "TorusSwiftDirectSDK", url: "https://github.com/torusresearch/torus-direct-swift-sdk", from: "1.0.0"))
     ]
 )
 ```
 
 #### Cocoapods
 ```ruby
-pod 'Torus-directSDK', '~> 0.1.0'
+pod 'Torus-directSDK', '~> 1.0.0'
 ```
 
 #### Manual import or other packages
