@@ -7,7 +7,7 @@ PODS:
   - PromiseKit/Foundation (6.15.3):
     - PromiseKit/CorePromise
   - secp256k1.swift (0.1.4)
-  - Torus-directSDK (0.3.1):
+  - Torus-directSDK (1.0.1):
     - BestLogger (~> 0.0.1)
     - Torus-utils (~> 1.0.0)
   - Torus-fetchNodeDetails (1.0.1):
@@ -51,7 +51,7 @@ SPEC CHECKSUMS:
   GenericJSON: a6e74e2c457f8693caab08e0eafde7d97e6666de
   PromiseKit: 3b2b6995e51a954c46dbc550ce3da44fbfb563c5
   secp256k1.swift: a7e7a214f6db6ce5db32cc6b2b45e5c4dd633634
-  Torus-directSDK: e0c2dfad864b1c078b84e11184f50fd145a6be00
+  Torus-directSDK: 9c438e2a37ffc6f00efae50a87652ffbb12fe7f4
   Torus-fetchNodeDetails: c69511147b90578db35b875fd79d48752b4f994a
   Torus-utils: f18ee7f2556cad65c9e4f511eac05a82cc9c7708
   web3.swift: ce00a5e6e39fb184e33e3622e8be22ae53205e57
