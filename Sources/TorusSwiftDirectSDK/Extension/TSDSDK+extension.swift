@@ -63,7 +63,7 @@ extension TorusSwiftDirectSDK{
         switch self.authorizeURLHandler {
         case .external:
             // logger.warning("If possible, please use SFSafari flow")
-            let handler = ExternalURLHanlder()
+            let handler = ExternalURLHandler()
             handler.handle(URL(string: url)!, modalPresentationStyle: modalPresentationStyle)
         case .sfsafari:
             guard let controller = view else{

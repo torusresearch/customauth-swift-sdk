@@ -11,7 +11,6 @@ import TorusSwiftDirectSDK
 import FetchNodeDetails
 import PromiseKit
 import SafariServices
-import web3swift
 import CryptoSwift
 
 struct ContentView: View {

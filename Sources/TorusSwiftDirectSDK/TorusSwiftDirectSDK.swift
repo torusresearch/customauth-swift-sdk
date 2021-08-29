@@ -62,7 +62,9 @@ open class TorusSwiftDirectSDK{
                 self.torusUtils.setTorusNodePubKeys(nodePubKeys: self.torusNodePubKeys)
                 // self.torusUtils = self.factory.createTorusUtils(level: self.logger.logLevel, nodePubKeys: self.torusNodePubKeys)
                 seal.fulfill(self.endpoints)
-                }
+            }.catch{error in
+                seal.reject(error)
+            }
         }else{
             seal.fulfill(self.endpoints)
         }
@@ -93,15 +95,9 @@ open class TorusSwiftDirectSDK{
         if let subVerifier = self.subVerifierDetails.first{
             let loginURL = subVerifier.getLoginURL()
             observeCallback{ url in
-                self.logger.info(url)
-                var responseParameters = [String: String]()
-                if let query = url.query {
-                    responseParameters += query.parametersFromQueryString
-                }
-                if let fragment = url.fragment, !fragment.isEmpty {
-                    responseParameters += fragment.parametersFromQueryString
-                }
+                let responseParameters = self.parseURL(url: url)
                 self.logger.info("ResponseParams after redirect: ", responseParameters)
+                
                 subVerifier.getUserInfo(responseParameters: responseParameters).then{ newData -> Promise<[String: Any]> in
                     self.logger.info(newData)
                     var data = newData
@@ -128,14 +124,9 @@ open class TorusSwiftDirectSDK{
         if let subVerifier = self.subVerifierDetails.first{
             let loginURL = subVerifier.getLoginURL()
             observeCallback{ url in
-                var responseParameters = [String: String]()
-                if let query = url.query {
-                    responseParameters += query.parametersFromQueryString
-                }
-                if let fragment = url.fragment, !fragment.isEmpty {
-                    responseParameters += fragment.parametersFromQueryString
-                }
-                
+                let responseParameters = self.parseURL(url: url)
+                self.logger.info("ResponseParams after redirect: ", responseParameters)
+
                 subVerifier.getUserInfo(responseParameters: responseParameters).then{ newData -> Promise<[String:Any]> in
                     var data = newData
                     let verifierId = data["verifierId"] as! String

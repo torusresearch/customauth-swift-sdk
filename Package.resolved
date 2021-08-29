@@ -29,15 +29,6 @@
         }
       },
       {
-        "package": "Fakery",
-        "repositoryURL": "https://github.com/vadymmarkov/Fakery",
-        "state": {
-          "branch": null,
-          "revision": "71cb3bf36a808534659d1248780c2bf3c4c4fc91",
-          "version": "5.1.0"
-        }
-      },
-      {
         "package": "FetchNodeDetails",
         "repositoryURL": "https://github.com/torusresearch/fetch-node-details-swift",
         "state": {

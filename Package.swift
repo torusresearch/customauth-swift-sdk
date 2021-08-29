@@ -16,8 +16,7 @@ let package = Package(
     dependencies: [
         .package(name:"BestLogger", url: "https://github.com/rathishubham7/swift-logger", from: "0.0.1"),
         .package(name:"TorusUtils", url: "https://github.com/torusresearch/torus-utils-swift", from: "1.0.0"),
-//        .package(name:"TorusUtils", path: "../t/orus-utils-swift"),
-        .package(name: "Fakery", url: "https://github.com/vadymmarkov/Fakery", from: "5.0.0")
+//        .package(name:"TorusUtils", path: "../torus-utils-swift"),
     ],
     targets: [
         .target(
@@ -26,6 +25,6 @@ let package = Package(
             path: "Sources/TorusSwiftDirectSDK"),
         .testTarget(
             name: "TorusSwiftDirectSDKTests",
-            dependencies: ["TorusSwiftDirectSDK", "Fakery"]),
+            dependencies: ["TorusSwiftDirectSDK"]),
     ]
 )
