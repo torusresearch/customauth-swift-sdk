@@ -5,6 +5,9 @@ import PackageDescription
 
 let package = Package(
     name: "TorusSwiftDirectSDK",
+    platforms: [
+        .iOS(.v13),
+    ],
     products: [
         .library(
             name: "TorusSwiftDirectSDK",
@@ -12,9 +15,9 @@ let package = Package(
     ],
     dependencies: [
         .package(name:"BestLogger", url: "https://github.com/rathishubham7/swift-logger", from: "0.0.1"),
-        .package(name:"TorusUtils", url: "https://github.com/torusresearch/torus-utils-swift", .upToNextMinor(from: "0.1.0")),
-        .package(url: "https://github.com/krzyzanowskim/CryptoSwift.git", .exact("1.3.2")),
-        .package(url: "https://github.com/vadymmarkov/Fakery", from: "5.0.0")
+        .package(name:"TorusUtils", url: "https://github.com/torusresearch/torus-utils-swift", from: "1.0.0"),
+//        .package(name:"TorusUtils", path: "../t/orus-utils-swift"),
+        .package(name: "Fakery", url: "https://github.com/vadymmarkov/Fakery", from: "5.0.0")
     ],
     targets: [
         .target(
