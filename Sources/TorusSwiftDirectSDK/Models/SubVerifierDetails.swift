@@ -16,14 +16,14 @@ public enum SubVerifierType : String{
 
 // MARK: - subverifierdetails
 public struct SubVerifierDetails {
-    let loginType: SubVerifierType
-    let clientId: String
-    let subVerifierId: String
-    let loginProvider: LoginProviders
-    let redirectURL: String
-    let handler: AbstractLoginHandler
+    public let loginType: SubVerifierType
+    public let clientId: String
+    public let subVerifierId: String
+    public let loginProvider: LoginProviders
+    public let redirectURL: String
+    public let handler: AbstractLoginHandler
     
-    enum codingKeys: String, CodingKey{
+    public enum codingKeys: String, CodingKey{
         case clientId
         case loginProvider
         case subVerifierId

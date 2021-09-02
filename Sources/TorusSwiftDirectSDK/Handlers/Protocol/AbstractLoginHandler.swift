@@ -8,7 +8,7 @@
 import Foundation
 import PromiseKit
 
-protocol AbstractLoginHandler {
+public protocol AbstractLoginHandler {
     func getLoginURL() -> String;
     func getUserInfo(responseParameters: [String : String]) ->Promise<[String : Any]>;
     func getVerifierFromUserInfo() -> String;
