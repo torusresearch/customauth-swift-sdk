@@ -63,6 +63,16 @@ You can setup the redirect in two ways; URL Schemes or Universal links. Typicall
 
 In the info tab of your target, add your application name (ex. my-wallet-app). Add the redirect URL to the list of allowed redirect URLs in the OAuth providers settings page.
 
+- For SwiftUI, without using delegate (iOS 14+)
+```swift
+.onOpenURL { url in
+    guard let url = URLContexts.first?.url else {
+        return
+    }
+    TorusSwiftDirectSDK.handle(url: url)
+}
+```
+
 - For SwiftUI, implement the following in your SceneDelegate
 ```swift
 func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
