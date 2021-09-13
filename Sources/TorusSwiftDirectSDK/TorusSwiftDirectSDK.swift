@@ -10,7 +10,10 @@ import UIKit
 import TorusUtils
 import PromiseKit
 import FetchNodeDetails
-import BestLogger
+import OSLog
+
+// Global variable
+var tsSdkLogType = OSLogType.default
 
 @available(iOS 11.0, *)
 open class TorusSwiftDirectSDK{
@@ -20,7 +23,6 @@ open class TorusSwiftDirectSDK{
     let factory: TDSDKFactoryProtocol
     var torusUtils: AbstractTorusUtils
     let fetchNodeDetails: FetchNodeDetails
-    let logger: BestLogger
 
     public let aggregateVerifierType: verifierTypes?
     public let aggregateVerifierName: String
@@ -33,7 +35,6 @@ open class TorusSwiftDirectSDK{
         // factory method
         self.factory = factory
         self.torusUtils = factory.createTorusUtils(level: loglevel, nodePubKeys: [])
-        self.logger = factory.createLogger(label: "TorusSwiftDirectSDK", level: loglevel)
         self.fetchNodeDetails = factory.createFetchNodeDetails(network: network)
         
         // verifier details
@@ -96,10 +97,10 @@ open class TorusSwiftDirectSDK{
             let loginURL = subVerifier.getLoginURL()
             observeCallback{ url in
                 let responseParameters = self.parseURL(url: url)
-                self.logger.info("ResponseParams after redirect: ", responseParameters)
-                
+                log("ResponseParams after redirect: %@", log: TDSDKLogger.core, type: .info, responseParameters)
+
                 subVerifier.getUserInfo(responseParameters: responseParameters).then{ newData -> Promise<[String: Any]> in
-                    self.logger.info(newData)
+                    log("getUserInfo newData: %@", log: TDSDKLogger.core, type: .info, newData)
                     var data = newData
                     let verifierId = data["verifierId"] as! String
                     let idToken = data["tokenForKeys"] as! String
@@ -110,7 +111,7 @@ open class TorusSwiftDirectSDK{
                 }.done{data in
                     seal.fulfill(data)
                 }.catch{err in
-                    self.logger.error("handleSingleLogin: err:", err)
+                    log("handleSingleLogin: err: %s", log: TDSDKLogger.core, type: .error, err.localizedDescription)
                     seal.reject(err)
                 }
             }
@@ -125,8 +126,7 @@ open class TorusSwiftDirectSDK{
             let loginURL = subVerifier.getLoginURL()
             observeCallback{ url in
                 let responseParameters = self.parseURL(url: url)
-                self.logger.info("ResponseParams after redirect: ", responseParameters)
-
+                log("ResponseParams after redirect: %@", log: TDSDKLogger.core, type: .info, responseParameters)
                 subVerifier.getUserInfo(responseParameters: responseParameters).then{ newData -> Promise<[String:Any]> in
                     var data = newData
                     let verifierId = data["verifierId"] as! String
@@ -139,7 +139,7 @@ open class TorusSwiftDirectSDK{
                 }.done{data in
                     seal.fulfill(data)
                 }.catch{err in
-                    self.logger.error("handleSingleIdVerifier err:", err)
+                    log("handleSingleIdVerifier err: %s", log: TDSDKLogger.core, type: .error, err.localizedDescription)
                     seal.reject(err)
                 }
             }
@@ -172,7 +172,7 @@ open class TorusSwiftDirectSDK{
             data["publicAddress"] = responseFromRetrieveShares["publicAddress"]
             seal.fulfill(data)
         }.catch{err in
-            self.logger.error("handleSingleLogin: err:", err)
+            log("handleSingleLogin: err: %s", log: TDSDKLogger.core, type: .error, err.localizedDescription)
             seal.reject(err)
         }
         
@@ -194,7 +194,7 @@ open class TorusSwiftDirectSDK{
             data["publicAddress"] = responseFromRetrieveShares["publicAddress"]
             seal.fulfill(data)
         }.catch{err in
-            self.logger.error("handleSingleIdVerifier err:", err)
+            log("handleSingleIdVerifier err: %@", log: TDSDKLogger.core, type: .error, err.localizedDescription)
             seal.reject(err)
         }
         
