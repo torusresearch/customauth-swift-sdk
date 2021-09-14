@@ -9,7 +9,6 @@ import Foundation
 import TorusUtils
 import FetchNodeDetails
 import OSLog
-import BestLogger
 
 public protocol TDSDKFactoryProtocol{
     func createTorusUtils(level: OSLogType, nodePubKeys: Array<TorusNodePub>) -> AbstractTorusUtils
@@ -24,22 +23,6 @@ public class TDSDKFactory: TDSDKFactoryProtocol{
     }
     
     public func createTorusUtils(level: OSLogType, nodePubKeys: Array<TorusNodePub> = []) -> AbstractTorusUtils {
-        // TODO(michaellee8): remove the conversion here after TorusUtils migrated to OSLog
-        var blLevel = BestLogger.Level.none
-        switch level {
-        case .debug:
-            blLevel = .debug
-        case .info:
-            blLevel = .info
-        case .error:
-            blLevel = .error
-        case .fault:
-            blLevel = .error
-        case .default:
-            blLevel = .debug
-        default:
-            blLevel = .none
-        }
-        return TorusUtils(label: "TorusUtils", loglevel: blLevel, nodePubKeys: nodePubKeys)
+        return TorusUtils(nodePubKeys: nodePubKeys)
     }
 }

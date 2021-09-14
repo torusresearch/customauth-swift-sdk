@@ -21,7 +21,7 @@ let package = Package(
     targets: [
         .target(
             name: "TorusSwiftDirectSDK",
-            dependencies: ["TorusUtils", "BestLogger"],
+            dependencies: ["TorusUtils"],
             path: "Sources/TorusSwiftDirectSDK"),
         .testTarget(
             name: "TorusSwiftDirectSDKTests",
