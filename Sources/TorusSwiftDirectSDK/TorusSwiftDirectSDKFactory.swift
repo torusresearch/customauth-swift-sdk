@@ -8,9 +8,11 @@
 import Foundation
 import TorusUtils
 import FetchNodeDetails
+import OSLog
+import BestLogger
 
 public protocol TDSDKFactoryProtocol{
-    func createTorusUtils(level: BestLogger.Level, nodePubKeys: Array<TorusNodePub>) -> AbstractTorusUtils
+    func createTorusUtils(level: OSLogType, nodePubKeys: Array<TorusNodePub>) -> AbstractTorusUtils
     func createFetchNodeDetails(network: EthereumNetwork) -> FetchNodeDetails
 }
 
@@ -21,7 +23,23 @@ public class TDSDKFactory: TDSDKFactoryProtocol{
         return FetchNodeDetails(proxyAddress: net, network: network)
     }
     
-    public func createTorusUtils(level: BestLogger.Level, nodePubKeys: Array<TorusNodePub> = []) -> AbstractTorusUtils {
-        return TorusUtils(label: "TorusUtils", loglevel: level, nodePubKeys: nodePubKeys)
+    public func createTorusUtils(level: OSLogType, nodePubKeys: Array<TorusNodePub> = []) -> AbstractTorusUtils {
+        // TODO(michaellee8): remove the conversion here after TorusUtils migrated to OSLog
+        var blLevel = BestLogger.Level.none
+        switch level {
+        case .debug:
+            blLevel = .debug
+        case .info:
+            blLevel = .info
+        case .error:
+            blLevel = .error
+        case .fault:
+            blLevel = .error
+        case .default:
+            blLevel = .debug
+        default:
+            blLevel = .none
+        }
+        return TorusUtils(label: "TorusUtils", loglevel: blLevel, nodePubKeys: nodePubKeys)
     }
 }
