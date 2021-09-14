@@ -14,8 +14,8 @@ let package = Package(
             targets: ["TorusSwiftDirectSDK"]),
     ],
     dependencies: [
-        .package(name:"BestLogger", url: "https://github.com/rathishubham7/swift-logger", from: "0.0.1"),
-        .package(name:"TorusUtils", url: "https://github.com/torusresearch/torus-utils-swift", from: "1.0.0"),
+         // .package(name:"TorusUtils", url: "https://github.com/torusresearch/torus-utils-swift", from: "1.0.0"),
+         .package(name:"TorusUtils", url: "https://github.com/torusresearch/torus-utils-swift", .branch("feat/oslog")),
 //        .package(name:"TorusUtils", path: "../torus-utils-swift"),
     ],
     targets: [
