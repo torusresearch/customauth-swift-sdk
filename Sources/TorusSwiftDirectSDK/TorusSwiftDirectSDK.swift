@@ -74,6 +74,7 @@ open class TorusSwiftDirectSDK{
     }
     
     open func triggerLogin(controller: UIViewController? = nil, browserType: URLOpenerTypes = .sfsafari, modalPresentationStyle: UIModalPresentationStyle = .fullScreen) -> Promise<[String:Any]>{
+        log("triggerLogin called with %@ %@", log: TDSDKLogger.core, type: .info, browserType.rawValue,  modalPresentationStyle.rawValue)
         // Set browser
         self.authorizeURLHandler = browserType
         
