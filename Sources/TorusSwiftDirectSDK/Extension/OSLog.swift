@@ -19,6 +19,12 @@ public struct TDSDKLogger {
 }
 
 @available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
+func getTorusLogger(log: OSLog = .default, type: OSLogType = .default) -> OSLog {
+    var logCheck: OSLog { tsSdkLogType.rawValue <= type.rawValue ? log : TDSDKLogger.inactiveLog}
+    return logCheck
+}
+
+@available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
 func log(_ message: StaticString, dso: UnsafeRawPointer? = #dsohandle, log: OSLog = .default, type: OSLogType = .default, _ args: CVarArg...){
     var logCheck: OSLog { tsSdkLogType.rawValue <= type.rawValue ? log : TDSDKLogger.inactiveLog}
     os_logv(message, dso, logCheck, type, args)

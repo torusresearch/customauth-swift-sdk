@@ -10,6 +10,7 @@ import UIKit
 import TorusUtils
 import PromiseKit
 import SafariServices
+import OSLog
 
 
 @available(iOS 11.0, *)
@@ -47,7 +48,7 @@ extension TorusSwiftDirectSDK{
             object: nil,
             queue: OperationQueue.main) { [weak self] notification in
                 self?.removeCallbackNotificationObserver()
-                log("notification.userInfo: %s", log: TDSDKLogger.core, type: .info, notification.userInfo.debugDescription)
+                os_log("notification.userInfo: %s", log: getTorusLogger(log: TDSDKLogger.core, type: .info), type: .info, notification.userInfo.debugDescription)
                 if let urlFromUserInfo = notification.userInfo?["URL"] as? URL {
                     log("executing callback block", log: TDSDKLogger.core, type: .debug)
                     block(urlFromUserInfo)
@@ -58,7 +59,7 @@ extension TorusSwiftDirectSDK{
     }
     
     public func openURL(url: String, view: UIViewController?, modalPresentationStyle: UIModalPresentationStyle) {
-        log("opening URL: %s", log: TDSDKLogger.core, type: .info, url)
+        os_log("opening URL: %s", log: getTorusLogger(log: TDSDKLogger.core, type: .info), type: .info, url)
         
         switch self.authorizeURLHandler {
         case .external:
