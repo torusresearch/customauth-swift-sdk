@@ -34,7 +34,7 @@ open class TorusSwiftDirectSDK{
         
         // factory method
         self.factory = factory
-        self.torusUtils = factory.createTorusUtils(level: loglevel, nodePubKeys: [])
+        self.torusUtils = factory.createTorusUtils(nodePubKeys: [], loglevel: loglevel)
         self.fetchNodeDetails = factory.createFetchNodeDetails(network: network)
         
         // verifier details

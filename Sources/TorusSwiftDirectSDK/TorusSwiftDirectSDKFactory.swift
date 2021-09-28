@@ -11,7 +11,7 @@ import FetchNodeDetails
 import OSLog
 
 public protocol TDSDKFactoryProtocol{
-    func createTorusUtils(level: OSLogType, nodePubKeys: Array<TorusNodePub>) -> AbstractTorusUtils
+    func createTorusUtils(nodePubKeys: Array<TorusNodePub>, loglevel: OSLogType) -> AbstractTorusUtils
     func createFetchNodeDetails(network: EthereumNetwork) -> FetchNodeDetails
 }
 
@@ -22,7 +22,7 @@ public class TDSDKFactory: TDSDKFactoryProtocol{
         return FetchNodeDetails(proxyAddress: net, network: network)
     }
     
-    public func createTorusUtils(level: OSLogType, nodePubKeys: Array<TorusNodePub> = []) -> AbstractTorusUtils {
-        return TorusUtils(nodePubKeys: nodePubKeys)
+    public func createTorusUtils(nodePubKeys: Array<TorusNodePub> = [], loglevel: OSLogType) -> AbstractTorusUtils {
+        return TorusUtils(nodePubKeys: nodePubKeys, loglevel: loglevel)
     }
 }
