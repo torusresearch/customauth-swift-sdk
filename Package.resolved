@@ -32,9 +32,9 @@
         "package": "FetchNodeDetails",
         "repositoryURL": "https://github.com/torusresearch/fetch-node-details-swift",
         "state": {
-          "branch": "feat/oslog",
-          "revision": "469819c9f881b996431bfda5323da05783aad34c",
-          "version": null
+          "branch": null,
+          "revision": "9ca24bd5ade37d8075c1261e370c932235dfd984",
+          "version": "1.1.0"
         }
       },
       {
@@ -74,21 +74,12 @@
         }
       },
       {
-        "package": "BestLogger",
-        "repositoryURL": "https://github.com/rathishubham7/swift-logger",
-        "state": {
-          "branch": null,
-          "revision": "e1e2fa0a6ee9f572432835b70f980a8b36449575",
-          "version": "0.0.3"
-        }
-      },
-      {
         "package": "TorusUtils",
         "repositoryURL": "https://github.com/torusresearch/torus-utils-swift",
         "state": {
-          "branch": "feat/oslog",
-          "revision": "96081a3c30a6c785dbdfcf635431ecad0c73cc57",
-          "version": null
+          "branch": null,
+          "revision": "b3fe93bc5412c2354a9311d551bf61f1f9173a18",
+          "version": "1.1.0"
         }
       },
       {

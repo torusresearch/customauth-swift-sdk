@@ -1,5 +1,4 @@
 import Foundation
-import BestLogger
 import PromiseKit
 import TorusUtils
 import FetchNodeDetails
@@ -20,7 +19,6 @@ class MockTorusUtils: AbstractTorusUtils, MockAbstractTorusUtils {
     ]
     
     var label: String?
-    var loglevel: BestLogger.Level?
     var nodePubKeys: Array<TorusNodePub>?
 
     init(){

@@ -8,7 +8,6 @@
 import Foundation
 import FetchNodeDetails
 import TorusUtils
-import BestLogger
 import TorusSwiftDirectSDK
 import OSLog
 

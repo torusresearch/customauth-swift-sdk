@@ -1,5 +1,4 @@
 PODS:
-  - BestLogger (0.0.3)
   - BigInt (5.0.0)
   - CryptoSwift (1.4.1)
   - GenericJSON (2.0.1)
@@ -7,19 +6,16 @@ PODS:
   - PromiseKit/Foundation (6.15.3):
     - PromiseKit/CorePromise
   - secp256k1.swift (0.1.4)
-  - Torus-directSDK (1.0.3):
-    - BestLogger (~> 0.0.1)
-    - Torus-utils (~> 1.0.0)
-  - Torus-fetchNodeDetails (1.0.2):
-    - BestLogger (~> 0.0.1)
+  - Torus-directSDK (1.1.0):
+    - Torus-utils (~> 1.1.0)
+  - Torus-fetchNodeDetails (1.1.0):
     - PromiseKit/Foundation (~> 6.0)
     - web3.swift (~> 0.8.0)
-  - Torus-utils (1.0.0):
-    - BestLogger (~> 0.0.1)
+  - Torus-utils (1.1.0):
     - CryptoSwift (~> 1.4.1)
     - PromiseKit/Foundation (~> 6.0)
     - secp256k1.swift (~> 0.1.4)
-    - Torus-fetchNodeDetails (~> 1.0.0)
+    - Torus-fetchNodeDetails (~> 1.1.0)
   - web3.swift (0.8.1):
     - BigInt (~> 5.0.0)
     - GenericJSON (~> 2.0)
@@ -30,7 +26,6 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
-    - BestLogger
     - BigInt
     - CryptoSwift
     - GenericJSON
@@ -45,15 +40,14 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  BestLogger: 70475db073dfab3ec1ba9b58b0bb78126b068eee
   BigInt: 74b4d88367b0e819d9f77393549226d36faeb0d8
   CryptoSwift: 0bc800a7e6a24c4fc9ebeab97d44b0d5f73a78bd
   GenericJSON: a6e74e2c457f8693caab08e0eafde7d97e6666de
   PromiseKit: 3b2b6995e51a954c46dbc550ce3da44fbfb563c5
   secp256k1.swift: a7e7a214f6db6ce5db32cc6b2b45e5c4dd633634
-  Torus-directSDK: 9a96c9205f4107497d99f230bdb5a35f096ee7b4
-  Torus-fetchNodeDetails: 686e9877dbf43182828bb44c80884d0533389366
-  Torus-utils: f18ee7f2556cad65c9e4f511eac05a82cc9c7708
+  Torus-directSDK: 3398d857f86c2ff3f005d4d0c2a9c457c531b6e7
+  Torus-fetchNodeDetails: 5a9c1dc55d41f43b357d16d79273a59f706684d6
+  Torus-utils: e9be55c86e06069ed64b847ddb6a3380822802c4
   web3.swift: ce00a5e6e39fb184e33e3622e8be22ae53205e57
 
 PODFILE CHECKSUM: 7f12e4a5f53e55529b1089b524feb8f740b814e5
