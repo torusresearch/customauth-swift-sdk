@@ -8,12 +8,11 @@
 import Foundation
 import TorusUtils
 import FetchNodeDetails
-import BestLogger
+import OSLog
 
 public protocol TDSDKFactoryProtocol{
-    func createTorusUtils(level: BestLogger.Level, nodePubKeys: Array<TorusNodePub>) -> AbstractTorusUtils
+    func createTorusUtils(nodePubKeys: Array<TorusNodePub>, loglevel: OSLogType) -> AbstractTorusUtils
     func createFetchNodeDetails(network: EthereumNetwork) -> FetchNodeDetails
-    func createLogger(label: String, level: BestLogger.Level) -> BestLogger
 }
 
 
@@ -23,11 +22,7 @@ public class TDSDKFactory: TDSDKFactoryProtocol{
         return FetchNodeDetails(proxyAddress: net, network: network)
     }
     
-    public func createLogger(label: String, level: BestLogger.Level) -> BestLogger {
-        return BestLogger(label: label, level: level)
-    }
-    
-    public func createTorusUtils(level: BestLogger.Level, nodePubKeys: Array<TorusNodePub> = []) -> AbstractTorusUtils {
-        return TorusUtils(label: "TorusUtils", loglevel: level, nodePubKeys: nodePubKeys)
+    public func createTorusUtils(nodePubKeys: Array<TorusNodePub> = [], loglevel: OSLogType) -> AbstractTorusUtils {
+        return TorusUtils(nodePubKeys: nodePubKeys, loglevel: loglevel)
     }
 }

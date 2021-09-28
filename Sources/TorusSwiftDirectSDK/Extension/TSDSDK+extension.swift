@@ -10,6 +10,7 @@ import UIKit
 import TorusUtils
 import PromiseKit
 import SafariServices
+import OSLog
 
 
 @available(iOS 11.0, *)
@@ -47,9 +48,9 @@ extension TorusSwiftDirectSDK{
             object: nil,
             queue: OperationQueue.main) { [weak self] notification in
                 self?.removeCallbackNotificationObserver()
-                self?.logger.info(notification.userInfo as Any)
+                os_log("notification.userInfo: %s", log: getTorusLogger(log: TDSDKLogger.core, type: .info), type: .info, notification.userInfo.debugDescription)
                 if let urlFromUserInfo = notification.userInfo?["URL"] as? URL {
-                    self?.logger.debug("executing callback block")
+                    os_log("executing callback block", log: getTorusLogger(log: TDSDKLogger.core, type: .error), type: .error)
                     block(urlFromUserInfo)
                 }else{
                     assertionFailure()
@@ -58,22 +59,21 @@ extension TorusSwiftDirectSDK{
     }
     
     public func openURL(url: String, view: UIViewController?, modalPresentationStyle: UIModalPresentationStyle) {
-        self.logger.info("opening URL \(url)")
+        os_log("opening URL: %s", log: getTorusLogger(log: TDSDKLogger.core, type: .info), type: .info, url)
         
         switch self.authorizeURLHandler {
         case .external:
-            // logger.warning("If possible, please use SFSafari flow")
             let handler = ExternalURLHandler()
             handler.handle(URL(string: url)!, modalPresentationStyle: modalPresentationStyle)
         case .sfsafari:
             guard let controller = view else{
-                logger.error("UIViewController not available. Please modify triggerLogin(controller:)")
+                os_log("UIViewController not available. Please modify triggerLogin(controller:)", log: getTorusLogger(log: TDSDKLogger.core, type: .error), type: .error)
                 return
             }
             let handler = SFURLHandler(viewController: controller)
             handler.handle(URL(string: url)!, modalPresentationStyle: modalPresentationStyle)
         case .none:
-            logger.error("Cannot access specified browser")
+            os_log("Cannot access specified browser", log: getTorusLogger(log: TDSDKLogger.core, type: .error), type: .error)
         }
     }
     

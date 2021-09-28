@@ -10,7 +10,10 @@ import UIKit
 import TorusUtils
 import PromiseKit
 import FetchNodeDetails
-import BestLogger
+import OSLog
+
+// Global variable
+var tsSdkLogType = OSLogType.default
 
 @available(iOS 11.0, *)
 open class TorusSwiftDirectSDK{
@@ -20,7 +23,6 @@ open class TorusSwiftDirectSDK{
     let factory: TDSDKFactoryProtocol
     var torusUtils: AbstractTorusUtils
     let fetchNodeDetails: FetchNodeDetails
-    let logger: BestLogger
 
     public let aggregateVerifierType: verifierTypes?
     public let aggregateVerifierName: String
@@ -28,12 +30,12 @@ open class TorusSwiftDirectSDK{
     public var authorizeURLHandler: URLOpenerTypes?
     var observer: NSObjectProtocol? // useful for Notifications
     
-    public init(aggregateVerifierType: verifierTypes, aggregateVerifierName: String, subVerifierDetails: [SubVerifierDetails], factory: TDSDKFactoryProtocol, network: EthereumNetwork = .MAINNET, loglevel: BestLogger.Level = .none) {
+    public init(aggregateVerifierType: verifierTypes, aggregateVerifierName: String, subVerifierDetails: [SubVerifierDetails], factory: TDSDKFactoryProtocol, network: EthereumNetwork = .MAINNET, loglevel: OSLogType = .debug) {
+        tsSdkLogType = loglevel
         
         // factory method
         self.factory = factory
-        self.torusUtils = factory.createTorusUtils(level: loglevel, nodePubKeys: [])
-        self.logger = factory.createLogger(label: "TorusSwiftDirectSDK", level: loglevel)
+        self.torusUtils = factory.createTorusUtils(nodePubKeys: [], loglevel: loglevel)
         self.fetchNodeDetails = factory.createFetchNodeDetails(network: network)
         
         // verifier details
@@ -44,12 +46,12 @@ open class TorusSwiftDirectSDK{
     
     public convenience init(aggregateVerifierType: verifierTypes, aggregateVerifierName: String, subVerifierDetails: [SubVerifierDetails]){
         let factory = TDSDKFactory()
-        self.init(aggregateVerifierType: aggregateVerifierType, aggregateVerifierName: aggregateVerifierName, subVerifierDetails: subVerifierDetails, factory: factory, network: .MAINNET, loglevel: .none)
+        self.init(aggregateVerifierType: aggregateVerifierType, aggregateVerifierName: aggregateVerifierName, subVerifierDetails: subVerifierDetails, factory: factory, network: .MAINNET, loglevel: .debug)
     }
     
     public convenience init(aggregateVerifierType: verifierTypes, aggregateVerifierName: String, subVerifierDetails: [SubVerifierDetails], network: EthereumNetwork){
         let factory = TDSDKFactory()
-        self.init(aggregateVerifierType: aggregateVerifierType, aggregateVerifierName: aggregateVerifierName, subVerifierDetails: subVerifierDetails, factory: factory, network: network, loglevel: .none)
+        self.init(aggregateVerifierType: aggregateVerifierType, aggregateVerifierName: aggregateVerifierName, subVerifierDetails: subVerifierDetails, factory: factory, network: network, loglevel: .debug)
     }
     
     open func getNodeDetailsFromContract() -> Promise<Array<String>>{
@@ -73,6 +75,7 @@ open class TorusSwiftDirectSDK{
     }
     
     open func triggerLogin(controller: UIViewController? = nil, browserType: URLOpenerTypes = .sfsafari, modalPresentationStyle: UIModalPresentationStyle = .fullScreen) -> Promise<[String:Any]>{
+        os_log("triggerLogin called with %@ %@", log: getTorusLogger(log: TDSDKLogger.core, type: .info), type: .info, browserType.rawValue,  modalPresentationStyle.rawValue)
         // Set browser
         self.authorizeURLHandler = browserType
         
@@ -96,10 +99,10 @@ open class TorusSwiftDirectSDK{
             let loginURL = subVerifier.getLoginURL()
             observeCallback{ url in
                 let responseParameters = self.parseURL(url: url)
-                self.logger.info("ResponseParams after redirect: ", responseParameters)
-                
+                os_log("ResponseParams after redirect: %@", log: getTorusLogger(log: TDSDKLogger.core, type: .info), type: .info, responseParameters)
+
                 subVerifier.getUserInfo(responseParameters: responseParameters).then{ newData -> Promise<[String: Any]> in
-                    self.logger.info(newData)
+                    os_log("getUserInfo newData: %@", log: getTorusLogger(log: TDSDKLogger.core, type: .info), type: .info, newData)
                     var data = newData
                     let verifierId = data["verifierId"] as! String
                     let idToken = data["tokenForKeys"] as! String
@@ -110,7 +113,7 @@ open class TorusSwiftDirectSDK{
                 }.done{data in
                     seal.fulfill(data)
                 }.catch{err in
-                    self.logger.error("handleSingleLogin: err:", err)
+                    os_log("handleSingleLogin: err: %s", log: getTorusLogger(log: TDSDKLogger.core, type: .error), type: .error, err.localizedDescription)
                     seal.reject(err)
                 }
             }
@@ -125,8 +128,7 @@ open class TorusSwiftDirectSDK{
             let loginURL = subVerifier.getLoginURL()
             observeCallback{ url in
                 let responseParameters = self.parseURL(url: url)
-                self.logger.info("ResponseParams after redirect: ", responseParameters)
-
+                os_log("ResponseParams after redirect: %@", log: getTorusLogger(log: TDSDKLogger.core, type: .info), type: .info, responseParameters)
                 subVerifier.getUserInfo(responseParameters: responseParameters).then{ newData -> Promise<[String:Any]> in
                     var data = newData
                     let verifierId = data["verifierId"] as! String
@@ -139,7 +141,7 @@ open class TorusSwiftDirectSDK{
                 }.done{data in
                     seal.fulfill(data)
                 }.catch{err in
-                    self.logger.error("handleSingleIdVerifier err:", err)
+                    os_log("handleSingleIdVerifier err: %s", log: getTorusLogger(log: TDSDKLogger.core, type: .error), type: .error, err.localizedDescription)
                     seal.reject(err)
                 }
             }
@@ -172,7 +174,7 @@ open class TorusSwiftDirectSDK{
             data["publicAddress"] = responseFromRetrieveShares["publicAddress"]
             seal.fulfill(data)
         }.catch{err in
-            self.logger.error("handleSingleLogin: err:", err)
+            os_log("handleSingleLogin: err: %s", log: getTorusLogger(log: TDSDKLogger.core, type: .error), type: .error, err.localizedDescription)
             seal.reject(err)
         }
         
@@ -194,7 +196,7 @@ open class TorusSwiftDirectSDK{
             data["publicAddress"] = responseFromRetrieveShares["publicAddress"]
             seal.fulfill(data)
         }.catch{err in
-            self.logger.error("handleSingleIdVerifier err:", err)
+            os_log("handleSingleIdVerifier err: %@", log: getTorusLogger(log: TDSDKLogger.core, type: .error), type: .error, err.localizedDescription)
             seal.reject(err)
         }
         
