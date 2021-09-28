@@ -31,6 +31,7 @@ open class TorusSwiftDirectSDK{
     var observer: NSObjectProtocol? // useful for Notifications
     
     public init(aggregateVerifierType: verifierTypes, aggregateVerifierName: String, subVerifierDetails: [SubVerifierDetails], factory: TDSDKFactoryProtocol, network: EthereumNetwork = .MAINNET, loglevel: OSLogType = .debug) {
+        tsSdkLogType = loglevel
         
         // factory method
         self.factory = factory
