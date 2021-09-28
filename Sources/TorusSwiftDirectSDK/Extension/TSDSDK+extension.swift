@@ -50,7 +50,7 @@ extension TorusSwiftDirectSDK{
                 self?.removeCallbackNotificationObserver()
                 os_log("notification.userInfo: %s", log: getTorusLogger(log: TDSDKLogger.core, type: .info), type: .info, notification.userInfo.debugDescription)
                 if let urlFromUserInfo = notification.userInfo?["URL"] as? URL {
-                    log("executing callback block", log: TDSDKLogger.core, type: .debug)
+                    os_log("executing callback block", log: getTorusLogger(log: TDSDKLogger.core, type: .error), type: .error)
                     block(urlFromUserInfo)
                 }else{
                     assertionFailure()
@@ -63,18 +63,17 @@ extension TorusSwiftDirectSDK{
         
         switch self.authorizeURLHandler {
         case .external:
-            // logger.warning("If possible, please use SFSafari flow")
             let handler = ExternalURLHandler()
             handler.handle(URL(string: url)!, modalPresentationStyle: modalPresentationStyle)
         case .sfsafari:
             guard let controller = view else{
-                log("UIViewController not available. Please modify triggerLogin(controller:)", log: TDSDKLogger.core, type: .error)
+                os_log("UIViewController not available. Please modify triggerLogin(controller:)", log: getTorusLogger(log: TDSDKLogger.core, type: .error), type: .error)
                 return
             }
             let handler = SFURLHandler(viewController: controller)
             handler.handle(URL(string: url)!, modalPresentationStyle: modalPresentationStyle)
         case .none:
-            log("Cannot access specified browser", log: TDSDKLogger.core, type: .error)
+            os_log("Cannot access specified browser", log: getTorusLogger(log: TDSDKLogger.core, type: .error), type: .error)
         }
     }
     

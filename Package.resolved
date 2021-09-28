@@ -32,9 +32,9 @@
         "package": "FetchNodeDetails",
         "repositoryURL": "https://github.com/torusresearch/fetch-node-details-swift",
         "state": {
-          "branch": null,
-          "revision": "fa5df65e45c4fc82940ee198520ace4f611946de",
-          "version": "1.0.0"
+          "branch": "feat/oslog",
+          "revision": "469819c9f881b996431bfda5323da05783aad34c",
+          "version": null
         }
       },
       {
@@ -86,9 +86,9 @@
         "package": "TorusUtils",
         "repositoryURL": "https://github.com/torusresearch/torus-utils-swift",
         "state": {
-          "branch": null,
-          "revision": "2f6dc48f668ed1d5bcc191e33af6b15d196e03a2",
-          "version": "1.0.1"
+          "branch": "feat/oslog",
+          "revision": "96081a3c30a6c785dbdfcf635431ecad0c73cc57",
+          "version": null
         }
       },
       {
