@@ -10,6 +10,9 @@ import TorusUtils
 import FetchNodeDetails
 import OSLog
 
+
+/// A protocol should be implmented by users of `TorusSwiftDirectSDK`. It provides a way
+/// to stub or mock the TorusDirectSwiftSDk for testing.
 public protocol TDSDKFactoryProtocol{
     func createTorusUtils(nodePubKeys: Array<TorusNodePub>, loglevel: OSLogType) -> AbstractTorusUtils
     func createFetchNodeDetails(network: EthereumNetwork) -> FetchNodeDetails
