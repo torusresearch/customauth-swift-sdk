@@ -58,6 +58,7 @@ extension TorusSwiftDirectSDK{
         }
     }
     
+    
     public func openURL(url: String, view: UIViewController?, modalPresentationStyle: UIModalPresentationStyle) {
         os_log("opening URL: %s", log: getTorusLogger(log: TDSDKLogger.core, type: .info), type: .info, url)
         

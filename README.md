@@ -35,7 +35,7 @@ If you require a package manager other than SPM or Cocoapods, do reach out to he
 
 ### 2. Initialization
 
-Initalize the SDK depending on the login you require. The example below does so for a single google login. 
+Initalize the SDK depending on the login you require. The example below does so for a single google login. `redirectURL` refers to a url for the login flow to redirect into your app, it should have a scheme that is registered by your app, for example `com.mycompany.myapp://redirect`. `browserRedirectURL` refers to a page that the browser should use in the login flow, it should have a http or https scheme.
 ```swift
 import TorusSwiftDirectSDK
 
@@ -43,11 +43,12 @@ let sub = SubVerifierDetails(loginType: .installed, // default .web
                             loginProvider: .google,
                             clientId: "<your-client-id>",
                             verifierName: "<verifier-name>",
-                            redirectURL: "<your-redirect-url>")
-let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: "<type-of-verifier>," aggregateVerifierName: "<verifier-name>", subVerifierDetails: [sub])
+                            redirectURL: "<your-redirect-url>",
+                            browserRedirectURL: "<your-browser-redirect-url>")
+let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: "<type-of-verifier>," aggregateVerifierName: "<verifier-name>", subVerifierDetails: [sub], network: <etherum-network-to-use>)
 
 // controller is used to present a SFSafariViewController.
-tdsdk.triggerLogin(controller: <UIViewController>?).done{ data in
+tdsdk.triggerLogin(controller: <UIViewController>?, browserType: <method-of-opening-browser>, modalPresentationStyle: <style-of-modal>).done{ data in
     print("private key rebuild", data)
 }.catch{ err in
     print(err)
