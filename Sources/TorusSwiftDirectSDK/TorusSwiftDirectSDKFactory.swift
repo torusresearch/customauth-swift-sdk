@@ -28,4 +28,8 @@ public class TDSDKFactory: TDSDKFactoryProtocol{
     public func createTorusUtils(nodePubKeys: Array<TorusNodePub> = [], loglevel: OSLogType) -> AbstractTorusUtils {
         return TorusUtils(nodePubKeys: nodePubKeys, loglevel: loglevel)
     }
+    
+    public init(){
+        
+    }
 }

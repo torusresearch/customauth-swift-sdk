@@ -74,6 +74,16 @@ open class TorusSwiftDirectSDK{
         self.init(aggregateVerifierType: aggregateVerifierType, aggregateVerifierName: aggregateVerifierName, subVerifierDetails: subVerifierDetails, factory: factory, network: network, loglevel: .debug)
     }
     
+    public convenience init(aggregateVerifierType: verifierTypes, aggregateVerifierName: String, subVerifierDetails: [SubVerifierDetails], network: EthereumNetwork, loglevel: OSLogType = .debug){
+        let factory = TDSDKFactory()
+        self.init(aggregateVerifierType: aggregateVerifierType, aggregateVerifierName: aggregateVerifierName, subVerifierDetails: subVerifierDetails, factory: factory, network: network, loglevel: loglevel)
+    }
+    
+    public convenience init(aggregateVerifierType: verifierTypes, aggregateVerifierName: String, subVerifierDetails: [SubVerifierDetails], loglevel: OSLogType = .debug){
+        let factory = TDSDKFactory()
+        self.init(aggregateVerifierType: aggregateVerifierType, aggregateVerifierName: aggregateVerifierName, subVerifierDetails: subVerifierDetails, factory: factory, network: .MAINNET, loglevel: loglevel)
+    }
+    
     /// Retrieve information of Torus nodes from a predefined Etherum contract.
     /// - Returns: An array of URLs to the nodes.
     open func getNodeDetailsFromContract() -> Promise<Array<String>>{
