@@ -45,6 +45,7 @@ let sub = SubVerifierDetails(loginType: .installed, // default .web
                             verifierName: "<verifier-name>",
                             redirectURL: "<your-redirect-url>",
                             browserRedirectURL: "<your-browser-redirect-url>")
+
 let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: "<type-of-verifier>", aggregateVerifierName: "<verifier-name>", subVerifierDetails: [sub], network: <etherum-network-to-use>)
 
 // controller is used to present a SFSafariViewController.
