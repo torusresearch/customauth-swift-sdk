@@ -37,7 +37,7 @@ final class IntegrationTests: XCTestCase {
         }.catch{err in
             XCTFail()
         }
-        wait(for: [exp1], timeout: 10)
+        wait(for: [exp1], timeout: 15)
     }
 }
 

@@ -206,20 +206,13 @@ open class TorusSwiftDirectSDK{
     ///   - userData: Custom data that will be returned with `privateKey` and `publicAddress`.
     /// - Returns: A promise that resolve with a Dictionary that contain at least `privateKey` and `publicAddress` field..
     open func getTorusKey(verifier: String, verifierId: String, idToken:String, userData: [String: Any] = [:] ) -> Promise<[String: Any]>{
-        let extraParams = ["verifieridentifier": self.aggregateVerifierName, "verifier_id":verifierId] as [String : Any]
+        let extraParams = ["verifieridentifier": verifier, "verifier_id":verifierId] as [String : Any]
         let buffer: Data = try! NSKeyedArchiver.archivedData(withRootObject: extraParams, requiringSecureCoding: false)
         
         let (tempPromise, seal) = Promise<[String: Any]>.pending()
         
         self.getNodeDetailsFromContract().then{ endpoints -> Promise<[String:String]> in
-            
-            let newEndpoints = ["https://teal-15-1.torusnode.com/jrpc", "https://teal-15-3.torusnode.com/jrpc", "https://teal-15-4.torusnode.com/jrpc", "https://teal-15-5.torusnode.com/jrpc", "https://teal-15-2.torusnode.com/jrpc"]
-            self.torusUtils.setTorusNodePubKeys(nodePubKeys: [TorusNodePub(_X:  "1363AAD8868CACD7F8946C590325CD463106FB3731F08811AB4302D2DEAE35C3" , _Y:  "D77EEBE5CDF466B475EC892D5B4CFFBE0C1670525DEBBD97EEE6DAE2F87A7CBE" ),
-                                                                                       TorusNodePub(_X:  "7C8CC521C48690F016BEA593F67F88AD24F447DD6C31BBAB541E59E207BF029D" , _Y:  "B359F0A82608DB2E06B953B36D0C9A473A00458117CA32A5B0F4563A7D539636" ),
-                                                                                       TorusNodePub(_X:  "8A86543CA17DF5687719E2549CAA024CF17FE0361E119E741EAEE668F8DD0A6F" , _Y:  "9CDB254FF915A76950D6D13D78EF054D5D0DC34E2908C00BB009A6E4DA701891" ),
-                                                                                       TorusNodePub(_X:  "25A98D9AE006AED1D77E81D58BE8F67193D13D01A9888E2923841894F4B0BF9C" , _Y:  "F63D40DF480DACF68922004ED36DBAB9E2969181B047730A5CE0797FB6958249" ),
-                                                                                       TorusNodePub(_X:  "D908F41F8E06324A8A7ABCF702ADB6A273CE3AE63D86A3D22723E1BBF1438C9A" , _Y:  "F977530B3EC0E525438C72D1E768380CBC5FB3B38A760EE925053B2E169428CE" )])
-            return self.torusUtils.retrieveShares(endpoints: newEndpoints, verifierIdentifier: self.aggregateVerifierName, verifierId: verifierId, idToken: idToken, extraParams: buffer)
+            return self.torusUtils.retrieveShares(endpoints: endpoints, verifierIdentifier: verifier, verifierId: verifierId, idToken: idToken, extraParams: buffer)
         }.done{ responseFromRetrieveShares in
             var data = userData
             data["privateKey"] = responseFromRetrieveShares["privateKey"]
