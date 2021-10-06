@@ -206,13 +206,13 @@ open class TorusSwiftDirectSDK{
     ///   - userData: Custom data that will be returned with `privateKey` and `publicAddress`.
     /// - Returns: A promise that resolve with a Dictionary that contain at least `privateKey` and `publicAddress` field..
     open func getTorusKey(verifier: String, verifierId: String, idToken:String, userData: [String: Any] = [:] ) -> Promise<[String: Any]>{
-        let extraParams = ["verifieridentifier": self.aggregateVerifierName, "verifier_id":verifierId] as [String : Any]
+        let extraParams = ["verifieridentifier": verifier, "verifier_id":verifierId] as [String : Any]
         let buffer: Data = try! NSKeyedArchiver.archivedData(withRootObject: extraParams, requiringSecureCoding: false)
         
         let (tempPromise, seal) = Promise<[String: Any]>.pending()
         
-        self.getNodeDetailsFromContract().then{ endpoints in
-            return self.torusUtils.retrieveShares(endpoints: endpoints, verifierIdentifier: self.aggregateVerifierName, verifierId: verifierId, idToken: idToken, extraParams: buffer)
+        self.getNodeDetailsFromContract().then{ endpoints -> Promise<[String:String]> in
+            return self.torusUtils.retrieveShares(endpoints: endpoints, verifierIdentifier: verifier, verifierId: verifierId, idToken: idToken, extraParams: buffer)
         }.done{ responseFromRetrieveShares in
             var data = userData
             data["privateKey"] = responseFromRetrieveShares["privateKey"]
