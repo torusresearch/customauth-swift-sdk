@@ -6,8 +6,8 @@
         "repositoryURL": "https://github.com/attaswift/BigInt",
         "state": {
           "branch": null,
-          "revision": "889a1ecacd73ccc189c5cb29288048f186c44ed9",
-          "version": "5.2.1"
+          "revision": "0ed110f7555c34ff468e72e1686e59721f2b0da6",
+          "version": "5.3.0"
         }
       },
       {
@@ -24,17 +24,17 @@
         "repositoryURL": "https://github.com/krzyzanowskim/CryptoSwift.git",
         "state": {
           "branch": null,
-          "revision": "8d4f6384e0a8cc41f2005247241dd553963a492a",
-          "version": "1.4.1"
+          "revision": "4b0565384d3c4c588af09e660535b2c7c9bf5b39",
+          "version": "1.4.2"
         }
       },
       {
         "package": "FetchNodeDetails",
         "repositoryURL": "https://github.com/torusresearch/fetch-node-details-swift",
         "state": {
-          "branch": "feat/oslog",
-          "revision": "f7e82d92f671e780e970702d0a6cc32f187abd23",
-          "version": null
+          "branch": null,
+          "revision": "9ca24bd5ade37d8075c1261e370c932235dfd984",
+          "version": "1.1.0"
         }
       },
       {
@@ -56,12 +56,21 @@
         }
       },
       {
+        "package": "jwt-kit",
+        "repositoryURL": "https://github.com/vapor/jwt-kit.git",
+        "state": {
+          "branch": null,
+          "revision": "ca2edf69a613f3d89354114f56cfd9921d2727d5",
+          "version": "4.2.6"
+        }
+      },
+      {
         "package": "PromiseKit",
         "repositoryURL": "https://github.com/mxcl/PromiseKit.git",
         "state": {
           "branch": null,
-          "revision": "d2f7ba14bcdc45e18f4f60ad9df883fb9055f081",
-          "version": "6.15.3"
+          "revision": "2ff97931d2721ecae9f94d8cbf4cf853a7d79180",
+          "version": "6.16.0"
         }
       },
       {
@@ -74,21 +83,21 @@
         }
       },
       {
-        "package": "BestLogger",
-        "repositoryURL": "https://github.com/rathishubham7/swift-logger",
+        "package": "swift-crypto",
+        "repositoryURL": "https://github.com/apple/swift-crypto.git",
         "state": {
           "branch": null,
-          "revision": "e1e2fa0a6ee9f572432835b70f980a8b36449575",
-          "version": "0.0.3"
+          "revision": "127d3745c37b5705e4bc8d16c7951c48dcc3332c",
+          "version": "2.0.0"
         }
       },
       {
         "package": "TorusUtils",
         "repositoryURL": "https://github.com/torusresearch/torus-utils-swift",
         "state": {
-          "branch": "feat/oslog",
-          "revision": "0600a2c412dccc30cd8025d420de87d2d65e3e7c",
-          "version": null
+          "branch": null,
+          "revision": "7401de7a95e5b8b796fc4d6e1ee060a93f00e48c",
+          "version": "1.1.3"
         }
       },
       {
