@@ -75,7 +75,8 @@ class GoogleloginHandler: AbstractLoginHandler{
                 data = "grant_type=authorization_code&redirect_uri=\(self.redirectURL)&client_id=\(self.clientID)&code=\(code)".data(using: .utf8)!
                 
                 // Send request to retreive access token and id_token
-                URLSession.shared.uploadTask(.promise, with: request, from: data).compactMap{
+                request.httpBody = data
+                URLSession.shared.dataTask(.promise, with: request).compactMap{
                     try JSONSerialization.jsonObject(with: $0.data) as? [String:Any]
                 }.then{ data -> Promise<(Data, Any)> in
                     
