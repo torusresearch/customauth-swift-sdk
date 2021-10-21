@@ -6,7 +6,9 @@ name: CI
 on:
   # Triggers the workflow on push or pull request events but only for the master branch
   push:
-    branches: [ master ]
+    branches:
+      - master
+      - fix/kukai-ci
   pull_request:
     branches: [ master ]
 
@@ -27,7 +29,6 @@ jobs:
         with:
           platform: ${{ matrix.platform }}
           action: test
-          scheme: TorusDirectSDKDemo
           code-coverage: true
           upload-logs: always
       
