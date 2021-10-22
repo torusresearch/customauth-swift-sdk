@@ -25,6 +25,8 @@ jobs:
           - iOS
     steps:
       - uses: actions/checkout@v2.3.4
+      - name: Remove Development.xcworkspace to avoid tooling confusion
+        run: rm -rf Development.xcworkspace
       - uses: mxcl/xcodebuild@v1
         with:
           platform: ${{ matrix.platform }}
