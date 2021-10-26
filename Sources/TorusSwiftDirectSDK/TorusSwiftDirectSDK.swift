@@ -24,7 +24,8 @@ open class TorusSwiftDirectSDK{
     let factory: TDSDKFactoryProtocol
     var torusUtils: AbstractTorusUtils
     let fetchNodeDetails: FetchNodeDetails
-
+    var urlSession: URLSession
+    
     public let aggregateVerifierType: verifierTypes?
     public let aggregateVerifierName: String
     public let subVerifierDetails: [SubVerifierDetails]
@@ -39,13 +40,14 @@ open class TorusSwiftDirectSDK{
     ///   - factory: Providng mocking by implementing TDSDKFactoryProtocol.
     ///   - network: Etherum network to be used.
     ///   - loglevel: Indicates the log level of this instance. All logs lower than this level will be ignored.
-    public init(aggregateVerifierType: verifierTypes, aggregateVerifierName: String, subVerifierDetails: [SubVerifierDetails], factory: TDSDKFactoryProtocol, network: EthereumNetwork = .MAINNET, loglevel: OSLogType = .debug) {
+    public init(aggregateVerifierType: verifierTypes, aggregateVerifierName: String, subVerifierDetails: [SubVerifierDetails], factory: TDSDKFactoryProtocol, network: EthereumNetwork = .MAINNET, loglevel: OSLogType = .debug, urlSession: URLSession = URLSession.shared) {
         tsSdkLogType = loglevel
         
         // factory method
         self.factory = factory
-        self.torusUtils = factory.createTorusUtils(nodePubKeys: [], loglevel: loglevel)
-        self.fetchNodeDetails = factory.createFetchNodeDetails(network: network)
+        self.urlSession = urlSession
+        self.torusUtils = factory.createTorusUtils(nodePubKeys: [], loglevel: loglevel, urlSession: urlSession)
+        self.fetchNodeDetails = factory.createFetchNodeDetails(network: network, urlSession: urlSession)
         
         // verifier details
         self.aggregateVerifierName = aggregateVerifierName
