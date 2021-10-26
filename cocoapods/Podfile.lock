@@ -1,17 +1,17 @@
 PODS:
   - BigInt (5.0.0)
-  - CryptoSwift (1.4.1)
+  - CryptoSwift (1.4.2)
   - GenericJSON (2.0.1)
   - PromiseKit/CorePromise (6.15.3)
   - PromiseKit/Foundation (6.15.3):
     - PromiseKit/CorePromise
   - secp256k1.swift (0.1.4)
-  - Torus-directSDK (1.1.0):
+  - Torus-directSDK (1.1.2):
     - Torus-utils (~> 1.1.0)
-  - Torus-fetchNodeDetails (1.1.0):
+  - Torus-fetchNodeDetails (1.1.1):
     - PromiseKit/Foundation (~> 6.0)
     - web3.swift (~> 0.8.0)
-  - Torus-utils (1.1.0):
+  - Torus-utils (1.1.2):
     - CryptoSwift (~> 1.4.1)
     - PromiseKit/Foundation (~> 6.0)
     - secp256k1.swift (~> 0.1.4)
@@ -23,6 +23,8 @@ PODS:
 
 DEPENDENCIES:
   - Torus-directSDK (from `../`)
+  - Torus-fetchNodeDetails (from `https://github.com/torusresearch/fetch-node-details-swift`, branch `feat/urlsession`)
+  - Torus-utils (from `https://github.com/torusresearch/torus-utils-swift`, branch `feat/urlsession`)
 
 SPEC REPOS:
   trunk:
@@ -31,25 +33,37 @@ SPEC REPOS:
     - GenericJSON
     - PromiseKit
     - secp256k1.swift
-    - Torus-fetchNodeDetails
-    - Torus-utils
     - web3.swift
 
 EXTERNAL SOURCES:
   Torus-directSDK:
     :path: "../"
+  Torus-fetchNodeDetails:
+    :branch: feat/urlsession
+    :git: https://github.com/torusresearch/fetch-node-details-swift
+  Torus-utils:
+    :branch: feat/urlsession
+    :git: https://github.com/torusresearch/torus-utils-swift
+
+CHECKOUT OPTIONS:
+  Torus-fetchNodeDetails:
+    :commit: 9a2d2922b5a377da1caab141acfb3343293cde71
+    :git: https://github.com/torusresearch/fetch-node-details-swift
+  Torus-utils:
+    :commit: 25743b7c586b3784e37d2a036d6e0d997ebc0225
+    :git: https://github.com/torusresearch/torus-utils-swift
 
 SPEC CHECKSUMS:
   BigInt: 74b4d88367b0e819d9f77393549226d36faeb0d8
-  CryptoSwift: 0bc800a7e6a24c4fc9ebeab97d44b0d5f73a78bd
+  CryptoSwift: a532e74ed010f8c95f611d00b8bbae42e9fe7c17
   GenericJSON: a6e74e2c457f8693caab08e0eafde7d97e6666de
   PromiseKit: 3b2b6995e51a954c46dbc550ce3da44fbfb563c5
   secp256k1.swift: a7e7a214f6db6ce5db32cc6b2b45e5c4dd633634
-  Torus-directSDK: 3398d857f86c2ff3f005d4d0c2a9c457c531b6e7
-  Torus-fetchNodeDetails: 5a9c1dc55d41f43b357d16d79273a59f706684d6
-  Torus-utils: e9be55c86e06069ed64b847ddb6a3380822802c4
+  Torus-directSDK: 48eebf3953fc7b5b5d4e881d6a55193296bc23ac
+  Torus-fetchNodeDetails: 2f8a7ae2b6d7e193d4e7e3df00fb83db8de653b4
+  Torus-utils: 0c61936fe5e048690b9ceae376d1f1d75f3aae5f
   web3.swift: ce00a5e6e39fb184e33e3622e8be22ae53205e57
 
-PODFILE CHECKSUM: 7f12e4a5f53e55529b1089b524feb8f740b814e5
+PODFILE CHECKSUM: 3fcc5149b065d14f94782604c07cac2e91428f33
 
-COCOAPODS: 1.10.1
+COCOAPODS: 1.11.2
