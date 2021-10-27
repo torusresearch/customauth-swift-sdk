@@ -1,3 +1,5 @@
+
+  
 # This is a basic workflow to help you get started with Actions
 
 name: CI
@@ -6,9 +8,11 @@ name: CI
 on:
   # Triggers the workflow on push or pull request events but only for the master branch
   push:
-    branches: [ master ]
+    branches:
+      - master
   pull_request:
-    branches: [ master ]
+    branches:
+      - master
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -23,11 +27,12 @@ jobs:
           - iOS
     steps:
       - uses: actions/checkout@v2.3.4
+      - name: Remove Development.xcworkspace to avoid tooling confusion
+        run: rm -rf Development.xcworkspace
       - uses: mxcl/xcodebuild@v1
         with:
           platform: ${{ matrix.platform }}
           action: test
-          scheme: TorusDirectSDKDemo
+          scheme: TorusSwiftDirectSDK
           code-coverage: true
           upload-logs: always
-      
