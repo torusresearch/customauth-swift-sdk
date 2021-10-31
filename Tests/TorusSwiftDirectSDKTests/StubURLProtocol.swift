@@ -55,7 +55,7 @@ fileprivate func stubMatcherWithBody(host: String, scheme: String, path: String,
             return false
         }
         guard
-            let bodyData = httpBodyStreamToData(stream: req.httpBodyStream),
+            let bodyData = StubURLProtocol.property(forKey: httpBodyKey, in: req) as? Data,
             let jsonBody = (try? JSONSerialization.jsonObject(with: bodyData, options: [])) as? [String : Any]
         else {
             return false
@@ -64,12 +64,12 @@ fileprivate func stubMatcherWithBody(host: String, scheme: String, path: String,
     }
 }
 
-fileprivate let urls: Set = [
+fileprivate let injectedURLs: Set = [
     URL(string: "http://abc.com/1"),
     URL(string: "http://abcd.com/2"),
 ]
 
-fileprivate let stubs: [Stub] = [
+fileprivate let injectedStubs: [Stub] = [
     Stub(
         requestMatcher: stubMatcher(
             host: "abc.com",
@@ -97,6 +97,8 @@ fileprivate let stubs: [Stub] = [
     ),
 ]
 
+fileprivate let httpBodyKey = "StubURLProtocolHTTPBody"
+
 fileprivate struct Stub {
     let requestMatcher: (URLRequest) -> Bool
     let responseBody: Data?
@@ -106,6 +108,22 @@ fileprivate struct Stub {
 
 public class StubURLProtocol: URLProtocol {
     private static let terminateUnknownRequest = true
+    
+    private static let stubs = injectedStubs
+    
+    private static let urls = injectedURLs
+    
+    private class func matchStub(req: URLRequest) -> Stub? {
+        if let httpBodyData = httpBodyStreamToData(stream: req.httpBodyStream) {
+            setProperty(httpBodyData, forKey: httpBodyKey, in: req as! NSMutableURLRequest)
+        }
+        for stub in stubs {
+            if stub.requestMatcher(req) {
+                return stub
+            }
+        }
+        return nil
+    }
     
     public override class func canInit(with request: URLRequest) -> Bool {
         var cleanURL: URL? {
@@ -126,7 +144,29 @@ public class StubURLProtocol: URLProtocol {
     }
     
     public override func startLoading() {
-        
+        guard let url = request.url else {
+            fatalError("Request has no URL")
+        }
+        var cleanURL: URL? {
+            var comp = URLComponents()
+            comp.scheme = url.scheme
+            comp.host = url.host
+            comp.path = url.path
+            return comp.url
+        }
+        if !StubURLProtocol.urls.contains(cleanURL){
+            fatalError("URL not mocked, inconsistent injectedURLs: \(url.absoluteString)")
+        }
+        if let stub = StubURLProtocol.matchStub(req: request){
+            let res = HTTPURLResponse(url: url, statusCode: stub.statusCode, httpVersion: nil, headerFields: stub.responseHeaders)!
+            self.client?.urlProtocol(self, didReceive: res, cacheStoragePolicy: .notAllowed)
+            if let d = stub.responseBody {
+                self.client?.urlProtocol(self, didLoad: d)
+            }
+        }else{
+            fatalError("URL not mocked: \(url.absoluteString)")
+        }
+        self.client?.urlProtocolDidFinishLoading(self)
     }
     
     public override func stopLoading() {
