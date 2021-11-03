@@ -14,11 +14,11 @@ import OSLog
 public class MockFactory: TDSDKFactoryProtocol{
     init(){}
 
-    public func createTorusUtils(nodePubKeys: Array<TorusNodePub>, loglevel: OSLogType) -> AbstractTorusUtils {
+    public func createTorusUtils(nodePubKeys: Array<TorusNodePub>, loglevel: OSLogType, urlSession: URLSession) -> AbstractTorusUtils {
         MockTorusUtils()
     }
         
-    public func createFetchNodeDetails(network: EthereumNetwork) -> FetchNodeDetails {
+    public func createFetchNodeDetails(network: EthereumNetwork, urlSession: URLSession) -> FetchNodeDetails {
         let net = network == .MAINNET ? "0x638646503746d5456209e33a2ff5e3226d698bea" : "0x4023d2a0D330bF11426B12C6144Cfb96B7fa6183"
         return FetchNodeDetails(proxyAddress: net, network: network)
     }

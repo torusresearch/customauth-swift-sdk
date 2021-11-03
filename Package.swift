@@ -14,7 +14,8 @@ let package = Package(
             targets: ["TorusSwiftDirectSDK"]),
     ],
     dependencies: [
-        .package(name:"TorusUtils", url: "https://github.com/torusresearch/torus-utils-swift", from: "1.1.0"),
+        .package(name:"TorusUtils", url: "https://github.com/torusresearch/torus-utils-swift", .branch("feat/urlsession")),
+        .package(name:"FetchNodeDetails", url: "https://github.com/torusresearch/fetch-node-details-swift", .branch("feat/urlsession")),
         .package(name:"jwt-kit", url: "https://github.com/vapor/jwt-kit.git", from: "4.0.0"),
     ],
     targets: [
