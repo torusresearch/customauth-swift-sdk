@@ -76,8 +76,9 @@ class GoogleloginHandler: AbstractLoginHandler{
                 request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
                 data = "grant_type=authorization_code&redirect_uri=\(self.redirectURL)&client_id=\(self.clientID)&code=\(code)".data(using: .utf8)!
                 
+                request.httpBody = data
                 // Send request to retreive access token and id_token
-                self.urlSession.uploadTask(.promise, with: request, from: data).compactMap{
+                self.urlSession.dataTask(.promise, with: request).compactMap{
                     try JSONSerialization.jsonObject(with: $0.data) as? [String:Any]
                 }.then{ data -> Promise<(Data, Any)> in
                     
