@@ -6,16 +6,16 @@ PODS:
   - PromiseKit/Foundation (6.15.3):
     - PromiseKit/CorePromise
   - secp256k1.swift (0.1.4)
-  - Torus-directSDK (1.1.2):
+  - Torus-directSDK (1.1.3):
     - Torus-utils (~> 1.1.0)
-  - Torus-fetchNodeDetails (1.1.1):
+  - Torus-fetchNodeDetails (1.2.0):
     - PromiseKit/Foundation (~> 6.0)
     - web3.swift (~> 0.8.0)
-  - Torus-utils (1.1.2):
+  - Torus-utils (1.1.4):
     - CryptoSwift (~> 1.4.1)
     - PromiseKit/Foundation (~> 6.0)
     - secp256k1.swift (~> 0.1.4)
-    - Torus-fetchNodeDetails (~> 1.1.0)
+    - Torus-fetchNodeDetails (~> 1.2.0)
   - web3.swift (0.8.1):
     - BigInt (~> 5.0.0)
     - GenericJSON (~> 2.0)
@@ -45,9 +45,9 @@ SPEC CHECKSUMS:
   GenericJSON: a6e74e2c457f8693caab08e0eafde7d97e6666de
   PromiseKit: 3b2b6995e51a954c46dbc550ce3da44fbfb563c5
   secp256k1.swift: a7e7a214f6db6ce5db32cc6b2b45e5c4dd633634
-  Torus-directSDK: 053115a6fe87f10d81bb6cb2ad29087a05b79050
-  Torus-fetchNodeDetails: 2f8a7ae2b6d7e193d4e7e3df00fb83db8de653b4
-  Torus-utils: 0c61936fe5e048690b9ceae376d1f1d75f3aae5f
+  Torus-directSDK: 17d0930f7bbbae56cc2bd4983df4ed5729971f82
+  Torus-fetchNodeDetails: 0978689c217448624ee6940122ad2c33a175ba55
+  Torus-utils: c6b4a9cc60aa3ec97f6025d862f29488b9ff9479
   web3.swift: ce00a5e6e39fb184e33e3622e8be22ae53205e57
 
 PODFILE CHECKSUM: 7f12e4a5f53e55529b1089b524feb8f740b814e5
