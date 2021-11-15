@@ -11,6 +11,4 @@ Pod::Spec.new do |spec|
   spec.source       = { :git => "https://github.com/torusresearch/torus-direct-swift-sdk.git", :tag => spec.version }
   spec.source_files = "Sources/TorusSwiftDirectSDK/*.{swift}","Sources/TorusSwiftDirectSDK/**/*.{swift}"
   spec.dependency 'Torus-utils', '~> 1.2.0'
-  spec.pod_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
-  spec.user_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
 end
