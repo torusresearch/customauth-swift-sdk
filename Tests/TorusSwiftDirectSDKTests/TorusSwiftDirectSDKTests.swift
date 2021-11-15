@@ -4,7 +4,7 @@ import TorusUtils
 @testable import TorusSwiftDirectSDK
 
 @available(iOS 11.0, *)
-final class TorusSwiftDirectSDKTests: XCTestCase {
+final class MockSDKTest: XCTestCase {
 
     func testGetTorusKey() {
         let expectation = XCTestExpectation(description: "getTorusKey should correctly proxy input and output to/from TorusUtils")
