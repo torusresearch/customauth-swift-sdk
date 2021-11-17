@@ -55,6 +55,22 @@ open class TorusSwiftDirectSDK{
         self.subVerifierDetails = subVerifierDetails
     }
     
+    /// Initiate an TorusSwiftDirectSDK instance.
+    /// - Parameters:
+    ///   - aggregateVerifierType: Type of the verifier. Use `singleLogin` for single providers. Only `singleLogin` and `singleIdVerifier` is supported currently.
+    ///   - aggregateVerifierName: Name of the verifier to be used..
+    ///   - subVerifierDetails: Details of each subverifiers to be used.
+    public convenience init(aggregateVerifierType: verifierTypes, aggregateVerifierName: String, subVerifierDetails: [SubVerifierDetails]){
+        let factory = TDSDKFactory()
+        self.init(aggregateVerifierType: aggregateVerifierType, aggregateVerifierName: aggregateVerifierName, subVerifierDetails: subVerifierDetails, factory: factory, network: .MAINNET, loglevel: .debug)
+    }
+
+    
+    public convenience init(aggregateVerifierType: verifierTypes, aggregateVerifierName: String, subVerifierDetails: [SubVerifierDetails], loglevel: OSLogType = .debug){
+        let factory = TDSDKFactory()
+        self.init(aggregateVerifierType: aggregateVerifierType, aggregateVerifierName: aggregateVerifierName, subVerifierDetails: subVerifierDetails, factory: factory, network: .MAINNET, loglevel: loglevel)
+    }
+    
     /// Retrieve information of Torus nodes from a predefined Etherum contract.
     /// - Returns: An array of URLs to the nodes.
     open func getNodeDetailsFromContract() -> Promise<Array<String>>{
