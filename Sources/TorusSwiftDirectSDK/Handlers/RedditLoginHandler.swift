@@ -18,14 +18,16 @@ class RedditLoginHandler: AbstractLoginHandler{
     let state: String
     let extraQueryParams: [String: String]
     let defaultParams: [String:String]
+    var urlSession: URLSession
     
-    public init(loginType: SubVerifierType = .web, clientID: String, redirectURL: String, browserRedirectURL: String?, extraQueryParams: [String: String] = [:]){
+    public init(loginType: SubVerifierType = .web, clientID: String, redirectURL: String, browserRedirectURL: String?, extraQueryParams: [String: String] = [:], urlSession: URLSession = URLSession.shared){
         self.loginType = loginType
         self.clientID = clientID
         self.redirectURL = redirectURL
         self.extraQueryParams = extraQueryParams
         self.browserRedirectURL = browserRedirectURL
         self.defaultParams = ["scope": "identity", "response_type": "token", "state": "randomstate"]
+        self.urlSession = urlSession
         
         let tempState = ["nonce": self.nonce, "redirectUri": self.redirectURL, "redirectToAndroid": "true"]
         let jsonData = try! JSONSerialization.data(withJSONObject: tempState, options: .prettyPrinted)
@@ -64,7 +66,7 @@ class RedditLoginHandler: AbstractLoginHandler{
             var request = makeUrlRequest(url: "https://oauth.reddit.com/api/v1/me", method: "GET")
             request.addValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
             
-            URLSession.shared.dataTask(.promise, with: request).map{
+            self.urlSession.dataTask(.promise, with: request).map{
                 try JSONSerialization.jsonObject(with: $0.data) as! [String:Any]
             }.done{ data in
                 self.userInfo = data

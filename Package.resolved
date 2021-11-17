@@ -33,8 +33,8 @@
         "repositoryURL": "https://github.com/torusresearch/fetch-node-details-swift",
         "state": {
           "branch": null,
-          "revision": "7d4a7d21af03a5776accdbb564b178aaf72c071c",
-          "version": "1.1.1"
+          "revision": "b67f943c07337ad2c2bbf4182e89def90a7bac42",
+          "version": "1.2.0"
         }
       },
       {
@@ -60,17 +60,17 @@
         "repositoryURL": "https://github.com/vapor/jwt-kit.git",
         "state": {
           "branch": null,
-          "revision": "ca2edf69a613f3d89354114f56cfd9921d2727d5",
-          "version": "4.2.6"
+          "revision": "1822bb0abf0a31a4b5078ec19061c548835253b5",
+          "version": "4.3.0"
         }
       },
       {
         "package": "PromiseKit",
-        "repositoryURL": "https://github.com/mxcl/PromiseKit.git",
+        "repositoryURL": "https://github.com/mxcl/PromiseKit",
         "state": {
           "branch": null,
-          "revision": "2ff97931d2721ecae9f94d8cbf4cf853a7d79180",
-          "version": "6.16.0"
+          "revision": "00afea5360bf1c02ac83209c2c8991f73b5a4e7d",
+          "version": "6.16.1"
         }
       },
       {
@@ -96,8 +96,8 @@
         "repositoryURL": "https://github.com/torusresearch/torus-utils-swift",
         "state": {
           "branch": null,
-          "revision": "7401de7a95e5b8b796fc4d6e1ee060a93f00e48c",
-          "version": "1.1.3"
+          "revision": "a7da47d2e6e8e3250fb70ad0e126be730f5bc90e",
+          "version": "1.2.0"
         }
       },
       {

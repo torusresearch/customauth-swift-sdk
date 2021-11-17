@@ -18,14 +18,16 @@ class GoogleloginHandler: AbstractLoginHandler{
     let state: String
     let extraQueryParams: [String: String]
     let defaultParams: [String:String]
+    var urlSession: URLSession
     
-    public init(loginType: SubVerifierType = .web, clientID: String, redirectURL: String, browserRedirectURL: String?, extraQueryParams: [String: String] = [:]){
+    public init(loginType: SubVerifierType = .web, clientID: String, redirectURL: String, browserRedirectURL: String?, extraQueryParams: [String: String] = [:], urlSession: URLSession = URLSession.shared){
         self.loginType = loginType
         self.clientID = clientID
         self.redirectURL = redirectURL
         self.extraQueryParams = extraQueryParams
         self.browserRedirectURL = browserRedirectURL
         self.defaultParams = ["nonce": nonce, "scope": "profile+email+openid"]
+        self.urlSession = urlSession
         
         let tempState = ["nonce": self.nonce, "redirectUri": self.redirectURL, "redirectToAndroid": "true"]
         let jsonData = try! JSONSerialization.data(withJSONObject: tempState, options: .prettyPrinted)
@@ -74,8 +76,9 @@ class GoogleloginHandler: AbstractLoginHandler{
                 request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
                 data = "grant_type=authorization_code&redirect_uri=\(self.redirectURL)&client_id=\(self.clientID)&code=\(code)".data(using: .utf8)!
                 
+                request.httpBody = data
                 // Send request to retreive access token and id_token
-                URLSession.shared.uploadTask(.promise, with: request, from: data).compactMap{
+                self.urlSession.dataTask(.promise, with: request).compactMap{
                     try JSONSerialization.jsonObject(with: $0.data) as? [String:Any]
                 }.then{ data -> Promise<(Data, Any)> in
                     
@@ -83,7 +86,7 @@ class GoogleloginHandler: AbstractLoginHandler{
                     if let accessToken = data["access_token"], let idToken = data["id_token"]{
                         var request = makeUrlRequest(url: "https://www.googleapis.com/userinfo/v2/me", method: "GET")
                         request.addValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
-                        return URLSession.shared.dataTask(.promise, with: request).map{ ($0.data, "\(idToken)")}
+                        return self.urlSession.dataTask(.promise, with: request).map{ ($0.data, "\(idToken)")}
                     }else{
                         throw TSDSError.accessTokenNotProvided
                     }
@@ -104,7 +107,7 @@ class GoogleloginHandler: AbstractLoginHandler{
             if let accessToken = responseParameters["access_token"], let idToken = responseParameters["id_token"]{
                 var request = makeUrlRequest(url: "https://www.googleapis.com/userinfo/v2/me", method: "GET")
                 request.addValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
-                URLSession.shared.dataTask(.promise, with: request).map{
+                self.urlSession.dataTask(.promise, with: request).map{
                     try JSONSerialization.jsonObject(with: $0.data) as? [String:Any]
                 }.done{ data in
                     self.userInfo =  data!

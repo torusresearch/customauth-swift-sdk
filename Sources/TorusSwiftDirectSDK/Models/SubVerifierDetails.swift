@@ -22,6 +22,7 @@ public struct SubVerifierDetails {
     public let loginProvider: LoginProviders
     public let redirectURL: String
     public let handler: AbstractLoginHandler
+    public var urlSession: URLSession
     
     public enum codingKeys: String, CodingKey{
         case clientId
@@ -29,13 +30,14 @@ public struct SubVerifierDetails {
         case subVerifierId
     }
     
-    public init(loginType: SubVerifierType = .web, loginProvider: LoginProviders, clientId: String, verifierName subverifierId: String, redirectURL: String, browserRedirectURL: String? = nil, extraQueryParams: [String:String] = [:], jwtParams: [String:String] = [:]) {
+    public init(loginType: SubVerifierType = .web, loginProvider: LoginProviders, clientId: String, verifierName subverifierId: String, redirectURL: String, browserRedirectURL: String? = nil, extraQueryParams: [String:String] = [:], jwtParams: [String:String] = [:], urlSession: URLSession = URLSession.shared) {
         self.loginType = loginType
         self.clientId = clientId
         self.loginProvider = loginProvider
         self.subVerifierId = subverifierId
         self.redirectURL = redirectURL
-        self.handler = self.loginProvider.getHandler(loginType: loginType, clientID: self.clientId, redirectURL: self.redirectURL, browserRedirectURL: browserRedirectURL, extraQueryParams: extraQueryParams, jwtParams: jwtParams)
+        self.urlSession = urlSession
+        self.handler = self.loginProvider.getHandler(loginType: loginType, clientID: self.clientId, redirectURL: self.redirectURL, browserRedirectURL: browserRedirectURL, extraQueryParams: extraQueryParams, jwtParams: jwtParams, urlSession: urlSession)
     }
     
     public func getLoginURL() -> String{
