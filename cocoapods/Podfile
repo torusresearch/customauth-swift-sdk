@@ -4,6 +4,7 @@
 target 'cptest' do
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
+  # pod 'Torus-utils', '~>'
   pod 'Torus-directSDK', :path=>"../"
   # Pods for cptest
   
