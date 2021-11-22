@@ -45,7 +45,8 @@ let sub = SubVerifierDetails(loginType: .installed, // default .web
                             verifierName: "<verifier-name>",
                             redirectURL: "<your-redirect-url>",
                             browserRedirectURL: "<your-browser-redirect-url>")
-let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: "<type-of-verifier>," aggregateVerifierName: "<verifier-name>", subVerifierDetails: [sub], network: <etherum-network-to-use>)
+
+let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: "<type-of-verifier>", aggregateVerifierName: "<verifier-name>", subVerifierDetails: [sub], network: <etherum-network-to-use>)
 
 // controller is used to present a SFSafariViewController.
 tdsdk.triggerLogin(controller: <UIViewController>?, browserType: <method-of-opening-browser>, modalPresentationStyle: <style-of-modal>).done{ data in
@@ -124,6 +125,20 @@ func application(_ application: UIApplication, continue userActivity: UIUserActi
 
 After this you're good to go, reach out to hello@tor.us to get your verifier spun up on the testnet today!
 
-
 ## Requirements
 - Swift 5
+
+## Using TorusSwiftDirectSDKFactory
+
+The `TDSDKFactoryProtocol` provides a way to modify the mechanism of discovering torus nodes in `FetchNodeDetails` and performing key retrieval in `TorusUtils`, which can be useful in scenarios such as mocking or advanced customization. Developers who want to use this mechanism should implement `TDSDKFactoryProtocol` in Sources/TorusSwiftDirectSDK/TorusSwiftDirectSDK.swift, and then pass the instance into the `init` of `TorusSwiftDIrectSDK`, for example:
+
+```swift
+let tdsdk = TorusSwiftDirectSDK(
+    aggregateVerifierType: "<type-of-verifier>", 
+    aggregateVerifierName: "<verifier-name>", 
+    subVerifierDetails: [sub],
+    factory: customFactory,
+    network: myNetworkm
+    loglevel: myLoglevel
+)
+```
