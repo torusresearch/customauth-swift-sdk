@@ -1,6 +1,6 @@
 //
-//  TorusSwiftDirectSDK class
-//  TorusSwiftDirectSDK
+//  CustomAuthSwiftSDK class
+//  CustomAuthSwiftSDK
 //
 //  Created by Shubham Rathi on 18/05/2020.
 //
@@ -87,7 +87,7 @@ extension CustomAuthSwiftSDK{
     }
     
     open class func handle(url: URL){
-        // TorusSwiftDirectSDK.logger.info("Posting notification after Universal link/deep link flow")
+        // CustomAuthSwiftSDK.logger.info("Posting notification after Universal link/deep link flow")
         let notification = Notification(name: CustomAuthSwiftSDK.didHandleCallbackURL, object: nil, userInfo: ["URL":url])
         notificationCenter.post(notification)
     }

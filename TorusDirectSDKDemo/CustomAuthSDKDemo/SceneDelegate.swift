@@ -1,6 +1,6 @@
 
 //  SceneDelegate.swift
-//  TorusDirectSDKDemo
+//  CustomAuthSDKDemo
 //
 //  Created by Shubham on 24/4/20.
 //  Copyright © 2020 Shubham. All rights reserved.
@@ -8,7 +8,7 @@
 
 import UIKit
 import SwiftUI
-import TorusSwiftDirectSDK
+import CustomAuthSwiftSDK
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -20,7 +20,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             let urlToOpen = userActivity.webpageURL else {
                 return
         }
-        TorusSwiftDirectSDK.handle(url: urlToOpen)
+        CustomAuthSwiftSDK.handle(url: urlToOpen)
     }
 
     // Hanlde Deep linkings
@@ -28,7 +28,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let url = URLContexts.first?.url else {
             return
         }
-        TorusSwiftDirectSDK.handle(url: url)
+        CustomAuthSwiftSDK.handle(url: url)
     }
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {

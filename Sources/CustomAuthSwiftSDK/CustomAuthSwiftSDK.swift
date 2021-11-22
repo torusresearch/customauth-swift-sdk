@@ -1,6 +1,6 @@
 //
-//  TorusSwiftDirectSDK class
-//  TorusSwiftDirectSDK
+//  CustomAuthSwiftSDK class
+//  CustomAuthSwiftSDK
 //
 //  Created by Shubham Rathi on 24/4/2020.
 //
@@ -32,7 +32,7 @@ open class CustomAuthSwiftSDK{
     public var authorizeURLHandler: URLOpenerTypes?
     var observer: NSObjectProtocol? // useful for Notifications
     
-    /// Initiate an TorusSwiftDirectSDK instance.
+    /// Initiate an CustomAuthSwiftSDK instance.
     /// - Parameters:
     ///   - aggregateVerifierType: Type of the verifier. Use `singleLogin` for single providers. Only `singleLogin` and `singleIdVerifier` is supported currently.
     ///   - aggregateVerifierName: Name of the verifier to be used..
@@ -55,7 +55,7 @@ open class CustomAuthSwiftSDK{
         self.subVerifierDetails = subVerifierDetails
     }
     
-    /// Initiate an TorusSwiftDirectSDK instance.
+    /// Initiate an CustomAuthSwiftSDK instance.
     /// - Parameters:
     ///   - aggregateVerifierType: Type of the verifier. Use `singleLogin` for single providers. Only `singleLogin` and `singleIdVerifier` is supported currently.
     ///   - aggregateVerifierName: Name of the verifier to be used..

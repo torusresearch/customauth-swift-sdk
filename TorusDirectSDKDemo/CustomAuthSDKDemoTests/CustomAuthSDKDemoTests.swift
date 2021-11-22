@@ -1,15 +1,15 @@
 //
-//  TorusDirectSDKDemoTests.swift
-//  TorusDirectSDKDemoTests
+//  CustomAuthSDKDemoTests.swift
+//  CustomAuthSDKDemoTests
 //
 //  Created by Shubham on 24/4/20.
 //  Copyright © 2020 Shubham. All rights reserved.
 //
 
 import XCTest
-@testable import TorusDirectSDKDemo
+@testable import CustomAuthSDKDemo
 
-class TorusDirectSDKDemoTests: XCTestCase {
+class CustomAuthSDKDemoTests: XCTestCase {
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.

@@ -8,7 +8,7 @@
 import Foundation
 import FetchNodeDetails
 import TorusUtils
-import TorusSwiftDirectSDK
+import CustomAuthSwiftSDK
 import OSLog
 
 public class MockFactory: CASDKFactoryProtocol{

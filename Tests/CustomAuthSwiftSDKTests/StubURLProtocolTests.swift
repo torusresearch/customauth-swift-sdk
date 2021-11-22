@@ -11,7 +11,7 @@ import Foundation
 import TorusUtils
 import FetchNodeDetails
 import OSLog
-import TorusSwiftDirectSDK
+import CustomAuthSwiftSDK
 
 @available(iOS 13.0, *)
 final class StubURLProtocolTests: XCTestCase {

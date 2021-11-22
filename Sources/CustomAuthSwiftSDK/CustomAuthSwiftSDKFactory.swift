@@ -11,8 +11,8 @@ import FetchNodeDetails
 import OSLog
 
 
-/// A protocol should be implmented by users of `TorusSwiftDirectSDK`. It provides a way
-/// to stub or mock the TorusDirectSwiftSDk for testing.
+/// A protocol should be implmented by users of `CustomAuthSwiftSDK`. It provides a way
+/// to stub or mock the CustomAuthSwiftSDk for testing.
 public protocol CASDKFactoryProtocol{
     func createTorusUtils(nodePubKeys: Array<TorusNodePub>, loglevel: OSLogType, urlSession: URLSession) -> AbstractTorusUtils
     func createFetchNodeDetails(network: EthereumNetwork, urlSession: URLSession) -> FetchNodeDetails

@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "511CEAC72452D4EC00A7ACE9"
-               BuildableName = "TorusDirectSDKDemo.app"
-               BlueprintName = "TorusDirectSDKDemo"
-               ReferencedContainer = "container:TorusDirectSDKDemo.xcodeproj">
+               BuildableName = "CustomAuthSDKDemo.app"
+               BlueprintName = "CustomAuthSDKDemo"
+               ReferencedContainer = "container:CustomAuthSDKDemo.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -28,9 +28,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "TorusSwiftDirectSDK"
-               BuildableName = "TorusSwiftDirectSDK"
-               BlueprintName = "TorusSwiftDirectSDK"
+               BlueprintIdentifier = "CustomAuthSwiftSDK"
+               BuildableName = "CustomAuthSwiftSDK"
+               BlueprintName = "CustomAuthSwiftSDK"
                ReferencedContainer = "container:..">
             </BuildableReference>
          </BuildActionEntry>
@@ -42,9 +42,9 @@
             buildForAnalyzing = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "TorusSwiftDirectSDKTests"
-               BuildableName = "TorusSwiftDirectSDKTests"
-               BlueprintName = "TorusSwiftDirectSDKTests"
+               BlueprintIdentifier = "CustomAuthSwiftSDKTests"
+               BuildableName = "CustomAuthSwiftSDKTests"
+               BlueprintName = "CustomAuthSwiftSDKTests"
                ReferencedContainer = "container:..">
             </BuildableReference>
          </BuildActionEntry>
@@ -57,9 +57,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "511CEADD2452D4EF00A7ACE9"
-               BuildableName = "TorusDirectSDKDemoTests.xctest"
-               BlueprintName = "TorusDirectSDKDemoTests"
-               ReferencedContainer = "container:TorusDirectSDKDemo.xcodeproj">
+               BuildableName = "CustomAuthSDKDemoTests.xctest"
+               BlueprintName = "CustomAuthSDKDemoTests"
+               ReferencedContainer = "container:CustomAuthSDKDemo.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -71,9 +71,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "511CEAE82452D4EF00A7ACE9"
-               BuildableName = "TorusDirectSDKDemoUITests.xctest"
-               BlueprintName = "TorusDirectSDKDemoUITests"
-               ReferencedContainer = "container:TorusDirectSDKDemo.xcodeproj">
+               BuildableName = "CustomAuthSDKDemoUITests.xctest"
+               BlueprintName = "CustomAuthSDKDemoUITests"
+               ReferencedContainer = "container:CustomAuthSDKDemo.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -101,9 +101,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "511CEAC72452D4EC00A7ACE9"
-            BuildableName = "TorusDirectSDKDemo.app"
-            BlueprintName = "TorusDirectSDKDemo"
-            ReferencedContainer = "container:TorusDirectSDKDemo.xcodeproj">
+            BuildableName = "CustomAuthSDKDemo.app"
+            BlueprintName = "CustomAuthSDKDemo"
+            ReferencedContainer = "container:CustomAuthSDKDemo.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -118,9 +118,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "511CEAC72452D4EC00A7ACE9"
-            BuildableName = "TorusDirectSDKDemo.app"
-            BlueprintName = "TorusDirectSDKDemo"
-            ReferencedContainer = "container:TorusDirectSDKDemo.xcodeproj">
+            BuildableName = "CustomAuthSDKDemo.app"
+            BlueprintName = "CustomAuthSDKDemo"
+            ReferencedContainer = "container:CustomAuthSDKDemo.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

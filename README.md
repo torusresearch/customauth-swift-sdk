@@ -17,9 +17,9 @@ In project settings, add the Github URL as a swift package dependency.
 import PackageDescription
 
 let package = Package(
-    name: "TorusSwiftDirectSDK", 
+    name: "CustomAuthSwiftSDK", 
     dependencies: [
-        .package(name: "TorusSwiftDirectSDK", url: "https://github.com/torusresearch/torus-direct-swift-sdk", from: "1.0.0"))
+        .package(name: "CustomAuthSwiftSDK", url: "https://github.com/torusresearch/torus-direct-swift-sdk", from: "1.0.0"))
     ]
 )
 ```
@@ -37,7 +37,7 @@ If you require a package manager other than SPM or Cocoapods, do reach out to he
 
 Initalize the SDK depending on the login you require. The example below does so for a single google login. `redirectURL` refers to a url for the login flow to redirect into your app, it should have a scheme that is registered by your app, for example `com.mycompany.myapp://redirect`. `browserRedirectURL` refers to a page that the browser should use in the login flow, it should have a http or https scheme.
 ```swift
-import TorusSwiftDirectSDK
+import CustomAuthSwiftSDK
 
 let sub = SubVerifierDetails(loginType: .installed, // default .web
                             loginProvider: .google,
@@ -46,7 +46,7 @@ let sub = SubVerifierDetails(loginType: .installed, // default .web
                             redirectURL: "<your-redirect-url>",
                             browserRedirectURL: "<your-browser-redirect-url>")
 
-let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: "<type-of-verifier>", aggregateVerifierName: "<verifier-name>", subVerifierDetails: [sub], network: <etherum-network-to-use>)
+let tdsdk = CustomAuthSwiftSDK(aggregateVerifierType: "<type-of-verifier>", aggregateVerifierName: "<verifier-name>", subVerifierDetails: [sub], network: <etherum-network-to-use>)
 
 // controller is used to present a SFSafariViewController.
 tdsdk.triggerLogin(controller: <UIViewController>?, browserType: <method-of-opening-browser>, modalPresentationStyle: <style-of-modal>).done{ data in
@@ -71,7 +71,7 @@ In the info tab of your target, add your application name (ex. my-wallet-app). A
     guard let url = URLContexts.first?.url else {
         return
     }
-    TorusSwiftDirectSDK.handle(url: url)
+    CustomAuthSwiftSDK.handle(url: url)
 }
 ```
 
@@ -81,7 +81,7 @@ func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>)
     guard let url = URLContexts.first?.url else {
         return
     }
-    TorusSwiftDirectSDK.handle(url: url)
+    CustomAuthSwiftSDK.handle(url: url)
 }
 ```
 
@@ -89,7 +89,7 @@ func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>)
 ```swift
 func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
     if url.host == "my-wallet-app" {
-        TorusSwiftDirectSDK.handle(url: url)
+        CustomAuthSwiftSDK.handle(url: url)
     }
     return true
 }
@@ -104,7 +104,7 @@ func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
     guard userActivity.activityType == NSUserActivityTypeBrowsingWeb, let urlToOpen = userActivity.webpageURL else {
         return
     }
-    TorusSwiftDirectSDK.handle(url: urlToOpen)
+    CustomAuthSwiftSDK.handle(url: urlToOpen)
 }
 ```
 
@@ -118,7 +118,7 @@ func application(_ application: UIApplication, continue userActivity: UIUserActi
         let components = NSURLComponents(url: incomingURL, resolvingAgainstBaseURL: true) else {
             return false
     }
-    TorusSwiftDirectSDK.handle(url: incomingURL)
+    CustomAuthSwiftSDK.handle(url: incomingURL)
 }
 
 ```
@@ -128,12 +128,12 @@ After this you're good to go, reach out to hello@tor.us to get your verifier spu
 ## Requirements
 - Swift 5
 
-## Using TorusSwiftDirectSDKFactory
+## Using CustomAuthSwiftSDKFactory
 
-The `TDSDKFactoryProtocol` provides a way to modify the mechanism of discovering torus nodes in `FetchNodeDetails` and performing key retrieval in `TorusUtils`, which can be useful in scenarios such as mocking or advanced customization. Developers who want to use this mechanism should implement `TDSDKFactoryProtocol` in Sources/TorusSwiftDirectSDK/TorusSwiftDirectSDK.swift, and then pass the instance into the `init` of `TorusSwiftDIrectSDK`, for example:
+The `TDSDKFactoryProtocol` provides a way to modify the mechanism of discovering torus nodes in `FetchNodeDetails` and performing key retrieval in `TorusUtils`, which can be useful in scenarios such as mocking or advanced customization. Developers who want to use this mechanism should implement `TDSDKFactoryProtocol` in Sources/CustomAuthSwiftSDK/CustomAuthSwiftSDK.swift, and then pass the instance into the `init` of `CustomAuthSwiftSDK`, for example:
 
 ```swift
-let tdsdk = TorusSwiftDirectSDK(
+let tdsdk = CustomAuthSwiftSDK(
     aggregateVerifierType: "<type-of-verifier>", 
     aggregateVerifierName: "<verifier-name>", 
     subVerifierDetails: [sub],

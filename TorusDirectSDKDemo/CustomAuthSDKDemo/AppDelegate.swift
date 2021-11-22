@@ -1,6 +1,6 @@
 //
 //  AppDelegate.swift
-//  TorusDirectSDKDemo
+//  CustomAuthSDKDemo
 //
 //  Created by Shubham on 24/4/20.
 //  Copyright © 2020 Shubham. All rights reserved.

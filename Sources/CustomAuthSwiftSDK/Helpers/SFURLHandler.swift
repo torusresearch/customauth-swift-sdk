@@ -61,7 +61,7 @@ open class SFURLHandler: NSObject, SFSafariViewControllerDelegate, TorusURLHandl
     /// Clear internal observers on authentification flow
     open func clearObservers() {
         clearLocalObservers()
-        // self.TorusSwiftDirectSDK?.removeCallbackNotificationObserver()
+        // self.CustomAuthSwiftSDK?.removeCallbackNotificationObserver()
     }
     
     open func clearLocalObservers() {

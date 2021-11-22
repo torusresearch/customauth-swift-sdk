@@ -25,7 +25,7 @@
 			<array>
 				<string>tdsdk-swift</string>
 				<string>tdsdk</string>
-				<string>com.torus.TorusDirectSDKDemo</string>
+				<string>com.torus.CustomAuthSDKDemo</string>
 				<string>com.googleusercontent.apps.238941746713-vfap8uumijal4ump28p9jd3lbe6onqt4</string>
 			</array>
 		</dict>

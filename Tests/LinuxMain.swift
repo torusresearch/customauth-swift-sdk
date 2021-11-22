@@ -1,7 +1,7 @@
 import XCTest
 
-import TorusSwiftDirectSDKTests
+import CustomAuthSwiftSDKTests
 
 var tests = [XCTestCaseEntry]()
-tests += TorusSwiftDirectSDKTests.allTests()
+tests += CustomAuthSwiftSDKTests.allTests()
 XCTMain(tests)

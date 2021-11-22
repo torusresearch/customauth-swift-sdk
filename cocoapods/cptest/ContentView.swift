@@ -1,13 +1,13 @@
 //
 //  ContentView.swift
-//  TorusDirectSDKDemo
+//  CustomAuthSDKDemo
 //
 //  Created by Shubham on 24/4/20.
 //  Copyright © 2020 Shubham. All rights reserved.
 //
 
 import SwiftUI
-import TorusSwiftDirectSDK
+import CustomAuthSwiftSDK
 import FetchNodeDetails
 import PromiseKit
 import SafariServices
@@ -34,7 +34,7 @@ struct ContentView: View {
                                                          browserRedirectURL: "https://scripts.toruswallet.io/redirect.html")
                                                          urlSession: URLSession.shared)
                             
-                            let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: .singleLogin, aggregateVerifierName: "google-lrc", subVerifierDetails: [sub], factory: TDSDKFactory(), network: .ROPSTEN, urlSession: URLSession.shared)
+                            let tdsdk = CustomAuthSwiftSDK(aggregateVerifierType: .singleLogin, aggregateVerifierName: "google-lrc", subVerifierDetails: [sub], factory: TDSDKFactory(), network: .ROPSTEN, urlSession: URLSession.shared)
                             tdsdk.triggerLogin(browserType: .external).done{ data in
                                 print("private key rebuild", data)
                             }.catch{ err in
@@ -51,7 +51,7 @@ struct ContentView: View {
                                                          verifierName: "reddit-shubs",
                                                          redirectURL: "tdsdk://tdsdk/oauthCallback",
                                                          urlSession: URLSession.shared)
-                            let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: .singleLogin, aggregateVerifierName: "reddit-shubs", subVerifierDetails: [sub], factory: TDSDKFactory(), network: .ROPSTEN, urlSession: URLSession.shared)
+                            let tdsdk = CustomAuthSwiftSDK(aggregateVerifierType: .singleLogin, aggregateVerifierName: "reddit-shubs", subVerifierDetails: [sub], factory: TDSDKFactory(), network: .ROPSTEN, urlSession: URLSession.shared)
                             tdsdk.triggerLogin(browserType: .external).done{ data in
                                 print("private key rebuild", data)
                             }.catch{ err in
@@ -68,7 +68,7 @@ struct ContentView: View {
                                                          verifierName: "discord-shubs",
                                                          redirectURL: "tdsdk://tdsdk/oauthCallback",
                                                          urlSession: URLSession.shared)
-                            let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: .singleLogin, aggregateVerifierName: "discord-shubs", subVerifierDetails: [sub], factory: TDSDKFactory(), network: .ROPSTEN, urlSession: URLSession.shared)
+                            let tdsdk = CustomAuthSwiftSDK(aggregateVerifierType: .singleLogin, aggregateVerifierName: "discord-shubs", subVerifierDetails: [sub], factory: TDSDKFactory(), network: .ROPSTEN, urlSession: URLSession.shared)
                             tdsdk.triggerLogin(browserType: .external).done{ data in
                                 print("private key rebuild", data)
                             }.catch{ err in
@@ -87,7 +87,7 @@ struct ContentView: View {
                                                          browserRedirectURL: "https://scripts.toruswallet.io/redirect.html",
                                                          urlSession: URLSession.shared)
                             
-                            let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: .singleLogin, aggregateVerifierName: "facebook-shubs", subVerifierDetails: [sub], factory: TDSDKFactory(), network: .ROPSTEN, urlSession: URLSession.shared)
+                            let tdsdk = CustomAuthSwiftSDK(aggregateVerifierType: .singleLogin, aggregateVerifierName: "facebook-shubs", subVerifierDetails: [sub], factory: TDSDKFactory(), network: .ROPSTEN, urlSession: URLSession.shared)
                             tdsdk.triggerLogin(browserType: .external).done{ data in
                                 print("private key rebuild", data)
                             }.catch{ err in
@@ -104,7 +104,7 @@ struct ContentView: View {
                                                          verifierName: "twitch-shubs",
                                                          redirectURL: "tdsdk://tdsdk/oauthCallback",
                                                          urlSession: URLSession.shared)
-                            let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: .singleLogin, aggregateVerifierName: "twitch-shubs", subVerifierDetails: [sub], factory: TDSDKFactory(), network: .ROPSTEN, urlSession: URLSession.shared)
+                            let tdsdk = CustomAuthSwiftSDK(aggregateVerifierType: .singleLogin, aggregateVerifierName: "twitch-shubs", subVerifierDetails: [sub], factory: TDSDKFactory(), network: .ROPSTEN, urlSession: URLSession.shared)
                             tdsdk.triggerLogin(browserType: .external).done{ data in
                                 print("private key rebuild", data)
                             }.catch{ err in
@@ -123,7 +123,7 @@ struct ContentView: View {
                                                          jwtParams: ["domain":"torus-test.auth0.com"],
                                                          urlSession: URLSession.shared)
                             
-                            let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: .singleLogin, aggregateVerifierName: "torus-auth0-twitter-lrc", subVerifierDetails: [sub], factory: TDSDKFactory(), network: .ROPSTEN, urlSession: URLSession.shared)
+                            let tdsdk = CustomAuthSwiftSDK(aggregateVerifierType: .singleLogin, aggregateVerifierName: "torus-auth0-twitter-lrc", subVerifierDetails: [sub], factory: TDSDKFactory(), network: .ROPSTEN, urlSession: URLSession.shared)
                             tdsdk.triggerLogin(browserType: .external).done{ data in
                                 print("private key rebuild", data)
                             }.catch{ err in
@@ -142,7 +142,7 @@ struct ContentView: View {
                                                          jwtParams: ["domain":"torus-test.auth0.com"],
                                                          urlSession: URLSession.shared)
                             
-                            let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: .singleLogin, aggregateVerifierName: "torus-auth0-github-lrc", subVerifierDetails: [sub], factory: TDSDKFactory(), network: .ROPSTEN, urlSession: URLSession.shared)
+                            let tdsdk = CustomAuthSwiftSDK(aggregateVerifierType: .singleLogin, aggregateVerifierName: "torus-auth0-github-lrc", subVerifierDetails: [sub], factory: TDSDKFactory(), network: .ROPSTEN, urlSession: URLSession.shared)
                             tdsdk.triggerLogin(browserType: .external).done{ data in
                                 print("private key rebuild", data)
                             }.catch{ err in
@@ -161,7 +161,7 @@ struct ContentView: View {
                                                          jwtParams: ["domain":"torus-test.auth0.com"],
                                                          urlSession: URLSession.shared)
                             
-                            let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: .singleLogin, aggregateVerifierName: "torus-auth0-linkedin-lrc", subVerifierDetails: [sub], factory: TDSDKFactory(), network: .ROPSTEN, urlSession: URLSession.shared)
+                            let tdsdk = CustomAuthSwiftSDK(aggregateVerifierType: .singleLogin, aggregateVerifierName: "torus-auth0-linkedin-lrc", subVerifierDetails: [sub], factory: TDSDKFactory(), network: .ROPSTEN, urlSession: URLSession.shared)
                             tdsdk.triggerLogin(browserType: .external).done{ data in
                                 print("private key rebuild", data)
                             }.catch{ err in
@@ -180,7 +180,7 @@ struct ContentView: View {
                                                          jwtParams: ["domain":"torus-test.auth0.com"],
                                                          urlSession: URLSession.shared)
                             
-                            let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: .singleLogin, aggregateVerifierName: "torus-auth0-apple-lrc", subVerifierDetails: [sub], factory: TDSDKFactory(), network: .ROPSTEN, urlSession: URLSession.shared)
+                            let tdsdk = CustomAuthSwiftSDK(aggregateVerifierType: .singleLogin, aggregateVerifierName: "torus-auth0-apple-lrc", subVerifierDetails: [sub], factory: TDSDKFactory(), network: .ROPSTEN, urlSession: URLSession.shared)
                             tdsdk.triggerLogin(browserType: .external).done{ data in
                                 print("private key rebuild", data)
                             }.catch{ err in
@@ -203,7 +203,7 @@ struct ContentView: View {
                                                          jwtParams: ["domain":"torus-test.auth0.com"],
                                                          urlSession: URLSession.shared)
                             
-                            let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: .singleLogin, aggregateVerifierName: "torus-auth0-email-passwordless", subVerifierDetails: [sub], factory: TDSDKFactory(), network: .ROPSTEN, urlSession: URLSession.shared)
+                            let tdsdk = CustomAuthSwiftSDK(aggregateVerifierType: .singleLogin, aggregateVerifierName: "torus-auth0-email-passwordless", subVerifierDetails: [sub], factory: TDSDKFactory(), network: .ROPSTEN, urlSession: URLSession.shared)
                             tdsdk.triggerLogin(browserType: .external).done{ data in
                                 print("private key rebuild", data)
                             }.catch{ err in
@@ -222,7 +222,7 @@ struct ContentView: View {
                                                          jwtParams: ["domain":"torus-test.auth0.com"],
                                                          urlSession: URLSession.shared)
                             
-                            let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: .singleLogin, aggregateVerifierName: "torus-auth0-kakao-lrc", subVerifierDetails: [sub], factory: TDSDKFactory(), network: .ROPSTEN, urlSession: URLSession.shared)
+                            let tdsdk = CustomAuthSwiftSDK(aggregateVerifierType: .singleLogin, aggregateVerifierName: "torus-auth0-kakao-lrc", subVerifierDetails: [sub], factory: TDSDKFactory(), network: .ROPSTEN, urlSession: URLSession.shared)
                             tdsdk.triggerLogin(browserType: .external).done{ data in
                                 print("private key rebuild", data)
                             }.catch{ err in
@@ -241,7 +241,7 @@ struct ContentView: View {
                                                          jwtParams: ["domain":"torus-test.auth0.com"],
                                                          urlSession: URLSession.shared)
                             
-                            let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: .singleLogin, aggregateVerifierName: "torus-auth0-weibo-lrc", subVerifierDetails: [sub], factory: TDSDKFactory(), network: .ROPSTEN, urlSession: URLSession.shared)
+                            let tdsdk = CustomAuthSwiftSDK(aggregateVerifierType: .singleLogin, aggregateVerifierName: "torus-auth0-weibo-lrc", subVerifierDetails: [sub], factory: TDSDKFactory(), network: .ROPSTEN, urlSession: URLSession.shared)
                             tdsdk.triggerLogin(browserType: .external).done{ data in
                                 print("private key rebuild", data)
                             }.catch{ err in
@@ -260,7 +260,7 @@ struct ContentView: View {
                                                          jwtParams: ["domain":"torus-test.auth0.com"],
                                                          urlSession: URLSession.shared)
                             
-                            let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: .singleLogin, aggregateVerifierName: "torus-auth0-wechat-lrc", subVerifierDetails: [sub], factory: TDSDKFactory(), network: .ROPSTEN, urlSession: URLSession.shared)
+                            let tdsdk = CustomAuthSwiftSDK(aggregateVerifierType: .singleLogin, aggregateVerifierName: "torus-auth0-wechat-lrc", subVerifierDetails: [sub], factory: TDSDKFactory(), network: .ROPSTEN, urlSession: URLSession.shared)
                             tdsdk.triggerLogin(browserType: .external).done{ data in
                                 print("private key rebuild", data)
                             }.catch{ err in
@@ -283,7 +283,7 @@ struct ContentView: View {
                                                      verifierName: "google-ios",
                                                      redirectURL: "com.googleusercontent.apps.238941746713-vfap8uumijal4ump28p9jd3lbe6onqt4:/oauthredirect",
                                                      urlSession: URLSession.shared)
-                        let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: .singleIdVerifier, aggregateVerifierName: "multigoogle-torus", subVerifierDetails: [sub], factory: TDSDKFactory(), network: .ROPSTEN, urlSession: URLSession.shared)
+                        let tdsdk = CustomAuthSwiftSDK(aggregateVerifierType: .singleIdVerifier, aggregateVerifierName: "multigoogle-torus", subVerifierDetails: [sub], factory: TDSDKFactory(), network: .ROPSTEN, urlSession: URLSession.shared)
                         tdsdk.triggerLogin(browserType: .external).done{ data in
                             print("private key rebuild", data)
                         }.catch{ err in
@@ -299,7 +299,7 @@ struct ContentView: View {
                     //                                                     clientId: "238941746713-qqe4a7rduuk256d8oi5l0q34qtu9gpfg.apps.googleusercontent.com",
                     //                                                     verifierName: "google-shubs",
                     //                                                     redirectURL: "https://backend.relayer.dev.tor.us/demoapp/redirect")
-                    //                        let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: .singleIdVerifier, aggregateVerifierName: "multigoogle-torus", subVerifierDetails: [sub])
+                    //                        let tdsdk = CustomAuthSwiftSDK(aggregateVerifierType: .singleIdVerifier, aggregateVerifierName: "multigoogle-torus", subVerifierDetails: [sub])
                     //                        tdsdk.triggerLogin(browserType: .external).done{ data in
                     //                            print("private key rebuild", data)
                     //                        }.catch{ err in

@@ -1,7 +1,7 @@
 import XCTest
 import UIKit
 import TorusUtils
-@testable import TorusSwiftDirectSDK
+@testable import CustomAuthSwiftSDK
 
 @available(iOS 11.0, *)
 final class MockSDKTest: XCTestCase {

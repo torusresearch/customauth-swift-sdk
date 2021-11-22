@@ -7,7 +7,7 @@
 
 import Foundation
 import XCTest
-@testable import TorusSwiftDirectSDK
+@testable import CustomAuthSwiftSDK
 import Foundation
 import JWTKit
 

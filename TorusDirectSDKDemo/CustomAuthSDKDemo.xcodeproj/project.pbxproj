@@ -13,9 +13,9 @@
 		511CEAD22452D4EF00A7ACE9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 511CEAD12452D4EF00A7ACE9 /* Assets.xcassets */; };
 		511CEAD52452D4EF00A7ACE9 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 511CEAD42452D4EF00A7ACE9 /* Preview Assets.xcassets */; };
 		511CEAD82452D4EF00A7ACE9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 511CEAD62452D4EF00A7ACE9 /* LaunchScreen.storyboard */; };
-		511CEAE32452D4EF00A7ACE9 /* TorusDirectSDKDemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 511CEAE22452D4EF00A7ACE9 /* TorusDirectSDKDemoTests.swift */; };
-		511CEAEE2452D4EF00A7ACE9 /* TorusDirectSDKDemoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 511CEAED2452D4EF00A7ACE9 /* TorusDirectSDKDemoUITests.swift */; };
-		51775EB72484B66A00A29680 /* TorusSwiftDirectSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 51775EB62484B66A00A29680 /* TorusSwiftDirectSDK */; };
+		511CEAE32452D4EF00A7ACE9 /* CustomAuthSDKDemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 511CEAE22452D4EF00A7ACE9 /* CustomAuthSDKDemoTests.swift */; };
+		511CEAEE2452D4EF00A7ACE9 /* CustomAuthSDKDemoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 511CEAED2452D4EF00A7ACE9 /* CustomAuthSDKDemoUITests.swift */; };
+		51775EB72484B66A00A29680 /* CustomAuthSwiftSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 51775EB62484B66A00A29680 /* CustomAuthSwiftSDK */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -24,19 +24,19 @@
 			containerPortal = 511CEAC02452D4EC00A7ACE9 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 511CEAC72452D4EC00A7ACE9;
-			remoteInfo = TorusDirectSDKDemo;
+			remoteInfo = CustomAuthSDKDemo;
 		};
 		511CEAEA2452D4EF00A7ACE9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 511CEAC02452D4EC00A7ACE9 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 511CEAC72452D4EC00A7ACE9;
-			remoteInfo = TorusDirectSDKDemo;
+			remoteInfo = CustomAuthSDKDemo;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		511CEAC82452D4EC00A7ACE9 /* TorusDirectSDKDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TorusDirectSDKDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		511CEAC82452D4EC00A7ACE9 /* CustomAuthSDKDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CustomAuthSDKDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		511CEACB2452D4EC00A7ACE9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		511CEACD2452D4EC00A7ACE9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		511CEACF2452D4EC00A7ACE9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -44,14 +44,14 @@
 		511CEAD42452D4EF00A7ACE9 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		511CEAD72452D4EF00A7ACE9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		511CEAD92452D4EF00A7ACE9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		511CEADE2452D4EF00A7ACE9 /* TorusDirectSDKDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TorusDirectSDKDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		511CEAE22452D4EF00A7ACE9 /* TorusDirectSDKDemoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TorusDirectSDKDemoTests.swift; sourceTree = "<group>"; };
+		511CEADE2452D4EF00A7ACE9 /* CustomAuthSDKDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CustomAuthSDKDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		511CEAE22452D4EF00A7ACE9 /* CustomAuthSDKDemoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAuthSDKDemoTests.swift; sourceTree = "<group>"; };
 		511CEAE42452D4EF00A7ACE9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		511CEAE92452D4EF00A7ACE9 /* TorusDirectSDKDemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TorusDirectSDKDemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		511CEAED2452D4EF00A7ACE9 /* TorusDirectSDKDemoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TorusDirectSDKDemoUITests.swift; sourceTree = "<group>"; };
+		511CEAE92452D4EF00A7ACE9 /* CustomAuthSDKDemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CustomAuthSDKDemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		511CEAED2452D4EF00A7ACE9 /* CustomAuthSDKDemoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAuthSDKDemoUITests.swift; sourceTree = "<group>"; };
 		511CEAEF2452D4EF00A7ACE9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		51721D842474E4B700C22BAD /* torus-direct-swift-sdk */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "torus-direct-swift-sdk"; path = ..; sourceTree = "<group>"; };
-		517C5F5D24693F9D006D5A43 /* TorusDirectSDKDemo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TorusDirectSDKDemo.entitlements; sourceTree = "<group>"; };
+		517C5F5D24693F9D006D5A43 /* CustomAuthSDKDemo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CustomAuthSDKDemo.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,7 +59,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				51775EB72484B66A00A29680 /* TorusSwiftDirectSDK in Frameworks */,
+				51775EB72484B66A00A29680 /* CustomAuthSwiftSDK in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -91,9 +91,9 @@
 		511CEABF2452D4EC00A7ACE9 = {
 			isa = PBXGroup;
 			children = (
-				511CEACA2452D4EC00A7ACE9 /* TorusDirectSDKDemo */,
-				511CEAE12452D4EF00A7ACE9 /* TorusDirectSDKDemoTests */,
-				511CEAEC2452D4EF00A7ACE9 /* TorusDirectSDKDemoUITests */,
+				511CEACA2452D4EC00A7ACE9 /* CustomAuthSDKDemo */,
+				511CEAE12452D4EF00A7ACE9 /* CustomAuthSDKDemoTests */,
+				511CEAEC2452D4EF00A7ACE9 /* CustomAuthSDKDemoUITests */,
 				511CEAC92452D4EC00A7ACE9 /* Products */,
 				A84257F51AACA6652F347CFD /* Pods */,
 				18B4F998A7F88C302F18BA73 /* Frameworks */,
@@ -103,17 +103,17 @@
 		511CEAC92452D4EC00A7ACE9 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				511CEAC82452D4EC00A7ACE9 /* TorusDirectSDKDemo.app */,
-				511CEADE2452D4EF00A7ACE9 /* TorusDirectSDKDemoTests.xctest */,
-				511CEAE92452D4EF00A7ACE9 /* TorusDirectSDKDemoUITests.xctest */,
+				511CEAC82452D4EC00A7ACE9 /* CustomAuthSDKDemo.app */,
+				511CEADE2452D4EF00A7ACE9 /* CustomAuthSDKDemoTests.xctest */,
+				511CEAE92452D4EF00A7ACE9 /* CustomAuthSDKDemoUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		511CEACA2452D4EC00A7ACE9 /* TorusDirectSDKDemo */ = {
+		511CEACA2452D4EC00A7ACE9 /* CustomAuthSDKDemo */ = {
 			isa = PBXGroup;
 			children = (
-				517C5F5D24693F9D006D5A43 /* TorusDirectSDKDemo.entitlements */,
+				517C5F5D24693F9D006D5A43 /* CustomAuthSDKDemo.entitlements */,
 				511CEACB2452D4EC00A7ACE9 /* AppDelegate.swift */,
 				511CEACD2452D4EC00A7ACE9 /* SceneDelegate.swift */,
 				511CEACF2452D4EC00A7ACE9 /* ContentView.swift */,
@@ -122,7 +122,7 @@
 				511CEAD92452D4EF00A7ACE9 /* Info.plist */,
 				511CEAD32452D4EF00A7ACE9 /* Preview Content */,
 			);
-			path = TorusDirectSDKDemo;
+			path = CustomAuthSDKDemo;
 			sourceTree = "<group>";
 		};
 		511CEAD32452D4EF00A7ACE9 /* Preview Content */ = {
@@ -133,22 +133,22 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		511CEAE12452D4EF00A7ACE9 /* TorusDirectSDKDemoTests */ = {
+		511CEAE12452D4EF00A7ACE9 /* CustomAuthSDKDemoTests */ = {
 			isa = PBXGroup;
 			children = (
-				511CEAE22452D4EF00A7ACE9 /* TorusDirectSDKDemoTests.swift */,
+				511CEAE22452D4EF00A7ACE9 /* CustomAuthSDKDemoTests.swift */,
 				511CEAE42452D4EF00A7ACE9 /* Info.plist */,
 			);
-			path = TorusDirectSDKDemoTests;
+			path = CustomAuthSDKDemoTests;
 			sourceTree = "<group>";
 		};
-		511CEAEC2452D4EF00A7ACE9 /* TorusDirectSDKDemoUITests */ = {
+		511CEAEC2452D4EF00A7ACE9 /* CustomAuthSDKDemoUITests */ = {
 			isa = PBXGroup;
 			children = (
-				511CEAED2452D4EF00A7ACE9 /* TorusDirectSDKDemoUITests.swift */,
+				511CEAED2452D4EF00A7ACE9 /* CustomAuthSDKDemoUITests.swift */,
 				511CEAEF2452D4EF00A7ACE9 /* Info.plist */,
 			);
-			path = TorusDirectSDKDemoUITests;
+			path = CustomAuthSDKDemoUITests;
 			sourceTree = "<group>";
 		};
 		A84257F51AACA6652F347CFD /* Pods */ = {
@@ -161,9 +161,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		511CEAC72452D4EC00A7ACE9 /* TorusDirectSDKDemo */ = {
+		511CEAC72452D4EC00A7ACE9 /* CustomAuthSDKDemo */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 511CEAF22452D4EF00A7ACE9 /* Build configuration list for PBXNativeTarget "TorusDirectSDKDemo" */;
+			buildConfigurationList = 511CEAF22452D4EF00A7ACE9 /* Build configuration list for PBXNativeTarget "CustomAuthSDKDemo" */;
 			buildPhases = (
 				511CEAC42452D4EC00A7ACE9 /* Sources */,
 				511CEAC52452D4EC00A7ACE9 /* Frameworks */,
@@ -173,17 +173,17 @@
 			);
 			dependencies = (
 			);
-			name = TorusDirectSDKDemo;
+			name = CustomAuthSDKDemo;
 			packageProductDependencies = (
-				51775EB62484B66A00A29680 /* TorusSwiftDirectSDK */,
+				51775EB62484B66A00A29680 /* CustomAuthSwiftSDK */,
 			);
-			productName = TorusDirectSDKDemo;
-			productReference = 511CEAC82452D4EC00A7ACE9 /* TorusDirectSDKDemo.app */;
+			productName = CustomAuthSDKDemo;
+			productReference = 511CEAC82452D4EC00A7ACE9 /* CustomAuthSDKDemo.app */;
 			productType = "com.apple.product-type.application";
 		};
-		511CEADD2452D4EF00A7ACE9 /* TorusDirectSDKDemoTests */ = {
+		511CEADD2452D4EF00A7ACE9 /* CustomAuthSDKDemoTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 511CEAF52452D4EF00A7ACE9 /* Build configuration list for PBXNativeTarget "TorusDirectSDKDemoTests" */;
+			buildConfigurationList = 511CEAF52452D4EF00A7ACE9 /* Build configuration list for PBXNativeTarget "CustomAuthSDKDemoTests" */;
 			buildPhases = (
 				511CEADA2452D4EF00A7ACE9 /* Sources */,
 				511CEADB2452D4EF00A7ACE9 /* Frameworks */,
@@ -194,14 +194,14 @@
 			dependencies = (
 				511CEAE02452D4EF00A7ACE9 /* PBXTargetDependency */,
 			);
-			name = TorusDirectSDKDemoTests;
-			productName = TorusDirectSDKDemoTests;
-			productReference = 511CEADE2452D4EF00A7ACE9 /* TorusDirectSDKDemoTests.xctest */;
+			name = CustomAuthSDKDemoTests;
+			productName = CustomAuthSDKDemoTests;
+			productReference = 511CEADE2452D4EF00A7ACE9 /* CustomAuthSDKDemoTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		511CEAE82452D4EF00A7ACE9 /* TorusDirectSDKDemoUITests */ = {
+		511CEAE82452D4EF00A7ACE9 /* CustomAuthSDKDemoUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 511CEAF82452D4EF00A7ACE9 /* Build configuration list for PBXNativeTarget "TorusDirectSDKDemoUITests" */;
+			buildConfigurationList = 511CEAF82452D4EF00A7ACE9 /* Build configuration list for PBXNativeTarget "CustomAuthSDKDemoUITests" */;
 			buildPhases = (
 				511CEAE52452D4EF00A7ACE9 /* Sources */,
 				511CEAE62452D4EF00A7ACE9 /* Frameworks */,
@@ -212,9 +212,9 @@
 			dependencies = (
 				511CEAEB2452D4EF00A7ACE9 /* PBXTargetDependency */,
 			);
-			name = TorusDirectSDKDemoUITests;
-			productName = TorusDirectSDKDemoUITests;
-			productReference = 511CEAE92452D4EF00A7ACE9 /* TorusDirectSDKDemoUITests.xctest */;
+			name = CustomAuthSDKDemoUITests;
+			productName = CustomAuthSDKDemoUITests;
+			productReference = 511CEAE92452D4EF00A7ACE9 /* CustomAuthSDKDemoUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -240,7 +240,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 511CEAC32452D4EC00A7ACE9 /* Build configuration list for PBXProject "TorusDirectSDKDemo" */;
+			buildConfigurationList = 511CEAC32452D4EC00A7ACE9 /* Build configuration list for PBXProject "CustomAuthSDKDemo" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -255,9 +255,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				511CEAC72452D4EC00A7ACE9 /* TorusDirectSDKDemo */,
-				511CEADD2452D4EF00A7ACE9 /* TorusDirectSDKDemoTests */,
-				511CEAE82452D4EF00A7ACE9 /* TorusDirectSDKDemoUITests */,
+				511CEAC72452D4EC00A7ACE9 /* CustomAuthSDKDemo */,
+				511CEADD2452D4EF00A7ACE9 /* CustomAuthSDKDemoTests */,
+				511CEAE82452D4EF00A7ACE9 /* CustomAuthSDKDemoUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -304,7 +304,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				511CEAE32452D4EF00A7ACE9 /* TorusDirectSDKDemoTests.swift in Sources */,
+				511CEAE32452D4EF00A7ACE9 /* CustomAuthSDKDemoTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -312,7 +312,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				511CEAEE2452D4EF00A7ACE9 /* TorusDirectSDKDemoUITests.swift in Sources */,
+				511CEAEE2452D4EF00A7ACE9 /* CustomAuthSDKDemoUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -321,12 +321,12 @@
 /* Begin PBXTargetDependency section */
 		511CEAE02452D4EF00A7ACE9 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 511CEAC72452D4EC00A7ACE9 /* TorusDirectSDKDemo */;
+			target = 511CEAC72452D4EC00A7ACE9 /* CustomAuthSDKDemo */;
 			targetProxy = 511CEADF2452D4EF00A7ACE9 /* PBXContainerItemProxy */;
 		};
 		511CEAEB2452D4EF00A7ACE9 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 511CEAC72452D4EC00A7ACE9 /* TorusDirectSDKDemo */;
+			target = 511CEAC72452D4EC00A7ACE9 /* CustomAuthSDKDemo */;
 			targetProxy = 511CEAEA2452D4EF00A7ACE9 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -465,18 +465,18 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = TorusDirectSDKDemo/TorusDirectSDKDemo.entitlements;
+				CODE_SIGN_ENTITLEMENTS = CustomAuthSDKDemo/CustomAuthSDKDemo.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_ASSET_PATHS = "\"TorusDirectSDKDemo/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"CustomAuthSDKDemo/Preview Content\"";
 				DEVELOPMENT_TEAM = 2Q63NCPY55;
 				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = TorusDirectSDKDemo/Info.plist;
+				INFOPLIST_FILE = CustomAuthSDKDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.torus.TorusDirectSDKDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.torus.CustomAuthSDKDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -487,18 +487,18 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = TorusDirectSDKDemo/TorusDirectSDKDemo.entitlements;
+				CODE_SIGN_ENTITLEMENTS = CustomAuthSDKDemo/CustomAuthSDKDemo.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_ASSET_PATHS = "\"TorusDirectSDKDemo/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"CustomAuthSDKDemo/Preview Content\"";
 				DEVELOPMENT_TEAM = 2Q63NCPY55;
 				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = TorusDirectSDKDemo/Info.plist;
+				INFOPLIST_FILE = CustomAuthSDKDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.torus.TorusDirectSDKDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.torus.CustomAuthSDKDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -511,18 +511,18 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = TorusDirectSDKDemoTests/Info.plist;
+				INFOPLIST_FILE = CustomAuthSDKDemoTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = torus.TorusDirectSDKDemoTests;
+				PRODUCT_BUNDLE_IDENTIFIER = torus.CustomAuthSDKDemoTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TorusDirectSDKDemo.app/TorusDirectSDKDemo";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CustomAuthSDKDemo.app/CustomAuthSDKDemo";
 			};
 			name = Debug;
 		};
@@ -532,18 +532,18 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = TorusDirectSDKDemoTests/Info.plist;
+				INFOPLIST_FILE = CustomAuthSDKDemoTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = torus.TorusDirectSDKDemoTests;
+				PRODUCT_BUNDLE_IDENTIFIER = torus.CustomAuthSDKDemoTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TorusDirectSDKDemo.app/TorusDirectSDKDemo";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CustomAuthSDKDemo.app/CustomAuthSDKDemo";
 			};
 			name = Release;
 		};
@@ -552,17 +552,17 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = TorusDirectSDKDemoUITests/Info.plist;
+				INFOPLIST_FILE = CustomAuthSDKDemoUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = torus.TorusDirectSDKDemoUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = torus.CustomAuthSDKDemoUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = TorusDirectSDKDemo;
+				TEST_TARGET_NAME = CustomAuthSDKDemo;
 			};
 			name = Debug;
 		};
@@ -571,24 +571,24 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = TorusDirectSDKDemoUITests/Info.plist;
+				INFOPLIST_FILE = CustomAuthSDKDemoUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = torus.TorusDirectSDKDemoUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = torus.CustomAuthSDKDemoUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = TorusDirectSDKDemo;
+				TEST_TARGET_NAME = CustomAuthSDKDemo;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		511CEAC32452D4EC00A7ACE9 /* Build configuration list for PBXProject "TorusDirectSDKDemo" */ = {
+		511CEAC32452D4EC00A7ACE9 /* Build configuration list for PBXProject "CustomAuthSDKDemo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				511CEAF02452D4EF00A7ACE9 /* Debug */,
@@ -597,7 +597,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		511CEAF22452D4EF00A7ACE9 /* Build configuration list for PBXNativeTarget "TorusDirectSDKDemo" */ = {
+		511CEAF22452D4EF00A7ACE9 /* Build configuration list for PBXNativeTarget "CustomAuthSDKDemo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				511CEAF32452D4EF00A7ACE9 /* Debug */,
@@ -606,7 +606,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		511CEAF52452D4EF00A7ACE9 /* Build configuration list for PBXNativeTarget "TorusDirectSDKDemoTests" */ = {
+		511CEAF52452D4EF00A7ACE9 /* Build configuration list for PBXNativeTarget "CustomAuthSDKDemoTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				511CEAF62452D4EF00A7ACE9 /* Debug */,
@@ -615,7 +615,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		511CEAF82452D4EF00A7ACE9 /* Build configuration list for PBXNativeTarget "TorusDirectSDKDemoUITests" */ = {
+		511CEAF82452D4EF00A7ACE9 /* Build configuration list for PBXNativeTarget "CustomAuthSDKDemoUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				511CEAF92452D4EF00A7ACE9 /* Debug */,
@@ -627,9 +627,9 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		51775EB62484B66A00A29680 /* TorusSwiftDirectSDK */ = {
+		51775EB62484B66A00A29680 /* CustomAuthSwiftSDK */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = TorusSwiftDirectSDK;
+			productName = CustomAuthSwiftSDK;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
