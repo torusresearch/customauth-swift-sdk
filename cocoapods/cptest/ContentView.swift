@@ -30,8 +30,8 @@ struct ContentView: View {
                                                          loginProvider: .google,
                                                          clientId: "221898609709-obfn3p63741l5333093430j3qeiinaa8.apps.googleusercontent.com",
                                                          verifierName: "google-lrc",
-                                                         redirectURL: "com.googleusercontent.apps.238941746713-vfap8uumijal4ump28p9jd3lbe6onqt4:/oauthredirect",
-                                                         browserRedirectURL: "https://scripts.toruswallet.io/redirect.html",
+                                                         redirectURL: "tdsdk://tdsdk/oauthCallback",
+                                                         browserRedirectURL: "https://scripts.toruswallet.io/redirect.html")
                                                          urlSession: URLSession.shared)
                             
                             let tdsdk = TorusSwiftDirectSDK(aggregateVerifierType: .singleLogin, aggregateVerifierName: "google-lrc", subVerifierDetails: [sub], factory: TDSDKFactory(), network: .ROPSTEN, urlSession: URLSession.shared)
