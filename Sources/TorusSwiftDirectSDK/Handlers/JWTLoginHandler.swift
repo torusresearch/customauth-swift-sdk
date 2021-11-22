@@ -113,10 +113,10 @@ class JWTLoginHandler: AbstractLoginHandler{
                 seal.fulfill(newData)
                 
             }.catch{err in
-                seal.reject(TSDSError.getUserInfoFailed)
+                seal.reject(CASDKError.getUserInfoFailed)
             }
         }else{
-            seal.reject(TSDSError.accessTokenNotProvided)
+            seal.reject(CASDKError.accessTokenNotProvided)
         }
         
         return tempPromise

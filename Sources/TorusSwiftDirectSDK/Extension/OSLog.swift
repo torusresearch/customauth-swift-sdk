@@ -13,14 +13,14 @@ public let subsystem = Bundle.main.bundleIdentifier ?? "com.torus.TorusSwiftDire
 //
 //let os_logv = unsafeBitCast(os_log as OriginalOSLogFunction, to: ConvertedOSLogFunction.self)
 
-public struct TDSDKLogger {
+public struct CASDKLogger {
     static let inactiveLog = OSLog.disabled
     static let core = OSLog(subsystem: subsystem, category: "core")
 }
 
 @available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
 func getTorusLogger(log: OSLog = .default, type: OSLogType = .default) -> OSLog {
-    var logCheck: OSLog { tsSdkLogType.rawValue <= type.rawValue ? log : TDSDKLogger.inactiveLog}
+    var logCheck: OSLog { tsSdkLogType.rawValue <= type.rawValue ? log : CASDKLogger.inactiveLog}
     return logCheck
 }
 

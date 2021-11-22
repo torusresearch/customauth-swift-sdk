@@ -17,11 +17,11 @@ var tsSdkLogType = OSLogType.default
 
 @available(iOS 11.0, *)
 /// Provides integration of an iOS app with Torus CustomAuth.
-open class TorusSwiftDirectSDK{
+open class CustomAuthSwiftSDK{
     public var endpoints = Array<String>()
     public var torusNodePubKeys = Array<TorusNodePub>()
 
-    let factory: TDSDKFactoryProtocol
+    let factory: CASDKFactoryProtocol
     var torusUtils: AbstractTorusUtils
     let fetchNodeDetails: FetchNodeDetails
     var urlSession: URLSession
@@ -40,7 +40,7 @@ open class TorusSwiftDirectSDK{
     ///   - factory: Providng mocking by implementing TDSDKFactoryProtocol.
     ///   - network: Etherum network to be used.
     ///   - loglevel: Indicates the log level of this instance. All logs lower than this level will be ignored.
-    public init(aggregateVerifierType: verifierTypes, aggregateVerifierName: String, subVerifierDetails: [SubVerifierDetails], factory: TDSDKFactoryProtocol = TDSDKFactory(), network: EthereumNetwork = .MAINNET, loglevel: OSLogType = .debug, urlSession: URLSession = URLSession.shared) {
+    public init(aggregateVerifierType: verifierTypes, aggregateVerifierName: String, subVerifierDetails: [SubVerifierDetails], factory: CASDKFactoryProtocol = CASDKFactory(), network: EthereumNetwork = .MAINNET, loglevel: OSLogType = .debug, urlSession: URLSession = URLSession.shared) {
         tsSdkLogType = loglevel
         
         // factory method
@@ -61,13 +61,13 @@ open class TorusSwiftDirectSDK{
     ///   - aggregateVerifierName: Name of the verifier to be used..
     ///   - subVerifierDetails: Details of each subverifiers to be used.
     public convenience init(aggregateVerifierType: verifierTypes, aggregateVerifierName: String, subVerifierDetails: [SubVerifierDetails]){
-        let factory = TDSDKFactory()
+        let factory = CASDKFactory()
         self.init(aggregateVerifierType: aggregateVerifierType, aggregateVerifierName: aggregateVerifierName, subVerifierDetails: subVerifierDetails, factory: factory, network: .MAINNET, loglevel: .debug)
     }
 
     
     public convenience init(aggregateVerifierType: verifierTypes, aggregateVerifierName: String, subVerifierDetails: [SubVerifierDetails], loglevel: OSLogType = .debug){
-        let factory = TDSDKFactory()
+        let factory = CASDKFactory()
         self.init(aggregateVerifierType: aggregateVerifierType, aggregateVerifierName: aggregateVerifierName, subVerifierDetails: subVerifierDetails, factory: factory, network: .MAINNET, loglevel: loglevel)
     }
     
@@ -100,7 +100,7 @@ open class TorusSwiftDirectSDK{
     ///   - modalPresentationStyle: Indicates the UIModalPresentationStyle for the popup.
     /// - Returns: A promise that resolve with a Dictionary that contain at least `privateKey` and `publicAddress` field..
     open func triggerLogin(controller: UIViewController? = nil, browserType: URLOpenerTypes = .sfsafari, modalPresentationStyle: UIModalPresentationStyle = .fullScreen) -> Promise<[String:Any]>{
-        os_log("triggerLogin called with %@ %@", log: getTorusLogger(log: TDSDKLogger.core, type: .info), type: .info, browserType.rawValue,  modalPresentationStyle.rawValue)
+        os_log("triggerLogin called with %@ %@", log: getTorusLogger(log: CASDKLogger.core, type: .info), type: .info, browserType.rawValue,  modalPresentationStyle.rawValue)
         // Set browser
         self.authorizeURLHandler = browserType
         
@@ -114,7 +114,7 @@ open class TorusSwiftDirectSDK{
             case .singleIdVerifier:
                 return handleSingleIdVerifier(controller: controller, modalPresentationStyle: modalPresentationStyle)
             case .none:
-                return Promise(error: TSDSError.methodUnavailable)
+                return Promise(error: CASDKError.methodUnavailable)
         }
     }
     
@@ -124,10 +124,10 @@ open class TorusSwiftDirectSDK{
             let loginURL = subVerifier.getLoginURL()
             observeCallback{ url in
                 let responseParameters = self.parseURL(url: url)
-                os_log("ResponseParams after redirect: %@", log: getTorusLogger(log: TDSDKLogger.core, type: .info), type: .info, responseParameters)
+                os_log("ResponseParams after redirect: %@", log: getTorusLogger(log: CASDKLogger.core, type: .info), type: .info, responseParameters)
 
                 subVerifier.getUserInfo(responseParameters: responseParameters).then{ newData -> Promise<[String: Any]> in
-                    os_log("getUserInfo newData: %@", log: getTorusLogger(log: TDSDKLogger.core, type: .info), type: .info, newData)
+                    os_log("getUserInfo newData: %@", log: getTorusLogger(log: CASDKLogger.core, type: .info), type: .info, newData)
                     var data = newData
                     let verifierId = data["verifierId"] as! String
                     let idToken = data["tokenForKeys"] as! String
@@ -138,7 +138,7 @@ open class TorusSwiftDirectSDK{
                 }.done{data in
                     seal.fulfill(data)
                 }.catch{err in
-                    os_log("handleSingleLogin: err: %s", log: getTorusLogger(log: TDSDKLogger.core, type: .error), type: .error, err.localizedDescription)
+                    os_log("handleSingleLogin: err: %s", log: getTorusLogger(log: CASDKLogger.core, type: .error), type: .error, err.localizedDescription)
                     seal.reject(err)
                 }
             }
@@ -153,7 +153,7 @@ open class TorusSwiftDirectSDK{
             let loginURL = subVerifier.getLoginURL()
             observeCallback{ url in
                 let responseParameters = self.parseURL(url: url)
-                os_log("ResponseParams after redirect: %@", log: getTorusLogger(log: TDSDKLogger.core, type: .info), type: .info, responseParameters)
+                os_log("ResponseParams after redirect: %@", log: getTorusLogger(log: CASDKLogger.core, type: .info), type: .info, responseParameters)
                 subVerifier.getUserInfo(responseParameters: responseParameters).then{ newData -> Promise<[String:Any]> in
                     var data = newData
                     let verifierId = data["verifierId"] as! String
@@ -166,7 +166,7 @@ open class TorusSwiftDirectSDK{
                 }.done{data in
                     seal.fulfill(data)
                 }.catch{err in
-                    os_log("handleSingleIdVerifier err: %s", log: getTorusLogger(log: TDSDKLogger.core, type: .error), type: .error, err.localizedDescription)
+                    os_log("handleSingleIdVerifier err: %s", log: getTorusLogger(log: CASDKLogger.core, type: .error), type: .error, err.localizedDescription)
                     seal.reject(err)
                 }
             }
@@ -177,12 +177,12 @@ open class TorusSwiftDirectSDK{
     
     func handleAndAggregateVerifier(controller: UIViewController?) -> Promise<[String:Any]>{
         // TODO: implement verifier
-        return Promise(error: TSDSError.methodUnavailable)
+        return Promise(error: CASDKError.methodUnavailable)
     }
     
     func handleOrAggregateVerifier(controller: UIViewController?) -> Promise<[String:Any]>{
         // TODO: implement verifier
-        return Promise(error: TSDSError.methodUnavailable)
+        return Promise(error: CASDKError.methodUnavailable)
     }
     
     /// Retrieve the Torus key from the nodes given an already known token. Useful if a custom login flow is required.
@@ -206,7 +206,7 @@ open class TorusSwiftDirectSDK{
             data["publicAddress"] = responseFromRetrieveShares["publicAddress"]
             seal.fulfill(data)
         }.catch{err in
-            os_log("handleSingleLogin: err: %s", log: getTorusLogger(log: TDSDKLogger.core, type: .error), type: .error, err.localizedDescription)
+            os_log("handleSingleLogin: err: %s", log: getTorusLogger(log: CASDKLogger.core, type: .error), type: .error, err.localizedDescription)
             seal.reject(err)
         }
         
@@ -234,7 +234,7 @@ open class TorusSwiftDirectSDK{
             data["publicAddress"] = responseFromRetrieveShares["publicAddress"]
             seal.fulfill(data)
         }.catch{err in
-            os_log("handleSingleIdVerifier err: %@", log: getTorusLogger(log: TDSDKLogger.core, type: .error), type: .error, err.localizedDescription)
+            os_log("handleSingleIdVerifier err: %@", log: getTorusLogger(log: CASDKLogger.core, type: .error), type: .error, err.localizedDescription)
             seal.reject(err)
         }
         

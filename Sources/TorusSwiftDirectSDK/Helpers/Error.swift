@@ -1,4 +1,4 @@
-public enum TSDSError: Error {
+public enum CASDKError: Error {
     case getUserInfoFailed
     case decodingFailed
     case accessTokenAPIFailed

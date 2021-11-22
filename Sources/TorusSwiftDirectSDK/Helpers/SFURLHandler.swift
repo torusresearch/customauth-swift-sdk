@@ -43,13 +43,13 @@ open class SFURLHandler: NSObject, SFSafariViewControllerDelegate, TorusURLHandl
         
         let key = UUID().uuidString
         
-        observers[key] = TorusSwiftDirectSDK.notificationCenter.addObserver(
-            forName: TorusSwiftDirectSDK.didHandleCallbackURL,
+        observers[key] = CustomAuthSwiftSDK.notificationCenter.addObserver(
+            forName: CustomAuthSwiftSDK.didHandleCallbackURL,
             object: nil,
             queue: OperationQueue.main,
             using: { _ in
                 if let observer = self.observers[key] {
-                    TorusSwiftDirectSDK.notificationCenter.removeObserver(observer)
+                    CustomAuthSwiftSDK.notificationCenter.removeObserver(observer)
                     self.observers.removeValue(forKey: key)
                 }
                 self.dismiss(controller, self)
@@ -66,7 +66,7 @@ open class SFURLHandler: NSObject, SFSafariViewControllerDelegate, TorusURLHandl
     
     open func clearLocalObservers() {
         for (_, observer) in observers {
-            TorusSwiftDirectSDK.notificationCenter.removeObserver(observer)
+            CustomAuthSwiftSDK.notificationCenter.removeObserver(observer)
         }
         observers.removeAll()
     }

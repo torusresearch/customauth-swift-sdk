@@ -14,7 +14,7 @@ import OSLog
 
 
 @available(iOS 11.0, *)
-typealias torus = TorusSwiftDirectSDK
+typealias torus = CustomAuthSwiftSDK
 
 // MARK: - verifier types
 public enum verifierTypes : String{
@@ -26,7 +26,7 @@ public enum verifierTypes : String{
 
 // MARK:- torus extension
 @available(iOS 11.0, *)
-extension TorusSwiftDirectSDK{
+extension CustomAuthSwiftSDK{
     
     open class var notificationCenter: NotificationCenter {
         return NotificationCenter.default
@@ -38,19 +38,19 @@ extension TorusSwiftDirectSDK{
     
     public func removeCallbackNotificationObserver() {
         if let observer = self.observer {
-            TorusSwiftDirectSDK.notificationCenter.removeObserver(observer)
+            CustomAuthSwiftSDK.notificationCenter.removeObserver(observer)
         }
     }
     
     public func observeCallback(_ block: @escaping (_ url: URL) -> Void) {
-        self.observer = TorusSwiftDirectSDK.notificationCenter.addObserver(
-            forName: TorusSwiftDirectSDK.didHandleCallbackURL,
+        self.observer = CustomAuthSwiftSDK.notificationCenter.addObserver(
+            forName: CustomAuthSwiftSDK.didHandleCallbackURL,
             object: nil,
             queue: OperationQueue.main) { [weak self] notification in
                 self?.removeCallbackNotificationObserver()
-                os_log("notification.userInfo: %s", log: getTorusLogger(log: TDSDKLogger.core, type: .info), type: .info, notification.userInfo.debugDescription)
+                os_log("notification.userInfo: %s", log: getTorusLogger(log: CASDKLogger.core, type: .info), type: .info, notification.userInfo.debugDescription)
                 if let urlFromUserInfo = notification.userInfo?["URL"] as? URL {
-                    os_log("executing callback block", log: getTorusLogger(log: TDSDKLogger.core, type: .error), type: .error)
+                    os_log("executing callback block", log: getTorusLogger(log: CASDKLogger.core, type: .error), type: .error)
                     block(urlFromUserInfo)
                 }else{
                     assertionFailure()
@@ -60,7 +60,7 @@ extension TorusSwiftDirectSDK{
     
     
     public func openURL(url: String, view: UIViewController?, modalPresentationStyle: UIModalPresentationStyle) {
-        os_log("opening URL: %s", log: getTorusLogger(log: TDSDKLogger.core, type: .info), type: .info, url)
+        os_log("opening URL: %s", log: getTorusLogger(log: CASDKLogger.core, type: .info), type: .info, url)
         
         switch self.authorizeURLHandler {
         case .external:
@@ -68,13 +68,13 @@ extension TorusSwiftDirectSDK{
             handler.handle(URL(string: url)!, modalPresentationStyle: modalPresentationStyle)
         case .sfsafari:
             guard let controller = view else{
-                os_log("UIViewController not available. Please modify triggerLogin(controller:)", log: getTorusLogger(log: TDSDKLogger.core, type: .error), type: .error)
+                os_log("UIViewController not available. Please modify triggerLogin(controller:)", log: getTorusLogger(log: CASDKLogger.core, type: .error), type: .error)
                 return
             }
             let handler = SFURLHandler(viewController: controller)
             handler.handle(URL(string: url)!, modalPresentationStyle: modalPresentationStyle)
         case .none:
-            os_log("Cannot access specified browser", log: getTorusLogger(log: TDSDKLogger.core, type: .error), type: .error)
+            os_log("Cannot access specified browser", log: getTorusLogger(log: CASDKLogger.core, type: .error), type: .error)
         }
     }
     
@@ -88,7 +88,7 @@ extension TorusSwiftDirectSDK{
     
     open class func handle(url: URL){
         // TorusSwiftDirectSDK.logger.info("Posting notification after Universal link/deep link flow")
-        let notification = Notification(name: TorusSwiftDirectSDK.didHandleCallbackURL, object: nil, userInfo: ["URL":url])
+        let notification = Notification(name: CustomAuthSwiftSDK.didHandleCallbackURL, object: nil, userInfo: ["URL":url])
         notificationCenter.post(notification)
     }
     

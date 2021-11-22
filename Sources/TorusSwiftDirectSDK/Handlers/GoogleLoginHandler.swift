@@ -88,7 +88,7 @@ class GoogleloginHandler: AbstractLoginHandler{
                         request.addValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
                         return self.urlSession.dataTask(.promise, with: request).map{ ($0.data, "\(idToken)")}
                     }else{
-                        throw TSDSError.accessTokenNotProvided
+                        throw CASDKError.accessTokenNotProvided
                     }
                 }.done{ data, idToken in
                     let dictionary = try! JSONSerialization.jsonObject(with: data, options: []) as! [String:Any]
@@ -98,10 +98,10 @@ class GoogleloginHandler: AbstractLoginHandler{
                     newData["verifierId"] = self.getVerifierFromUserInfo()
                     seal.fulfill(newData)
                 }.catch{err in
-                    seal.reject(TSDSError.accessTokenAPIFailed)
+                    seal.reject(CASDKError.accessTokenAPIFailed)
                 }
             }else{
-                seal.reject(TSDSError.authGrantNotProvided)
+                seal.reject(CASDKError.authGrantNotProvided)
             }
         case .web:
             if let accessToken = responseParameters["access_token"], let idToken = responseParameters["id_token"]{
@@ -116,10 +116,10 @@ class GoogleloginHandler: AbstractLoginHandler{
                     newData["verifierId"] = self.getVerifierFromUserInfo()
                     seal.fulfill(newData)
                 }.catch{err in
-                    seal.reject(TSDSError.accessTokenAPIFailed)
+                    seal.reject(CASDKError.accessTokenAPIFailed)
                 }
             }else{
-                seal.reject(TSDSError.getUserInfoFailed)
+                seal.reject(CASDKError.getUserInfoFailed)
             }
         }
         return tempPromise

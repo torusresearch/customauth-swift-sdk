@@ -11,7 +11,7 @@ import TorusUtils
 import TorusSwiftDirectSDK
 import OSLog
 
-public class MockFactory: TDSDKFactoryProtocol{
+public class MockFactory: CASDKFactoryProtocol{
     init(){}
 
     public func createTorusUtils(nodePubKeys: Array<TorusNodePub>, loglevel: OSLogType, urlSession: URLSession) -> AbstractTorusUtils {
