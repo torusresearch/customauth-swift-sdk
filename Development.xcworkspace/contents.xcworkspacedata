@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "container:CustomAuthSDKDemo/CustomAuthSDKDemo.xcodeproj">
+      location = "group:CustomAuthSwiftSDKDemo/CustomAuthSDKDemo.xcodeproj">
    </FileRef>
 </Workspace>
