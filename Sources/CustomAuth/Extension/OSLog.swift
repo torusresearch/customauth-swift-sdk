@@ -5,7 +5,7 @@
 import os.log
 import Foundation
 
-public let subsystem = Bundle.main.bundleIdentifier ?? "com.torus.CustomAuthSwiftSDK"
+public let subsystem = Bundle.main.bundleIdentifier ?? "com.torus.CustomAuth"
 //
 //typealias OriginalOSLogFunction = (_ message: StaticString, _ dso: UnsafeRawPointer? , _ log: OSLog , _ type: OSLogType , _ args: CVarArg...) -> Void
 //

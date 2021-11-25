@@ -2,7 +2,7 @@ import Foundation
 import PromiseKit
 import TorusUtils
 import FetchNodeDetails
-import CustomAuthSwiftSDK
+import CustomAuth
 
 // Added so the that we can assign values later.
 public protocol MockAbstractTorusUtils{

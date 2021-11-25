@@ -5,7 +5,7 @@ target 'cptest' do
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
   # pod 'Torus-utils', '~>'
-  pod 'CustomAuthSwiftSDK', :path=>"../"
+  pod 'CustomAuth', :path=>"../"
   # Pods for cptest
   
   post_install do |installer|

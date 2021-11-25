@@ -1,7 +1,7 @@
 import XCTest
 import UIKit
 import TorusUtils
-@testable import CustomAuthSwiftSDK
+@testable import CustomAuth
 
 @available(iOS 11.0, *)
 final class MockSDKTest: XCTestCase {
@@ -17,17 +17,17 @@ final class MockSDKTest: XCTestCase {
         let subVerifier = [SubVerifierDetails(loginProvider: .jwt, clientId: fakeData.generateVerifier(), verifierName: expectedVerifier, redirectURL: fakeData.generateVerifier())]
         let factory = MockFactory()
         
-        let customAuthSwiftSDK = CustomAuthSwiftSDK(aggregateVerifierType: .singleLogin, aggregateVerifierName: expectedVerifier, subVerifierDetails: subVerifier, factory: factory)
-        var mockTorusUtils = customAuthSwiftSDK.torusUtils as! MockAbstractTorusUtils
+        let CustomAuth = CustomAuth(aggregateVerifierType: .singleLogin, aggregateVerifierName: expectedVerifier, subVerifierDetails: subVerifier, factory: factory)
+        var mockTorusUtils = CustomAuth.torusUtils as! MockAbstractTorusUtils
         
         // Set Mock data
         mockTorusUtils.retrieveShares_output["privateKey"] = expectedPrivateKey
         mockTorusUtils.retrieveShares_output["publicAddress"] = expectedPublicAddress
         
-        customAuthSwiftSDK.getTorusKey(verifier: expectedVerifier, verifierId: expectedVerfierId, idToken: fakeData.generateVerifier())
+        CustomAuth.getTorusKey(verifier: expectedVerifier, verifierId: expectedVerfierId, idToken: fakeData.generateVerifier())
             .done { data in
-                let mockTorusUtils = customAuthSwiftSDK.torusUtils as! MockAbstractTorusUtils
-                XCTAssertEqual(mockTorusUtils.retrieveShares_input["endpoints"] as? [String], customAuthSwiftSDK.endpoints)
+                let mockTorusUtils = CustomAuth.torusUtils as! MockAbstractTorusUtils
+                XCTAssertEqual(mockTorusUtils.retrieveShares_input["endpoints"] as? [String], CustomAuth.endpoints)
                 XCTAssertEqual(mockTorusUtils.retrieveShares_input["verifierIdentifier"] as? String, expectedVerifier)
                 XCTAssertEqual(mockTorusUtils.retrieveShares_input["verifierId"] as? String, expectedVerfierId)
                 XCTAssertEqual(data["privateKey"] as? String, expectedPrivateKey)
@@ -51,17 +51,17 @@ final class MockSDKTest: XCTestCase {
         let subVerifier = [SubVerifierDetails(loginProvider: .jwt, clientId: fakeData.generateVerifier(), verifierName: expectedVerifier, redirectURL: fakeData.generateVerifier())]
         let factory = MockFactory()
         
-        let customAuthSwiftSDK = CustomAuthSwiftSDK(aggregateVerifierType: .singleIdVerifier, aggregateVerifierName: expectedVerifier, subVerifierDetails: subVerifier, factory: factory)
-        var mockTorusUtils = customAuthSwiftSDK.torusUtils as! MockAbstractTorusUtils
+        let CustomAuth = CustomAuth(aggregateVerifierType: .singleIdVerifier, aggregateVerifierName: expectedVerifier, subVerifierDetails: subVerifier, factory: factory)
+        var mockTorusUtils = CustomAuth.torusUtils as! MockAbstractTorusUtils
         
         // Set Mock data
         mockTorusUtils.retrieveShares_output["privateKey"] = expectedPrivateKey
         mockTorusUtils.retrieveShares_output["publicAddress"] = expectedPublicAddress
         
-        customAuthSwiftSDK.getAggregateTorusKey(verifier: expectedVerifier, verifierId: expectedVerfierId, idToken: fakeData.generateVerifier(), subVerifierDetails: subVerifier[0])
+        CustomAuth.getAggregateTorusKey(verifier: expectedVerifier, verifierId: expectedVerfierId, idToken: fakeData.generateVerifier(), subVerifierDetails: subVerifier[0])
             .done { data in
-                let mockTorusUtils = customAuthSwiftSDK.torusUtils as! MockAbstractTorusUtils
-                XCTAssertEqual(mockTorusUtils.retrieveShares_input["endpoints"] as? [String], customAuthSwiftSDK.endpoints)
+                let mockTorusUtils = CustomAuth.torusUtils as! MockAbstractTorusUtils
+                XCTAssertEqual(mockTorusUtils.retrieveShares_input["endpoints"] as? [String], CustomAuth.endpoints)
                 XCTAssertEqual(mockTorusUtils.retrieveShares_input["verifierIdentifier"] as? String, expectedVerifier)
                 XCTAssertEqual(mockTorusUtils.retrieveShares_input["verifierId"] as? String, expectedVerfierId)
                 XCTAssertEqual(data["privateKey"] as? String, expectedPrivateKey)

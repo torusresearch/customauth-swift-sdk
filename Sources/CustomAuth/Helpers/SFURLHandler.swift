@@ -43,13 +43,13 @@ open class SFURLHandler: NSObject, SFSafariViewControllerDelegate, TorusURLHandl
         
         let key = UUID().uuidString
         
-        observers[key] = CustomAuthSwiftSDK.notificationCenter.addObserver(
-            forName: CustomAuthSwiftSDK.didHandleCallbackURL,
+        observers[key] = CustomAuth.notificationCenter.addObserver(
+            forName: CustomAuth.didHandleCallbackURL,
             object: nil,
             queue: OperationQueue.main,
             using: { _ in
                 if let observer = self.observers[key] {
-                    CustomAuthSwiftSDK.notificationCenter.removeObserver(observer)
+                    CustomAuth.notificationCenter.removeObserver(observer)
                     self.observers.removeValue(forKey: key)
                 }
                 self.dismiss(controller, self)
@@ -61,12 +61,12 @@ open class SFURLHandler: NSObject, SFSafariViewControllerDelegate, TorusURLHandl
     /// Clear internal observers on authentification flow
     open func clearObservers() {
         clearLocalObservers()
-        // self.CustomAuthSwiftSDK?.removeCallbackNotificationObserver()
+        // self.CustomAuth?.removeCallbackNotificationObserver()
     }
     
     open func clearLocalObservers() {
         for (_, observer) in observers {
-            CustomAuthSwiftSDK.notificationCenter.removeObserver(observer)
+            CustomAuth.notificationCenter.removeObserver(observer)
         }
         observers.removeAll()
     }

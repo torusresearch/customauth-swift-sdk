@@ -4,14 +4,14 @@
 import PackageDescription
 
 let package = Package(
-    name: "CustomAuthSwiftSDK",
+    name: "CustomAuth",
     platforms: [
         .iOS(.v13),
     ],
     products: [
         .library(
-            name: "CustomAuthSwiftSDK",
-            targets: ["CustomAuthSwiftSDK"]),
+            name: "CustomAuth",
+            targets: ["CustomAuth"]),
     ],
     dependencies: [
         .package(name:"TorusUtils", url: "https://github.com/torusresearch/torus-utils-swift", from: "1.2.0"),
@@ -20,11 +20,11 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "CustomAuthSwiftSDK",
+            name: "CustomAuth",
             dependencies: ["TorusUtils"],
-            path: "Sources/CustomAuthSwiftSDK"),
+            path: "Sources/CustomAuth"),
         .testTarget(
-            name: "CustomAuthSwiftSDKTests",
-            dependencies: ["CustomAuthSwiftSDK", .product(name: "JWTKit", package: "jwt-kit")]),
+            name: "CustomAuthTests",
+            dependencies: ["CustomAuth", .product(name: "JWTKit", package: "jwt-kit")]),
     ]
 )

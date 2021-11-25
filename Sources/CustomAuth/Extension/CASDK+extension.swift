@@ -1,6 +1,6 @@
 //
-//  CustomAuthSwiftSDK class
-//  CustomAuthSwiftSDK
+//  CustomAuth class
+//  CustomAuth
 //
 //  Created by Shubham Rathi on 18/05/2020.
 //
@@ -14,7 +14,7 @@ import OSLog
 
 
 @available(iOS 11.0, *)
-typealias torus = CustomAuthSwiftSDK
+typealias torus = CustomAuth
 
 // MARK: - verifier types
 public enum verifierTypes : String{
@@ -26,7 +26,7 @@ public enum verifierTypes : String{
 
 // MARK:- torus extension
 @available(iOS 11.0, *)
-extension CustomAuthSwiftSDK{
+extension CustomAuth{
     
     open class var notificationCenter: NotificationCenter {
         return NotificationCenter.default
@@ -38,13 +38,13 @@ extension CustomAuthSwiftSDK{
     
     public func removeCallbackNotificationObserver() {
         if let observer = self.observer {
-            CustomAuthSwiftSDK.notificationCenter.removeObserver(observer)
+            CustomAuth.notificationCenter.removeObserver(observer)
         }
     }
     
     public func observeCallback(_ block: @escaping (_ url: URL) -> Void) {
-        self.observer = CustomAuthSwiftSDK.notificationCenter.addObserver(
-            forName: CustomAuthSwiftSDK.didHandleCallbackURL,
+        self.observer = CustomAuth.notificationCenter.addObserver(
+            forName: CustomAuth.didHandleCallbackURL,
             object: nil,
             queue: OperationQueue.main) { [weak self] notification in
                 self?.removeCallbackNotificationObserver()
@@ -87,8 +87,8 @@ extension CustomAuthSwiftSDK{
     }
     
     open class func handle(url: URL){
-        // CustomAuthSwiftSDK.logger.info("Posting notification after Universal link/deep link flow")
-        let notification = Notification(name: CustomAuthSwiftSDK.didHandleCallbackURL, object: nil, userInfo: ["URL":url])
+        // CustomAuth.logger.info("Posting notification after Universal link/deep link flow")
+        let notification = Notification(name: CustomAuth.didHandleCallbackURL, object: nil, userInfo: ["URL":url])
         notificationCenter.post(notification)
     }
     

@@ -1,6 +1,6 @@
 //
-//  CustomAuthSwiftSDK class
-//  CustomAuthSwiftSDK
+//  CustomAuth class
+//  CustomAuth
 //
 //  Created by Shubham Rathi on 24/4/2020.
 //
@@ -17,7 +17,7 @@ var tsSdkLogType = OSLogType.default
 
 @available(iOS 11.0, *)
 /// Provides integration of an iOS app with Torus CustomAuth.
-open class CustomAuthSwiftSDK{
+open class CustomAuth{
     public var endpoints = Array<String>()
     public var torusNodePubKeys = Array<TorusNodePub>()
 
@@ -32,7 +32,7 @@ open class CustomAuthSwiftSDK{
     public var authorizeURLHandler: URLOpenerTypes?
     var observer: NSObjectProtocol? // useful for Notifications
     
-    /// Initiate an CustomAuthSwiftSDK instance.
+    /// Initiate an CustomAuth instance.
     /// - Parameters:
     ///   - aggregateVerifierType: Type of the verifier. Use `singleLogin` for single providers. Only `singleLogin` and `singleIdVerifier` is supported currently.
     ///   - aggregateVerifierName: Name of the verifier to be used..
@@ -55,7 +55,7 @@ open class CustomAuthSwiftSDK{
         self.subVerifierDetails = subVerifierDetails
     }
     
-    /// Initiate an CustomAuthSwiftSDK instance.
+    /// Initiate an CustomAuth instance.
     /// - Parameters:
     ///   - aggregateVerifierType: Type of the verifier. Use `singleLogin` for single providers. Only `singleLogin` and `singleIdVerifier` is supported currently.
     ///   - aggregateVerifierName: Name of the verifier to be used..

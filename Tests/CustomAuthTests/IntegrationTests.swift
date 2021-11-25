@@ -7,12 +7,12 @@
 
 import Foundation
 import XCTest
-@testable import CustomAuthSwiftSDK
+@testable import CustomAuth
 import Foundation
 import JWTKit
 
 final class IntegrationTests: XCTestCase {
-    static var sdk: CustomAuthSwiftSDK?
+    static var sdk: CustomAuth?
     
     override class func setUp() {
         let sub = SubVerifierDetails(loginType: .web,
@@ -22,7 +22,7 @@ final class IntegrationTests: XCTestCase {
                                      redirectURL: "com.googleusercontent.apps.238941746713-vfap8uumijal4ump28p9jd3lbe6onqt4:/oauthredirect",
                                      browserRedirectURL: "https://scripts.toruswallet.io/redirect.html")
         
-        IntegrationTests.sdk = CustomAuthSwiftSDK(aggregateVerifierType: .singleLogin, aggregateVerifierName: "torus-test-ios-public", subVerifierDetails: [sub], network: .ROPSTEN)
+        IntegrationTests.sdk = CustomAuth(aggregateVerifierType: .singleLogin, aggregateVerifierName: "torus-test-ios-public", subVerifierDetails: [sub], network: .ROPSTEN)
     }
     
     func test_getTorusKey(){

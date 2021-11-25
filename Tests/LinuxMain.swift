@@ -1,7 +1,7 @@
 import XCTest
 
-import CustomAuthSwiftSDKTests
+import CustomAuthTests
 
 var tests = [XCTestCaseEntry]()
-tests += CustomAuthSwiftSDKTests.allTests()
+tests += CustomAuthTests.allTests()
 XCTMain(tests)
