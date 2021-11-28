@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
   spec.name         = "CustomAuth"
-  spec.version      = "2.2.0"
+  spec.version      = "2.0.0"
   spec.platform = :ios, "11.0"
   spec.summary      = "Swift SDK that allows applications to directly interact with the Torus Network, similar to how Torus Wallet does."
   spec.homepage     = "https://github.com/torusresearch/customauth-swift-sdk"
