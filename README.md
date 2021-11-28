@@ -1,4 +1,4 @@
-# Torus-direct-swift-sdk
+# customauth-swift-sdk
 
 ## Introduction
 
@@ -19,14 +19,14 @@ import PackageDescription
 let package = Package(
     name: "CustomAuth", 
     dependencies: [
-        .package(name: "CustomAuth", url: "https://github.com/torusresearch/torus-direct-swift-sdk", from: "1.0.0"))
+        .package(name: "CustomAuth", url: "https://github.com/torusresearch/custom-auth-swift-sdk", from: "2.0.0"))
     ]
 )
 ```
 
 #### Cocoapods
 ```ruby
-pod 'Torus-directSDK', '~> 1.0.0'
+pod 'CustomAuth', '~> 2.0.0'
 ```
 
 #### Manual import or other packages
@@ -55,7 +55,7 @@ tdsdk.triggerLogin(controller: <UIViewController>?, browserType: <method-of-open
     print(err)
 }
 ```
-Logins are dependent on verifier scripts/verifiers. There are other verifiers including `single_id_verifier`, `and_aggregate_verifier`, `or_aggregate_verifier` and `single_logins` of which you may need to use depending on your required logins. To get your application's verifier script setup, do reach out to hello@tor.us or to read more about verifiers do checkout [the docs](https://docs.tor.us/direct-auth/supported-authenticators-verifiers). 
+Logins are dependent on verifier scripts/verifiers. There are other verifiers including `single_id_verifier`, `and_aggregate_verifier`, `or_aggregate_verifier` and `single_logins` of which you may need to use depending on your required logins. To get your application's verifier script setup, do reach out to hello@tor.us or to read more about verifiers do checkout [the docs](https://docs.tor.us/customauth/supported-authenticators-verifiers). 
 
 ### 3. Handling the OAuth/Authentication URL redirects 
 
@@ -130,7 +130,7 @@ After this you're good to go, reach out to hello@tor.us to get your verifier spu
 
 ## Using CustomAuthFactory
 
-The `TDSDKFactoryProtocol` provides a way to modify the mechanism of discovering torus nodes in `FetchNodeDetails` and performing key retrieval in `TorusUtils`, which can be useful in scenarios such as mocking or advanced customization. Developers who want to use this mechanism should implement `TDSDKFactoryProtocol` in Sources/CustomAuth/CustomAuth.swift, and then pass the instance into the `init` of `CustomAuth`, for example:
+The `CASDKFactoryProtocol` provides a way to modify the mechanism of discovering torus nodes in `FetchNodeDetails` and performing key retrieval in `TorusUtils`, which can be useful in scenarios such as mocking or advanced customization. Developers who want to use this mechanism should implement `CASDKFactoryProtocol` in Sources/CustomAuth/CustomAuth.swift, and then pass the instance into the `init` of `CustomAuth`, for example:
 
 ```swift
 let tdsdk = CustomAuth(
