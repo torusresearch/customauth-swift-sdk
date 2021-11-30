@@ -1,9 +1,9 @@
-//
+
 //  SceneDelegate.swift
-//  cptest
+//  CustomAuthDemo
 //
-//  Created by Shubham on 12/6/20.
-//  Copyright © 2020 torus. All rights reserved.
+//  Created by Shubham on 24/4/20.
+//  Copyright © 2020 Shubham. All rights reserved.
 //
 
 import UIKit
@@ -17,12 +17,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     // Handle Universal logins
     func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
         guard userActivity.activityType == NSUserActivityTypeBrowsingWeb,
-              let urlToOpen = userActivity.webpageURL else {
-            return
+            let urlToOpen = userActivity.webpageURL else {
+                return
         }
         CustomAuth.handle(url: urlToOpen)
     }
-    
+
     // Hanlde Deep linkings
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
         guard let url = URLContexts.first?.url else {
@@ -30,7 +30,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
         CustomAuth.handle(url: url)
     }
-
+    
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
@@ -77,5 +77,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
 
+}
+
+
+struct SceneDelegate_Previews: PreviewProvider {
+    static var previews: some View {
+        /*@START_MENU_TOKEN@*/Text("Hello, World!")/*@END_MENU_TOKEN@*/
+    }
 }
 
