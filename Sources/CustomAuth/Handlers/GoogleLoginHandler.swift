@@ -110,7 +110,7 @@ class GoogleloginHandler: AbstractLoginHandler{
                 self.urlSession.dataTask(.promise, with: request).map{
                     try JSONSerialization.jsonObject(with: $0.data) as? [String:Any]
                 }.done{ data in
-                    self.userInfo =  data!
+                    self.userInfo =  data
                     var newData:[String:Any] = ["userInfo": self.userInfo as Any]
                     newData["tokenForKeys"] = idToken
                     newData["verifierId"] = self.getVerifierFromUserInfo()
