@@ -32,9 +32,9 @@
         "package": "FetchNodeDetails",
         "repositoryURL": "https://github.com/torusresearch/fetch-node-details-swift",
         "state": {
-          "branch": null,
-          "revision": "7390bf38f40d1823e4e63bbd7940bc8f82f839e8",
-          "version": "1.3.0"
+          "branch": "master",
+          "revision": "ce6271af6f2b009226ed6390a92ec27bc2379f71",
+          "version": null
         }
       },
       {
@@ -95,9 +95,18 @@
         "package": "TorusUtils",
         "repositoryURL": "https://github.com/torusresearch/torus-utils-swift",
         "state": {
+          "branch": "master",
+          "revision": "244b88d6c33b73feb6760ffb6d490ec1e05aa032",
+          "version": null
+        }
+      },
+      {
+        "package": "TweetNacl",
+        "repositoryURL": "https://github.com/bitmark-inc/tweetnacl-swiftwrap.git",
+        "state": {
           "branch": null,
-          "revision": "fb77bbb2e96c8967b9d657d2bf67cde35355e884",
-          "version": "1.3.0"
+          "revision": "f8fd111642bf2336b11ef9ea828510693106e954",
+          "version": "1.1.0"
         }
       },
       {
