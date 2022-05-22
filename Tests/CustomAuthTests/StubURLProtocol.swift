@@ -17,7 +17,6 @@ fileprivate func httpBodyStreamToData(stream: InputStream?) -> Data? {
     var dat = Data()
 
     while bodyStream.hasBytesAvailable {
-
         let readDat = bodyStream.read(buffer, maxLength: bufferSize)
         dat.append(buffer, count: readDat)
     }
@@ -25,7 +24,7 @@ fileprivate func httpBodyStreamToData(stream: InputStream?) -> Data? {
     buffer.deallocate()
 
     bodyStream.close()
-    
+
     return dat
 }
 
@@ -45,12 +44,12 @@ fileprivate func stubMatcher(host: String, scheme: String, path: String, method:
 
 fileprivate func stubMatcherWithBody(host: String, scheme: String, path: String, method: String, requestHeaders: [String: String], body: [String: Any]) -> (URLRequest) -> Bool {
     return { (req: URLRequest) -> Bool in
-        if !stubMatcher(host: host, scheme: scheme, path: path, method: method, requestHeaders: requestHeaders)(req){
+        if !stubMatcher(host: host, scheme: scheme, path: path, method: method, requestHeaders: requestHeaders)(req) {
             return false
         }
         guard
             let bodyData = StubURLProtocol.property(forKey: httpBodyKey, in: req) as? Data,
-            let jsonBody = (try? JSONSerialization.jsonObject(with: bodyData, options: [])) as? [String : Any]
+            let jsonBody = (try? JSONSerialization.jsonObject(with: bodyData, options: [])) as? [String: Any]
         else {
             return false
         }
@@ -60,7 +59,7 @@ fileprivate func stubMatcherWithBody(host: String, scheme: String, path: String,
 
 fileprivate let injectedURLs: Set = [
     URL(string: "https://www.googleapis.com/userinfo/v2/me"),
-    URL(string: "https://ropsten.infura.io/v3/b8cdb0e4cff24599a286bf8e87ff1c96"),
+    URL(string: "https://ropsten.infura.io/v3/7f287687b3d049e2bea7b64869ee30a3"),
     URL(string: "https://teal-15-4.torusnode.com/jrpc"),
     URL(string: "https://teal-15-2.torusnode.com/jrpc"),
     URL(string: "https://teal-15-1.torusnode.com/jrpc"),
@@ -71,7 +70,6 @@ fileprivate let injectedURLs: Set = [
 ]
 
 fileprivate let injectedStubs: [Stub] = [
-    
     Stub(
         requestMatcher: stubMatcher(
             host: "www.googleapis.com",
@@ -84,7 +82,6 @@ fileprivate let injectedStubs: [Stub] = [
         statusCode: 200,
         responseHeaders: mustDecodeJSON(#"{"Date":"Sun, 17 Oct 2021 10:57:29 GMT","x-frame-options":"SAMEORIGIN","Pragma":"no-cache","x-xss-protection":"0","Content-Encoding":"gzip","Server":"ESF","Cache-Control":"no-cache, no-store, max-age=0, must-revalidate","Vary":"Origin, X-Origin, Referer","Alt-Svc":"h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000,h3-T051=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","x-content-type-options":"nosniff","Content-Length":"234","Content-Type":"application/json; charset=UTF-8","Expires":"Mon, 01 Jan 1990 00:00:00 GMT"}"#) as! [String: String]
     ),
-
 
     Stub(
         requestMatcher: stubMatcherWithBody(
@@ -100,7 +97,6 @@ fileprivate let injectedStubs: [Stub] = [
         responseHeaders: mustDecodeJSON(#"{"Vary":"Accept-Encoding, Origin","Date":"Sun, 17 Oct 2021 10:57:30 GMT","Content-Length":"102","Content-Type":"application/json"}"#) as! [String: String]
     ),
 
-
     Stub(
         requestMatcher: stubMatcherWithBody(
             host: "ropsten.infura.io",
@@ -114,7 +110,6 @@ fileprivate let injectedStubs: [Stub] = [
         statusCode: 200,
         responseHeaders: mustDecodeJSON(#"{"Content-Length":"870","Vary":"Accept-Encoding, Origin","Content-Type":"application/json","Date":"Sun, 17 Oct 2021 10:57:31 GMT"}"#) as! [String: String]
     ),
-
 
     Stub(
         requestMatcher: stubMatcherWithBody(
@@ -130,7 +125,6 @@ fileprivate let injectedStubs: [Stub] = [
         responseHeaders: mustDecodeJSON(#"{"Date":"Sun, 17 Oct 2021 10:57:31 GMT","Content-Type":"application/json","Content-Length":"678","Vary":"Accept-Encoding, Origin"}"#) as! [String: String]
     ),
 
-
     Stub(
         requestMatcher: stubMatcherWithBody(
             host: "ropsten.infura.io",
@@ -144,7 +138,6 @@ fileprivate let injectedStubs: [Stub] = [
         statusCode: 200,
         responseHeaders: mustDecodeJSON(#"{"Vary":"Accept-Encoding, Origin","Date":"Sun, 17 Oct 2021 10:57:31 GMT","Content-Length":"678","Content-Type":"application/json"}"#) as! [String: String]
     ),
-
 
     Stub(
         requestMatcher: stubMatcherWithBody(
@@ -160,7 +153,6 @@ fileprivate let injectedStubs: [Stub] = [
         responseHeaders: mustDecodeJSON(#"{"Date":"Sun, 17 Oct 2021 10:57:31 GMT","Vary":"Accept-Encoding, Origin","Content-Type":"application/json","Content-Length":"678"}"#) as! [String: String]
     ),
 
-
     Stub(
         requestMatcher: stubMatcherWithBody(
             host: "ropsten.infura.io",
@@ -174,7 +166,6 @@ fileprivate let injectedStubs: [Stub] = [
         statusCode: 200,
         responseHeaders: mustDecodeJSON(#"{"Vary":"Accept-Encoding, Origin","Content-Length":"678","Content-Type":"application/json","Date":"Sun, 17 Oct 2021 10:57:31 GMT"}"#) as! [String: String]
     ),
-
 
     Stub(
         requestMatcher: stubMatcherWithBody(
@@ -190,7 +181,6 @@ fileprivate let injectedStubs: [Stub] = [
         responseHeaders: mustDecodeJSON(#"{"Date":"Sun, 17 Oct 2021 10:57:31 GMT","Content-Length":"678","Content-Type":"application/json","Vary":"Accept-Encoding, Origin"}"#) as! [String: String]
     ),
 
-
     Stub(
         requestMatcher: stubMatcherWithBody(
             host: "teal-15-4.torusnode.com",
@@ -205,7 +195,6 @@ fileprivate let injectedStubs: [Stub] = [
         responseHeaders: mustDecodeJSON(#"{"Vary":"Origin","Server":"nginx/1.19.9","Content-Length":"281","Content-Type":"application/json","Date":"Sun, 17 Oct 2021 10:57:32 GMT"}"#) as! [String: String]
     ),
 
-
     Stub(
         requestMatcher: stubMatcherWithBody(
             host: "teal-15-2.torusnode.com",
@@ -219,7 +208,6 @@ fileprivate let injectedStubs: [Stub] = [
         statusCode: 200,
         responseHeaders: mustDecodeJSON(#"{"Vary":"Origin","Server":"nginx/1.19.9","Content-Length":"281","Content-Type":"application/json","Date":"Sun, 17 Oct 2021 10:57:32 GMT"}"#) as! [String: String]
     ),
-
 
     Stub(
         requestMatcher: stubMatcherWithBody(
@@ -235,7 +223,6 @@ fileprivate let injectedStubs: [Stub] = [
         responseHeaders: mustDecodeJSON(#"{"Content-Length":"281","Vary":"Origin","Content-Type":"application/json","Server":"nginx/1.19.9","Date":"Sun, 17 Oct 2021 10:57:32 GMT"}"#) as! [String: String]
     ),
 
-
     Stub(
         requestMatcher: stubMatcherWithBody(
             host: "teal-15-3.torusnode.com",
@@ -250,7 +237,6 @@ fileprivate let injectedStubs: [Stub] = [
         responseHeaders: mustDecodeJSON(#"{"Date":"Sun, 17 Oct 2021 10:57:32 GMT","Content-Length":"281","Content-Type":"application/json","Server":"nginx/1.19.9","Vary":"Origin"}"#) as! [String: String]
     ),
 
-
     Stub(
         requestMatcher: stubMatcher(
             host: "signer.tor.us",
@@ -263,7 +249,6 @@ fileprivate let injectedStubs: [Stub] = [
         statusCode: 200,
         responseHeaders: mustDecodeJSON(#"{"Content-Length":"16","access-control-allow-headers":"pubkeyx,pubkeyy,x-api-key,x-embed-host,content-type,authorization,verifier,verifier_id","access-control-max-age":"86400","access-control-allow-methods":"GET,OPTIONS","Access-Control-Allow-Origin":"*","Date":"Sun, 17 Oct 2021 10:57:32 GMT","Content-Type":"application/json"}"#) as! [String: String]
     ),
-
 
     Stub(
         requestMatcher: stubMatcherWithBody(
@@ -279,7 +264,6 @@ fileprivate let injectedStubs: [Stub] = [
         responseHeaders: mustDecodeJSON(#"{"Vary":"Origin","Content-Length":"281","Server":"nginx/1.19.9","Content-Type":"application/json","Date":"Sun, 17 Oct 2021 10:57:32 GMT"}"#) as! [String: String]
     ),
 
-
     Stub(
         requestMatcher: stubMatcherWithBody(
             host: "metadata.tor.us",
@@ -293,7 +277,6 @@ fileprivate let injectedStubs: [Stub] = [
         statusCode: 200,
         responseHeaders: mustDecodeJSON(#"{"x-download-options":"noopen","x-permitted-cross-domain-policies":"none","x-content-type-options":"nosniff","Strict-Transport-Security":"max-age=15552000; includeSubDomains","x-dns-prefetch-control":"off","x-xss-protection":"0","content-security-policy":"default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests","x-frame-options":"SAMEORIGIN","referrer-policy":"no-referrer","Date":"Sun, 17 Oct 2021 10:57:32 GMT","Content-Type":"application/json; charset=utf-8","expect-ct":"max-age=0","Etag":"W/\"e-JWOqSwGs6lhRJiUZe/mVb6Mua74\"","Content-Length":"14","Vary":"Origin, Accept-Encoding"}"#) as! [String: String]
     ),
-
 
     Stub(
         requestMatcher: stubMatcherWithBody(
@@ -309,7 +292,6 @@ fileprivate let injectedStubs: [Stub] = [
         responseHeaders: mustDecodeJSON(#"{"Server":"nginx/1.19.9","Content-Type":"application/json","Vary":"Origin","Date":"Sun, 17 Oct 2021 10:57:32 GMT","Content-Length":"606"}"#) as! [String: String]
     ),
 
-
     Stub(
         requestMatcher: stubMatcherWithBody(
             host: "teal-15-3.torusnode.com",
@@ -323,7 +305,6 @@ fileprivate let injectedStubs: [Stub] = [
         statusCode: 200,
         responseHeaders: mustDecodeJSON(#"{"Server":"nginx/1.19.9","Content-Type":"application/json","Vary":"Origin","Date":"Sun, 17 Oct 2021 10:57:32 GMT","Content-Length":"606"}"#) as! [String: String]
     ),
-
 
     Stub(
         requestMatcher: stubMatcherWithBody(
@@ -339,7 +320,6 @@ fileprivate let injectedStubs: [Stub] = [
         responseHeaders: mustDecodeJSON(#"{"Vary":"Origin","Server":"nginx/1.19.9","Content-Length":"606","Content-Type":"application/json","Date":"Sun, 17 Oct 2021 10:57:32 GMT"}"#) as! [String: String]
     ),
 
-
     Stub(
         requestMatcher: stubMatcherWithBody(
             host: "teal-15-5.torusnode.com",
@@ -353,7 +333,6 @@ fileprivate let injectedStubs: [Stub] = [
         statusCode: 200,
         responseHeaders: mustDecodeJSON(#"{"Vary":"Origin","Server":"nginx/1.19.9","Content-Length":"606","Content-Type":"application/json","Date":"Sun, 17 Oct 2021 10:57:32 GMT"}"#) as! [String: String]
     ),
-
 
     Stub(
         requestMatcher: stubMatcherWithBody(
@@ -369,7 +348,6 @@ fileprivate let injectedStubs: [Stub] = [
         responseHeaders: mustDecodeJSON(#"{"Server":"nginx/1.19.9","Content-Length":"606","Content-Type":"application/json","Vary":"Origin","Date":"Sun, 17 Oct 2021 10:57:32 GMT"}"#) as! [String: String]
     ),
 
-
     Stub(
         requestMatcher: stubMatcherWithBody(
             host: "teal-15-3.torusnode.com",
@@ -383,7 +361,6 @@ fileprivate let injectedStubs: [Stub] = [
         statusCode: 200,
         responseHeaders: mustDecodeJSON(#"{"Vary":"Origin","Content-Length":"722","Date":"Sun, 17 Oct 2021 10:57:32 GMT","Content-Type":"application/json","Server":"nginx/1.19.9"}"#) as! [String: String]
     ),
-
 
     Stub(
         requestMatcher: stubMatcherWithBody(
@@ -399,7 +376,6 @@ fileprivate let injectedStubs: [Stub] = [
         responseHeaders: mustDecodeJSON(#"{"Server":"nginx/1.19.9","Content-Length":"722","Vary":"Origin","Content-Type":"application/json","Date":"Sun, 17 Oct 2021 10:57:32 GMT"}"#) as! [String: String]
     ),
 
-
     Stub(
         requestMatcher: stubMatcherWithBody(
             host: "teal-15-5.torusnode.com",
@@ -413,7 +389,6 @@ fileprivate let injectedStubs: [Stub] = [
         statusCode: 200,
         responseHeaders: mustDecodeJSON(#"{"Content-Length":"722","Vary":"Origin","Date":"Sun, 17 Oct 2021 10:57:32 GMT","Server":"nginx/1.19.9","Content-Type":"application/json"}"#) as! [String: String]
     ),
-
 
     Stub(
         requestMatcher: stubMatcherWithBody(
@@ -429,7 +404,6 @@ fileprivate let injectedStubs: [Stub] = [
         responseHeaders: mustDecodeJSON(#"{"Vary":"Origin","Server":"nginx/1.19.9","Content-Length":"722","Content-Type":"application/json","Date":"Sun, 17 Oct 2021 10:57:32 GMT"}"#) as! [String: String]
     ),
 
-
     Stub(
         requestMatcher: stubMatcherWithBody(
             host: "teal-15-4.torusnode.com",
@@ -444,7 +418,6 @@ fileprivate let injectedStubs: [Stub] = [
         responseHeaders: mustDecodeJSON(#"{"Date":"Sun, 17 Oct 2021 10:57:33 GMT","Content-Type":"application/json","Content-Length":"722","Vary":"Origin","Server":"nginx/1.19.9"}"#) as! [String: String]
     ),
 
-
     Stub(
         requestMatcher: stubMatcherWithBody(
             host: "metadata.tor.us",
@@ -458,7 +431,6 @@ fileprivate let injectedStubs: [Stub] = [
         statusCode: 200,
         responseHeaders: mustDecodeJSON(#"{"Content-Type":"application/json; charset=utf-8","Etag":"W/\"e-JWOqSwGs6lhRJiUZe/mVb6Mua74\"","x-xss-protection":"0","x-content-type-options":"nosniff","Vary":"Origin, Accept-Encoding","x-frame-options":"SAMEORIGIN","referrer-policy":"no-referrer","content-security-policy":"default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests","Date":"Sun, 17 Oct 2021 10:57:33 GMT","x-dns-prefetch-control":"off","x-permitted-cross-domain-policies":"none","Strict-Transport-Security":"max-age=15552000; includeSubDomains","x-download-options":"noopen","Content-Length":"14","expect-ct":"max-age=0"}"#) as! [String: String]
     ),
-
 ]
 
 fileprivate let httpBodyKey = "StubURLProtocolHTTPBody"
@@ -472,11 +444,11 @@ fileprivate struct Stub {
 
 public class StubURLProtocol: URLProtocol {
     private static let terminateUnknownRequest = true
-    
+
     private static let stubs = injectedStubs
-    
+
     private static let urls = injectedURLs
-    
+
     private class func matchStub(req: URLRequest) -> Stub? {
         var inputReq: URLRequest
         if let httpBodyData = httpBodyStreamToData(stream: req.httpBodyStream) {
@@ -493,8 +465,8 @@ public class StubURLProtocol: URLProtocol {
         }
         return nil
     }
-    
-    public override class func canInit(with request: URLRequest) -> Bool {
+
+    override public class func canInit(with request: URLRequest) -> Bool {
         var cleanURL: URL? {
             var comp = URLComponents()
             comp.scheme = request.url?.scheme
@@ -502,17 +474,17 @@ public class StubURLProtocol: URLProtocol {
             comp.path = request.url?.path ?? "/"
             return comp.url
         }
-        if urls.contains(cleanURL){
+        if urls.contains(cleanURL) {
             return true
         }
         return terminateUnknownRequest
     }
-    
-    public override class func canonicalRequest(for request: URLRequest) -> URLRequest {
+
+    override public class func canonicalRequest(for request: URLRequest) -> URLRequest {
         return request
     }
-    
-    public override func startLoading() {
+
+    override public func startLoading() {
         guard let url = request.url else {
             fatalError("Request has no URL")
         }
@@ -523,22 +495,21 @@ public class StubURLProtocol: URLProtocol {
             comp.path = url.path
             return comp.url
         }
-        if !StubURLProtocol.urls.contains(cleanURL){
+        if !StubURLProtocol.urls.contains(cleanURL) {
             fatalError("URL not mocked, inconsistent injectedURLs: \(url.absoluteString)")
         }
-        if let stub = StubURLProtocol.matchStub(req: request){
+        if let stub = StubURLProtocol.matchStub(req: request) {
             let res = HTTPURLResponse(url: url, statusCode: stub.statusCode, httpVersion: nil, headerFields: stub.responseHeaders)!
-            self.client?.urlProtocol(self, didReceive: res, cacheStoragePolicy: .notAllowed)
+            client?.urlProtocol(self, didReceive: res, cacheStoragePolicy: .notAllowed)
             if let d = stub.responseBody {
-                self.client?.urlProtocol(self, didLoad: d)
+                client?.urlProtocol(self, didLoad: d)
             }
-        }else{
+        } else {
             fatalError("URL not mocked: \(url.absoluteString)")
         }
-        self.client?.urlProtocolDidFinishLoading(self)
+        client?.urlProtocolDidFinishLoading(self)
     }
-    
-    public override func stopLoading() {
-        
+
+    override public func stopLoading() {
     }
 }
