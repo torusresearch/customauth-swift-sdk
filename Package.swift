@@ -15,7 +15,7 @@ let package = Package(
     ],
     dependencies: [
         .package(name:"TorusUtils", url: "https://github.com/torusresearch/torus-utils-swift", .branch("feat/oneKey-addition")),
-        .package(name:"FetchNodeDetails", url: "https://github.com/torusresearch/fetch-node-details-swift",from: "2.5.0"),
+        .package(name:"FetchNodeDetails", url: "https://github.com/torusresearch/fetch-node-details-swift",.branch("master")),
         .package(name:"jwt-kit", url: "https://github.com/vapor/jwt-kit.git", from: "4.0.0"),
     ],
     targets: [
