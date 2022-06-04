@@ -3,6 +3,7 @@ import FetchNodeDetails
 import Foundation
 import PromiseKit
 import TorusUtils
+@testable import TorusUtils
 
 // Added so the that we can assign values later.
 public protocol MockAbstractTorusUtils {
@@ -10,7 +11,19 @@ public protocol MockAbstractTorusUtils {
     var retrieveShares_output: [String: String] { get set }
 }
 
-class MockTorusUtils: AbstractTorusUtils, MockAbstractTorusUtils {
+ class MockTorusUtils: AbstractTorusUtils, MockAbstractTorusUtils {
+    func getPublicAddress(endpoints: Array<String>, torusNodePubs: Array<TorusNodePubModel>, verifier: String, verifierId: String, isExtended: Bool) -> Promise<GetPublicAddressModel> {
+        return Promise.value(.init(address: ""))
+    }
+    
+    func getUserTypeAndAddress(endpoints: [String], torusNodePub: [TorusNodePubModel], verifier: String, verifierID: String, doesKeyAssign: Bool) -> Promise<GetUserAndAddressModel> {
+        return Promise.value(.init(typeOfUser: .v1, address: "", x: "", y: ""))
+    }
+    
+    func getOrSetNonce(x: String, y: String, privateKey: String?, getOnly: Bool) -> Promise<GetOrSetNonceResultModel> {
+        return Promise.value(GetOrSetNonceResultModel.init(typeOfUser: "v1"))
+    }
+    
     var retrieveShares_input: [String: Any] = [:]
     var retrieveShares_output: [String: String] = [
         "privateKey": "<private key>",

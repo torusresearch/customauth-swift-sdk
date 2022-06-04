@@ -17,7 +17,7 @@ import XCTest
 final class StubURLProtocolTests: XCTestCase {
 //    func testStubURLProtocol() {
 //        let expectation = XCTestExpectation(description: "getTorusKey using stubbed URLSession should work")
-//        let sessionConfiguration = URLSessionConfiguration.ephemeral
+//        let sessionConfiguration =c URLSessionConfiguration.ephemeral
 //        sessionConfiguration.protocolClasses = [StubURLProtocol.self]
 //        let urlSession = URLSession(configuration: sessionConfiguration)
 //        let tdsdk = CustomAuth(aggregateVerifierType: .singleLogin, aggregateVerifierName: "torus-direct-mock-ios", subVerifierDetails: [], factory: StubMockCASDKFactory(), network: .ROPSTEN, loglevel: .debug, urlSession: urlSession)
@@ -57,8 +57,8 @@ public class StubMockCASDKFactory: CASDKFactoryProtocol {
         return FetchNodeDetails(proxyAddress: net, network: network, urlSession: urlSession)
     }
 
-    public func createTorusUtils(nodePubKeys: Array<TorusNodePubModel> = [], loglevel: OSLogType, urlSession: URLSession) -> AbstractTorusUtils {
-        return StubMockTorusUtils(nodePubKeys: nodePubKeys, loglevel: loglevel, urlSession: urlSession)
+    public func createTorusUtils(nodePubKeys: Array<TorusNodePubModel> = [], loglevel: OSLogType, urlSession: URLSession,enableOneKey:Bool) -> AbstractTorusUtils {
+        return StubMockTorusUtils(nodePubKeys: nodePubKeys, loglevel: loglevel, urlSession: urlSession,enableOneKey:enableOneKey)
     }
 
     public init() {

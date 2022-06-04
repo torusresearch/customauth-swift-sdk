@@ -30,10 +30,10 @@
       },
       {
         "package": "FetchNodeDetails",
-        "repositoryURL": "https://github.com/torusresearch/fetch-node-details-swift",
+        "repositoryURL": "https://github.com/torusresearch/fetch-node-details-swift.git",
         "state": {
           "branch": "master",
-          "revision": "ce6271af6f2b009226ed6390a92ec27bc2379f71",
+          "revision": "0f99cc02f51e4bf7bc982b746838ce891036a952",
           "version": null
         }
       },
@@ -95,8 +95,8 @@
         "package": "TorusUtils",
         "repositoryURL": "https://github.com/torusresearch/torus-utils-swift",
         "state": {
-          "branch": "master",
-          "revision": "244b88d6c33b73feb6760ffb6d490ec1e05aa032",
+          "branch": "feat/oneKey-addition",
+          "revision": "a03db79d731b4856c8624bcd9f669308cf50014d",
           "version": null
         }
       },
@@ -114,8 +114,8 @@
         "repositoryURL": "https://github.com/argentlabs/web3.swift",
         "state": {
           "branch": null,
-          "revision": "8205d3f671e0248af7d2e0537664d1a85d1ee11e",
-          "version": "0.8.1"
+          "revision": "0474eb5e883bc4800b3909833207a1d35e72b808",
+          "version": "0.9.3"
         }
       }
     ]
