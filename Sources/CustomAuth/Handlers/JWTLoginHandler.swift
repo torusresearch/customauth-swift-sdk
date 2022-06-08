@@ -124,7 +124,7 @@ class JWTLoginHandler: AbstractLoginHandler{
             let decodedData = try decode(jwt: idToken)
                 userInfo = decodedData.body
                 var newData:[String:Any] = userInfo!
-                newData["tokenForKeys"] = responseParameters[idToken]
+                newData["tokenForKeys"] = idToken
                 newData["verifierId"] = self.getVerifierFromUserInfo()
                 seal.fulfill(newData)
             }
