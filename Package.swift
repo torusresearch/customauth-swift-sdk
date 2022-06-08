@@ -16,12 +16,12 @@ let package = Package(
     dependencies: [
         .package(name:"TorusUtils", url: "https://github.com/torusresearch/torus-utils-swift", .branch("feat/oneKey-addition")),
         .package(name:"jwt-kit", url: "https://github.com/vapor/jwt-kit.git", from: "4.0.0"),
+        .package(name: "JWTDecode", url: "https://github.com/auth0/JWTDecode.swift.git", from: "2.6.3")
     ],
     targets: [
         .target(
             name: "CustomAuth",
-            dependencies: ["TorusUtils"],
-            path: "Sources/CustomAuth"),
+            dependencies: ["TorusUtils","JWTDecode"]),
         .testTarget(
             name: "CustomAuthTests",
             dependencies: ["CustomAuth", .product(name: "JWTKit", package: "jwt-kit")]),

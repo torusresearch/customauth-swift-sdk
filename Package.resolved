@@ -23,9 +23,9 @@
         "package": "CryptoSwift",
         "repositoryURL": "https://github.com/krzyzanowskim/CryptoSwift.git",
         "state": {
-          "branch": null,
-          "revision": "039f56c5d7960f277087a0be51f5eb04ed0ec073",
-          "version": "1.5.1"
+          "branch": "main",
+          "revision": "64835e7a3745ca85fab7ef88c8c5a31a9132bd74",
+          "version": null
         }
       },
       {
@@ -65,6 +65,15 @@
         }
       },
       {
+        "package": "JWTDecode",
+        "repositoryURL": "https://github.com/auth0/JWTDecode.swift.git",
+        "state": {
+          "branch": null,
+          "revision": "3cd207fb9e943b6168a117baa3936c823204c2dc",
+          "version": "2.6.3"
+        }
+      },
+      {
         "package": "PromiseKit",
         "repositoryURL": "https://github.com/mxcl/PromiseKit.git",
         "state": {
@@ -96,7 +105,7 @@
         "repositoryURL": "https://github.com/torusresearch/torus-utils-swift",
         "state": {
           "branch": "feat/oneKey-addition",
-          "revision": "b55c1b1898e935f345c3bb2d9653ac334f52da59",
+          "revision": "50418664d8122e1487b6012d710c4aa1f49d0e30",
           "version": null
         }
       },

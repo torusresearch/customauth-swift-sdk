@@ -193,7 +193,7 @@ open class CustomAuth {
     ///   - userData: Custom data that will be returned with `privateKey` and `publicAddress`.
     /// - Returns: A promise that resolve with a Dictionary that contain at least `privateKey` and `publicAddress` field..
     open func getTorusKey(verifier: String, verifierId: String, idToken: String, userData: [String: Any] = [:]) -> Promise<[String: Any]> {
-        let extraParams = ["verifieridentifier": verifier, "verifier_id": verifierId] as [String: Any]
+        let extraParams = ["verifier_id": verifierId] as [String: Any]
         let buffer: Data = try! NSKeyedArchiver.archivedData(withRootObject: extraParams, requiringSecureCoding: false)
 
         let (tempPromise, seal) = Promise<[String: Any]>.pending()
