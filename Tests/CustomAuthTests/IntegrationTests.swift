@@ -33,7 +33,7 @@ final class IntegrationTests: XCTestCase {
         let email = "hello@tor.us"
         let jwt = try! generateIdToken(email: email)
         IntegrationTests.sdk?.getTorusKey(verifier: TORUS_TEST_VERIFIER, verifierId: email, idToken: jwt).done { data in
-            XCTAssertEqual(data["publicAddress"] as! String, "0xF2c682Fc2e053D03Bb91846d6755C3A31ed34C0f")
+            XCTAssertEqual(data["publicAddress"] as! String, "0x8AA6C8ddCD868873120aA265Fc63E3a2180375BA")
             exp1.fulfill()
         }.catch { _ in
             XCTFail()

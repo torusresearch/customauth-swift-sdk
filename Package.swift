@@ -21,7 +21,8 @@ let package = Package(
     targets: [
         .target(
             name: "CustomAuth",
-            dependencies: ["TorusUtils","JWTDecode"]),
+            dependencies: ["TorusUtils","JWTDecode",.product(name: "JWTKit", package: "jwt-kit")],
+        path: "Sources/CustomAuth"),
         .testTarget(
             name: "CustomAuthTests",
             dependencies: ["CustomAuth", .product(name: "JWTKit", package: "jwt-kit")]),
