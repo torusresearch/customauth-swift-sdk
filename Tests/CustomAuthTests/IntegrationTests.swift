@@ -12,14 +12,14 @@ import XCTest
 
 final class IntegrationTests: XCTestCase {
     static var sdk: CustomAuth?
-    var sub:SubVerifierDetails!
+    var sub: SubVerifierDetails!
 
     override func setUp() {
         super.setUp()
-         sub = SubVerifierDetails(loginType: .web,
+        let sub = SubVerifierDetails(loginType: .web,
                                      loginProvider: .google,
-                                     clientId: "908137525998-fs00a3go5r7fpbntmui4lb8nhuqqtmaa.apps.googleusercontent.com",
-                                     verifierName: "polygon-ios-test",
+                                     clientId: "221898609709-obfn3p63741l5333093430j3qeiinaa8.apps.googleusercontent.com",
+                                     verifierName: "google-lrc",
                                      redirectURL: "com.googleusercontent.apps.238941746713-vfap8uumijal4ump28p9jd3lbe6onqt4:/oauthredirect",
                                      browserRedirectURL: "https://scripts.toruswallet.io/redirect.html")
 
@@ -34,23 +34,6 @@ final class IntegrationTests: XCTestCase {
         let jwt = try! generateIdToken(email: email)
         IntegrationTests.sdk?.getTorusKey(verifier: TORUS_TEST_VERIFIER, verifierId: email, idToken: jwt).done { data in
             XCTAssertEqual(data["publicAddress"] as! String, "0x8AA6C8ddCD868873120aA265Fc63E3a2180375BA")
-            exp1.fulfill()
-        }.catch { _ in
-            XCTFail()
-        }
-        wait(for: [exp1], timeout: 15)
-    }
-    
-    
-    func test_getTorusKey_polygon(){
-        let TORUS_TEST_VERIFIER = "polygon-ios-test"
-        let exp1 = XCTestExpectation(description: "Should be able to get key")
-        let email = "hello@tor.us"
-        let jwt = try! generateIdToken(email: email)
-        
-        let ca = CustomAuth(aggregateVerifierType: .singleIdVerifier, aggregateVerifierName: "polygon-ios-test", subVerifierDetails: [sub],network: .POLYGON).getTorusKey(verifier: TORUS_TEST_VERIFIER, verifierId: email, idToken: jwt)
-        ca.done{ data in
-            XCTAssertEqual(data["publicAddress"] as! String, "0xF2c682Fc2e053D03Bb91846d6755C3A31ed34C0f")
             exp1.fulfill()
         }.catch { _ in
             XCTFail()

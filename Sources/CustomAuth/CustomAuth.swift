@@ -237,7 +237,6 @@ open class CustomAuth {
             os_log("handleSingleIdVerifier err: %@", log: getTorusLogger(log: CASDKLogger.core, type: .error), type: .error, err.localizedDescription)
             seal.reject(err)
         }
-
         return tempPromise
     }
 }
