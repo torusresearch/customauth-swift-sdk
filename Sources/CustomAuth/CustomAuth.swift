@@ -47,7 +47,7 @@ open class CustomAuth {
         // factory method
         self.factory = factory
         self.urlSession = urlSession
-        torusUtils = factory.createTorusUtils(nodePubKeys: [], loglevel: loglevel, urlSession: urlSession, enableOneKey: enableOneKey)
+        torusUtils = factory.createTorusUtils(nodePubKeys: [], loglevel: loglevel, urlSession: urlSession, enableOneKey: enableOneKey, network: network)
         fetchNodeDetails = factory.createFetchNodeDetails(network: network, urlSession: urlSession)
 
         // verifier details
@@ -240,3 +240,6 @@ open class CustomAuth {
         return tempPromise
     }
 }
+
+
+

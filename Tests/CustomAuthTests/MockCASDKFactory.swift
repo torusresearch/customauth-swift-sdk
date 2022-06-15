@@ -14,7 +14,7 @@ import TorusUtils
 public class MockFactory: CASDKFactoryProtocol {
     init() {}
 
-    public func createTorusUtils(nodePubKeys: Array<TorusNodePubModel>, loglevel: OSLogType, urlSession: URLSession,enableOneKey:Bool) -> AbstractTorusUtils {
+    public func createTorusUtils(nodePubKeys: Array<TorusNodePubModel>, loglevel: OSLogType, urlSession: URLSession,enableOneKey:Bool,network:EthereumNetworkFND) -> AbstractTorusUtils {
         MockTorusUtils()
     }
 
