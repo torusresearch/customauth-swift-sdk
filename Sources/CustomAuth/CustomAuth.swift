@@ -25,7 +25,7 @@ open class CustomAuth {
     var torusUtils: AbstractTorusUtils
     let fetchNodeDetails: FetchNodeDetails
     var urlSession: URLSession
-    var enableOneKey:Bool
+    var enableOneKey: Bool
     public let aggregateVerifierType: verifierTypes?
     public let aggregateVerifierName: String
     public let subVerifierDetails: [SubVerifierDetails]
@@ -40,7 +40,7 @@ open class CustomAuth {
     ///   - factory: Providng mocking by implementing TDSDKFactoryProtocol.
     ///   - network: Etherum network to be used.
     ///   - loglevel: Indicates the log level of this instance. All logs lower than this level will be ignored.
-    public init(aggregateVerifierType: verifierTypes, aggregateVerifierName: String, subVerifierDetails: [SubVerifierDetails], factory: CASDKFactoryProtocol = CASDKFactory(), network: EthereumNetworkFND = .MAINNET, loglevel: OSLogType = .debug, urlSession: URLSession = URLSession.shared,enableOneKey:Bool = false) {
+    public init(aggregateVerifierType: verifierTypes, aggregateVerifierName: String, subVerifierDetails: [SubVerifierDetails], factory: CASDKFactoryProtocol = CASDKFactory(), network: EthereumNetworkFND = .MAINNET, loglevel: OSLogType = .debug, urlSession: URLSession = URLSession.shared, enableOneKey: Bool = false) {
         tsSdkLogType = loglevel
         self.enableOneKey = enableOneKey
 
@@ -61,14 +61,14 @@ open class CustomAuth {
     ///   - aggregateVerifierType: Type of the verifier. Use `singleLogin` for single providers. Only `singleLogin` and `singleIdVerifier` is supported currently.
     ///   - aggregateVerifierName: Name of the verifier to be used..
     ///   - subVerifierDetails: Details of each subverifiers to be used.
-    public convenience init(aggregateVerifierType: verifierTypes, aggregateVerifierName: String, subVerifierDetails: [SubVerifierDetails],enableOneKey:Bool = false) {
+    public convenience init(aggregateVerifierType: verifierTypes, aggregateVerifierName: String, subVerifierDetails: [SubVerifierDetails], enableOneKey: Bool = false) {
         let factory = CASDKFactory()
-        self.init(aggregateVerifierType: aggregateVerifierType, aggregateVerifierName: aggregateVerifierName, subVerifierDetails: subVerifierDetails, factory: factory, network: .MAINNET, loglevel: .debug,enableOneKey:enableOneKey)
+        self.init(aggregateVerifierType: aggregateVerifierType, aggregateVerifierName: aggregateVerifierName, subVerifierDetails: subVerifierDetails, factory: factory, network: .MAINNET, loglevel: .debug, enableOneKey: enableOneKey)
     }
 
-    public convenience init(aggregateVerifierType: verifierTypes, aggregateVerifierName: String, subVerifierDetails: [SubVerifierDetails], loglevel: OSLogType = .debug,enableOneKey:Bool = false) {
+    public convenience init(aggregateVerifierType: verifierTypes, aggregateVerifierName: String, subVerifierDetails: [SubVerifierDetails], loglevel: OSLogType = .debug, enableOneKey: Bool = false) {
         let factory = CASDKFactory()
-        self.init(aggregateVerifierType: aggregateVerifierType, aggregateVerifierName: aggregateVerifierName, subVerifierDetails: subVerifierDetails, factory: factory, network: .MAINNET, loglevel: loglevel,enableOneKey:enableOneKey)
+        self.init(aggregateVerifierType: aggregateVerifierType, aggregateVerifierName: aggregateVerifierName, subVerifierDetails: subVerifierDetails, factory: factory, network: .MAINNET, loglevel: loglevel, enableOneKey: enableOneKey)
     }
 
     /// Retrieve information of Torus nodes from a predefined Etherum contract.
@@ -240,6 +240,3 @@ open class CustomAuth {
         return tempPromise
     }
 }
-
-
-
