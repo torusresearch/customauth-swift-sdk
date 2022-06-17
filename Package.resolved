@@ -23,18 +23,18 @@
         "package": "CryptoSwift",
         "repositoryURL": "https://github.com/krzyzanowskim/CryptoSwift.git",
         "state": {
-          "branch": "main",
-          "revision": "64835e7a3745ca85fab7ef88c8c5a31a9132bd74",
-          "version": null
+          "branch": null,
+          "revision": "039f56c5d7960f277087a0be51f5eb04ed0ec073",
+          "version": "1.5.1"
         }
       },
       {
         "package": "FetchNodeDetails",
         "repositoryURL": "https://github.com/torusresearch/fetch-node-details-swift.git",
         "state": {
-          "branch": "web3-fix-6Jun",
-          "revision": "551eaa7e388e565c2b7456e360aa27ed32ff3586",
-          "version": null
+          "branch": null,
+          "revision": "c322ef1a1d3dfefe8f9d94a5cad37100fe747fe3",
+          "version": "2.6.7"
         }
       },
       {
@@ -60,8 +60,8 @@
         "repositoryURL": "https://github.com/vapor/jwt-kit.git",
         "state": {
           "branch": null,
-          "revision": "3537dd319dfbcc403a5165d8c19c4834e8e64730",
-          "version": "4.5.0"
+          "revision": "718e94f917a4c053758e5bb50c28553561a6ef91",
+          "version": "4.6.0"
         }
       },
       {
@@ -105,7 +105,7 @@
         "repositoryURL": "https://github.com/torusresearch/torus-utils-swift",
         "state": {
           "branch": "feat/oneKey-addition",
-          "revision": "50418664d8122e1487b6012d710c4aa1f49d0e30",
+          "revision": "9d7a04db94ffd5028171671eab5e763acc6556fa",
           "version": null
         }
       },
