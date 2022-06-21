@@ -5,43 +5,42 @@
 //  Created by Shubham on 5/10/21.
 //
 
-import Foundation
-import XCTest
 @testable import CustomAuth
 import Foundation
 import JWTKit
+import XCTest
 
 final class IntegrationTests: XCTestCase {
     static var sdk: CustomAuth?
-    
-    override class func setUp() {
+    var sub: SubVerifierDetails!
+
+    override func setUp() {
+        super.setUp()
         let sub = SubVerifierDetails(loginType: .web,
                                      loginProvider: .google,
                                      clientId: "221898609709-obfn3p63741l5333093430j3qeiinaa8.apps.googleusercontent.com",
                                      verifierName: "google-lrc",
                                      redirectURL: "com.googleusercontent.apps.238941746713-vfap8uumijal4ump28p9jd3lbe6onqt4:/oauthredirect",
                                      browserRedirectURL: "https://scripts.toruswallet.io/redirect.html")
-        
-        IntegrationTests.sdk = CustomAuth(aggregateVerifierType: .singleLogin, aggregateVerifierName: "torus-test-ios-public", subVerifierDetails: [sub], network: .ROPSTEN)
+
+        IntegrationTests.sdk = CustomAuth(aggregateVerifierType: .singleLogin, aggregateVerifierName: "torus-test-ios-public", subVerifierDetails: [sub], network: .POLYGON)
     }
-    
-    func test_getTorusKey(){
-        let TORUS_TEST_VERIFIER = "torus-test-ios-public";
+
+    func test_getTorusKey() {
+        let TORUS_TEST_VERIFIER = "torus-test-health"
+        // let TORUS_TEST_VERIFIER =  "torus-google-dhruv-test"
         let exp1 = XCTestExpectation(description: "Should be able to get key")
         let email = "hello@tor.us"
-
         let jwt = try! generateIdToken(email: email)
-        IntegrationTests.sdk?.getTorusKey(verifier: TORUS_TEST_VERIFIER, verifierId: email, idToken: jwt).done{data in
-            XCTAssertEqual(data["publicAddress"] as! String, "0xF2c682Fc2e053D03Bb91846d6755C3A31ed34C0f")
+        IntegrationTests.sdk?.getTorusKey(verifier: TORUS_TEST_VERIFIER, verifierId: email, idToken: jwt).done { data in
+            XCTAssertEqual(data["publicAddress"] as! String, "0x8AA6C8ddCD868873120aA265Fc63E3a2180375BA")
             exp1.fulfill()
-        }.catch{err in
+        }.catch { _ in
             XCTFail()
         }
         wait(for: [exp1], timeout: 15)
     }
 }
-
-
 
 // JWT payload structure.
 struct TestPayload: JWTPayload, Equatable {
@@ -51,11 +50,11 @@ struct TestPayload: JWTPayload, Equatable {
         case isAdmin = "admin"
         case emailVerified = "email_verified"
         case issuer = "iss"
-        case iat = "iat"
-        case email = "email"
+        case iat
+        case email
         case audience = "aud"
     }
-    
+
     var subject: SubjectClaim
     var expiration: ExpirationClaim
     var audience: AudienceClaim
@@ -64,10 +63,10 @@ struct TestPayload: JWTPayload, Equatable {
     var issuer: IssuerClaim
     var iat: IssuedAtClaim
     var email: String
-    
+
     // call its verify method.
     func verify(using signer: JWTSigner) throws {
-        try self.expiration.verifyNotExpired()
+        try expiration.verifyNotExpired()
     }
 }
 
@@ -80,31 +79,30 @@ func generateRandomEmail(of length: Int) -> String {
     return s + "@gmail.com"
 }
 
-func generateIdToken(email: String) throws -> String{
+func generateIdToken(email: String) throws -> String {
     let verifierPrivateKeyForSigning =
         """
         -----BEGIN PRIVATE KEY-----
-        MEECAQAwEwYHKoZIzj0CAQYIKoZIzj0DAQcEJzAlAgEBBCA3pdm53N0jlj3+7st1
-        kIxw9aogvHfbq09TlWKRFPGJjA==
+        MEECAQAwEwYHKoZIzj0CAQYIKoZIzj0DAQcEJzAlAgEBBCCD7oLrcKae+jVZPGx52Cb/lKhdKxpXjl9eGNa1MlY57A==
         -----END PRIVATE KEY-----
         """
-    
-    do{
+
+    do {
         let signers = JWTSigners()
         let keys = try ECDSAKey.private(pem: verifierPrivateKeyForSigning)
         signers.use(.es256(key: keys))
-        
+
         // Parses the JWT and verifies its signature.
-        let today = Date.init()
+        let today = Date()
         let modifiedDate = Calendar.current.date(byAdding: .hour, value: 1, to: today)!
-        
+
         let emailComponent = email.components(separatedBy: "@")[0]
-        let subject = "email|"+emailComponent
-        
-        let payload = TestPayload(subject: SubjectClaim(stringLiteral: subject), expiration: ExpirationClaim(value: modifiedDate), audience: "torus-key-test" , isAdmin: false, emailVerified: true, issuer: "torus-key-test", iat: IssuedAtClaim(value: Date.init()), email: email)
+        let subject = "email|" + emailComponent
+
+        let payload = TestPayload(subject: SubjectClaim(stringLiteral: subject), expiration: ExpirationClaim(value: modifiedDate), audience: "torus-key-test", isAdmin: false, emailVerified: true, issuer: "torus-key-test", iat: IssuedAtClaim(value: Date()), email: email)
         let jwt = try signers.sign(payload)
         return jwt
-    }catch{
+    } catch {
         print(error)
         throw error
     }

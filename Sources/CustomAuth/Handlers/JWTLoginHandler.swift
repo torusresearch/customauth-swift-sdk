@@ -7,6 +7,8 @@
 
 import Foundation
 import PromiseKit
+import JWTDecode
+import TorusUtils
 
 class JWTLoginHandler: AbstractLoginHandler{
 
@@ -115,7 +117,21 @@ class JWTLoginHandler: AbstractLoginHandler{
             }.catch{err in
                 seal.reject(CASDKError.getUserInfoFailed)
             }
-        }else{
+        }
+        else if let idToken = responseParameters["id_token"]{
+            do{
+            let decodedData = try decode(jwt: idToken)
+                userInfo = decodedData.body
+                var newData:[String:Any] = userInfo!
+                newData["tokenForKeys"] = idToken
+                newData["verifierId"] = self.getVerifierFromUserInfo()
+                seal.fulfill(newData)
+            }
+                catch{
+                seal.reject(TorusUtilError.runtime("Invalid ID toke"))
+            }
+        }
+        else{
             seal.reject(CASDKError.accessTokenNotProvided)
         }
         

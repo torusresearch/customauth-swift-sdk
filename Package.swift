@@ -14,17 +14,18 @@ let package = Package(
             targets: ["CustomAuth"]),
     ],
     dependencies: [
-        .package(name:"TorusUtils", url: "https://github.com/torusresearch/torus-utils-swift", from: "1.3.0"),
-        .package(name:"FetchNodeDetails", url: "https://github.com/torusresearch/fetch-node-details-swift", from: "1.3.0"),
+        .package(name:"TorusUtils", url: "https://github.com/torusresearch/torus-utils-swift",from: "2.1.8"),
         .package(name:"jwt-kit", url: "https://github.com/vapor/jwt-kit.git", from: "4.0.0"),
+        .package(name: "JWTDecode", url: "https://github.com/auth0/JWTDecode.swift.git", from: "2.6.3")
     ],
     targets: [
         .target(
             name: "CustomAuth",
-            dependencies: ["TorusUtils"],
-            path: "Sources/CustomAuth"),
+            dependencies: ["TorusUtils","JWTDecode",.product(name: "JWTKit", package: "jwt-kit")],
+        path: "Sources/CustomAuth"),
         .testTarget(
             name: "CustomAuthTests",
             dependencies: ["CustomAuth", .product(name: "JWTKit", package: "jwt-kit")]),
     ]
+    ,swiftLanguageVersions: [.v5]
 )
