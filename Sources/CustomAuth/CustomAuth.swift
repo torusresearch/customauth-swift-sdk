@@ -80,7 +80,6 @@ open class CustomAuth {
                 // Reinit for the 1st login or if data is missing
                 self.torusNodePubKeys = NodeDetails.getTorusNodePub()
                 self.endpoints = NodeDetails.getTorusNodeEndpoints()
-                self.torusUtils.setTorusNodePubKeys(nodePubKeys: self.torusNodePubKeys)
                 // self.torusUtils = self.factory.createTorusUtils(level: self.logger.logLevel, nodePubKeys: self.torusNodePubKeys)
                 seal.fulfill(self.endpoints)
             }.catch { error in
@@ -199,7 +198,7 @@ open class CustomAuth {
         let (tempPromise, seal) = Promise<[String: Any]>.pending()
 
         getNodeDetailsFromContract(verifier: verifier, verfierID: verifierId).then { endpoints -> Promise<[String: String]> in
-            self.torusUtils.retrieveShares(endpoints: endpoints, verifierIdentifier: verifier, verifierId: verifierId, idToken: idToken, extraParams: buffer)
+            self.torusUtils.retrieveShares(torusNodePubs: self.torusNodePubKeys, endpoints: endpoints, verifierIdentifier: verifier, verifierId: verifierId, idToken: idToken, extraParams: buffer)
         }.done { responseFromRetrieveShares in
             var data = userData
             data["privateKey"] = responseFromRetrieveShares["privateKey"]
@@ -227,7 +226,7 @@ open class CustomAuth {
         let (tempPromise, seal) = Promise<[String: Any]>.pending()
 
         getNodeDetailsFromContract(verifier: verifier, verfierID: verifierId).then { endpoints in
-            self.torusUtils.retrieveShares(endpoints: endpoints, verifierIdentifier: verifier, verifierId: verifierId, idToken: hashedOnce, extraParams: buffer)
+            self.torusUtils.retrieveShares(torusNodePubs: self.torusNodePubKeys, endpoints: endpoints, verifierIdentifier: verifier, verifierId: verifierId, idToken: hashedOnce, extraParams: buffer)
         }.done { responseFromRetrieveShares in
             var data = userData
             data["privateKey"] = responseFromRetrieveShares["privateKey"]

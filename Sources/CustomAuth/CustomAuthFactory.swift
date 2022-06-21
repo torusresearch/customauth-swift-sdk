@@ -37,7 +37,7 @@ public class CASDKFactory: CASDKFactoryProtocol {
     public func createTorusUtils(nodePubKeys: Array<TorusNodePubModel> = [], loglevel: OSLogType, urlSession: URLSession = URLSession.shared, enableOneKey: Bool, network: EthereumNetworkFND) -> AbstractTorusUtils {
         let allowHost = network.signerMap.appending("/api/allow")
         let signerHost = network.signerMap.appending("/api/sign")
-        return TorusUtils(nodePubKeys: nodePubKeys, loglevel: loglevel, urlSession: urlSession, enableOneKey: enableOneKey, signerHost: signerHost, allowHost: allowHost,network: network)
+        return TorusUtils(loglevel: loglevel, urlSession: urlSession, enableOneKey: enableOneKey, signerHost: signerHost, allowHost: allowHost,network: network)
     }
 
     public init() {

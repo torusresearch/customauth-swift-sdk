@@ -11,7 +11,8 @@ public protocol MockAbstractTorusUtils {
     var retrieveShares_output: [String: String] { get set }
 }
 
- class MockTorusUtils: AbstractTorusUtils, MockAbstractTorusUtils {
+class MockTorusUtils: AbstractTorusUtils, MockAbstractTorusUtils {
+    
     func getPublicAddress(endpoints: Array<String>, torusNodePubs: Array<TorusNodePubModel>, verifier: String, verifierId: String, isExtended: Bool) -> Promise<GetPublicAddressModel> {
         return Promise.value(.init(address: ""))
     }
@@ -44,7 +45,7 @@ public protocol MockAbstractTorusUtils {
         return Promise.value(["publicAddress": retrieveShares_output["publicAddress"] ?? ""])
     }
 
-    func retrieveShares(endpoints: Array<String>, verifierIdentifier: String, verifierId: String, idToken: String, extraParams: Data) -> Promise<[String: String]> {
+    func retrieveShares(torusNodePubs: Array<TorusNodePubModel>,endpoints: Array<String>, verifierIdentifier: String, verifierId: String, idToken: String, extraParams: Data) -> Promise<[String: String]> {
         retrieveShares_input = [
             "endpoints": endpoints,
             "verifierIdentifier": verifierIdentifier,
