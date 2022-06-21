@@ -29,6 +29,14 @@
 				<string>com.googleusercontent.apps.238941746713-vfap8uumijal4ump28p9jd3lbe6onqt4</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>torus</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>

@@ -25,6 +25,24 @@ struct ContentView: View {
                     Group{
                         
                         Button(action: {
+                            let sub = SubVerifierDetails(loginType: .web,
+                                                         loginProvider: .google,
+                                                         clientId: "908137525998-fs00a3go5r7fpbntmui4lb8nhuqqtmaa.apps.googleusercontent.com",
+                                                         verifierName: "polygon-ios-test",
+                                                         redirectURL: "torus://org.torusresearch.sample/redirect",
+                                                         browserRedirectURL: "https://scripts.toruswallet.io/redirect.html",
+                                                         urlSession: URLSession.shared)
+                            let tdsdk = CustomAuth(aggregateVerifierType: .singleLogin, aggregateVerifierName: "polygon-ios-test", subVerifierDetails: [sub], factory: CASDKFactory(), network: .POLYGON, urlSession: URLSession.shared)
+                            tdsdk.triggerLogin(browserType: .external).done{ data in
+                                print("private key rebuild", data)
+                            }.catch{ err in
+                                print(err)
+                            }
+                        }, label: {
+                            Text("Google Polygon")
+                        })
+                        
+                        Button(action: {
                             
                             let sub = SubVerifierDetails(loginType: .web,
                                                          loginProvider: .google,

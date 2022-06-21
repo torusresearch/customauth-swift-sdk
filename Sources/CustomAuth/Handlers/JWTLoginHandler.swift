@@ -7,7 +7,6 @@
 
 import Foundation
 import PromiseKit
-import JWTKit
 import JWTDecode
 import TorusUtils
 

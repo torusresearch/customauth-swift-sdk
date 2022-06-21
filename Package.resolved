@@ -33,8 +33,8 @@
         "repositoryURL": "https://github.com/torusresearch/fetch-node-details-swift.git",
         "state": {
           "branch": null,
-          "revision": "062606577694df911083f7b96e0178621aec049e",
-          "version": "2.6.8"
+          "revision": "c9a5eda1965d3d84c2c834bce703386cba2f5d95",
+          "version": "2.7.0"
         }
       },
       {
@@ -104,9 +104,9 @@
         "package": "TorusUtils",
         "repositoryURL": "https://github.com/torusresearch/torus-utils-swift",
         "state": {
-          "branch": "feat/oneKey-addition",
-          "revision": "88148f5b41bb1482a12f392009deaa944edc8db9",
-          "version": null
+          "branch": null,
+          "revision": "c2bd7cac036ea8d145bed62ec96c98203fe57653",
+          "version": "2.1.8"
         }
       },
       {
