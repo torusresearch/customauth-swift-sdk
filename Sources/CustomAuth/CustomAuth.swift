@@ -18,9 +18,6 @@ var tsSdkLogType = OSLogType.default
 @available(iOS 11.0, *)
 /// Provides integration of an iOS app with Torus CustomAuth.
 open class CustomAuth {
-    public var endpoints = Array<String>()
-    public var torusNodePubKeys = Array<TorusNodePubModel>()
-
     let factory: CASDKFactoryProtocol
     var torusUtils: AbstractTorusUtils
     let fetchNodeDetails: FetchNodeDetails
@@ -73,20 +70,12 @@ open class CustomAuth {
 
     /// Retrieve information of Torus nodes from a predefined Etherum contract.
     /// - Returns: An array of URLs to the nodes.
-    open func getNodeDetailsFromContract(verifier: String, verfierID: String) -> Promise<Array<String>> {
-        let (tempPromise, seal) = Promise<Array<String>>.pending()
-        if endpoints.isEmpty || torusNodePubKeys.isEmpty {
-            fetchNodeDetails.getNodeDetails(verifier: verifier, verifierID: verfierID).done { NodeDetails in
-                // Reinit for the 1st login or if data is missing
-                self.torusNodePubKeys = NodeDetails.getTorusNodePub()
-                self.endpoints = NodeDetails.getTorusNodeEndpoints()
-                // self.torusUtils = self.factory.createTorusUtils(level: self.logger.logLevel, nodePubKeys: self.torusNodePubKeys)
-                seal.fulfill(self.endpoints)
-            }.catch { error in
-                seal.reject(error)
-            }
-        } else {
-            seal.fulfill(endpoints)
+    open func getNodeDetailsFromContract(verifier: String, verfierID: String) -> Promise<AllNodeDetailsModel> {
+        let (tempPromise, seal) = Promise<AllNodeDetailsModel>.pending()
+        fetchNodeDetails.getNodeDetails(verifier: verifier, verifierID: verfierID).done { NodeDetails in
+            seal.fulfill(NodeDetails)
+        }.catch { error in
+            seal.reject(error)
         }
 
         return tempPromise
@@ -197,8 +186,8 @@ open class CustomAuth {
 
         let (tempPromise, seal) = Promise<[String: Any]>.pending()
 
-        getNodeDetailsFromContract(verifier: verifier, verfierID: verifierId).then { endpoints -> Promise<[String: String]> in
-            self.torusUtils.retrieveShares(torusNodePubs: self.torusNodePubKeys, endpoints: endpoints, verifierIdentifier: verifier, verifierId: verifierId, idToken: idToken, extraParams: buffer)
+        getNodeDetailsFromContract(verifier: verifier, verfierID: verifierId).then { nodeDetails -> Promise<[String: String]> in
+            self.torusUtils.retrieveShares(torusNodePubs: nodeDetails.getTorusNodePub(), endpoints: nodeDetails.getTorusNodeEndpoints(), verifierIdentifier: verifier, verifierId: verifierId, idToken: idToken, extraParams: buffer)
         }.done { responseFromRetrieveShares in
             var data = userData
             data["privateKey"] = responseFromRetrieveShares["privateKey"]
@@ -225,8 +214,8 @@ open class CustomAuth {
 
         let (tempPromise, seal) = Promise<[String: Any]>.pending()
 
-        getNodeDetailsFromContract(verifier: verifier, verfierID: verifierId).then { endpoints in
-            self.torusUtils.retrieveShares(torusNodePubs: self.torusNodePubKeys, endpoints: endpoints, verifierIdentifier: verifier, verifierId: verifierId, idToken: hashedOnce, extraParams: buffer)
+        getNodeDetailsFromContract(verifier: verifier, verfierID: verifierId).then { nodeDetails in
+            self.torusUtils.retrieveShares(torusNodePubs: nodeDetails.getTorusNodePub(), endpoints: nodeDetails.getTorusNodeEndpoints(), verifierIdentifier: verifier, verifierId: verifierId, idToken: hashedOnce, extraParams: buffer)
         }.done { responseFromRetrieveShares in
             var data = userData
             data["privateKey"] = responseFromRetrieveShares["privateKey"]

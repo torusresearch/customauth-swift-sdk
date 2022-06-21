@@ -32,11 +32,11 @@ final class MockSDKTest: XCTestCase {
         // Set Mock data
         mockTorusUtils.retrieveShares_output["privateKey"] = expectedPrivateKey
         mockTorusUtils.retrieveShares_output["publicAddress"] = expectedPublicAddress
-
+        _ =  CustomAuth.getNodeDetailsFromContract(verifier: expectedVerifier, verfierID: expectedVerfierId).done { nodeDetails in
         CustomAuth.getTorusKey(verifier: expectedVerifier, verifierId: expectedVerfierId, idToken: fakeData.generateVerifier())
             .done { data in
                 let mockTorusUtils = CustomAuth.torusUtils as! MockAbstractTorusUtils
-                XCTAssertEqual(mockTorusUtils.retrieveShares_input["endpoints"] as? [String], CustomAuth.endpoints)
+                XCTAssertEqual(mockTorusUtils.retrieveShares_input["endpoints"] as? [String], nodeDetails.getTorusNodeEndpoints())
                 XCTAssertEqual(mockTorusUtils.retrieveShares_input["verifierIdentifier"] as? String, expectedVerifier)
                 XCTAssertEqual(mockTorusUtils.retrieveShares_input["verifierId"] as? String, expectedVerfierId)
                 XCTAssertEqual(data["privateKey"] as? String, expectedPrivateKey)
@@ -46,6 +46,10 @@ final class MockSDKTest: XCTestCase {
             }.finally {
                 expectation.fulfill()
             }
+        }
+        .catch({ err in
+            XCTFail(err.localizedDescription)
+        })
         wait(for: [expectation], timeout: 5)
     }
 
@@ -66,20 +70,25 @@ final class MockSDKTest: XCTestCase {
         // Set Mock data
         mockTorusUtils.retrieveShares_output["privateKey"] = expectedPrivateKey
         mockTorusUtils.retrieveShares_output["publicAddress"] = expectedPublicAddress
-
-        CustomAuth.getAggregateTorusKey(verifier: expectedVerifier, verifierId: expectedVerfierId, idToken: fakeData.generateVerifier(), subVerifierDetails: subVerifier[0])
-            .done { data in
-                let mockTorusUtils = CustomAuth.torusUtils as! MockAbstractTorusUtils
-                XCTAssertEqual(mockTorusUtils.retrieveShares_input["endpoints"] as? [String], CustomAuth.endpoints)
-                XCTAssertEqual(mockTorusUtils.retrieveShares_input["verifierIdentifier"] as? String, expectedVerifier)
-                XCTAssertEqual(mockTorusUtils.retrieveShares_input["verifierId"] as? String, expectedVerfierId)
-                XCTAssertEqual(data["privateKey"] as? String, expectedPrivateKey)
-                XCTAssertEqual(data["publicAddress"] as? String, expectedPublicAddress)
-            }.catch { err in
-                XCTFail(err.localizedDescription)
-            }.finally {
-                expectation.fulfill()
-            }
+      _ =  CustomAuth.getNodeDetailsFromContract(verifier: expectedVerifier, verfierID: expectedVerfierId).done { nodeDetails in
+            CustomAuth.getAggregateTorusKey(verifier: expectedVerifier, verifierId: expectedVerfierId, idToken: fakeData.generateVerifier(), subVerifierDetails: subVerifier[0])
+                .done { data in
+                    let mockTorusUtils = CustomAuth.torusUtils as! MockAbstractTorusUtils
+                    XCTAssertEqual(mockTorusUtils.retrieveShares_input["endpoints"] as? [String], nodeDetails.getTorusNodeEndpoints())
+                    XCTAssertEqual(mockTorusUtils.retrieveShares_input["verifierIdentifier"] as? String, expectedVerifier)
+                    XCTAssertEqual(mockTorusUtils.retrieveShares_input["verifierId"] as? String, expectedVerfierId)
+                    XCTAssertEqual(data["privateKey"] as? String, expectedPrivateKey)
+                    XCTAssertEqual(data["publicAddress"] as? String, expectedPublicAddress)
+                }.catch { err in
+                    XCTFail(err.localizedDescription)
+                }.finally {
+                    expectation.fulfill()
+                }
+        }
+      .catch({ err in
+          XCTFail(err.localizedDescription)
+      })
+    
         wait(for: [expectation], timeout: 5)
     }
 
