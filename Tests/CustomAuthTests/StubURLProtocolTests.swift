@@ -57,7 +57,7 @@ public class StubMockCASDKFactory: CASDKFactoryProtocol {
         return FetchNodeDetails(proxyAddress: net, network: network, urlSession: urlSession)
     }
 
-    public func createTorusUtils(nodePubKeys: Array<TorusNodePubModel> = [], loglevel: OSLogType, urlSession: URLSession,enableOneKey:Bool,network:EthereumNetworkFND) -> AbstractTorusUtils {
+    public func createTorusUtils(loglevel: OSLogType, urlSession: URLSession,enableOneKey:Bool,network:EthereumNetworkFND) -> AbstractTorusUtils {
         let allowHost = network.signerMap.appending("/api/allow")
         let signerHost = network.signerMap.appending("/api/sign")
         return StubMockTorusUtils(loglevel: loglevel, urlSession: urlSession,enableOneKey:enableOneKey,signerHost: signerHost,allowHost: allowHost)
