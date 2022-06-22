@@ -11,15 +11,6 @@
         }
       },
       {
-        "package": "CryptorECC",
-        "repositoryURL": "https://github.com/IBM-Swift/BlueECC.git",
-        "state": {
-          "branch": null,
-          "revision": "baf6ed3fc1a622675f0041b4aff7c02dd1a93818",
-          "version": "1.2.200"
-        }
-      },
-      {
         "package": "CryptoSwift",
         "repositoryURL": "https://github.com/krzyzanowskim/CryptoSwift.git",
         "state": {
@@ -32,9 +23,9 @@
         "package": "FetchNodeDetails",
         "repositoryURL": "https://github.com/torusresearch/fetch-node-details-swift.git",
         "state": {
-          "branch": null,
-          "revision": "c9a5eda1965d3d84c2c834bce703386cba2f5d95",
-          "version": "2.7.0"
+          "branch": "fix/dependency2",
+          "revision": "cc468571324fea55049c6c92428a4d03b02f6b58",
+          "version": null
         }
       },
       {
@@ -74,15 +65,6 @@
         }
       },
       {
-        "package": "PromiseKit",
-        "repositoryURL": "https://github.com/mxcl/PromiseKit.git",
-        "state": {
-          "branch": null,
-          "revision": "c946b7561fbe11379a874e59faa2c5f8077ae0e1",
-          "version": "6.17.1"
-        }
-      },
-      {
         "package": "secp256k1",
         "repositoryURL": "https://github.com/Boilertalk/secp256k1.swift",
         "state": {
@@ -102,11 +84,11 @@
       },
       {
         "package": "TorusUtils",
-        "repositoryURL": "https://github.com/torusresearch/torus-utils-swift",
+        "repositoryURL": "https://github.com/torusresearch/torus-utils-swift.git",
         "state": {
-          "branch": null,
-          "revision": "c2bd7cac036ea8d145bed62ec96c98203fe57653",
-          "version": "2.1.8"
+          "branch": "fix/dependency",
+          "revision": "276ff839b0a3d6f2430c87ca1a6473798502d120",
+          "version": null
         }
       },
       {
