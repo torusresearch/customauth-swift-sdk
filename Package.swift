@@ -22,7 +22,7 @@ let package = Package(
     targets: [
         .target(
             name: "CustomAuth",
-            dependencies: ["TorusUtils","JWTDecode"],
+            dependencies: ["TorusUtils"],
         path: "Sources/CustomAuth"),
         .testTarget(
             name: "CustomAuthTests",
