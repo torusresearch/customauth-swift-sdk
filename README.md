@@ -19,14 +19,14 @@ import PackageDescription
 let package = Package(
     name: "CustomAuth", 
     dependencies: [
-        .package(name: "CustomAuth", url: "https://github.com/torusresearch/customauth-swift-sdk", from: "2.0.0"))
+        .package(name: "CustomAuth", url: "https://github.com/torusresearch/customauth-swift-sdk", from: "2.4.0"))
     ]
 )
 ```
 
 #### Cocoapods
 ```ruby
-pod 'CustomAuth', '~> 2.0.0'
+pod 'CustomAuth', '~> 2.4.0'
 ```
 
 #### Manual import or other packages

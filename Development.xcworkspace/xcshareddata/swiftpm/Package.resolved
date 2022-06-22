@@ -32,9 +32,9 @@
         "package": "FetchNodeDetails",
         "repositoryURL": "https://github.com/torusresearch/fetch-node-details-swift",
         "state": {
-          "branch": "master",
-          "revision": "4e254bd8a02595f46d2c45a79ba02890acd7dde5",
-          "version": null
+          "branch": null,
+          "revision": "c9a5eda1965d3d84c2c834bce703386cba2f5d95",
+          "version": "2.7.0"
         }
       },
       {
@@ -62,6 +62,15 @@
           "branch": null,
           "revision": "3537dd319dfbcc403a5165d8c19c4834e8e64730",
           "version": "4.5.0"
+        }
+      },
+      {
+        "package": "JWTDecode",
+        "repositoryURL": "https://github.com/auth0/JWTDecode.swift.git",
+        "state": {
+          "branch": null,
+          "revision": "3cd207fb9e943b6168a117baa3936c823204c2dc",
+          "version": "2.6.3"
         }
       },
       {
@@ -95,9 +104,9 @@
         "package": "TorusUtils",
         "repositoryURL": "https://github.com/torusresearch/torus-utils-swift",
         "state": {
-          "branch": "feat/oneKey-addition",
-          "revision": "a03db79d731b4856c8624bcd9f669308cf50014d",
-          "version": null
+          "branch": null,
+          "revision": "c2bd7cac036ea8d145bed62ec96c98203fe57653",
+          "version": "2.1.8"
         }
       },
       {
