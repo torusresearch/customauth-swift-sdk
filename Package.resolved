@@ -65,6 +65,15 @@
         }
       },
       {
+        "package": "PromiseKit",
+        "repositoryURL": "https://github.com/mxcl/PromiseKit",
+        "state": {
+          "branch": null,
+          "revision": "c946b7561fbe11379a874e59faa2c5f8077ae0e1",
+          "version": "6.17.1"
+        }
+      },
+      {
         "package": "secp256k1",
         "repositoryURL": "https://github.com/Boilertalk/secp256k1.swift",
         "state": {
