@@ -1,0 +1,6 @@
+sdk: iphonesimulator
+build_tool_arguments:
+  - -workspace
+  - cocoapods/cptest.xcworkspace
+  - -scheme
+  - cptest

@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>CustomAuth  Reference</title>
+    <link rel="stylesheet" type="text/css" href="css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="js/jquery.min.js" defer></script>
+    <script src="js/jazzy.js" defer></script>
+    
+    <script src="js/lunr.min.js" defer></script>
+    <script src="js/typeahead.jquery.js" defer></script>
+    <script src="js/jazzy.search.js" defer></script>
+  </head>
+  <body>
+    <a title="CustomAuth  Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="index.html">CustomAuth 2.1.0 Docs</a> (9% documented)</p>
+        <div class="header-right">
+          <form role="search" action="search.json">
+            <input type="text" placeholder="Search documentation" data-typeahead>
+          </form>
+        </div>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="index.html">CustomAuth Reference</a>
+        <img id="carat" src="img/carat.png" alt=""/>
+        CustomAuth  Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Classes/CASDKFactory.html">CASDKFactory</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/CustomAuth.html">CustomAuth</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/SFURLHandler.html">SFURLHandler</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="Global%20Variables.html">Global Variables</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Global%20Variables.html#/s:10CustomAuth9subsystemSSvp">subsystem</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Enums/CASDKError.html">CASDKError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Enums/LoginProviders.html">LoginProviders</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Enums/SubVerifierType.html">SubVerifierType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Enums/URLOpenerTypes.html">URLOpenerTypes</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Enums/verifierTypes.html">verifierTypes</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Protocols/AbstractLoginHandler.html">AbstractLoginHandler</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/CASDKFactoryProtocol.html">CASDKFactoryProtocol</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/TorusURLHandlerTypes.html">TorusURLHandlerTypes</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="Structs.html">Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Structs.html#/s:10CustomAuth11CASDKLoggerV">CASDKLogger</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/SubVerifierDetails.html">SubVerifierDetails</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/SubVerifierDetails/codingKeys.html">– codingKeys</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            
+            <h1 id='customauth-swift-sdk' class='heading'>customauth-swift-sdk</h1>
+<h2 id='introduction' class='heading'>Introduction</h2>
+
+<p>This repo allows iOS applications to retrieve keys stored on the Torus Network directly. The attestation layer for the Torus Network is generalizable, below is an example of how to access keys via the SDK via Google. You can read more about interactions with the Torus Network <a href="https://medium.com/toruslabs/key-assignments-resolution-and-retrieval-afb984500612">here</a>.</p>
+<h2 id='features' class='heading'>Features</h2>
+
+<ul>
+<li>All API&rsquo;s return Promises (mxcl/PromiseKit). You can import &ldquo;yannickl/AwaitKit&rdquo; to convert APIs to async/await format.</li>
+</ul>
+<h2 id='usage' class='heading'>Usage</h2>
+<h3 id='1-installation' class='heading'>1. Installation</h3>
+<h4 id='swift-package-manager' class='heading'>Swift package manager</h4>
+
+<p>In project settings, add the Github URL as a swift package dependency.</p>
+<pre class="highlight swift"><code><span class="kd">import</span> <span class="kt">PackageDescription</span>
+
+<span class="k">let</span> <span class="nv">package</span> <span class="o">=</span> <span class="kt">Package</span><span class="p">(</span>
+    <span class="nv">name</span><span class="p">:</span> <span class="s">"CustomAuth"</span><span class="p">,</span> 
+    <span class="nv">dependencies</span><span class="p">:</span> <span class="p">[</span>
+        <span class="o">.</span><span class="nf">package</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="s">"CustomAuth"</span><span class="p">,</span> <span class="nv">url</span><span class="p">:</span> <span class="s">"https://github.com/torusresearch/customauth-swift-sdk"</span><span class="p">,</span> <span class="nv">from</span><span class="p">:</span> <span class="s">"2.0.0"</span><span class="p">))</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+</code></pre>
+<h4 id='cocoapods' class='heading'>Cocoapods</h4>
+<pre class="highlight ruby"><code><span class="n">pod</span> <span class="s1">'CustomAuth'</span><span class="p">,</span> <span class="s1">'~&gt; 2.0.0'</span>
+</code></pre>
+<h4 id='manual-import-or-other-packages' class='heading'>Manual import or other packages</h4>
+
+<p>If you require a package manager other than SPM or Cocoapods, do reach out to <a href="mailto:hello@tor.us">hello@tor.us</a> or alternatively clone the repo manually and import as a framework in your project</p>
+<h3 id='2-initialization' class='heading'>2. Initialization</h3>
+
+<p>Initalize the SDK depending on the login you require. The example below does so for a single google login. <code>redirectURL</code> refers to a url for the login flow to redirect into your app, it should have a scheme that is registered by your app, for example <code>com.mycompany.myapp://redirect</code>. <code>browserRedirectURL</code> refers to a page that the browser should use in the login flow, it should have a http or https scheme.</p>
+<pre class="highlight swift"><code><span class="kd">import</span> <span class="kt">CustomAuth</span>
+
+<span class="k">let</span> <span class="nv">sub</span> <span class="o">=</span> <span class="kt">SubVerifierDetails</span><span class="p">(</span><span class="nv">loginType</span><span class="p">:</span> <span class="o">.</span><span class="n">installed</span><span class="p">,</span> <span class="c1">// default .web</span>
+                            <span class="nv">loginProvider</span><span class="p">:</span> <span class="o">.</span><span class="n">google</span><span class="p">,</span>
+                            <span class="nv">clientId</span><span class="p">:</span> <span class="s">"&lt;your-client-id&gt;"</span><span class="p">,</span>
+                            <span class="nv">verifierName</span><span class="p">:</span> <span class="s">"&lt;verifier-name&gt;"</span><span class="p">,</span>
+                            <span class="nv">redirectURL</span><span class="p">:</span> <span class="s">"&lt;your-redirect-url&gt;"</span><span class="p">,</span>
+                            <span class="nv">browserRedirectURL</span><span class="p">:</span> <span class="s">"&lt;your-browser-redirect-url&gt;"</span><span class="p">)</span>
+
+<span class="k">let</span> <span class="nv">tdsdk</span> <span class="o">=</span> <span class="kt">CustomAuth</span><span class="p">(</span><span class="nv">aggregateVerifierType</span><span class="p">:</span> <span class="s">"&lt;type-of-verifier&gt;"</span><span class="p">,</span> <span class="nv">aggregateVerifierName</span><span class="p">:</span> <span class="s">"&lt;verifier-name&gt;"</span><span class="p">,</span> <span class="nv">subVerifierDetails</span><span class="p">:</span> <span class="p">[</span><span class="n">sub</span><span class="p">],</span> <span class="nv">network</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">etherum</span><span class="o">-</span><span class="n">network</span><span class="o">-</span><span class="n">to</span><span class="o">-</span><span class="n">use</span><span class="o">&gt;</span><span class="p">)</span>
+
+<span class="c1">// controller is used to present a SFSafariViewController.</span>
+<span class="n">tdsdk</span><span class="o">.</span><span class="nf">triggerLogin</span><span class="p">(</span><span class="nv">controller</span><span class="p">:</span> <span class="o">&lt;</span><span class="kt">UIViewController</span><span class="o">&gt;</span><span class="p">?,</span> <span class="nv">browserType</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">method</span><span class="o">-</span><span class="n">of</span><span class="o">-</span><span class="n">opening</span><span class="o">-</span><span class="n">browser</span><span class="o">&gt;</span><span class="p">,</span> <span class="nv">modalPresentationStyle</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">style</span><span class="o">-</span><span class="n">of</span><span class="o">-</span><span class="n">modal</span><span class="o">&gt;</span><span class="p">)</span><span class="o">.</span><span class="n">done</span><span class="p">{</span> <span class="n">data</span> <span class="k">in</span>
+    <span class="nf">print</span><span class="p">(</span><span class="s">"private key rebuild"</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+<span class="p">}</span><span class="o">.</span><span class="k">catch</span><span class="p">{</span> <span class="n">err</span> <span class="k">in</span>
+    <span class="nf">print</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre>
+
+<p>Logins are dependent on verifier scripts/verifiers. There are other verifiers including <code>single_id_verifier</code>, <code>and_aggregate_verifier</code>, <code>or_aggregate_verifier</code> and <code>single_logins</code> of which you may need to use depending on your required logins. To get your application&rsquo;s verifier script setup, do reach out to <a href="mailto:hello@tor.us">hello@tor.us</a> or to read more about verifiers do checkout <a href="https://docs.tor.us/customauth/supported-authenticators-verifiers">the docs</a>. </p>
+<h3 id='3-handling-the-oauth-authentication-url-redirects' class='heading'>3. Handling the OAuth/Authentication URL redirects</h3>
+
+<p>You can setup the redirect in two ways; URL Schemes or Universal links. Typically we recommend users to use URL Schemes as Universal Links require an additional user interaction. The <code>handle(url: URL)</code> class method implements a NSNotification to handle URL callbacks.</p>
+<h4 id='setting-up-url-schemes' class='heading'>Setting up URL Schemes</h4>
+
+<p>In the info tab of your target, add your application name (ex. my-wallet-app). Add the redirect URL to the list of allowed redirect URLs in the OAuth providers settings page.</p>
+
+<ul>
+<li><p>For SwiftUI, without using delegate (iOS 14+)</p>
+<pre class="highlight swift"><code><span class="o">.</span><span class="n">onOpenURL</span> <span class="p">{</span> <span class="n">url</span> <span class="k">in</span>
+<span class="k">guard</span> <span class="k">let</span> <span class="nv">url</span> <span class="o">=</span> <span class="kt">URLContexts</span><span class="o">.</span><span class="n">first</span><span class="p">?</span><span class="o">.</span><span class="n">url</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="k">return</span>
+<span class="p">}</span>
+<span class="kt">CustomAuth</span><span class="o">.</span><span class="nf">handle</span><span class="p">(</span><span class="nv">url</span><span class="p">:</span> <span class="n">url</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></li>
+<li><p>For SwiftUI, implement the following in your SceneDelegate</p>
+<pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">scene</span><span class="p">(</span><span class="n">_</span> <span class="nv">scene</span><span class="p">:</span> <span class="kt">UIScene</span><span class="p">,</span> <span class="n">openURLContexts</span> <span class="kt">URLContexts</span><span class="p">:</span> <span class="kt">Set</span><span class="o">&lt;</span><span class="kt">UIOpenURLContext</span><span class="o">&gt;</span><span class="p">)</span> <span class="p">{</span>
+<span class="k">guard</span> <span class="k">let</span> <span class="nv">url</span> <span class="o">=</span> <span class="kt">URLContexts</span><span class="o">.</span><span class="n">first</span><span class="p">?</span><span class="o">.</span><span class="n">url</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="k">return</span>
+<span class="p">}</span>
+<span class="kt">CustomAuth</span><span class="o">.</span><span class="nf">handle</span><span class="p">(</span><span class="nv">url</span><span class="p">:</span> <span class="n">url</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></li>
+<li><p>For Storyboard, implement the following in your app AppDelegate:</p>
+<pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">application</span><span class="p">(</span><span class="n">_</span> <span class="nv">app</span><span class="p">:</span> <span class="kt">UIApplication</span><span class="p">,</span> <span class="kd">open</span> <span class="nv">url</span><span class="p">:</span> <span class="kt">URL</span><span class="p">,</span> <span class="nv">options</span><span class="p">:</span> <span class="p">[</span><span class="kt">UIApplication</span><span class="o">.</span><span class="kt">OpenURLOptionsKey</span> <span class="p">:</span> <span class="kt">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">[:])</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="p">{</span>
+<span class="k">if</span> <span class="n">url</span><span class="o">.</span><span class="n">host</span> <span class="o">==</span> <span class="s">"my-wallet-app"</span> <span class="p">{</span>
+    <span class="kt">CustomAuth</span><span class="o">.</span><span class="nf">handle</span><span class="p">(</span><span class="nv">url</span><span class="p">:</span> <span class="n">url</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="k">return</span> <span class="kc">true</span>
+<span class="p">}</span>
+</code></pre></li>
+</ul>
+<h4 id='universal-links' class='heading'>Universal Links</h4>
+
+<p>Universal Links allow your users to intelligently follow links to content inside your app or to your website. Checkout <a href="https://developer.apple.com/ios/universal-links/">Documentation</a> for implementation. </p>
+
+<ul>
+<li><p>For Swift UI,</p>
+<pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">scene</span><span class="p">(</span><span class="n">_</span> <span class="nv">scene</span><span class="p">:</span> <span class="kt">UIScene</span><span class="p">,</span> <span class="k">continue</span> <span class="nv">userActivity</span><span class="p">:</span> <span class="kt">NSUserActivity</span><span class="p">)</span> <span class="p">{</span>
+<span class="k">guard</span> <span class="n">userActivity</span><span class="o">.</span><span class="n">activityType</span> <span class="o">==</span> <span class="kt">NSUserActivityTypeBrowsingWeb</span><span class="p">,</span> <span class="k">let</span> <span class="nv">urlToOpen</span> <span class="o">=</span> <span class="n">userActivity</span><span class="o">.</span><span class="n">webpageURL</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="k">return</span>
+<span class="p">}</span>
+<span class="kt">CustomAuth</span><span class="o">.</span><span class="nf">handle</span><span class="p">(</span><span class="nv">url</span><span class="p">:</span> <span class="n">urlToOpen</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></li>
+<li><p>For Storyboard,</p>
+<pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">application</span><span class="p">(</span><span class="n">_</span> <span class="nv">application</span><span class="p">:</span> <span class="kt">UIApplication</span><span class="p">,</span> <span class="k">continue</span> <span class="nv">userActivity</span><span class="p">:</span> <span class="kt">UIUserActivity</span><span class="p">,</span> <span class="nv">restorationHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">([</span><span class="kt">UIUserActivityRestoring</span><span class="p">]?)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span>
+<span class="p">{</span>
+<span class="c1">// Get URL components from the incoming user activity</span>
+<span class="k">guard</span> <span class="n">userActivity</span><span class="o">.</span><span class="n">activityType</span> <span class="o">==</span> <span class="kt">NSUserActivityTypeBrowsingWeb</span><span class="p">,</span>
+    <span class="k">let</span> <span class="nv">incomingURL</span> <span class="o">=</span> <span class="n">userActivity</span><span class="o">.</span><span class="n">webpageURL</span><span class="p">,</span>
+    <span class="k">let</span> <span class="nv">components</span> <span class="o">=</span> <span class="kt">NSURLComponents</span><span class="p">(</span><span class="nv">url</span><span class="p">:</span> <span class="n">incomingURL</span><span class="p">,</span> <span class="nv">resolvingAgainstBaseURL</span><span class="p">:</span> <span class="kc">true</span><span class="p">)</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="kc">false</span>
+<span class="p">}</span>
+<span class="kt">CustomAuth</span><span class="o">.</span><span class="nf">handle</span><span class="p">(</span><span class="nv">url</span><span class="p">:</span> <span class="n">incomingURL</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></li>
+</ul>
+<pre class="highlight plaintext"><code>
+After this you're good to go, reach out to hello@tor.us to get your verifier spun up on the testnet today!
+
+## Requirements
+- Swift 5
+
+## Using CustomAuthFactory
+
+The `CASDKFactoryProtocol` provides a way to modify the mechanism of discovering torus nodes in `FetchNodeDetails` and performing key retrieval in `TorusUtils`, which can be useful in scenarios such as mocking or advanced customization. Developers who want to use this mechanism should implement `CASDKFactoryProtocol` in Sources/CustomAuth/CustomAuth.swift, and then pass the instance into the `init` of `CustomAuth`, for example:
+
+```swift
+let tdsdk = CustomAuth(
+    aggregateVerifierType: "&lt;type-of-verifier&gt;", 
+    aggregateVerifierName: "&lt;verifier-name&gt;", 
+    subVerifierDetails: [sub],
+    factory: customFactory,
+    network: myNetworkm
+    loglevel: myLoglevel
+)
+</code></pre>
+
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2022 <a class="link" href="https://github.com/torusresearch/customauth-swift-sdk" target="_blank" rel="external noopener">Torus Labs</a>. All rights reserved. (Last updated: 2022-01-02)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</html>
