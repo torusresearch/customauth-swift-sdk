@@ -12,6 +12,8 @@ import PromiseKit
 import TorusUtils
 import UIKit
 
+
+
 // Global variable
 var tsSdkLogType = OSLogType.default
 
@@ -211,9 +213,7 @@ open class CustomAuth {
         let extraParams = ["verifieridentifier": verifier, "verifier_id": verifierId, "sub_verifier_ids": [subVerifierDetails.subVerifierId], "verify_params": [["verifier_id": verifierId, "idtoken": idToken]]] as [String: Any]
         let buffer: Data = try! NSKeyedArchiver.archivedData(withRootObject: extraParams, requiringSecureCoding: false)
         let hashedOnce = idToken.sha3(.keccak256)
-
         let (tempPromise, seal) = Promise<[String: Any]>.pending()
-
         getNodeDetailsFromContract(verifier: verifier, verfierID: verifierId).then { nodeDetails in
             self.torusUtils.retrieveShares(torusNodePubs: nodeDetails.getTorusNodePub(), endpoints: nodeDetails.getTorusNodeEndpoints(), verifierIdentifier: verifier, verifierId: verifierId, idToken: hashedOnce, extraParams: buffer)
         }.done { responseFromRetrieveShares in

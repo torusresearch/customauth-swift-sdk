@@ -1,6 +1,8 @@
 // MARK: Open SFSafariViewController
 import Foundation
 import SafariServices
+import UIKit
+
 
 @available(iOS 11.0, *)
 open class SFURLHandler: NSObject, SFSafariViewControllerDelegate, TorusURLHandlerTypes {
