@@ -1,8 +1,12 @@
 @testable import CustomAuth
 import TorusUtils
+#if os(iOS)
 import UIKit
+#elseif os(OSX)
+import AppKit
 import XCTest
 import JWTDecode
+#endif
 
 @available(iOS 11.0, *)
 final class MockSDKTest: XCTestCase {

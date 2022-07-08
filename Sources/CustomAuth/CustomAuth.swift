@@ -10,7 +10,15 @@ import Foundation
 import OSLog
 import PromiseKit
 import TorusUtils
+#if os(iOS)
 import UIKit
+public typealias CustomAuthViewController = UIViewController
+public typealias modalPresentationStyle = UIModalPresentationStyle
+#elseif os(OSX)
+import AppKit
+public typealias CustomAuthViewController = NSViewController
+public typealias modalPresentationStyle = Present
+#endif
 
 
 
@@ -89,8 +97,8 @@ open class CustomAuth {
     ///   - browserType: Indicates the way to open the browser for login flow. Use `.external` for opening system safari, or `.sfsafari` for opening an in-app browser.
     ///   - modalPresentationStyle: Indicates the UIModalPresentationStyle for the popup.
     /// - Returns: A promise that resolve with a Dictionary that contain at least `privateKey` and `publicAddress` field..
-    open func triggerLogin(controller: UIViewController? = nil, browserType: URLOpenerTypes = .sfsafari, modalPresentationStyle: UIModalPresentationStyle = .fullScreen) -> Promise<[String: Any]> {
-        os_log("triggerLogin called with %@ %@", log: getTorusLogger(log: CASDKLogger.core, type: .info), type: .info, browserType.rawValue, modalPresentationStyle.rawValue)
+    open func triggerLogin(controller: CustomAuthViewController? = nil, browserType: URLOpenerTypes = .sfsafari, modalPresentationStyle: modalPresentationStyle) -> Promise<[String: Any]> {
+      //  os_log("triggerLogin called with %@ %@", log: getTorusLogger(log: CASDKLogger.core, type: .info), type: .info, browserType.rawValue, modalPresentationStyle)
         // Set browser
         authorizeURLHandler = browserType
 
@@ -108,7 +116,7 @@ open class CustomAuth {
         }
     }
 
-    open func handleSingleLogins(controller: UIViewController?, modalPresentationStyle: UIModalPresentationStyle = .fullScreen) -> Promise<[String: Any]> {
+    open func handleSingleLogins(controller: CustomAuthViewController?, modalPresentationStyle: modalPresentationStyle) -> Promise<[String: Any]> {
         let (tempPromise, seal) = Promise<[String: Any]>.pending()
         if let subVerifier = subVerifierDetails.first {
             let loginURL = subVerifier.getLoginURL()
@@ -137,7 +145,7 @@ open class CustomAuth {
         return tempPromise
     }
 
-    open func handleSingleIdVerifier(controller: UIViewController?, modalPresentationStyle: UIModalPresentationStyle = .fullScreen) -> Promise<[String: Any]> {
+    open func handleSingleIdVerifier(controller: CustomAuthViewController?, modalPresentationStyle: modalPresentationStyle) -> Promise<[String: Any]> {
         let (tempPromise, seal) = Promise<[String: Any]>.pending()
         if let subVerifier = subVerifierDetails.first {
             let loginURL = subVerifier.getLoginURL()
@@ -165,12 +173,12 @@ open class CustomAuth {
         return tempPromise
     }
 
-    func handleAndAggregateVerifier(controller: UIViewController?) -> Promise<[String: Any]> {
+    func handleAndAggregateVerifier(controller: CustomAuthViewController?) -> Promise<[String: Any]> {
         // TODO: implement verifier
         return Promise(error: CASDKError.methodUnavailable)
     }
 
-    func handleOrAggregateVerifier(controller: UIViewController?) -> Promise<[String: Any]> {
+    func handleOrAggregateVerifier(controller: CustomAuthViewController?) -> Promise<[String: Any]> {
         // TODO: implement verifier
         return Promise(error: CASDKError.methodUnavailable)
     }
@@ -184,7 +192,13 @@ open class CustomAuth {
     /// - Returns: A promise that resolve with a Dictionary that contain at least `privateKey` and `publicAddress` field..
     open func getTorusKey(verifier: String, verifierId: String, idToken: String, userData: [String: Any] = [:]) -> Promise<[String: Any]> {
         let extraParams = ["verifier_id": verifierId] as [String: Any]
-        let buffer: Data = try! NSKeyedArchiver.archivedData(withRootObject: extraParams, requiringSecureCoding: false)
+        var buffer:Data = Data()
+        if #available(macOS 10.13, *) {
+             buffer = try! NSKeyedArchiver.archivedData(withRootObject: extraParams, requiringSecureCoding: false)
+        } else {
+            // Fallback on earlier versions
+            buffer = NSKeyedArchiver.archivedData(withRootObject: extraParams)
+        }
 
         let (tempPromise, seal) = Promise<[String: Any]>.pending()
 
@@ -211,7 +225,13 @@ open class CustomAuth {
     /// - Returns: A promise that resolve with a Dictionary that contain at least `privateKey` and `publicAddress` field..
     open func getAggregateTorusKey(verifier: String, verifierId: String, idToken: String, subVerifierDetails: SubVerifierDetails, userData: [String: Any] = [:]) -> Promise<[String: Any]> {
         let extraParams = ["verifieridentifier": verifier, "verifier_id": verifierId, "sub_verifier_ids": [subVerifierDetails.subVerifierId], "verify_params": [["verifier_id": verifierId, "idtoken": idToken]]] as [String: Any]
-        let buffer: Data = try! NSKeyedArchiver.archivedData(withRootObject: extraParams, requiringSecureCoding: false)
+        var buffer:Data = Data()
+        if #available(macOS 10.13, *) {
+             buffer = try! NSKeyedArchiver.archivedData(withRootObject: extraParams, requiringSecureCoding: false)
+        } else {
+            // Fallback on earlier versions
+            buffer = NSKeyedArchiver.archivedData(withRootObject: extraParams)
+        }
         let hashedOnce = idToken.sha3(.keccak256)
         let (tempPromise, seal) = Promise<[String: Any]>.pending()
         getNodeDetailsFromContract(verifier: verifier, verfierID: verifierId).then { nodeDetails in

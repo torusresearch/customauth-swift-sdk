@@ -3,10 +3,14 @@
 //  
 //
 //  Created by Shubham on 1/6/20.
-//
-import UIKit
+
 import Foundation
 import PromiseKit
+#if os(iOS)
+import UIKit
+#elseif os(OSX)
+import AppKit
+#endif
 
 // Type of OAuth application created. ex. google web app/google iOS app
 public enum SubVerifierType : String{

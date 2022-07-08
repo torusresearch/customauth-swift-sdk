@@ -1,24 +1,21 @@
 // MARK: Open SFSafariViewController
-import Foundation
+
+#if os(iOS)
 import SafariServices
-import UIKit
+import uikit
 
-
-@available(iOS 11.0, *)
 open class SFURLHandler: NSObject, SFSafariViewControllerDelegate, TorusURLHandlerTypes {
     
     public typealias Transition = (_ controller: SFSafariViewController, _ handler: SFURLHandler) -> Void
     open var present: Transition
     open var dismiss: Transition
     var observers = [String: NSObjectProtocol]()
-    
     // configure default presentation and dismissal code
     open var animated: Bool = true
     open var presentCompletion: (() -> Void)?
     open var dismissCompletion: (() -> Void)?
     open var delay: UInt32? = 1
     
-    /// init
     public init(viewController: UIViewController) {
         self.present = { [weak viewController] controller, handler in
             viewController?.present(controller, animated: handler.animated, completion: handler.presentCompletion)
@@ -34,7 +31,9 @@ open class SFURLHandler: NSObject, SFSafariViewControllerDelegate, TorusURLHandl
         self.dismiss = dismiss
     }
     
+    
     @objc open func handle(_ url: URL, modalPresentationStyle: UIModalPresentationStyle = .fullScreen) {
+        
         let controller = SFSafariViewController(url: url)
         controller.modalPresentationStyle = modalPresentationStyle
         controller.dismissButtonStyle = .cancel
@@ -92,3 +91,4 @@ open class SFURLHandler: NSObject, SFSafariViewControllerDelegate, TorusURLHandl
     }
     
 }
+#endif

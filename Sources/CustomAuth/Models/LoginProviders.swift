@@ -1,6 +1,10 @@
-import UIKit
 import Foundation
 import PromiseKit
+#if os(iOS)
+import UIKit
+#elseif os(OSX)
+import AppKit
+#endif
 
 // MARK: - login providers
 public enum LoginProviders : String {

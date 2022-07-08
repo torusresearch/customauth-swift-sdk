@@ -6,11 +6,15 @@
 //
 
 import Foundation
-import UIKit
 import TorusUtils
 import PromiseKit
 import SafariServices
 import OSLog
+#if os(iOS)
+import UIKit
+#elseif os(OSX)
+import AppKit
+#endif
 
 
 @available(iOS 11.0, *)
@@ -58,14 +62,32 @@ extension CustomAuth{
         }
     }
     
-    
-    public func openURL(url: String, view: UIViewController?, modalPresentationStyle: UIModalPresentationStyle) {
+#if os(OSX)
+    public func openURL(url: String, view: CustomAuthViewController?,modalPresentationStyle: modalPresentationStyle) {
+        switch self.authorizeURLHandler{
+        case .external:
+            let handler = ExternalURLHandler()
+            handler.handle(URL(string: url)!)
+        case .sfsafari:
+            let handler = WebViewController()
+            handler.handle(URL(string: url)!)
+        case .none:
+            os_log("Cannot access specified browser", log: getTorusLogger(log: CASDKLogger.core, type: .error), type: .error)
+        }
+        return
+    }
+   
+    #endif
+   
+#if os(iOS)
+    public func openURL(url: String, view: CustomAuthViewController?, modalPresentationStyle: modalPresentationStyle) {
         os_log("opening URL: %s", log: getTorusLogger(log: CASDKLogger.core, type: .info), type: .info, url)
         
         switch self.authorizeURLHandler {
         case .external:
             let handler = ExternalURLHandler()
             handler.handle(URL(string: url)!, modalPresentationStyle: modalPresentationStyle)
+ 
         case .sfsafari:
             guard let controller = view else{
                 os_log("UIViewController not available. Please modify triggerLogin(controller:)", log: getTorusLogger(log: CASDKLogger.core, type: .error), type: .error)
@@ -77,6 +99,7 @@ extension CustomAuth{
             os_log("Cannot access specified browser", log: getTorusLogger(log: CASDKLogger.core, type: .error), type: .error)
         }
     }
+    #endif
     
     func makeUrlRequest(url: String, method: String) -> URLRequest {
         var rq = URLRequest(url: URL(string: url)!)
