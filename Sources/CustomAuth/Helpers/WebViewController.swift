@@ -7,63 +7,48 @@
 
 import AppKit
 import Foundation
-
 import Foundation
 import WebKit
+import SafariServices
 
-/// Delegate for OAuthWebViewController
-public protocol OAuthWebViewControllerDelegate: AnyObject {
-    func oauthWebViewControllerWillAppear()
-    func oauthWebViewControllerDidAppear()
-    func oauthWebViewControllerWillDisappear()
-    func oauthWebViewControllerDidDisappear()
-}
+
 
 /// A web view controller, which handler OAuthSwift authentification. Must be override to display a web view.
-open class WebViewController: CustomAuthViewController, TorusURLHandlerTypes {
-    public func handle(_ url: URL) {
-        doHandle(url)
-    }
-    
-    public weak var delegate: OAuthWebViewControllerDelegate?
-
+open class WebViewController:WKNavigation, TorusURLHandlerTypes, WKNavigationDelegate {
+  
+    var observers = [String: NSObjectProtocol]()
+    // configure default presentation and dismissal code
+    open var animated: Bool = true
+    open var presentCompletion: (() -> Void)?
+    open var dismissCompletion: (() -> Void)?
+    open var delay: UInt32? = 1
+    var vc:NSViewController
     /// Set false to disable present animation.
     public var presentViewControllerAnimated = true
     /// Set false to disable dismiss animation.
     public var dismissViewControllerAnimated = true
-    var observers = [String: NSObjectProtocol]()
 
     /// How to present this view controller if parent view controller set
+    ///
+
     
+    public init(viewController: NSViewController) {
+        self.vc = viewController
+    }
+    
+   
 
-
-    public var present: Present = .asModalWindow
-
-    open func doHandle(_ url: URL) {
+    public func handle(_ url: URL, modalPresentationStyle: modalPresentationStyle) {
    
 #if os(OSX)
-            if let p = parent { // default behaviour if this controller affected as child controller
+    // default behaviour if this controller affected as child controller
                 let key = UUID().uuidString
-                switch present {
-                case .asSheet:
-                    p.presentAsSheet(self)
-                case .asModalWindow:
-                    p.presentAsModalWindow(self)
-                // FIXME: if we present as window, window close must detected and oauthswift.cancel() must be called...
-                case let .asPopover(positioningRect, positioningView, preferredEdge, behavior):
-                    p.present(self, asPopoverRelativeTo: positioningRect, of: positioningView, preferredEdge: preferredEdge, behavior: behavior)
-                case let .transitionFrom(fromViewController, options):
-                    let completion: () -> Void = { /* [unowned self] in */
-                        // self.delegate?.oauthWebViewControllerDidPresent()
-                    }
-                    p.transition(from: fromViewController, to: self, options: options, completionHandler: completion)
-                case let .animator(animator):
-                    p.present(self, animator: animator)
-                case let .segue(segueIdentifier):
-                    p.performSegue(withIdentifier: segueIdentifier, sender: self) // The segue must display self.view
-                }
-                
-                observers[key] = CustomAuth.notificationCenter.addObserver(
+        let controller = WKWebView(frame: .init(x: 100, y: 100, width: 500, height: 500), configuration: WKWebViewConfiguration())
+               // controller.navigationDelegate = self
+               
+                 vc.view.addSubview(controller)
+                controller.load(URLRequest(url: url))
+                    observers[key] = CustomAuth.notificationCenter.addObserver(
                     forName: CustomAuth.didHandleCallbackURL,
                     object: nil,
                     queue: OperationQueue.main,
@@ -72,47 +57,19 @@ open class WebViewController: CustomAuthViewController, TorusURLHandlerTypes {
                             CustomAuth.notificationCenter.removeObserver(observer)
                             self.observers.removeValue(forKey: key)
                         }
-                        self.dismiss(p)
+                        controller.removeFromSuperview()
                         // TODO: dismiss on main queue
                     }
                 )
-            } else if let window = view.window {
-                window.makeKeyAndOrderFront(nil)
-            } else {
-                assertionFailure("Failed to present. Add controller into a window or add a parent")
-            }
-            // or create an NSWindow or NSWindowController (/!\ keep a strong reference on it)
+        
         #endif
     }
 
-    open func dismissWebViewController() {
-        if presentingViewController != nil {
-            dismiss(nil)
-            if parent != nil {
-                removeFromParent()
-            }
-        } else if let window = view.window {
-            window.performClose(nil)
-        }
-    }
+
 
     // MARK: overrides
 
-    override open func viewWillAppear() {
-        delegate?.oauthWebViewControllerWillAppear()
-    }
 
-    override open func viewDidAppear() {
-        delegate?.oauthWebViewControllerDidAppear()
-    }
-
-    override open func viewWillDisappear() {
-        delegate?.oauthWebViewControllerWillDisappear()
-    }
-
-    override open func viewDidDisappear() {
-        delegate?.oauthWebViewControllerDidDisappear()
-    }
 }
 
 public enum Present {

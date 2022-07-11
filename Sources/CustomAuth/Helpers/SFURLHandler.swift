@@ -2,7 +2,7 @@
 
 #if os(iOS)
 import SafariServices
-import uikit
+import UIKit
 
 open class SFURLHandler: NSObject, SFSafariViewControllerDelegate, TorusURLHandlerTypes {
     

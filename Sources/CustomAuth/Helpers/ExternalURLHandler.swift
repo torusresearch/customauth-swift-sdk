@@ -14,10 +14,9 @@ import AppKit
 
 
 class ExternalURLHandler: TorusURLHandlerTypes{
-  
+
     
-#if os(iOS)
-    @objc open func handle(_ url: URL,  modalPresentationStyle: UIModalPresentationStyle) {
+     open func handle(_ url: URL,  modalPresentationStyle: modalPresentationStyle) {
         #if os(iOS) || os(tvOS)
         #if !OAUTH_APP_EXTENSIONS
         if #available(iOS 10.0, tvOS 10.0, *) {
@@ -32,21 +31,5 @@ class ExternalURLHandler: TorusURLHandlerTypes{
         NSWorkspace.shared.open(url)
         #endif
     }
-    #elseif os(OSX)
-    @objc open func handle(_ url: URL) {
-        #if os(iOS) || os(tvOS)
-        #if !OAUTH_APP_EXTENSIONS
-        if #available(iOS 10.0, tvOS 10.0, *) {
-            UIApplication.shared.open(url)
-        } else {
-            UIApplication.shared.openURL(url)
-        }
-        #endif
-        #elseif os(watchOS)
-        // WATCHOS: not implemented
-        #elseif os(OSX)
-        NSWorkspace.shared.open(url)
-        #endif
-    }
-    #endif
+   
 }
