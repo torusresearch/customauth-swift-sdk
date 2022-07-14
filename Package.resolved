@@ -66,7 +66,7 @@
       },
       {
         "package": "PromiseKit",
-        "repositoryURL": "https://github.com/mxcl/PromiseKit",
+        "repositoryURL": "https://github.com/mxcl/PromiseKit.git",
         "state": {
           "branch": null,
           "revision": "c946b7561fbe11379a874e59faa2c5f8077ae0e1",
