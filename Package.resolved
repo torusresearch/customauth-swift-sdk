@@ -11,15 +11,6 @@
         }
       },
       {
-        "package": "CryptorECC",
-        "repositoryURL": "https://github.com/IBM-Swift/BlueECC.git",
-        "state": {
-          "branch": null,
-          "revision": "baf6ed3fc1a622675f0041b4aff7c02dd1a93818",
-          "version": "1.2.200"
-        }
-      },
-      {
         "package": "CryptoSwift",
         "repositoryURL": "https://github.com/krzyzanowskim/CryptoSwift.git",
         "state": {
@@ -33,8 +24,8 @@
         "repositoryURL": "https://github.com/torusresearch/fetch-node-details-swift.git",
         "state": {
           "branch": null,
-          "revision": "c9a5eda1965d3d84c2c834bce703386cba2f5d95",
-          "version": "2.7.0"
+          "revision": "981694c72b12c3ab42a885778d5da83a79fa98ea",
+          "version": "3.0.0"
         }
       },
       {
@@ -102,11 +93,11 @@
       },
       {
         "package": "TorusUtils",
-        "repositoryURL": "https://github.com/torusresearch/torus-utils-swift",
+        "repositoryURL": "https://github.com/torusresearch/torus-utils-swift.git",
         "state": {
           "branch": null,
-          "revision": "c2bd7cac036ea8d145bed62ec96c98203fe57653",
-          "version": "2.1.8"
+          "revision": "4ee80a55cc6a43c2ff3182d97b7b9be69d4fb7c9",
+          "version": "3.0.0"
         }
       },
       {
