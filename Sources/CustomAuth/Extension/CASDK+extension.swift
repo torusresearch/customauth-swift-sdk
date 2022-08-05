@@ -66,12 +66,8 @@ extension CustomAuth{
         case .external:
             let handler = ExternalURLHandler()
             handler.handle(URL(string: url)!, modalPresentationStyle: modalPresentationStyle)
-        case .sfsafari:
-            guard let controller = view else{
-                os_log("UIViewController not available. Please modify triggerLogin(controller:)", log: getTorusLogger(log: CASDKLogger.core, type: .error), type: .error)
-                return
-            }
-            let handler = SFURLHandler(viewController: controller)
+        case .asWebAuthSession:
+            let handler = ASWebAuthSession()
             handler.handle(URL(string: url)!, modalPresentationStyle: modalPresentationStyle)
         case .none:
             os_log("Cannot access specified browser", log: getTorusLogger(log: CASDKLogger.core, type: .error), type: .error)

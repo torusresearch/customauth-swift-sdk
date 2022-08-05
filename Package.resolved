@@ -93,7 +93,7 @@
       },
       {
         "package": "TorusUtils",
-        "repositoryURL": "https://github.com/torusresearch/torus-utils-swift.git",
+        "repositoryURL": "https://github.com/torusresearch/torus-utils-swift",
         "state": {
           "branch": null,
           "revision": "4ee80a55cc6a43c2ff3182d97b7b9be69d4fb7c9",
