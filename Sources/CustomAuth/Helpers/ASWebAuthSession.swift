@@ -9,7 +9,7 @@ import AuthenticationServices
 import Foundation
 
 open class ASWebAuthSession: NSObject, TorusURLHandlerTypes {
-    override init() {
+   public override init() {
     }
 
     public func handle(_ url: URL, modalPresentationStyle: UIModalPresentationStyle) {
