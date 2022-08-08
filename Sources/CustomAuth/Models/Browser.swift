@@ -7,11 +7,12 @@
 import Foundation
 import UIKit
 
-public protocol TorusURLHandlerTypes{
+public protocol TorusURLHandlerTypes {
     func handle(_ url: URL, modalPresentationStyle: UIModalPresentationStyle)
 }
 
-public enum URLOpenerTypes : String{
-    case external = "external"
-    case asWebAuthSession = "sfsafari"
+public enum URLOpenerTypes: String {
+    case external
+    case sfsafari
+    case asWebAuthSession
 }
