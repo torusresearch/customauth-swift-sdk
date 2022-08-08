@@ -6,14 +6,13 @@
 //  Copyright © 2020 torus. All rights reserved.
 //
 
-import UIKit
-import SwiftUI
 import CustomAuth
+import SwiftUI
+import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-
     var window: UIWindow?
-    
+
     // Handle Universal logins
     func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
         guard userActivity.activityType == NSUserActivityTypeBrowsingWeb,
@@ -22,7 +21,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
         CustomAuth.handle(url: urlToOpen)
     }
-    
+
     // Hanlde Deep linkings
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
         guard let url = URLContexts.first?.url else {
@@ -75,7 +74,4 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to save data, release shared resources, and store enough scene-specific state information
         // to restore the scene back to its current state.
     }
-
-
 }
-

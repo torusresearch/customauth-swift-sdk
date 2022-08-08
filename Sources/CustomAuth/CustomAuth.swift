@@ -12,8 +12,6 @@ import PromiseKit
 import TorusUtils
 import UIKit
 
-
-
 // Global variable
 var tsSdkLogType = OSLogType.default
 
