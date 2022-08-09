@@ -12,8 +12,6 @@ import PromiseKit
 import TorusUtils
 import UIKit
 
-
-
 // Global variable
 var tsSdkLogType = OSLogType.default
 
@@ -86,10 +84,10 @@ open class CustomAuth {
     /// Trigger login flow.
     /// - Parameters:
     ///   - controller: A `UIViewController` used for providing context for the login flow.
-    ///   - browserType: Indicates the way to open the browser for login flow. Use `.external` for opening system safari, or `.sfsafari` for opening an in-app browser.
+    ///   - browserType: Indicates the way to open the browser for login flow. Use `.external` for opening system safari, or `.asWebAuthSession` for opening an in-app ASwebAuthenticationSession.
     ///   - modalPresentationStyle: Indicates the UIModalPresentationStyle for the popup.
     /// - Returns: A promise that resolve with a Dictionary that contain at least `privateKey` and `publicAddress` field..
-    open func triggerLogin(controller: UIViewController? = nil, browserType: URLOpenerTypes = .sfsafari, modalPresentationStyle: UIModalPresentationStyle = .fullScreen) -> Promise<[String: Any]> {
+    open func triggerLogin(controller: UIViewController? = nil, browserType: URLOpenerTypes = .asWebAuthSession, modalPresentationStyle: UIModalPresentationStyle = .fullScreen) -> Promise<[String: Any]> {
         os_log("triggerLogin called with %@ %@", log: getTorusLogger(log: CASDKLogger.core, type: .info), type: .info, browserType.rawValue, modalPresentationStyle.rawValue)
         // Set browser
         authorizeURLHandler = browserType

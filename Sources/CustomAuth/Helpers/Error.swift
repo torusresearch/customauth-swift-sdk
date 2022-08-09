@@ -7,7 +7,7 @@ public enum CASDKError: Error {
     case idTokenFailed
     case unknownError
     case methodUnavailable
-    
+
     public var errorDescription: String {
         switch self {
         case .getUserInfoFailed:

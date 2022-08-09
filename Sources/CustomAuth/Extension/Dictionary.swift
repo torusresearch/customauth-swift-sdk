@@ -5,11 +5,9 @@
 //  Created by Shubham on 29/4/20.
 //
 
-
 import Foundation
 
 extension Dictionary {
-
     func join(_ other: Dictionary) -> Dictionary {
         var joinedDictionary = Dictionary()
 
@@ -41,16 +39,16 @@ extension Dictionary {
         for dict in dictionaries {
             for (key, value) in dict {
                 if let v = value as? Value, let k = key as? Key {
-                    self.updateValue(v, forKey: k)
+                    updateValue(v, forKey: k)
                 }
             }
         }
     }
 
-    func map<K: Hashable, V> (_ transform: (Key, Value) -> (K, V)) -> [K: V] {
+    func map<K: Hashable, V>(_ transform: (Key, Value) -> (K, V)) -> [K: V] {
         var results: [K: V] = [:]
-        for k in self.keys {
-            if let value = self[ k ] {
+        for k in keys {
+            if let value = self[k] {
                 let (u, w) = transform(k, value)
                 results.updateValue(w, forKey: u)
             }
@@ -58,8 +56,9 @@ extension Dictionary {
         return results
     }
 }
+
 //
-//extension Dictionary {
+// extension Dictionary {
 //    @available(swift, introduced: 3.2, obsoleted: 4.0)
 //    public func filter(_ isIncluded: (Key, Value) throws -> Bool) rethrows -> [Key: Value] {
 //        var resultDictionary = [Key: Value](minimumCapacity: count)
@@ -70,10 +69,10 @@ extension Dictionary {
 //        }
 //        return resultDictionary
 //    }
-//}
+// }
 
-func +=<K, V> (left: inout [K: V], right: [K: V]) { left.merge(right) }
-func +<K, V> (left: [K: V], right: [K: V]) -> [K: V] { return left.join(right) }
-func +=<K, V> (left: inout [K: V]?, right: [K: V]) {
+func += <K, V>(left: inout [K: V], right: [K: V]) { left.merge(right) }
+func + <K, V>(left: [K: V], right: [K: V]) -> [K: V] { return left.join(right) }
+func += <K, V>(left: inout [K: V]?, right: [K: V]) {
     if left != nil { left?.merge(right) } else { left = right }
 }

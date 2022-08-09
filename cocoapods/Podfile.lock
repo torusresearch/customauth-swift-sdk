@@ -6,8 +6,8 @@ PODS:
     - Torus-utils (~> 3.0.0)
   - GenericJSON (2.0.1)
   - JWTDecode (2.6.3)
-  - PromiseKit/CorePromise (6.17.1)
-  - PromiseKit/Foundation (6.17.1):
+  - PromiseKit/CorePromise (6.18.0)
+  - PromiseKit/Foundation (6.18.0):
     - PromiseKit/CorePromise
   - secp256k1.swift (0.1.4)
   - Torus-fetchNodeDetails (3.0.0):
@@ -51,7 +51,7 @@ SPEC CHECKSUMS:
   CustomAuth: e19644bfde4d5f6e642bf4734bf631caf8b4f2c9
   GenericJSON: a6e74e2c457f8693caab08e0eafde7d97e6666de
   JWTDecode: 33e5e26e5ddbd21b2065820894c08fef0cad9509
-  PromiseKit: ee485df3d4dc570594d7e7aecae6352697dc6a4c
+  PromiseKit: 879fa89b55fcb8f11ade9aad0c9721850bb71b9f
   secp256k1.swift: a7e7a214f6db6ce5db32cc6b2b45e5c4dd633634
   Torus-fetchNodeDetails: 186d6bc852bfd943f8d25154f25b5cc5fd6a03b1
   Torus-utils: e3bbb4f884fce6290b43a86ee88544fbd5addb91
