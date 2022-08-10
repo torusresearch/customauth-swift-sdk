@@ -6,7 +6,6 @@
 //
 import Foundation
 import PromiseKit
-import UIKit
 
 // Type of OAuth application created. ex. google web app/google iOS app
 public enum SubVerifierType: String {

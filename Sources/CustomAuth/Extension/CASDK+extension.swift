@@ -10,7 +10,6 @@ import OSLog
 import PromiseKit
 import SafariServices
 import TorusUtils
-import UIKit
 
 @available(iOS 11.0, *)
 typealias torus = CustomAuth
@@ -24,8 +23,7 @@ public enum verifierTypes: String {
     case orAggregateVerifier = "or_aggregate_verifier"
 }
 
-// MARK: - torus extension
-
+// MARK: - CustomAuth extension
 @available(iOS 11.0, *)
 extension CustomAuth {
     open class var notificationCenter: NotificationCenter {
@@ -45,7 +43,7 @@ extension CustomAuth {
     }
 
     public func observeCallback(_ block: @escaping (_ url: URL) -> Void) {
-        observer = CustomAuth.notificationCenter.addObserver(
+        self.observer = CustomAuth.notificationCenter.addObserver(
             forName: CustomAuth.didHandleCallbackURL,
             object: nil,
             queue: OperationQueue.main) { [weak self] notification in

@@ -1,6 +1,5 @@
 import Foundation
 import PromiseKit
-import UIKit
 
 // MARK: - login providers
 
