@@ -10,7 +10,6 @@ import OSLog
 import PromiseKit
 import SafariServices
 import TorusUtils
-import UIKit
 
 @available(iOS 11.0, *)
 typealias torus = CustomAuth

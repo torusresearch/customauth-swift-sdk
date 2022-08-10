@@ -1,6 +1,6 @@
 // MARK: Open SFSafariViewController
 
-import Foundation
+
 import SafariServices
 
 import UIKit

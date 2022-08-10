@@ -4,7 +4,6 @@
 //  Created by Shubham on 18/6/20.
 //
 
-import Foundation
 import UIKit
 
 public protocol TorusURLHandlerTypes {
