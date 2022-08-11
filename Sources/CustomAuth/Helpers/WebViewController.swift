@@ -4,7 +4,7 @@
 //
 //  Created by Dhruv Jaiswal on 08/07/22.
 //
-
+#if os(OSX)
 import AppKit
 import Foundation
 import Foundation
@@ -40,7 +40,7 @@ open class WebViewController:WKNavigation, TorusURLHandlerTypes, WKNavigationDel
 
     public func handle(_ url: URL, modalPresentationStyle: modalPresentationStyle) {
    
-#if os(OSX)
+
     // default behaviour if this controller affected as child controller
                 let key = UUID().uuidString
         let controller = WKWebView(frame: .init(x: 100, y: 100, width: 500, height: 500), configuration: WKWebViewConfiguration())
@@ -62,7 +62,7 @@ open class WebViewController:WKNavigation, TorusURLHandlerTypes, WKNavigationDel
                     }
                 )
         
-        #endif
+
     }
 
 
@@ -80,3 +80,4 @@ public enum Present {
     case animator(animator: NSViewControllerPresentationAnimator)
     case segue(segueIdentifier: String)
 }
+#endif
