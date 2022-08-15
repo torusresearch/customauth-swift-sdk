@@ -9,17 +9,20 @@ import AuthenticationServices
 import Foundation
 
 open class ASWebAuthSession: NSObject, TorusURLHandlerTypes {
-    override public init() {
+    var redirectURL: URL?
+    public init(redirectURL: String) {
+        self.redirectURL = URL(string: redirectURL)
     }
 
     public func handle(_ url: URL, modalPresentationStyle: UIModalPresentationStyle) {
+        let redirectURLScheme = redirectURL?.scheme ?? CustomAuth.didHandleCallbackURL.rawValue
         let authSession = ASWebAuthenticationSession(
-            url: url, callbackURLScheme: CustomAuth.didHandleCallbackURL.rawValue) { callbackURL, authError in
+            url: url, callbackURLScheme: redirectURLScheme) { callbackURL, authError in
                 guard
                     authError == nil,
                     let callbackURL = callbackURL
                 else {
-                    print(authError?.localizedDescription)
+                    print(authError?.localizedDescription as? String ?? "")
                     return
                 }
                 CustomAuth.handle(url: callbackURL)
