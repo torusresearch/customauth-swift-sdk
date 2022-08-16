@@ -13,7 +13,7 @@ import SafariServices
 import OSLog
 
 
-@available(iOS 11.0, *)
+@available(iOS 13.0, *)
 typealias torus = CustomAuth
 
 // MARK: - verifier types
@@ -25,7 +25,7 @@ public enum verifierTypes : String{
 }
 
 // MARK:- torus extension
-@available(iOS 11.0, *)
+@available(iOS 13.0, *)
 extension CustomAuth{
     
     open class var notificationCenter: NotificationCenter {

@@ -4,7 +4,7 @@ import UIKit
 import XCTest
 import JWTDecode
 
-@available(iOS 11.0, *)
+@available(iOS 13.0, *)
 final class MockSDKTest: XCTestCase {
     
     func test_jwtDecodeTest(){
