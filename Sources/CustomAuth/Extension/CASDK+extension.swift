@@ -11,7 +11,7 @@ import PromiseKit
 import SafariServices
 import TorusUtils
 
-@available(iOS 11.0, *)
+@available(iOS 13.0, *)
 typealias torus = CustomAuth
 
 // MARK: - verifier types
@@ -23,9 +23,10 @@ public enum verifierTypes: String {
     case orAggregateVerifier = "or_aggregate_verifier"
 }
 
-// MARK: - CustomAuth extension
-@available(iOS 11.0, *)
-extension CustomAuth {
+// MARK:- torus extension
+@available(iOS 13.0, *)
+extension CustomAuth{
+    
     open class var notificationCenter: NotificationCenter {
         return NotificationCenter.default
     }
