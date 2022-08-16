@@ -1,58 +1,57 @@
 import Foundation
 
 extension String {
-    
     var parametersFromQueryString: [String: String] {
         return dictionaryBySplitting("&", keyValueSeparator: "=")
     }
-    
+
     /// Encodes url string making it ready to be passed as a query parameter. This encodes pretty much everything apart from
     /// alphanumerics and a few other characters compared to standard query encoding.
     var urlEncoded: String {
         let customAllowedSet = CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._~")
-        return self.addingPercentEncoding(withAllowedCharacters: customAllowedSet)!
+        return addingPercentEncoding(withAllowedCharacters: customAllowedSet)!
     }
-    
+
     var urlQueryEncoded: String? {
-        return self.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)
+        return addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)
     }
-    
+
     /// Returns new url query string by appending query parameter encoding it first, if specified.
     func urlQueryByAppending(parameter name: String, value: String, encode: Bool = true, _ encodeError: ((String, String) -> Void)? = nil) -> String? {
         if value.isEmpty {
             return self
         } else if let value = encode ? value.urlQueryEncoded : value {
-            return "\(self)\(self.isEmpty ? "" : "&")\(name)=\(value)"
+            return "\(self)\(isEmpty ? "" : "&")\(name)=\(value)"
         } else {
             encodeError?(name, value)
             return nil
         }
     }
-    
+
     /// Returns new url string by appending query string at the end.
     func urlByAppending(query: String) -> String {
-        return "\(self)\(self.contains("?") ? "&" : "?")\(query)"
+        return "\(self)\(contains("?") ? "&" : "?")\(query)"
     }
-    
+
     fileprivate func dictionaryBySplitting(_ elementSeparator: String, keyValueSeparator: String) -> [String: String] {
         var string = self
-        
+
         if hasPrefix(elementSeparator) {
             string = String(dropFirst(1))
         }
-        
+
         var parameters = [String: String]()
-        
+
         let scanner = Scanner(string: string)
-        
+
         while !scanner.isAtEnd {
             if #available(iOS 13.0, tvOS 13.0, OSX 10.15, watchOS 6.0, *) {
                 let key = scanner.scanUpToString(keyValueSeparator)
                 _ = scanner.scanString(keyValueSeparator)
-                
+
                 let value = scanner.scanUpToString(elementSeparator)
                 _ = scanner.scanString(elementSeparator)
-                
+
                 if let key = key {
                     if let value = value {
                         if key.contains(elementSeparator) {
@@ -74,7 +73,7 @@ extension String {
                 var key: NSString?
                 scanner.scanUpTo(keyValueSeparator, into: &key)
                 scanner.scanString(keyValueSeparator, into: nil)
-                
+
                 var value: NSString?
                 scanner.scanUpTo(elementSeparator, into: &value)
                 scanner.scanString(elementSeparator, into: nil)
@@ -97,15 +96,15 @@ extension String {
                 }
             }
         }
-        
+
         return parameters
     }
-    
+
     static func randomString(length: Int) -> String {
         let letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-        return String((0..<length).map{ _ in letters.randomElement()! })
+        return String((0 ..< length).map { _ in letters.randomElement()! })
     }
-    
+
     func fromBase64URL() -> String? {
         var base64 = self
         base64 = base64.replacingOccurrences(of: "-", with: "+")
@@ -118,42 +117,40 @@ extension String {
         }
         return String(data: data, encoding: .utf8)
     }
-    
+
     func toBase64URL() -> String {
-        var result = Data(self.utf8).base64EncodedString()
+        var result = Data(utf8).base64EncodedString()
         result = result.replacingOccurrences(of: "+", with: "-")
         result = result.replacingOccurrences(of: "/", with: "_")
         result = result.replacingOccurrences(of: "=", with: "")
         return result
     }
-    
+
     var safeStringByRemovingPercentEncoding: String {
         return self.removingPercentEncoding ?? self
     }
-    
+
     mutating func dropLast() {
-        self.remove(at: self.index(before: self.endIndex))
+        remove(at: index(before: endIndex))
     }
-    
-    subscript (bounds: CountableClosedRange<Int>) -> String {
+
+    subscript(bounds: CountableClosedRange<Int>) -> String {
         let start = index(startIndex, offsetBy: bounds.lowerBound)
         let end = index(startIndex, offsetBy: bounds.upperBound)
-        return String(self[start...end])
+        return String(self[start ... end])
     }
-    
-    subscript (bounds: CountableRange<Int>) -> String {
+
+    subscript(bounds: CountableRange<Int>) -> String {
         let start = index(startIndex, offsetBy: bounds.lowerBound)
         let end = index(startIndex, offsetBy: bounds.upperBound)
-        return String(self[start..<end])
+        return String(self[start ..< end])
     }
 }
 
 extension String.Encoding {
-    
     var charset: String {
-        let charset = CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(self.rawValue))
+        let charset = CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(rawValue))
         // swiftlint:disable:next force_cast superfluous_disable_command
         return charset! as String
     }
-    
 }
