@@ -28,10 +28,11 @@ struct ContentView: View {
                                                          verifierName: "polygon-ios-test",
                                                          redirectURL: "torus://org.torusresearch.sample/redirect",
                                                          browserRedirectURL: "https://scripts.toruswallet.io/redirect.html",
+                                                         jwtParams: ["prompt": "login"],
                                                          urlSession: URLSession.shared)
                             let tdsdk = CustomAuth(aggregateVerifierType: .singleLogin, aggregateVerifierName: "polygon-ios-test", subVerifierDetails: [sub], factory: CASDKFactory(), network: .POLYGON, urlSession: URLSession.shared)
                             let vc = UIApplication.shared.keyWindow?.rootViewController
-                            tdsdk.triggerLogin(controller: vc, browserType: .sfsafari).done { data in
+                            tdsdk.triggerLogin(controller: vc).done { data in
                                 print("private key rebuild", data)
                             }.catch { err in
                                 print(err)
@@ -135,7 +136,7 @@ struct ContentView: View {
                                                          clientId: "A7H8kkcmyFRlusJQ9dZiqBLraG2yWIsO",
                                                          verifierName: "torus-auth0-twitter-lrc",
                                                          redirectURL: "tdsdk://tdsdk/oauthCallback",
-                                                         jwtParams: ["domain": "torus-test.auth0.com"],
+                                                         jwtParams: ["domain": "torus-test.auth0.com", "connection": "twitter"],
                                                          urlSession: URLSession.shared)
 
                             let tdsdk = CustomAuth(aggregateVerifierType: .singleLogin, aggregateVerifierName: "torus-auth0-twitter-lrc", subVerifierDetails: [sub], factory: CASDKFactory(), network: .ROPSTEN, urlSession: URLSession.shared)
@@ -154,7 +155,7 @@ struct ContentView: View {
                                                          clientId: "PC2a4tfNRvXbT48t89J5am0oFM21Nxff",
                                                          verifierName: "torus-auth0-github-lrc",
                                                          redirectURL: "tdsdk://tdsdk/oauthCallback",
-                                                         jwtParams: ["domain": "torus-test.auth0.com"],
+                                                         jwtParams: ["domain": "torus-test.auth0.com", "connection": "github"],
                                                          urlSession: URLSession.shared)
 
                             let tdsdk = CustomAuth(aggregateVerifierType: .singleLogin, aggregateVerifierName: "torus-auth0-github-lrc", subVerifierDetails: [sub], factory: CASDKFactory(), network: .ROPSTEN, urlSession: URLSession.shared)
@@ -173,7 +174,7 @@ struct ContentView: View {
                                                          clientId: "59YxSgx79Vl3Wi7tQUBqQTRTxWroTuoc",
                                                          verifierName: "torus-auth0-linkedin-lrc",
                                                          redirectURL: "tdsdk://tdsdk/oauthCallback",
-                                                         jwtParams: ["domain": "torus-test.auth0.com"],
+                                                         jwtParams: ["domain": "torus-test.auth0.com", "connection": "linkedin"],
                                                          urlSession: URLSession.shared)
 
                             let tdsdk = CustomAuth(aggregateVerifierType: .singleLogin, aggregateVerifierName: "torus-auth0-linkedin-lrc", subVerifierDetails: [sub], factory: CASDKFactory(), network: .ROPSTEN, urlSession: URLSession.shared)
@@ -192,7 +193,7 @@ struct ContentView: View {
                                                          clientId: "m1Q0gvDfOyZsJCZ3cucSQEe9XMvl9d9L",
                                                          verifierName: "torus-auth0-apple-lrc",
                                                          redirectURL: "tdsdk://tdsdk/oauthCallback",
-                                                         jwtParams: ["domain": "torus-test.auth0.com"],
+                                                         jwtParams: ["domain": "torus-test.auth0.com", "connection": "apple"],
                                                          urlSession: URLSession.shared)
 
                             let tdsdk = CustomAuth(aggregateVerifierType: .singleLogin, aggregateVerifierName: "torus-auth0-apple-lrc", subVerifierDetails: [sub], factory: CASDKFactory(), network: .ROPSTEN, urlSession: URLSession.shared)
