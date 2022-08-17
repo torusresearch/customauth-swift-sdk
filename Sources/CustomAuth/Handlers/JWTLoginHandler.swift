@@ -18,17 +18,15 @@ class JWTLoginHandler: AbstractLoginHandler {
     var userInfo: [String: Any]?
     let nonce = String.randomString(length: 10)
     let state: String
-    let extraQueryParams: [String: String]
     let defaultParams: [String: String]
     let jwtParams: [String: String]
     let connection: LoginProviders
     var urlSession: URLSession
 
-    public init(loginType: SubVerifierType = .web, clientID: String, redirectURL: String, browserRedirectURL: String?, jwtParams: [String: String], extraQueryParams: [String: String] = [:], connection: LoginProviders, urlSession: URLSession = URLSession.shared) {
+    public init(loginType: SubVerifierType = .web, clientID: String, redirectURL: String, browserRedirectURL: String?, jwtParams: [String: String], connection: LoginProviders, urlSession: URLSession = URLSession.shared) {
         self.loginType = loginType
         self.clientID = clientID
         self.redirectURL = redirectURL
-        self.extraQueryParams = extraQueryParams
         self.connection = connection
         self.browserRedirectURL = browserRedirectURL
         self.jwtParams = jwtParams
@@ -50,7 +48,7 @@ class JWTLoginHandler: AbstractLoginHandler {
         var tempParams = defaultParams
         let paramsToJoin: [String: String] = ["redirect_uri": browserRedirectURL ?? redirectURL, "client_id": clientID, "domain": jwtParams["domain"]!, "state": state]
         tempParams.merge(paramsToJoin) { _, new in new }
-        tempParams.merge(extraQueryParams) { _, new in new }
+        tempParams.merge(jwtParams) { _, new in new }
 
         // Reconstruct URL
         var urlComponents = URLComponents()

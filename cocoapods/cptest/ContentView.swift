@@ -46,10 +46,11 @@ struct ContentView: View {
                                                          clientId: "221898609709-obfn3p63741l5333093430j3qeiinaa8.apps.googleusercontent.com",
                                                          verifierName: "google-lrc",
                                                          redirectURL: "tdsdk://tdsdk/oauthCallback",
-                                                         browserRedirectURL: "https://scripts.toruswallet.io/redirect.html")
+                                                         browserRedirectURL: "https://scripts.toruswallet.io/redirect.html",
+                                                         jwtParams: ["prompt": "login"])
 
                             let tdsdk = CustomAuth(aggregateVerifierType: .singleLogin, aggregateVerifierName: "google-lrc", subVerifierDetails: [sub], factory: CASDKFactory(), network: .ROPSTEN, urlSession: URLSession.shared)
-                            tdsdk.triggerLogin(browserType: .external).done { data in
+                            tdsdk.triggerLogin().done { data in
                                 print("private key rebuild", data)
                             }.catch { err in
                                 print(err)
@@ -66,7 +67,7 @@ struct ContentView: View {
                                                          redirectURL: "tdsdk://tdsdk/oauthCallback",
                                                          urlSession: URLSession.shared)
                             let tdsdk = CustomAuth(aggregateVerifierType: .singleLogin, aggregateVerifierName: "reddit-shubs", subVerifierDetails: [sub], factory: CASDKFactory(), network: .ROPSTEN, urlSession: URLSession.shared)
-                            tdsdk.triggerLogin(browserType: .external).done { data in
+                            tdsdk.triggerLogin().done { data in
                                 print("private key rebuild", data)
                             }.catch { err in
                                 print(err)
@@ -83,7 +84,7 @@ struct ContentView: View {
                                                          redirectURL: "tdsdk://tdsdk/oauthCallback",
                                                          urlSession: URLSession.shared)
                             let tdsdk = CustomAuth(aggregateVerifierType: .singleLogin, aggregateVerifierName: "discord-shubs", subVerifierDetails: [sub], factory: CASDKFactory(), network: .ROPSTEN, urlSession: URLSession.shared)
-                            tdsdk.triggerLogin(browserType: .external).done { data in
+                            tdsdk.triggerLogin().done { data in
                                 print("private key rebuild", data)
                             }.catch { err in
                                 print(err)
@@ -102,7 +103,7 @@ struct ContentView: View {
                                                          urlSession: URLSession.shared)
 
                             let tdsdk = CustomAuth(aggregateVerifierType: .singleLogin, aggregateVerifierName: "facebook-shubs", subVerifierDetails: [sub], factory: CASDKFactory(), network: .ROPSTEN, urlSession: URLSession.shared)
-                            tdsdk.triggerLogin(browserType: .external).done { data in
+                            tdsdk.triggerLogin().done { data in
                                 print("private key rebuild", data)
                             }.catch { err in
                                 print(err)
@@ -119,7 +120,7 @@ struct ContentView: View {
                                                          redirectURL: "tdsdk://tdsdk/oauthCallback",
                                                          urlSession: URLSession.shared)
                             let tdsdk = CustomAuth(aggregateVerifierType: .singleLogin, aggregateVerifierName: "twitch-shubs", subVerifierDetails: [sub], factory: CASDKFactory(), network: .ROPSTEN, urlSession: URLSession.shared)
-                            tdsdk.triggerLogin(browserType: .external).done { data in
+                            tdsdk.triggerLogin().done { data in
                                 print("private key rebuild", data)
                             }.catch { err in
                                 print(err)
@@ -138,7 +139,7 @@ struct ContentView: View {
                                                          urlSession: URLSession.shared)
 
                             let tdsdk = CustomAuth(aggregateVerifierType: .singleLogin, aggregateVerifierName: "torus-auth0-twitter-lrc", subVerifierDetails: [sub], factory: CASDKFactory(), network: .ROPSTEN, urlSession: URLSession.shared)
-                            tdsdk.triggerLogin(browserType: .external).done { data in
+                            tdsdk.triggerLogin().done { data in
                                 print("private key rebuild", data)
                             }.catch { err in
                                 print(err)
@@ -157,7 +158,7 @@ struct ContentView: View {
                                                          urlSession: URLSession.shared)
 
                             let tdsdk = CustomAuth(aggregateVerifierType: .singleLogin, aggregateVerifierName: "torus-auth0-github-lrc", subVerifierDetails: [sub], factory: CASDKFactory(), network: .ROPSTEN, urlSession: URLSession.shared)
-                            tdsdk.triggerLogin(browserType: .external).done { data in
+                            tdsdk.triggerLogin().done { data in
                                 print("private key rebuild", data)
                             }.catch { err in
                                 print(err)
@@ -176,7 +177,7 @@ struct ContentView: View {
                                                          urlSession: URLSession.shared)
 
                             let tdsdk = CustomAuth(aggregateVerifierType: .singleLogin, aggregateVerifierName: "torus-auth0-linkedin-lrc", subVerifierDetails: [sub], factory: CASDKFactory(), network: .ROPSTEN, urlSession: URLSession.shared)
-                            tdsdk.triggerLogin(browserType: .external).done { data in
+                            tdsdk.triggerLogin().done { data in
                                 print("private key rebuild", data)
                             }.catch { err in
                                 print(err)
@@ -195,7 +196,7 @@ struct ContentView: View {
                                                          urlSession: URLSession.shared)
 
                             let tdsdk = CustomAuth(aggregateVerifierType: .singleLogin, aggregateVerifierName: "torus-auth0-apple-lrc", subVerifierDetails: [sub], factory: CASDKFactory(), network: .ROPSTEN, urlSession: URLSession.shared)
-                            tdsdk.triggerLogin(browserType: .external).done { data in
+                            tdsdk.triggerLogin().done { data in
                                 print("private key rebuild", data)
                             }.catch { err in
                                 print(err)
@@ -212,12 +213,11 @@ struct ContentView: View {
                                                          clientId: "P7PJuBCXIHP41lcyty0NEb7Lgf7Zme8Q",
                                                          verifierName: "torus-auth0-email-passwordless",
                                                          redirectURL: "tdsdk://tdsdk/oauthCallback",
-                                                         extraQueryParams: ["verifier_id_field": "name"],
-                                                         jwtParams: ["domain": "torus-test.auth0.com"],
+                                                         jwtParams: ["domain": "torus-test.auth0.com", "verifier_id_field": "name"],
                                                          urlSession: URLSession.shared)
 
                             let tdsdk = CustomAuth(aggregateVerifierType: .singleLogin, aggregateVerifierName: "torus-auth0-email-passwordless", subVerifierDetails: [sub], factory: CASDKFactory(), network: .ROPSTEN, urlSession: URLSession.shared)
-                            tdsdk.triggerLogin(browserType: .external).done { data in
+                            tdsdk.triggerLogin().done { data in
                                 print("private key rebuild", data)
                             }.catch { err in
                                 print(err)
@@ -236,7 +236,7 @@ struct ContentView: View {
                                                          urlSession: URLSession.shared)
 
                             let tdsdk = CustomAuth(aggregateVerifierType: .singleLogin, aggregateVerifierName: "torus-auth0-kakao-lrc", subVerifierDetails: [sub], factory: CASDKFactory(), network: .ROPSTEN, urlSession: URLSession.shared)
-                            tdsdk.triggerLogin(browserType: .external).done { data in
+                            tdsdk.triggerLogin().done { data in
                                 print("private key rebuild", data)
                             }.catch { err in
                                 print(err)
@@ -255,7 +255,7 @@ struct ContentView: View {
                                                          urlSession: URLSession.shared)
 
                             let tdsdk = CustomAuth(aggregateVerifierType: .singleLogin, aggregateVerifierName: "torus-auth0-weibo-lrc", subVerifierDetails: [sub], factory: CASDKFactory(), network: .ROPSTEN, urlSession: URLSession.shared)
-                            tdsdk.triggerLogin(browserType: .external).done { data in
+                            tdsdk.triggerLogin().done { data in
                                 print("private key rebuild", data)
                             }.catch { err in
                                 print(err)
@@ -274,7 +274,7 @@ struct ContentView: View {
                                                          urlSession: URLSession.shared)
 
                             let tdsdk = CustomAuth(aggregateVerifierType: .singleLogin, aggregateVerifierName: "torus-auth0-wechat-lrc", subVerifierDetails: [sub], factory: CASDKFactory(), network: .ROPSTEN, urlSession: URLSession.shared)
-                            tdsdk.triggerLogin(browserType: .external).done { data in
+                            tdsdk.triggerLogin().done { data in
                                 print("private key rebuild", data)
                             }.catch { err in
                                 print(err)
@@ -294,7 +294,7 @@ struct ContentView: View {
                                                      redirectURL: "com.googleusercontent.apps.238941746713-vfap8uumijal4ump28p9jd3lbe6onqt4:/oauthredirect",
                                                      urlSession: URLSession.shared)
                         let tdsdk = CustomAuth(aggregateVerifierType: .singleIdVerifier, aggregateVerifierName: "multigoogle-torus", subVerifierDetails: [sub], factory: CASDKFactory(), network: .ROPSTEN, urlSession: URLSession.shared)
-                        tdsdk.triggerLogin(browserType: .external).done { data in
+                        tdsdk.triggerLogin().done { data in
                             print("private key rebuild", data)
                         }.catch { err in
                             print(err)
@@ -310,7 +310,7 @@ struct ContentView: View {
                     //                                                     verifierName: "google-shubs",
                     //                                                     redirectURL: "https://backend.relayer.dev.tor.us/demoapp/redirect")
                     //                        let tdsdk = CustomAuth(aggregateVerifierType: .singleIdVerifier, aggregateVerifierName: "multigoogle-torus", subVerifierDetails: [sub])
-                    //                        tdsdk.triggerLogin(browserType: .external).done{ data in
+                    //                        tdsdk.triggerLogin().done{ data in
                     //                            print("private key rebuild", data)
                     //                        }.catch{ err in
                     //                            print(err)
