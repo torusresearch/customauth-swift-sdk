@@ -16,15 +16,15 @@ class DiscordLoginHandler: AbstractLoginHandler{
     let state: String
     var userInfo: [String: Any]?
     let nonce = String.randomString(length: 10)
-    let extraQueryParams: [String: String]
+    let jwtParams: [String: String]
     let defaultParams: [String:String]
     var urlSession: URLSession
     
-    public init(loginType: SubVerifierType = .web, clientID: String, redirectURL: String, browserRedirectURL: String?, extraQueryParams: [String: String] = [:], urlSession: URLSession = URLSession.shared){
+    public init(loginType: SubVerifierType = .web, clientID: String, redirectURL: String, browserRedirectURL: String?, jwtParams: [String: String] = [:], urlSession: URLSession = URLSession.shared){
         self.loginType = loginType
         self.clientID = clientID
         self.redirectURL = redirectURL
-        self.extraQueryParams = extraQueryParams
+        self.jwtParams = jwtParams
         self.browserRedirectURL = browserRedirectURL
         self.defaultParams = ["scope": "email identify", "response_type": "token"]
         self.urlSession = urlSession
@@ -42,7 +42,7 @@ class DiscordLoginHandler: AbstractLoginHandler{
         // left join
         var tempParams = self.defaultParams
         tempParams.merge(["redirect_uri": self.browserRedirectURL ?? self.redirectURL, "client_id": self.clientID, "state": self.state]){(_, new ) in new}
-        tempParams.merge(self.extraQueryParams){(_, new ) in new}
+        tempParams.merge(self.jwtParams){(_, new ) in new}
         
         // Reconstruct URL
         var urlComponents = URLComponents()
