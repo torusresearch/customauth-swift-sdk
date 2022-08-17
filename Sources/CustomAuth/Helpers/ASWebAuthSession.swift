@@ -8,6 +8,7 @@
 import AuthenticationServices
 import Foundation
 
+@available(iOS 13.0, *)
 open class ASWebAuthSession: NSObject, TorusURLHandlerTypes {
     var redirectURL: URL?
     public init(redirectURL: String) {
@@ -32,6 +33,7 @@ open class ASWebAuthSession: NSObject, TorusURLHandlerTypes {
     }
 }
 
+@available(iOS 13.0, *)
 extension ASWebAuthSession: ASWebAuthenticationPresentationContextProviding {
     public func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
         let window = UIApplication.shared.windows.first { $0.isKeyWindow }
