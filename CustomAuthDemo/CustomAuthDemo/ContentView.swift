@@ -34,7 +34,7 @@ struct ContentView: View {
                                                          browserRedirectURL: "https://scripts.toruswallet.io/redirect.html")
                             
                             let tdsdk = CustomAuth(aggregateVerifierType: .singleLogin, aggregateVerifierName: "google-lrc", subVerifierDetails: [sub], network: .ROPSTEN)
-                            tdsdk.triggerLogin(browserType: .).done{ data in
+                            tdsdk.triggerLogin().done{ data in
                                 print("private key rebuild", data)
                             }.catch{ err in
                                 print(err)
