@@ -11,15 +11,6 @@
         }
       },
       {
-        "package": "CryptorECC",
-        "repositoryURL": "https://github.com/IBM-Swift/BlueECC.git",
-        "state": {
-          "branch": null,
-          "revision": "baf6ed3fc1a622675f0041b4aff7c02dd1a93818",
-          "version": "1.2.200"
-        }
-      },
-      {
         "package": "CryptoSwift",
         "repositoryURL": "https://github.com/krzyzanowskim/CryptoSwift.git",
         "state": {
@@ -30,11 +21,11 @@
       },
       {
         "package": "FetchNodeDetails",
-        "repositoryURL": "https://github.com/torusresearch/fetch-node-details-swift",
+        "repositoryURL": "https://github.com/torusresearch/fetch-node-details-swift.git",
         "state": {
           "branch": null,
-          "revision": "c9a5eda1965d3d84c2c834bce703386cba2f5d95",
-          "version": "2.7.0"
+          "revision": "981694c72b12c3ab42a885778d5da83a79fa98ea",
+          "version": "3.0.0"
         }
       },
       {
@@ -60,8 +51,8 @@
         "repositoryURL": "https://github.com/vapor/jwt-kit.git",
         "state": {
           "branch": null,
-          "revision": "3537dd319dfbcc403a5165d8c19c4834e8e64730",
-          "version": "4.5.0"
+          "revision": "87ce13a1df913ba4d51cf00606df7ef24d455571",
+          "version": "4.7.0"
         }
       },
       {
@@ -78,8 +69,8 @@
         "repositoryURL": "https://github.com/mxcl/PromiseKit.git",
         "state": {
           "branch": null,
-          "revision": "c946b7561fbe11379a874e59faa2c5f8077ae0e1",
-          "version": "6.17.1"
+          "revision": "ed3192004c0b00b4b3d7baa9578ee655c66faae3",
+          "version": "6.18.0"
         }
       },
       {
@@ -102,11 +93,11 @@
       },
       {
         "package": "TorusUtils",
-        "repositoryURL": "https://github.com/torusresearch/torus-utils-swift",
+        "repositoryURL": "https://github.com/torusresearch/torus-utils-swift.git",
         "state": {
           "branch": null,
-          "revision": "c2bd7cac036ea8d145bed62ec96c98203fe57653",
-          "version": "2.1.8"
+          "revision": "4ee80a55cc6a43c2ff3182d97b7b9be69d4fb7c9",
+          "version": "3.0.0"
         }
       },
       {
