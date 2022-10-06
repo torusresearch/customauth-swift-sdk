@@ -14,11 +14,11 @@ import TorusUtils
 /// to stub or mock the CustomAuth for testing.
 public protocol CASDKFactoryProtocol {
     func createTorusUtils(loglevel: OSLogType, urlSession: URLSession, enableOneKey: Bool, network: EthereumNetworkFND) -> AbstractTorusUtils
-    func createFetchNodeDetails(network: EthereumNetworkFND, urlSession: URLSession) -> FetchNodeDetails
+    func createFetchNodeDetails(network: EthereumNetworkFND, urlSession: URLSession, networkUrl: String?) -> FetchNodeDetails
 }
 
 public class CASDKFactory: CASDKFactoryProtocol {
-    public func createFetchNodeDetails(network: EthereumNetworkFND, urlSession: URLSession = URLSession.shared) -> FetchNodeDetails {
+    public func createFetchNodeDetails(network: EthereumNetworkFND, urlSession: URLSession = URLSession.shared, networkUrl: String? = nil) -> FetchNodeDetails {
         var proxyAddress: String = ""
         switch network {
         case .MAINNET:
@@ -27,11 +27,11 @@ public class CASDKFactory: CASDKFactoryProtocol {
             proxyAddress = FetchNodeDetails.proxyAddressRopsten
         case .POLYGON:
             proxyAddress = FetchNodeDetails.proxyAddressPolygon
-        case let .CUSTOM(path):
-            return FetchNodeDetails(network: .CUSTOM(path: path))
+        default:
+            proxyAddress = FetchNodeDetails.proxyAddressMainnet
         }
-
-        return FetchNodeDetails(proxyAddress: proxyAddress, network: network, urlSession: urlSession)
+        guard let networkUrl = networkUrl else { return FetchNodeDetails(proxyAddress: proxyAddress, network: network, urlSession: urlSession) }
+        return FetchNodeDetails(proxyAddress: proxyAddress, network: .CUSTOM(path: networkUrl),urlSession: urlSession)
     }
 
     public func createTorusUtils(loglevel: OSLogType, urlSession: URLSession = URLSession.shared, enableOneKey: Bool, network: EthereumNetworkFND) -> AbstractTorusUtils {

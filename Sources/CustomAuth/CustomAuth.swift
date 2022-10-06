@@ -23,6 +23,9 @@ open class CustomAuth {
     let fetchNodeDetails: FetchNodeDetails
     var urlSession: URLSession
     var enableOneKey: Bool
+    ///  You can pass your own custom url  rather than using our default infura url,
+    ///  can be used to get around the Ropsten depreciation from Infura API.
+    var networkUrl: String?
     public let aggregateVerifierType: verifierTypes?
     public let aggregateVerifierName: String
     public let subVerifierDetails: [SubVerifierDetails]
@@ -37,15 +40,15 @@ open class CustomAuth {
     ///   - factory: Providng mocking by implementing TDSDKFactoryProtocol.
     ///   - network: Etherum network to be used.
     ///   - loglevel: Indicates the log level of this instance. All logs lower than this level will be ignored.
-    public init(aggregateVerifierType: verifierTypes, aggregateVerifierName: String, subVerifierDetails: [SubVerifierDetails], factory: CASDKFactoryProtocol = CASDKFactory(), network: EthereumNetworkFND = .MAINNET, loglevel: OSLogType = .debug, urlSession: URLSession = URLSession.shared, enableOneKey: Bool = false) {
+    public init(aggregateVerifierType: verifierTypes, aggregateVerifierName: String, subVerifierDetails: [SubVerifierDetails], factory: CASDKFactoryProtocol = CASDKFactory(), network: EthereumNetworkFND = .MAINNET, loglevel: OSLogType = .debug, urlSession: URLSession = URLSession.shared, enableOneKey: Bool = false, networkUrl: String? = nil) {
         tsSdkLogType = loglevel
+        self.networkUrl = networkUrl
         self.enableOneKey = enableOneKey
-
         // factory method
         self.factory = factory
         self.urlSession = urlSession
         torusUtils = factory.createTorusUtils(loglevel: loglevel, urlSession: urlSession, enableOneKey: enableOneKey, network: network)
-        fetchNodeDetails = factory.createFetchNodeDetails(network: network, urlSession: urlSession)
+        fetchNodeDetails = factory.createFetchNodeDetails(network: network, urlSession: urlSession, networkUrl: networkUrl)
 
         // verifier details
         self.aggregateVerifierName = aggregateVerifierName
@@ -58,14 +61,14 @@ open class CustomAuth {
     ///   - aggregateVerifierType: Type of the verifier. Use `singleLogin` for single providers. Only `singleLogin` and `singleIdVerifier` is supported currently.
     ///   - aggregateVerifierName: Name of the verifier to be used..
     ///   - subVerifierDetails: Details of each subverifiers to be used.
-    public convenience init(aggregateVerifierType: verifierTypes, aggregateVerifierName: String, subVerifierDetails: [SubVerifierDetails], enableOneKey: Bool = false) {
+    public convenience init(aggregateVerifierType: verifierTypes, aggregateVerifierName: String, subVerifierDetails: [SubVerifierDetails], enableOneKey: Bool = false, networkUrl: String? = nil) {
         let factory = CASDKFactory()
-        self.init(aggregateVerifierType: aggregateVerifierType, aggregateVerifierName: aggregateVerifierName, subVerifierDetails: subVerifierDetails, factory: factory, network: .MAINNET, loglevel: .debug, enableOneKey: enableOneKey)
+        self.init(aggregateVerifierType: aggregateVerifierType, aggregateVerifierName: aggregateVerifierName, subVerifierDetails: subVerifierDetails, factory: factory, network: .MAINNET, loglevel: .debug, enableOneKey: enableOneKey, networkUrl: networkUrl)
     }
 
-    public convenience init(aggregateVerifierType: verifierTypes, aggregateVerifierName: String, subVerifierDetails: [SubVerifierDetails], loglevel: OSLogType = .debug, enableOneKey: Bool = false) {
+    public convenience init(aggregateVerifierType: verifierTypes, aggregateVerifierName: String, subVerifierDetails: [SubVerifierDetails], loglevel: OSLogType = .debug, enableOneKey: Bool = false, networkUrl: String? = nil) {
         let factory = CASDKFactory()
-        self.init(aggregateVerifierType: aggregateVerifierType, aggregateVerifierName: aggregateVerifierName, subVerifierDetails: subVerifierDetails, factory: factory, network: .MAINNET, loglevel: loglevel, enableOneKey: enableOneKey)
+        self.init(aggregateVerifierType: aggregateVerifierType, aggregateVerifierName: aggregateVerifierName, subVerifierDetails: subVerifierDetails, factory: factory, network: .MAINNET, loglevel: loglevel, enableOneKey: enableOneKey, networkUrl: networkUrl)
     }
 
     /// Retrieve information of Torus nodes from a predefined Etherum contract.
