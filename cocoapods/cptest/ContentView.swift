@@ -15,6 +15,8 @@ import SwiftUI
 
 struct ContentView: View {
     @State var showSafari = false
+    @State var privKey = ""
+    @State var showingAlert = false
 
     var body: some View {
         NavigationView {
@@ -50,15 +52,20 @@ struct ContentView: View {
                                                          browserRedirectURL: "https://scripts.toruswallet.io/redirect.html",
                                                          jwtParams: ["prompt": "login"])
 
-                            let tdsdk = CustomAuth(aggregateVerifierType: .singleLogin, aggregateVerifierName: "google-lrc", subVerifierDetails: [sub], factory: CASDKFactory(), network: .ROPSTEN, urlSession: URLSession.shared)
+                            let tdsdk = CustomAuth(aggregateVerifierType: .singleLogin, aggregateVerifierName: "google-lrc", subVerifierDetails: [sub], factory: CASDKFactory(), network: .ROPSTEN, urlSession: URLSession.shared, networkUrl: "https://rpc.ankr.com/eth_ropsten")
                             tdsdk.triggerLogin().done { data in
                                 print("private key rebuild", data)
+                                privKey = data["privateKey"] as? String ?? ""
+                                self.showingAlert = true
                             }.catch { err in
                                 print(err)
                             }
                         }, label: {
                             Text("Google Login")
                         })
+                        .alert(isPresented: $showingAlert) {
+                            Alert(title: Text("Success"), message: Text("Private key \(privKey)"))
+                        }
 
                         Button(action: {
                             let sub = SubVerifierDetails(loginType: .web,
