@@ -23,6 +23,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
+				<string>tdsdk</string>
 				<string>tdsdk-swift</string>
 				<string>tdsdk</string>
 				<string>com.torus.CustomAuthDemo</string>
