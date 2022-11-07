@@ -13,7 +13,6 @@ import PromiseKit
 import TorusUtils
 import XCTest
 
-@available(iOS 13.0, *)
 final class StubURLProtocolTests: XCTestCase {
 //    func testStubURLProtocol() {
 //        let expectation = XCTestExpectation(description: "getTorusKey using stubbed URLSession should work")
