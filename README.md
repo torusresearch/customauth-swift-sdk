@@ -40,7 +40,7 @@ let package = Package(
 #### Cocoapods
 
 ```ruby
-pod 'CustomAuth', '~> 2.4.0'
+pod 'CustomAuth', '~> 4.1.1'
 ```
 
 #### Manual import or other packages
