@@ -55,9 +55,8 @@ class TwitchLoginHandler: AbstractLoginHandler{
     }
     
     func getVerifierFromUserInfo() -> String {
-        let newData = self.userInfo!["data"] as! [[String:Any]]
-        if let temp = newData.first{
-            return temp["id"] as! String
+        if let newData = self.userInfo?["data"] as? [[String:Any]],let temp = newData.first,let id = temp["id"] as? String{
+            return id
         }
         else{
             return "nil"
