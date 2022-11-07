@@ -56,7 +56,7 @@ class FacebookLoginHandler: AbstractLoginHandler{
     }
     
     func getVerifierFromUserInfo() -> String {
-        return self.userInfo!["id"] as! String
+        return self.userInfo?["id"] as? String ?? ""
     }
     
     func handleLogin(responseParameters: [String : String]) -> Promise<[String : Any]> {

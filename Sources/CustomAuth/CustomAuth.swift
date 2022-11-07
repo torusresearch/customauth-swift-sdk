@@ -15,7 +15,6 @@ import UIKit
 // Global variable
 var tsSdkLogType = OSLogType.default
 
-@available(iOS 13.0, *)
 /// Provides integration of an iOS app with Torus CustomAuth.
 open class CustomAuth {
     let factory: CASDKFactoryProtocol

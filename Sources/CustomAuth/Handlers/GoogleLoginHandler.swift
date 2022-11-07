@@ -62,7 +62,7 @@ class GoogleloginHandler: AbstractLoginHandler{
     }
         
     func getVerifierFromUserInfo() -> String {
-        return self.userInfo!["email"] as! String
+        return self.userInfo?["email"] as? String ?? ""
     }
     
     func handleLogin(responseParameters: [String : String]) -> Promise<[String : Any]> {

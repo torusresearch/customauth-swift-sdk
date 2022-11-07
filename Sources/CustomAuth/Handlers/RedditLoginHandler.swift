@@ -56,7 +56,7 @@ class RedditLoginHandler: AbstractLoginHandler{
     }
     
     func getVerifierFromUserInfo() -> String {
-        return self.userInfo!["name"] as! String
+        return self.userInfo?["name"] as? String ?? ""
     }
     
     func handleLogin(responseParameters: [String : String]) -> Promise<[String : Any]> {

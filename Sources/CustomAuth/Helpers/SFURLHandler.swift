@@ -5,7 +5,6 @@ import SafariServices
 
 import UIKit
 
-@available(iOS 13.0, *)
 open class SFURLHandler: NSObject, SFSafariViewControllerDelegate, TorusURLHandlerTypes {
     public typealias Transition = (_ controller: SFSafariViewController, _ handler: SFURLHandler) -> Void
     open var present: Transition
