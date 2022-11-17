@@ -104,11 +104,13 @@ open class CustomAuth {
     open func handleSingleLogins(controller: UIViewController?, modalPresentationStyle: UIModalPresentationStyle = .fullScreen) async throws -> [String: Any] {
         if let subVerifier = subVerifierDetails.first {
             let loginURL = subVerifier.getLoginURL()
+            openURL(url: loginURL, view: controller, modalPresentationStyle: modalPresentationStyle)
             let url = try await withUnsafeContinuation({ continuation in
                 observeCallback { url in
                     continuation.resume(returning: url)
                 }
             })
+         
             let responseParameters = self.parseURL(url: url)
             os_log("ResponseParams after redirect: %@", log: getTorusLogger(log: CASDKLogger.core, type: .info), type: .info, responseParameters)
                     do{
@@ -125,7 +127,7 @@ open class CustomAuth {
                         os_log("handleSingleLogin: err: %s", log: getTorusLogger(log: CASDKLogger.core, type: .error), type: .error, error.localizedDescription)
                         throw error
                     }
-            openURL(url: loginURL, view: controller, modalPresentationStyle: modalPresentationStyle)
+           
             // Open in external safari
                 }
         throw CASDKError.unknownError
@@ -134,6 +136,7 @@ open class CustomAuth {
     open func handleSingleIdVerifier(controller: UIViewController?, modalPresentationStyle: UIModalPresentationStyle = .fullScreen) async throws -> [String: Any] {
         if let subVerifier = subVerifierDetails.first {
             let loginURL = subVerifier.getLoginURL()
+            openURL(url: loginURL, view: controller, modalPresentationStyle: modalPresentationStyle)
             let url = try await withUnsafeContinuation({ continuation in
                 observeCallback { url in
                     continuation.resume(returning: url)
@@ -154,7 +157,7 @@ open class CustomAuth {
                     os_log("handleSingleIdVerifier err: %s", log: getTorusLogger(log: CASDKLogger.core, type: .error), type: .error, error.localizedDescription)
                     throw error
                 }
-            openURL(url: loginURL, view: controller, modalPresentationStyle: modalPresentationStyle)
+          
             }
         throw CASDKError.unknownError
           
