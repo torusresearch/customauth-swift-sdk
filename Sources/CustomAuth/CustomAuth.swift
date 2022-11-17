@@ -104,7 +104,7 @@ open class CustomAuth {
     open func handleSingleLogins(controller: UIViewController?, modalPresentationStyle: UIModalPresentationStyle = .fullScreen) async throws -> [String: Any] {
         if let subVerifier = subVerifierDetails.first {
             let loginURL = subVerifier.getLoginURL()
-            openURL(url: loginURL, view: controller, modalPresentationStyle: modalPresentationStyle)
+            await openURL(url: loginURL, view: controller, modalPresentationStyle: modalPresentationStyle)
             let url = try await withUnsafeContinuation({ continuation in
                 observeCallback { url in
                     continuation.resume(returning: url)
@@ -136,7 +136,8 @@ open class CustomAuth {
     open func handleSingleIdVerifier(controller: UIViewController?, modalPresentationStyle: UIModalPresentationStyle = .fullScreen) async throws -> [String: Any] {
         if let subVerifier = subVerifierDetails.first {
             let loginURL = subVerifier.getLoginURL()
-            openURL(url: loginURL, view: controller, modalPresentationStyle: modalPresentationStyle)
+            
+            await openURL(url: loginURL, view: controller, modalPresentationStyle: modalPresentationStyle)
             let url = try await withUnsafeContinuation({ continuation in
                 observeCallback { url in
                     continuation.resume(returning: url)
