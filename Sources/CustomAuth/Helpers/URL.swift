@@ -40,7 +40,6 @@ extension URL {
     }
 }
 
-import Foundation
 /*
 Fix for the issue
  https://www.swiftbysundell.com/articles/making-async-system-apis-backward-compatible/
