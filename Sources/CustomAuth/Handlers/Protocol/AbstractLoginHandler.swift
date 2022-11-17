@@ -6,11 +6,10 @@
 //
 
 import Foundation
-import PromiseKit
 
 public protocol AbstractLoginHandler {
     func getLoginURL() -> String;
-    func getUserInfo(responseParameters: [String : String]) ->Promise<[String : Any]>;
+    func getUserInfo(responseParameters: [String : String]) async throws -> [String : Any]
     func getVerifierFromUserInfo() -> String;
-    func handleLogin(responseParameters: [String:String]) -> Promise<[String:Any]>
+    func handleLogin(responseParameters: [String:String]) async throws -> [String:Any]
 }

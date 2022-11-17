@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import PromiseKit
 
 class GoogleloginHandler: AbstractLoginHandler{
     let loginType: SubVerifierType
@@ -34,8 +33,8 @@ class GoogleloginHandler: AbstractLoginHandler{
         self.state =  String(data: jsonData, encoding: .utf8)!.toBase64URL()
     }
     
-    func getUserInfo(responseParameters: [String : String]) -> Promise<[String : Any]> {
-        return self.handleLogin(responseParameters: responseParameters)
+    func getUserInfo(responseParameters: [String : String]) async throws -> [String : Any] {
+        return try await self.handleLogin(responseParameters: responseParameters)
     }
     
     func getLoginURL() -> String {
@@ -65,8 +64,7 @@ class GoogleloginHandler: AbstractLoginHandler{
         return self.userInfo?["email"] as? String ?? ""
     }
     
-    func handleLogin(responseParameters: [String : String]) -> Promise<[String : Any]> {
-        let (tempPromise, seal) = Promise<[String:Any]>.pending()
+    func handleLogin(responseParameters: [String : String]) async throws -> [String : Any] {
         
         switch self.loginType {
         case .installed:
@@ -78,52 +76,49 @@ class GoogleloginHandler: AbstractLoginHandler{
                 
                 request.httpBody = data
                 // Send request to retreive access token and id_token
-                self.urlSession.dataTask(.promise, with: request).compactMap{
-                    try JSONSerialization.jsonObject(with: $0.data) as? [String:Any]
-                }.then{ data -> Promise<(Data, Any)> in
-                    
+                do{
+               let val = try await self.urlSession.data(for: request)
+                    let valData = try JSONSerialization.jsonObject(with: val.0) as? [String:Any] ?? [:]
                     // Retreive user info
-                    if let accessToken = data["access_token"], let idToken = data["id_token"]{
+                    if let accessToken = valData["access_token"], let idToken = valData["id_token"]{
                         var request = makeUrlRequest(url: "https://www.googleapis.com/userinfo/v2/me", method: "GET")
                         request.addValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
-                        return self.urlSession.dataTask(.promise, with: request).map{ ($0.data, "\(idToken)")}
+                        let val2 = try await urlSession.data(for: request)
+                        let data = val2.0
+                        let dictionary = try JSONSerialization.jsonObject(with: data, options: []) as! [String:Any]
+                        self.userInfo = dictionary
+                        var newData:[String:Any] = ["userInfo": self.userInfo as Any]
+                        newData["tokenForKeys"] = idToken
+                        newData["verifierId"] = self.getVerifierFromUserInfo()
+                        return newData
                     }else{
                         throw CASDKError.accessTokenNotProvided
                     }
-                }.done{ data, idToken in
-                    let dictionary = try! JSONSerialization.jsonObject(with: data, options: []) as! [String:Any]
-                    self.userInfo = dictionary
-                    var newData:[String:Any] = ["userInfo": self.userInfo as Any]
-                    newData["tokenForKeys"] = idToken
-                    newData["verifierId"] = self.getVerifierFromUserInfo()
-                    seal.fulfill(newData)
-                }.catch{err in
-                    seal.reject(CASDKError.accessTokenAPIFailed)
+                }
+                catch{
+                    throw CASDKError.accessTokenAPIFailed
                 }
             }else{
-                seal.reject(CASDKError.authGrantNotProvided)
+                throw CASDKError.authGrantNotProvided
             }
         case .web:
             if let accessToken = responseParameters["access_token"], let idToken = responseParameters["id_token"]{
                 var request = makeUrlRequest(url: "https://www.googleapis.com/userinfo/v2/me", method: "GET")
                 request.addValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
-                self.urlSession.dataTask(.promise, with: request).map{
-                    try JSONSerialization.jsonObject(with: $0.data) as? [String:Any]
-                }.done{ data in
+                do{
+               let val = try await self.urlSession.data(for: request)
+                let data = try JSONSerialization.jsonObject(with: val.0) as? [String:Any] ?? [:]
                     self.userInfo =  data
                     var newData:[String:Any] = ["userInfo": self.userInfo as Any]
                     newData["tokenForKeys"] = idToken
                     newData["verifierId"] = self.getVerifierFromUserInfo()
-                    seal.fulfill(newData)
-                }.catch{err in
-                    seal.reject(CASDKError.accessTokenAPIFailed)
+                    return newData
+                }catch{
+                    throw CASDKError.accessTokenAPIFailed
                 }
             }else{
-                seal.reject(CASDKError.getUserInfoFailed)
+                throw CASDKError.getUserInfoFailed
             }
         }
-        return tempPromise
     }
-    
-    
 }

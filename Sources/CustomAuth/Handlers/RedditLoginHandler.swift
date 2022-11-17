@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import PromiseKit
 
 class RedditLoginHandler: AbstractLoginHandler{
     let loginType: SubVerifierType
@@ -34,8 +33,8 @@ class RedditLoginHandler: AbstractLoginHandler{
         self.state =  String(data: jsonData, encoding: .utf8)!.toBase64URL()
     }
     
-    func getUserInfo(responseParameters: [String : String]) -> Promise<[String : Any]> {
-        return self.handleLogin(responseParameters: responseParameters)
+    func getUserInfo(responseParameters: [String : String]) async throws -> [String : Any] {
+        return try await self.handleLogin(responseParameters: responseParameters)
     }
     
     func getLoginURL() -> String{
@@ -59,29 +58,25 @@ class RedditLoginHandler: AbstractLoginHandler{
         return self.userInfo?["name"] as? String ?? ""
     }
     
-    func handleLogin(responseParameters: [String : String]) -> Promise<[String : Any]> {
-        let (tempPromise, seal) = Promise<[String:Any]>.pending()
+    func handleLogin(responseParameters: [String : String]) async throws -> [String : Any] {
         
         if let accessToken = responseParameters["access_token"]{
             var request = makeUrlRequest(url: "https://oauth.reddit.com/api/v1/me", method: "GET")
             request.addValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
-            
-            self.urlSession.dataTask(.promise, with: request).map{
-                try JSONSerialization.jsonObject(with: $0.data) as! [String:Any]
-            }.done{ data in
+            do{
+           let val = try await self.urlSession.data(for: request)
+        let data = try JSONSerialization.jsonObject(with: val.0) as? [String:Any] ?? [:]
                 self.userInfo = data
                 var newData:[String:Any] = ["userInfo": self.userInfo as Any]
                 newData["tokenForKeys"] = accessToken
                 newData["verifierId"] = self.getVerifierFromUserInfo()
-                seal.fulfill(newData)
-            }.catch{err in
-                seal.reject(CASDKError.getUserInfoFailed)
+                return newData
+            }catch{
+                throw CASDKError.getUserInfoFailed
             }
         }else{
-            seal.reject(CASDKError.accessTokenNotProvided)
+            throw CASDKError.accessTokenNotProvided
         }
-        
-        return tempPromise
     }
     
     

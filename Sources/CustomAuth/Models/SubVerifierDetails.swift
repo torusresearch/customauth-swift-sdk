@@ -5,7 +5,6 @@
 //  Created by Shubham on 1/6/20.
 //
 import Foundation
-import PromiseKit
 
 // Type of OAuth application created. ex. google web app/google iOS app
 public enum SubVerifierType: String {
@@ -44,7 +43,7 @@ public struct SubVerifierDetails {
         return handler.getLoginURL()
     }
 
-    public func getUserInfo(responseParameters: [String: String]) -> Promise<[String: Any]> {
-        return handler.getUserInfo(responseParameters: responseParameters)
+    public func getUserInfo(responseParameters: [String: String]) async throws -> [String: Any] {
+        return try await handler.getUserInfo(responseParameters: responseParameters)
     }
 }

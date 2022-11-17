@@ -26,17 +26,18 @@ final class IntegrationTests: XCTestCase {
         IntegrationTests.sdk = CustomAuth(aggregateVerifierType: .singleLogin, aggregateVerifierName: "torus-test-ios-public", subVerifierDetails: [sub], network: .POLYGON)
     }
 
-    func test_getTorusKey() {
+    func test_getTorusKey() async {
         let TORUS_TEST_VERIFIER = "torus-test-health"
         // let TORUS_TEST_VERIFIER =  "torus-google-dhruv-test"
         let exp1 = XCTestExpectation(description: "Should be able to get key")
         let email = "hello@tor.us"
         let jwt = try! generateIdToken(email: email)
-        IntegrationTests.sdk?.getTorusKey(verifier: TORUS_TEST_VERIFIER, verifierId: email, idToken: jwt).done { data in
-            XCTAssertEqual(data["publicAddress"] as! String, "0x8AA6C8ddCD868873120aA265Fc63E3a2180375BA")
+        do{
+        let data = try await IntegrationTests.sdk?.getTorusKey(verifier: TORUS_TEST_VERIFIER, verifierId: email, idToken: jwt)
+            XCTAssertEqual(data?["publicAddress"] as! String, "0x8AA6C8ddCD868873120aA265Fc63E3a2180375BA")
             exp1.fulfill()
-        }.catch { _ in
-            XCTFail()
+        }catch {
+            XCTFail(error.localizedDescription)
         }
         wait(for: [exp1], timeout: 15)
     }

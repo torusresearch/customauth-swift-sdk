@@ -9,7 +9,6 @@ import CustomAuth
 import FetchNodeDetails
 import Foundation
 import OSLog
-import PromiseKit
 import TorusUtils
 import XCTest
 

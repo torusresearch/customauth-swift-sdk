@@ -7,7 +7,6 @@
 
 import Foundation
 import OSLog
-import PromiseKit
 import SafariServices
 import TorusUtils
 

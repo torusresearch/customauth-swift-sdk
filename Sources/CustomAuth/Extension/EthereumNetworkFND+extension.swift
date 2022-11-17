@@ -19,6 +19,8 @@ extension EthereumNetworkFND {
             return "https://signer-polygon.tor.us"
         case let .CUSTOM(path):
             return "https://signer.tor.us"
+        case .AQUA:
+            return "https://signer-polygon.tor.us"
         }
     }
 }

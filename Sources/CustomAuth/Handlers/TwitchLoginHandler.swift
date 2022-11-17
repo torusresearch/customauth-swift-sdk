@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import PromiseKit
 
 class TwitchLoginHandler: AbstractLoginHandler{
     let loginType: SubVerifierType
@@ -33,8 +32,8 @@ class TwitchLoginHandler: AbstractLoginHandler{
         self.state =  String(data: jsonData, encoding: .utf8)!.toBase64URL()
     }
     
-    func getUserInfo(responseParameters: [String : String]) -> Promise<[String : Any]> {
-        return self.handleLogin(responseParameters: responseParameters)
+    func getUserInfo(responseParameters: [String : String]) async throws-> [String : Any] {
+        return try await self.handleLogin(responseParameters: responseParameters)
     }
     
     func getLoginURL() -> String{
@@ -63,31 +62,27 @@ class TwitchLoginHandler: AbstractLoginHandler{
         }
     }
     
-    func handleLogin(responseParameters: [String : String]) -> Promise<[String : Any]> {
-        let (tempPromise, seal) = Promise<[String:Any]>.pending()
+    func handleLogin(responseParameters: [String : String]) async throws -> [String : Any] {
         
         if let accessToken = responseParameters["access_token"]{
             var request = makeUrlRequest(url: "https://api.twitch.tv/helix/users", method: "GET")
             request.addValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
             request.addValue("p560duf74b2bidzqu6uo0b3ot7qaao", forHTTPHeaderField: "Client-ID")
-            
-            self.urlSession.dataTask(.promise, with: request).map{
-                try JSONSerialization.jsonObject(with: $0.data) as! [String:Any]
-            }.done{ data in
+            do{
+            let val = try await self.urlSession.data(for: request)
+            let data = try JSONSerialization.jsonObject(with: val.0) as? [String:Any] ?? [:]
                 self.userInfo = data
                 var newData:[String:Any] = ["userInfo": self.userInfo as Any]
                 newData["tokenForKeys"] = accessToken
                 newData["verifierId"] = self.getVerifierFromUserInfo()
-                seal.fulfill(newData)
+                return newData
                 
-            }.catch{err in
-                seal.reject(CASDKError.getUserInfoFailed)
+            }catch{
+                throw CASDKError.getUserInfoFailed
             }
         }else{
-            seal.reject(CASDKError.accessTokenNotProvided)
+            throw CASDKError.accessTokenNotProvided
         }
-        
-        return tempPromise
     }
     
     

@@ -23,18 +23,9 @@
         "package": "FetchNodeDetails",
         "repositoryURL": "https://github.com/torusresearch/fetch-node-details-swift.git",
         "state": {
-          "branch": null,
-          "revision": "981694c72b12c3ab42a885778d5da83a79fa98ea",
-          "version": "3.0.0"
-        }
-      },
-      {
-        "package": "PMKFoundation",
-        "repositoryURL": "https://github.com/PromiseKit/Foundation.git",
-        "state": {
-          "branch": null,
-          "revision": "985f17fa69ee0e5b7eb3ff9be87ffc4e05fc0927",
-          "version": "3.4.0"
+          "branch": "feat/async_await_update",
+          "revision": "9a69c8c6aad7adc1b97f595256408cfc092cad05",
+          "version": null
         }
       },
       {
@@ -65,15 +56,6 @@
         }
       },
       {
-        "package": "PromiseKit",
-        "repositoryURL": "https://github.com/mxcl/PromiseKit.git",
-        "state": {
-          "branch": null,
-          "revision": "c946b7561fbe11379a874e59faa2c5f8077ae0e1",
-          "version": "6.17.1"
-        }
-      },
-      {
         "package": "secp256k1",
         "repositoryURL": "https://github.com/Boilertalk/secp256k1.swift",
         "state": {
@@ -95,9 +77,9 @@
         "package": "TorusUtils",
         "repositoryURL": "https://github.com/torusresearch/torus-utils-swift.git",
         "state": {
-          "branch": null,
-          "revision": "4ee80a55cc6a43c2ff3182d97b7b9be69d4fb7c9",
-          "version": "3.0.0"
+          "branch": "feat/asyncAwaitUpdate",
+          "revision": "f463772b38d37bdc50e8ec117665d7bcc087e25b",
+          "version": null
         }
       },
       {
