@@ -19,11 +19,11 @@ final class IntegrationTests: XCTestCase {
         let sub = SubVerifierDetails(loginType: .web,
                                      loginProvider: .google,
                                      clientId: "221898609709-obfn3p63741l5333093430j3qeiinaa8.apps.googleusercontent.com",
-                                     verifierName: "google-lrc",
+                                     verifier: "google-lrc",
                                      redirectURL: "com.googleusercontent.apps.238941746713-vfap8uumijal4ump28p9jd3lbe6onqt4:/oauthredirect",
                                      browserRedirectURL: "https://scripts.toruswallet.io/redirect.html")
 
-        IntegrationTests.sdk = CustomAuth(aggregateVerifierType: .singleLogin, aggregateVerifier: "torus-test-ios-public", subVerifierDetails: [sub], network: .POLYGON)
+        IntegrationTests.sdk = CustomAuth(aggregateVerifierType: .singleLogin, aggregateVerifier: "torus-test-ios-public", subVerifierDetails: [sub], network: .CYAN)
     }
 
     func test_getTorusKey() async {

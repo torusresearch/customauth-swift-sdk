@@ -23,10 +23,14 @@ public class CASDKFactory: CASDKFactoryProtocol {
         switch network {
         case .MAINNET:
             proxyAddress = FetchNodeDetails.proxyAddressMainnet
-        case .ROPSTEN:
-            proxyAddress = FetchNodeDetails.proxyAddressRopsten
-        case .POLYGON:
-            proxyAddress = FetchNodeDetails.proxyAddressPolygon
+        case .TESTNET:
+            proxyAddress = FetchNodeDetails.proxyAddressTestnet
+        case .CYAN:
+            proxyAddress = FetchNodeDetails.proxyAddressCyan
+        case .AQUA:
+            proxyAddress = FetchNodeDetails.proxyAddressAqua
+        case .CELESTE:
+            proxyAddress = FetchNodeDetails.proxyAddressCeleste
         default:
             proxyAddress = FetchNodeDetails.proxyAddressMainnet
         }
