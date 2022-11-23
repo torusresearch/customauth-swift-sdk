@@ -206,7 +206,7 @@ open class CustomAuth {
     ///   - subVerifierDetails: An array of verifiers to be used for the aggregate login flow, with their respective token and verifier name.
     /// - Returns: A promise that resolve with a Dictionary that contain at least `privateKey` and `publicAddress` field..
     open func getAggregateTorusKey(verifier: String, verifierId: String, idToken: String, subVerifierDetails: SubVerifierDetails, userData: [String: Any] = [:]) async throws -> [String: Any] {
-        let extraParams = ["verifieridentifier": verifier, "verifier_id": verifierId, "sub_verifier_ids": [subVerifierDetails.subVerifierId], "verify_params": [["verifier_id": verifierId, "idtoken": idToken]]] as [String: Any]
+        let extraParams = ["verifieridentifier": verifier, "verifier_id": verifierId, "sub_verifier_ids": [subVerifierDetails.verifier], "verify_params": [["verifier_id": verifierId, "idtoken": idToken]]] as [String: Any]
         let buffer: Data = try! NSKeyedArchiver.archivedData(withRootObject: extraParams, requiringSecureCoding: false)
         let hashedOnce = idToken.sha3(.keccak256)
         do{

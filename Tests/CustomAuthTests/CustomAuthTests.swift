@@ -19,7 +19,7 @@ final class MockSDKTest: XCTestCase {
         let expectedVerifier = fakeData.generateVerifier()
         let expectedVerfierId = fakeData.generateRandomEmail(of: 6)
 
-        let subVerifier = [SubVerifierDetails(loginProvider: .jwt, clientId: fakeData.generateVerifier(), verifierName: expectedVerifier, redirectURL: fakeData.generateVerifier())]
+        let subVerifier = [SubVerifierDetails(loginProvider: .jwt, clientId: fakeData.generateVerifier(), verifier: expectedVerifier, redirectURL: fakeData.generateVerifier())]
         let factory = MockFactory()
 
         let CustomAuth = CustomAuth(aggregateVerifierType: .singleLogin, aggregateVerifier: expectedVerifier, subVerifierDetails: subVerifier, factory: factory)
@@ -53,7 +53,7 @@ final class MockSDKTest: XCTestCase {
         let expectedVerifier = fakeData.generateVerifier()
         let expectedVerfierId = fakeData.generateRandomEmail(of: 6)
 
-        let subVerifier = [SubVerifierDetails(loginProvider: .jwt, clientId: fakeData.generateVerifier(), verifierName: expectedVerifier, redirectURL: fakeData.generateVerifier())]
+        let subVerifier = [SubVerifierDetails(loginProvider: .jwt, clientId: fakeData.generateVerifier(), verifier: expectedVerifier, redirectURL: fakeData.generateVerifier())]
         let factory = MockFactory()
 
         let CustomAuth = CustomAuth(aggregateVerifierType: .singleIdVerifier, aggregateVerifier: expectedVerifier, subVerifierDetails: subVerifier, factory: factory)
