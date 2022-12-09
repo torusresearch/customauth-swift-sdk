@@ -12,6 +12,7 @@ struct LoginView: View {
     @ObservedObject var vm: ViewModel
     var body: some View {
         List {
+
             Section(header: Text("Single Logins")) {
                 Group {
                     Button(action: {

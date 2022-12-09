@@ -10,7 +10,7 @@ public protocol MockAbstractTorusUtils {
 }
 
 class MockTorusUtils: AbstractTorusUtils, MockAbstractTorusUtils {
-    func getPublicAddress(endpoints: Array<String>, torusNodePubs: Array<TorusNodePubModel>, verifier: String, verifierId: String, isExtended: Bool) async throws -> GetPublicAddressModel {
+    func getPublicAddress(endpoints: [String], torusNodePubs: [TorusNodePubModel], verifier: String, verifierId: String, isExtended: Bool) async throws -> GetPublicAddressModel {
         return .init(address: "")
     }
 
@@ -25,30 +25,30 @@ class MockTorusUtils: AbstractTorusUtils, MockAbstractTorusUtils {
     var retrieveShares_input: [String: Any] = [:]
     var retrieveShares_output: [String: String] = [
         "privateKey": "<private key>",
-        "publicAddress": "<public address>",
+        "publicAddress": "<public address>"
     ]
 
     var label: String?
-    var nodePubKeys: Array<TorusNodePubModel>?
+    var nodePubKeys: [TorusNodePubModel]?
 
     init() {
     }
 
-    func setTorusNodePubKeys(nodePubKeys: Array<TorusNodePubModel>) {
+    func setTorusNodePubKeys(nodePubKeys: [TorusNodePubModel]) {
         self.nodePubKeys = nodePubKeys
     }
 
-    func getPublicAddress(endpoints: Array<String>, torusNodePubs: Array<TorusNodePubModel>, verifier: String, verifierId: String, isExtended: Bool) async throws -> [String: String] {
+    func getPublicAddress(endpoints: [String], torusNodePubs: [TorusNodePubModel], verifier: String, verifierId: String, isExtended: Bool) async throws -> [String: String] {
         return (["publicAddress": retrieveShares_output["publicAddress"] ?? ""])
     }
 
-    func retrieveShares(torusNodePubs: Array<TorusNodePubModel>, endpoints: Array<String>, verifier verifierIdentifier: String, verifierId: String, idToken: String, extraParams: Data) async throws -> [String: String] {
+    func retrieveShares(torusNodePubs: [TorusNodePubModel], endpoints: [String], verifier verifierIdentifier: String, verifierId: String, idToken: String, extraParams: Data) async throws -> [String: String] {
         retrieveShares_input = [
             "endpoints": endpoints,
             "verifierIdentifier": verifierIdentifier,
             "verifierId": verifierId,
             "idToken": idToken,
-            "extraParams": extraParams,
+            "extraParams": extraParams
         ]
         return retrieveShares_output
     }

@@ -50,15 +50,15 @@ public class StubMockTorusUtils: TorusUtils {
 }
 
 public class StubMockCASDKFactory: CASDKFactoryProtocol {
-    public func createFetchNodeDetails(network: EthereumNetworkFND, urlSession: URLSession,networkUrl:String? = nil) -> FetchNodeDetails {
+    public func createFetchNodeDetails(network: EthereumNetworkFND, urlSession: URLSession, networkUrl: String? = nil) -> FetchNodeDetails {
         let net = network == .MAINNET ? "0xf20336e16B5182637f09821c27BDe29b0AFcfe80" : "0x6258c9d6c12ed3edda59a1a6527e469517744aa7"
         return FetchNodeDetails(proxyAddress: net, network: network, urlSession: urlSession)
     }
 
-    public func createTorusUtils(loglevel: OSLogType, urlSession: URLSession,enableOneKey:Bool,network:EthereumNetworkFND) -> AbstractTorusUtils {
+    public func createTorusUtils(loglevel: OSLogType, urlSession: URLSession, enableOneKey: Bool, network: EthereumNetworkFND) -> AbstractTorusUtils {
         let allowHost = network.signerMap.appending("/api/allow")
         let signerHost = network.signerMap.appending("/api/sign")
-        return StubMockTorusUtils(loglevel: loglevel, urlSession: urlSession,enableOneKey:enableOneKey,signerHost: signerHost,allowHost: allowHost)
+        return StubMockTorusUtils(loglevel: loglevel, urlSession: urlSession, enableOneKey: enableOneKey, signerHost: signerHost, allowHost: allowHost)
     }
 
     public init() {

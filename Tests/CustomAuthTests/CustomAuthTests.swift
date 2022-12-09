@@ -28,7 +28,7 @@ final class MockSDKTest: XCTestCase {
         // Set Mock data
         mockTorusUtils.retrieveShares_output["privateKey"] = expectedPrivateKey
         mockTorusUtils.retrieveShares_output["publicAddress"] = expectedPublicAddress
-        do{
+        do {
         let nodeDetails = try await CustomAuth.getNodeDetailsFromContract(verifier: expectedVerifier, verfierID: expectedVerfierId)
         let data = try await CustomAuth.getTorusKey(verifier: expectedVerifier, verifierId: expectedVerfierId, idToken: fakeData.generateVerifier())
                     let mockTorusUtils = CustomAuth.torusUtils as! MockAbstractTorusUtils
@@ -38,7 +38,7 @@ final class MockSDKTest: XCTestCase {
                     XCTAssertEqual(data["privateKey"] as? String, expectedPrivateKey)
                     XCTAssertEqual(data["publicAddress"] as? String, expectedPublicAddress)
             expectation.fulfill()
-            }catch {
+            } catch {
                     XCTFail(error.localizedDescription)
                     expectation.fulfill()
         }
@@ -62,7 +62,7 @@ final class MockSDKTest: XCTestCase {
         // Set Mock data
         mockTorusUtils.retrieveShares_output["privateKey"] = expectedPrivateKey
         mockTorusUtils.retrieveShares_output["publicAddress"] = expectedPublicAddress
-        do{
+        do {
         let nodeDetails  = try await CustomAuth.getNodeDetailsFromContract(verifier: expectedVerifier, verfierID: expectedVerfierId)
            let data = try await CustomAuth.getAggregateTorusKey(verifier: expectedVerifier, verifierId: expectedVerfierId, idToken: fakeData.generateVerifier(), subVerifierDetails: subVerifier[0])
                     let mockTorusUtils = CustomAuth.torusUtils as! MockAbstractTorusUtils
@@ -72,7 +72,7 @@ final class MockSDKTest: XCTestCase {
                     XCTAssertEqual(data["privateKey"] as? String, expectedPrivateKey)
                     XCTAssertEqual(data["publicAddress"] as? String, expectedPublicAddress)
             expectation.fulfill()
-                }catch {
+                } catch {
                     XCTFail(error.localizedDescription)
                     expectation.fulfill()
                 }
@@ -80,7 +80,7 @@ final class MockSDKTest: XCTestCase {
     }
 
     static var allTests = [
-        ("testGetTorusKey", testGetTorusKey),
+        ("testGetTorusKey", testGetTorusKey)
 //        ("testGetAggregateTorusKey", testGetAggregateTorusKey),
     ]
 }

@@ -24,17 +24,8 @@
         "repositoryURL": "https://github.com/torusresearch/fetch-node-details-swift.git",
         "state": {
           "branch": null,
-          "revision": "981694c72b12c3ab42a885778d5da83a79fa98ea",
-          "version": "3.0.0"
-        }
-      },
-      {
-        "package": "PMKFoundation",
-        "repositoryURL": "https://github.com/PromiseKit/Foundation.git",
-        "state": {
-          "branch": null,
-          "revision": "985f17fa69ee0e5b7eb3ff9be87ffc4e05fc0927",
-          "version": "3.4.0"
+          "revision": "94a0ee598abfcc2104ceeda80eecf4b55242ba62",
+          "version": "4.0.1"
         }
       },
       {
@@ -65,15 +56,6 @@
         }
       },
       {
-        "package": "PromiseKit",
-        "repositoryURL": "https://github.com/mxcl/PromiseKit.git",
-        "state": {
-          "branch": null,
-          "revision": "ed3192004c0b00b4b3d7baa9578ee655c66faae3",
-          "version": "6.18.0"
-        }
-      },
-      {
         "package": "secp256k1",
         "repositoryURL": "https://github.com/Boilertalk/secp256k1.swift",
         "state": {
@@ -96,17 +78,8 @@
         "repositoryURL": "https://github.com/torusresearch/torus-utils-swift.git",
         "state": {
           "branch": null,
-          "revision": "4ee80a55cc6a43c2ff3182d97b7b9be69d4fb7c9",
-          "version": "3.0.0"
-        }
-      },
-      {
-        "package": "TweetNacl",
-        "repositoryURL": "https://github.com/bitmark-inc/tweetnacl-swiftwrap.git",
-        "state": {
-          "branch": null,
-          "revision": "f8fd111642bf2336b11ef9ea828510693106e954",
-          "version": "1.1.0"
+          "revision": "902bf105ecfb5cb83dc1911692163289633316f5",
+          "version": "4.0.0"
         }
       },
       {

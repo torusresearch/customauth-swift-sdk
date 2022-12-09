@@ -110,10 +110,10 @@ open class CustomAuth {
                     continuation.resume(returning: url)
                 }
             })
-         
+
             let responseParameters = self.parseURL(url: url)
             os_log("ResponseParams after redirect: %@", log: getTorusLogger(log: CASDKLogger.core, type: .info), type: .info, responseParameters)
-                    do{
+                    do {
                         let newData = try await subVerifier.getUserInfo(responseParameters: responseParameters)
                         os_log("getUserInfo newData: %@", log: getTorusLogger(log: CASDKLogger.core, type: .info), type: .info, newData)
                         var data = newData
@@ -123,11 +123,11 @@ open class CustomAuth {
                         data.removeValue(forKey: "verifierId")
                         let torusKey = try await getTorusKey(verifier: self.aggregateVerifier, verifierId: verifierId, idToken: idToken, userData: data)
                         return torusKey
-                    }catch {
+                    } catch {
                         os_log("handleSingleLogin: err: %s", log: getTorusLogger(log: CASDKLogger.core, type: .error), type: .error, error.localizedDescription)
                         throw error
                     }
-           
+
             // Open in external safari
                 }
         throw CASDKError.unknownError
@@ -139,15 +139,15 @@ open class CustomAuth {
             await MainActor.run(body: {
             openURL(url: loginURL, view: controller, modalPresentationStyle: modalPresentationStyle)
             })
-     
-            let url = try await withUnsafeContinuation({ continuation in
+
+            let url = await withUnsafeContinuation({ continuation in
                 observeCallback { url in
                     continuation.resume(returning: url)
                 }
             })
                 let responseParameters = self.parseURL(url: url)
                 os_log("ResponseParams after redirect: %@", log: getTorusLogger(log: CASDKLogger.core, type: .info), type: .info, responseParameters)
-            do{
+            do {
                let newData = try await subVerifier.getUserInfo(responseParameters: responseParameters)
                     var data = newData
                     let verifierId = data["verifierId"] as! String
@@ -156,14 +156,14 @@ open class CustomAuth {
                     data.removeValue(forKey: "verifierId")
                     let aggTorusKey = try await getAggregateTorusKey(verifier: self.aggregateVerifier, verifierId: verifierId, idToken: idToken, subVerifierDetails: subVerifier, userData: newData)
                 return aggTorusKey
-                }catch {
+                } catch {
                     os_log("handleSingleIdVerifier err: %s", log: getTorusLogger(log: CASDKLogger.core, type: .error), type: .error, error.localizedDescription)
                     throw error
                 }
-          
+
             }
         throw CASDKError.unknownError
-          
+
         }
 
     func handleAndAggregateVerifier(controller: UIViewController?) async throws -> [String: Any] {
@@ -209,14 +209,14 @@ open class CustomAuth {
         let extraParams = ["verifieridentifier": verifier, "verifier_id": verifierId, "sub_verifier_ids": [subVerifierDetails.verifier], "verify_params": [["verifier_id": verifierId, "idtoken": idToken]]] as [String: Any]
         let buffer: Data = try! NSKeyedArchiver.archivedData(withRootObject: extraParams, requiringSecureCoding: false)
         let hashedOnce = idToken.sha3(.keccak256)
-        do{
+        do {
         let nodeDetails = try await getNodeDetailsFromContract(verifier: verifier, verfierID: verifierId)
             let responseFromRetrieveShares = try await self.torusUtils.retrieveShares(torusNodePubs: nodeDetails.getTorusNodePub(), endpoints: nodeDetails.getTorusNodeEndpoints(), verifier: verifier, verifierId: verifierId, idToken: hashedOnce, extraParams: buffer)
             var data = userData
             data["privateKey"] = responseFromRetrieveShares["privateKey"]
             data["publicAddress"] = responseFromRetrieveShares["publicAddress"]
             return data
-        }catch {
+        } catch {
             os_log("handleSingleIdVerifier err: %@", log: getTorusLogger(log: CASDKLogger.core, type: .error), type: .error, error.localizedDescription)
             throw error
         }

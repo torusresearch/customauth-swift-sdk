@@ -64,7 +64,7 @@ class DiscordLoginHandler: AbstractLoginHandler {
             request.addValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
             do {
                 let val = try await urlSession.data(for: request)
-                let data = try JSONSerialization.jsonObject(with: val.0) as? [String:Any] ?? [:]
+                let data = try JSONSerialization.jsonObject(with: val.0) as? [String: Any] ?? [:]
                 userInfo = data
                 var newData: [String: Any] = ["userInfo": userInfo as Any]
                 newData["tokenForKeys"] = accessToken

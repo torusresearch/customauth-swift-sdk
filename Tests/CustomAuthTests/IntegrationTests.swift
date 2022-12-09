@@ -32,11 +32,11 @@ final class IntegrationTests: XCTestCase {
         let exp1 = XCTestExpectation(description: "Should be able to get key")
         let email = "hello@tor.us"
         let jwt = try! generateIdToken(email: email)
-        do{
+        do {
         let data = try await IntegrationTests.sdk?.getTorusKey(verifier: TORUS_TEST_VERIFIER, verifierId: email, idToken: jwt)
             XCTAssertEqual(data?["publicAddress"] as! String, "0x8AA6C8ddCD868873120aA265Fc63E3a2180375BA")
             exp1.fulfill()
-        }catch {
+        } catch {
             XCTFail(error.localizedDescription)
         }
         wait(for: [exp1], timeout: 15)

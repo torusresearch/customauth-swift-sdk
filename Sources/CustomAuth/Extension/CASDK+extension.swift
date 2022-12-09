@@ -21,9 +21,9 @@ public enum verifierTypes: String {
     case orAggregateVerifier = "or_aggregate_verifier"
 }
 
-// MARK:- torus extension
-extension CustomAuth{
-    
+// MARK: - torus extension
+extension CustomAuth {
+
     open class var notificationCenter: NotificationCenter {
         return NotificationCenter.default
     }

@@ -96,7 +96,7 @@ class JWTLoginHandler: AbstractLoginHandler {
         if let accessToken = responseParameters["access_token"] {
             var request = makeUrlRequest(url: urlComponents.url!.absoluteString, method: "GET")
             request.addValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
-            do{
+            do {
            let val = try await urlSession.data(for: request)
                 let data = try JSONSerialization.jsonObject(with: val.0) as? [String: Any] ?? [:]
                 self.userInfo = data
@@ -108,7 +108,7 @@ class JWTLoginHandler: AbstractLoginHandler {
                 newData["verifierId"] = self.getVerifierFromUserInfo()
                 return newData
 
-            }catch {
+            } catch {
                 throw CASDKError.getUserInfoFailed
             }
         } else if let idToken = responseParameters["id_token"] {
