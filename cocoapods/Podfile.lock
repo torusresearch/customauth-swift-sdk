@@ -1,7 +1,7 @@
 PODS:
   - BigInt (5.0.0)
   - CryptoSwift (1.5.1)
-  - CustomAuth (4.1.1):
+  - CustomAuth (5.0.0):
     - JWTDecode (~> 2.6)
     - Torus-utils (~> 4.0.0)
   - GenericJSON (2.0.2)
@@ -39,7 +39,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   BigInt: 74b4d88367b0e819d9f77393549226d36faeb0d8
   CryptoSwift: c4f2debceb38bf44c80659afe009f71e23e4a082
-  CustomAuth: 48d3456cea141f079e7e8126833f524e780991ff
+  CustomAuth: 2cbaef9c54da21080eef7ea1fa3d2ecb96517f18
   GenericJSON: 79a840eeb77030962e8cf02a62d36bd413b67626
   JWTDecode: 33e5e26e5ddbd21b2065820894c08fef0cad9509
   secp256k1.swift: a7e7a214f6db6ce5db32cc6b2b45e5c4dd633634
