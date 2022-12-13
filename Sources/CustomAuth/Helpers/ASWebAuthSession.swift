@@ -10,7 +10,7 @@ import Foundation
 
 open class ASWebAuthSession: NSObject, TorusURLHandlerTypes {
     var redirectURL: URL?
-    // Ensure that there is a strong reference to the SFAuthenticationSession instance when the session is in progress.
+    // Ensure that there is a strong reference to the ASWebAuthenticationSession instance when the session is in progress.
     private var authSession: ASWebAuthenticationSession?
     public init(redirectURL: String) {
         self.redirectURL = URL(string: redirectURL)

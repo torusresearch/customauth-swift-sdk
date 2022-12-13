@@ -1,14 +1,13 @@
 //
 //  DiscordLoginHandler.swift
-//  
+//
 //
 //  Created by Shubham on 13/11/20.
 //
 
 import Foundation
-import PromiseKit
 
-class DiscordLoginHandler: AbstractLoginHandler{
+class DiscordLoginHandler: AbstractLoginHandler {
     let loginType: SubVerifierType
     let clientID: String
     let redirectURL: String
@@ -17,74 +16,65 @@ class DiscordLoginHandler: AbstractLoginHandler{
     var userInfo: [String: Any]?
     let nonce = String.randomString(length: 10)
     let jwtParams: [String: String]
-    let defaultParams: [String:String]
+    let defaultParams: [String: String]
     var urlSession: URLSession
-    
-    public init(loginType: SubVerifierType = .web, clientID: String, redirectURL: String, browserRedirectURL: String?, jwtParams: [String: String] = [:], urlSession: URLSession = URLSession.shared){
+
+    public init(loginType: SubVerifierType = .web, clientID: String, redirectURL: String, browserRedirectURL: String?, jwtParams: [String: String] = [:], urlSession: URLSession = URLSession.shared) {
         self.loginType = loginType
         self.clientID = clientID
         self.redirectURL = redirectURL
         self.jwtParams = jwtParams
         self.browserRedirectURL = browserRedirectURL
-        self.defaultParams = ["scope": "email identify", "response_type": "token"]
+        defaultParams = ["scope": "email identify", "response_type": "token"]
         self.urlSession = urlSession
-        
-        let tempState = ["nonce": self.nonce, "redirectUri": self.redirectURL, "redirectToAndroid": "true"]
+
+        let tempState = ["nonce": nonce, "redirectUri": self.redirectURL, "redirectToAndroid": "true"]
         let jsonData = try! JSONSerialization.data(withJSONObject: tempState, options: .prettyPrinted)
-        self.state =  String(data: jsonData, encoding: .utf8)!.toBase64URL()
+        state = String(data: jsonData, encoding: .utf8)!.toBase64URL()
     }
-    
-    func getUserInfo(responseParameters: [String : String]) -> Promise<[String : Any]> {
-        return self.handleLogin(responseParameters: responseParameters)
+
+    func getUserInfo(responseParameters: [String: String]) async throws -> [String: Any] {
+        return try await handleLogin(responseParameters: responseParameters)
     }
-    
-    func getLoginURL() -> String{
+
+    func getLoginURL() -> String {
         // left join
-        var tempParams = self.defaultParams
-        tempParams.merge(["redirect_uri": self.browserRedirectURL ?? self.redirectURL, "client_id": self.clientID, "state": self.state]){(_, new ) in new}
-        tempParams.merge(self.jwtParams){(_, new ) in new}
-        
+        var tempParams = defaultParams
+        tempParams.merge(["redirect_uri": browserRedirectURL ?? redirectURL, "client_id": clientID, "state": state]) { _, new in new }
+        tempParams.merge(jwtParams) { _, new in new }
+
         // Reconstruct URL
         var urlComponents = URLComponents()
         urlComponents.scheme = "https"
         urlComponents.host = "discord.com"
         urlComponents.path = "/api/oauth2/authorize"
         urlComponents.setQueryItems(with: tempParams)
-        
+
         return urlComponents.url!.absoluteString
         //      return "https://discord.com/api/oauth2/authorize?response_type=token" + "&client_id=\(self.clientId)&scope=email identify&redirect_uri=\(newRedirectURL)".addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
     }
-    
+
     func getVerifierFromUserInfo() -> String {
-        return self.userInfo?["id"] as? String ?? ""
+        return userInfo?["id"] as? String ?? ""
     }
-    
-    func handleLogin(responseParameters: [String : String]) -> Promise<[String : Any]> {
-        let (tempPromise, seal) = Promise<[String:Any]>.pending()
-        
-        if let accessToken = responseParameters["access_token"]{
+
+    func handleLogin(responseParameters: [String: String]) async throws -> [String: Any] {
+        if let accessToken = responseParameters["access_token"] {
             var request = makeUrlRequest(url: "https://discordapp.com/api/users/@me", method: "GET")
             request.addValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
-            
-            self.urlSession.dataTask(.promise, with: request).map{
-                try JSONSerialization.jsonObject(with: $0.data) as! [String:Any]
-            }.done{ data in
-                self.userInfo = data
-                var newData:[String:Any] = ["userInfo": self.userInfo as Any]
+            do {
+                let val = try await urlSession.data(for: request)
+                let data = try JSONSerialization.jsonObject(with: val.0) as? [String: Any] ?? [:]
+                userInfo = data
+                var newData: [String: Any] = ["userInfo": userInfo as Any]
                 newData["tokenForKeys"] = accessToken
-                newData["verifierId"] = self.getVerifierFromUserInfo()
-                seal.fulfill(newData)
-                
-            }.catch{err in
-                seal.reject(CASDKError.getUserInfoFailed)
+                newData["verifierId"] = getVerifierFromUserInfo()
+                return newData
+            } catch {
+                throw CASDKError.getUserInfoFailed
             }
-        }else{
-            seal.reject(CASDKError.accessTokenNotProvided)
+        } else {
+            throw CASDKError.accessTokenNotProvided
         }
-        
-        return tempPromise
     }
-    
-    
 }
-

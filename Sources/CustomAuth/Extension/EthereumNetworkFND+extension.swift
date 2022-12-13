@@ -13,9 +13,13 @@ extension EthereumNetworkFND {
         switch self {
         case .MAINNET:
             return "https://signer.tor.us"
-        case .ROPSTEN:
+        case .TESTNET:
             return "https://signer.tor.us"
-        case .POLYGON:
+        case .CYAN:
+            return "https://signer-polygon.tor.us"
+        case .AQUA:
+            return "https://signer-polygon.tor.us"
+        case .CELESTE:
             return "https://signer-polygon.tor.us"
         case let .CUSTOM(path):
             return "https://signer.tor.us"

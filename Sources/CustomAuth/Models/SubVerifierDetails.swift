@@ -5,7 +5,6 @@
 //  Created by Shubham on 1/6/20.
 //
 import Foundation
-import PromiseKit
 
 // Type of OAuth application created. ex. google web app/google iOS app
 public enum SubVerifierType: String {
@@ -18,7 +17,7 @@ public enum SubVerifierType: String {
 public struct SubVerifierDetails {
     public let loginType: SubVerifierType
     public let clientId: String
-    public let subVerifierId: String
+    public let verifier: String
     public let loginProvider: LoginProviders
     public let redirectURL: String
     public let handler: AbstractLoginHandler
@@ -30,11 +29,11 @@ public struct SubVerifierDetails {
         case subVerifierId
     }
 
-    public init(loginType: SubVerifierType = .web, loginProvider: LoginProviders, clientId: String, verifierName subverifierId: String, redirectURL: String, browserRedirectURL: String? = nil, jwtParams: [String: String] = [:], urlSession: URLSession = URLSession.shared) {
+    public init(loginType: SubVerifierType = .web, loginProvider: LoginProviders, clientId: String, verifier: String, redirectURL: String, browserRedirectURL: String? = nil, jwtParams: [String: String] = [:], urlSession: URLSession = URLSession.shared) {
         self.loginType = loginType
         self.clientId = clientId
         self.loginProvider = loginProvider
-        subVerifierId = subverifierId
+        self.verifier = verifier
         self.redirectURL = redirectURL
         self.urlSession = urlSession
         handler = self.loginProvider.getHandler(loginType: loginType, clientID: self.clientId, redirectURL: self.redirectURL, browserRedirectURL: browserRedirectURL, jwtParams: jwtParams, urlSession: urlSession)
@@ -44,7 +43,7 @@ public struct SubVerifierDetails {
         return handler.getLoginURL()
     }
 
-    public func getUserInfo(responseParameters: [String: String]) -> Promise<[String: Any]> {
-        return handler.getUserInfo(responseParameters: responseParameters)
+    public func getUserInfo(responseParameters: [String: String]) async throws -> [String: Any] {
+        return try await handler.getUserInfo(responseParameters: responseParameters)
     }
 }

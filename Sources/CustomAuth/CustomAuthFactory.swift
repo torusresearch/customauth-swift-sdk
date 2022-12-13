@@ -23,15 +23,19 @@ public class CASDKFactory: CASDKFactoryProtocol {
         switch network {
         case .MAINNET:
             proxyAddress = FetchNodeDetails.proxyAddressMainnet
-        case .ROPSTEN:
-            proxyAddress = FetchNodeDetails.proxyAddressRopsten
-        case .POLYGON:
-            proxyAddress = FetchNodeDetails.proxyAddressPolygon
+        case .TESTNET:
+            proxyAddress = FetchNodeDetails.proxyAddressTestnet
+        case .CYAN:
+            proxyAddress = FetchNodeDetails.proxyAddressCyan
+        case .AQUA:
+            proxyAddress = FetchNodeDetails.proxyAddressAqua
+        case .CELESTE:
+            proxyAddress = FetchNodeDetails.proxyAddressCeleste
         default:
             proxyAddress = FetchNodeDetails.proxyAddressMainnet
         }
         guard let networkUrl = networkUrl else { return FetchNodeDetails(proxyAddress: proxyAddress, network: network, urlSession: urlSession) }
-        return FetchNodeDetails(proxyAddress: proxyAddress, network: .CUSTOM(path: networkUrl),urlSession: urlSession)
+        return FetchNodeDetails(proxyAddress: proxyAddress, network: .CUSTOM(path: networkUrl), urlSession: urlSession)
     }
 
     public func createTorusUtils(loglevel: OSLogType, urlSession: URLSession = URLSession.shared, enableOneKey: Bool, network: EthereumNetworkFND) -> AbstractTorusUtils {

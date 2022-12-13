@@ -3,23 +3,16 @@ PODS:
   - CryptoSwift (1.5.1)
   - CustomAuth (4.1.1):
     - JWTDecode (~> 2.6)
-    - Torus-utils (~> 3.0.0)
-  - GenericJSON (2.0.1)
+    - Torus-utils (~> 4.0.0)
+  - GenericJSON (2.0.2)
   - JWTDecode (2.6.3)
-  - PromiseKit/CorePromise (6.18.0)
-  - PromiseKit/Foundation (6.18.0):
-    - PromiseKit/CorePromise
   - secp256k1.swift (0.1.4)
-  - Torus-fetchNodeDetails (3.0.0):
-    - PromiseKit/Foundation (~> 6.0)
+  - Torus-fetchNodeDetails (4.0.1):
     - web3.swift (~> 0.9.3)
-  - Torus-utils (3.0.0):
+  - Torus-utils (4.0.0):
     - CryptoSwift (~> 1.5.1)
-    - PromiseKit/Foundation (~> 6.0)
     - secp256k1.swift (~> 0.1.4)
-    - Torus-fetchNodeDetails (~> 3.0.0)
-    - TweetNacl
-  - TweetNacl (1.0.2)
+    - Torus-fetchNodeDetails (~> 4.0.0)
   - web3.swift (0.9.3):
     - BigInt (~> 5.0.0)
     - GenericJSON (~> 2.0)
@@ -34,11 +27,9 @@ SPEC REPOS:
     - CryptoSwift
     - GenericJSON
     - JWTDecode
-    - PromiseKit
     - secp256k1.swift
     - Torus-fetchNodeDetails
     - Torus-utils
-    - TweetNacl
     - web3.swift
 
 EXTERNAL SOURCES:
@@ -48,14 +39,12 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   BigInt: 74b4d88367b0e819d9f77393549226d36faeb0d8
   CryptoSwift: c4f2debceb38bf44c80659afe009f71e23e4a082
-  CustomAuth: a4e928879d01ba05ff81d98729b77bc2bdf9ce76
-  GenericJSON: a6e74e2c457f8693caab08e0eafde7d97e6666de
+  CustomAuth: 48d3456cea141f079e7e8126833f524e780991ff
+  GenericJSON: 79a840eeb77030962e8cf02a62d36bd413b67626
   JWTDecode: 33e5e26e5ddbd21b2065820894c08fef0cad9509
-  PromiseKit: 879fa89b55fcb8f11ade9aad0c9721850bb71b9f
   secp256k1.swift: a7e7a214f6db6ce5db32cc6b2b45e5c4dd633634
-  Torus-fetchNodeDetails: 186d6bc852bfd943f8d25154f25b5cc5fd6a03b1
-  Torus-utils: e3bbb4f884fce6290b43a86ee88544fbd5addb91
-  TweetNacl: 3abf4d1d2082b0114e7a67410e300892448951e6
+  Torus-fetchNodeDetails: a92d02f1bfe91bd61c90f92d64df023babaa5bfa
+  Torus-utils: 2517d21b0bc84759fc2cd9617761ce9083e8ee2c
   web3.swift: c6c3bf1f853743f8a7a58d263e5f7e46545e22c7
 
 PODFILE CHECKSUM: 565bc0707b1270aea2d5c153bd669fa8c5ee7ca6

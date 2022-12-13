@@ -6,11 +6,10 @@
 //  Copyright © 2020 Shubham. All rights reserved.
 //
 
-
 import SwiftUI
 
 struct ContentView: View {
-    @ObservedObject var vm:ViewModel
+    @ObservedObject var vm: ViewModel
 
     var body: some View {
         NavigationView {
@@ -28,8 +27,6 @@ struct ContentView: View {
         }
     }
 }
-
-
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {

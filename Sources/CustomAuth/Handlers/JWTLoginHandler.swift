@@ -7,7 +7,6 @@
 
 import Foundation
 import JWTDecode
-import PromiseKit
 import TorusUtils
 
 class JWTLoginHandler: AbstractLoginHandler {
@@ -39,8 +38,8 @@ class JWTLoginHandler: AbstractLoginHandler {
 //        self.state = ["nonce": self.nonce, "redirectUri": self.redirectURL, "redirectToAndroid": "true"].description.toBase64URL()
     }
 
-    func getUserInfo(responseParameters: [String: String]) -> Promise<[String: Any]> {
-        return handleLogin(responseParameters: responseParameters)
+    func getUserInfo(responseParameters: [String: String]) async throws -> [String: Any] {
+        return try await handleLogin(responseParameters: responseParameters)
     }
 
     func getLoginURL() -> String {
@@ -86,8 +85,7 @@ class JWTLoginHandler: AbstractLoginHandler {
         }
     }
 
-    func handleLogin(responseParameters: [String: String]) -> Promise<[String: Any]> {
-        let (tempPromise, seal) = Promise<[String: Any]>.pending()
+    func handleLogin(responseParameters: [String: String]) async throws -> [String: Any] {
 
         // Reconstruct URL
         var urlComponents = URLComponents()
@@ -98,10 +96,9 @@ class JWTLoginHandler: AbstractLoginHandler {
         if let accessToken = responseParameters["access_token"] {
             var request = makeUrlRequest(url: urlComponents.url!.absoluteString, method: "GET")
             request.addValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
-
-            urlSession.dataTask(.promise, with: request).map {
-                try JSONSerialization.jsonObject(with: $0.data) as! [String: Any]
-            }.done { data in
+            do {
+           let val = try await urlSession.data(for: request)
+                let data = try JSONSerialization.jsonObject(with: val.0) as? [String: Any] ?? [:]
                 self.userInfo = data
                 if responseParameters["error"] != nil {
                     throw responseParameters["error"]!
@@ -109,10 +106,10 @@ class JWTLoginHandler: AbstractLoginHandler {
                 var newData: [String: Any] = ["userInfo": self.userInfo as Any]
                 newData["tokenForKeys"] = responseParameters["id_token"]
                 newData["verifierId"] = self.getVerifierFromUserInfo()
-                seal.fulfill(newData)
+                return newData
 
-            }.catch { _ in
-                seal.reject(CASDKError.getUserInfoFailed)
+            } catch {
+                throw CASDKError.getUserInfoFailed
             }
         } else if let idToken = responseParameters["id_token"] {
             do {
@@ -121,14 +118,12 @@ class JWTLoginHandler: AbstractLoginHandler {
                 var newData: [String: Any] = userInfo!
                 newData["tokenForKeys"] = idToken
                 newData["verifierId"] = getVerifierFromUserInfo()
-                seal.fulfill(newData)
+                return newData
             } catch {
-                seal.reject(TorusUtilError.runtime("Invalid ID toke"))
+                throw TorusUtilError.runtime("Invalid ID toke")
             }
         } else {
-            seal.reject(CASDKError.accessTokenNotProvided)
+            throw CASDKError.accessTokenNotProvided
         }
-
-        return tempPromise
     }
 }

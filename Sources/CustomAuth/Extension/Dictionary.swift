@@ -35,7 +35,7 @@ extension Dictionary {
         return parts.joined(separator: "&")
     }
 
-    mutating func merge<K, V>(_ dictionaries: Dictionary<K, V>...) {
+    mutating func merge<K, V>(_ dictionaries: [K: V]...) {
         for dict in dictionaries {
             for (key, value) in dict {
                 if let v = value as? Value, let k = key as? Key {

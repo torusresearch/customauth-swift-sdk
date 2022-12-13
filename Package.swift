@@ -11,20 +11,19 @@ let package = Package(
     products: [
         .library(
             name: "CustomAuth",
-            targets: ["CustomAuth"]),
+            targets: ["CustomAuth"])
     ],
     dependencies: [
-        .package(name:"TorusUtils", url: "https://github.com/torusresearch/torus-utils-swift.git",from: "3.0.0"),
-        .package(name:"jwt-kit", url: "https://github.com/vapor/jwt-kit.git", from: "4.0.0"),
+        .package(name: "TorusUtils", url: "https://github.com/torusresearch/torus-utils-swift.git", from: "4.0.0"),
+        .package(name: "jwt-kit", url: "https://github.com/vapor/jwt-kit.git", from: "4.0.0"),
         .package(name: "JWTDecode", url: "https://github.com/auth0/JWTDecode.swift.git", from: "2.6.3")
     ],
     targets: [
         .target(
             name: "CustomAuth",
-            dependencies: ["TorusUtils","JWTDecode"]),
+            dependencies: ["TorusUtils", "JWTDecode"]),
         .testTarget(
             name: "CustomAuthTests",
-            dependencies: ["CustomAuth", .product(name: "JWTKit", package: "jwt-kit")]),
-    ]
-    ,swiftLanguageVersions: [.v5]
+            dependencies: ["CustomAuth", .product(name: "JWTKit", package: "jwt-kit")])
+    ],        swiftLanguageVersions: [.v5]
 )
