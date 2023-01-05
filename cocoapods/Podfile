@@ -1,5 +1,5 @@
 # Uncomment the next line to define a global platform for your project
-platform :ios, '13.0'
+platform :ios, '15.0'
 source 'https://github.com/CocoaPods/Specs.git'
 
 target 'cptest' do
@@ -7,8 +7,13 @@ target 'cptest' do
   use_frameworks!
   # pod 'Torus-utils', '~>'
   pod 'CustomAuth', :path=>"../"
-  # Pods for cptest
   
+  pod 'tkey-rust-ios/tkey', :path=>"../../libtkey-pkg"
+  
+ 
+
+  
+  # Pods for cptest
   post_install do |installer|
     installer.pods_project.build_configurations.each do |config|
       config.build_settings["EXCLUDED_ARCHS[sdk=iphonesimulator*]"] = "arm64"
