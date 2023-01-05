@@ -8,7 +8,7 @@ target 'cptest' do
   # pod 'Torus-utils', '~>'
   pod 'CustomAuth', :path=>"../"
   
-  pod 'tkey-rust-ios/tkey', :path=>"../../libtkey-pkg"
+  pod 'tkey-rust-ios', :path=>"../../libtkey-pkg"
   
  
 
