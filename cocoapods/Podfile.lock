@@ -1,65 +1,16 @@
 PODS:
-  - BigInt (5.0.0)
-  - CryptoSwift (1.5.1)
-  - CustomAuth (5.0.0):
-    - JWTDecode (~> 2.6)
-    - Torus-utils (~> 4.0.0)
-  - GenericJSON (2.0.2)
-  - JWTDecode (2.6.3)
-  - secp256k1.swift (0.1.4)
-  - tkey-rust-ios (0.0.1):
-    - tkey-rust-ios/lib (= 0.0.1)
-    - tkey-rust-ios/libtkey (= 0.0.1)
-    - tkey-rust-ios/tkey (= 0.0.1)
-  - tkey-rust-ios/lib (0.0.1):
-    - tkey-rust-ios/libtkey
-  - tkey-rust-ios/libtkey (0.0.1)
-  - tkey-rust-ios/tkey (0.0.1):
-    - tkey-rust-ios/lib
-  - Torus-fetchNodeDetails (4.0.1):
-    - web3.swift (~> 0.9.3)
-  - Torus-utils (4.0.0):
-    - CryptoSwift (~> 1.5.1)
-    - secp256k1.swift (~> 0.1.4)
-    - Torus-fetchNodeDetails (~> 4.0.0)
-  - web3.swift (0.9.3):
-    - BigInt (~> 5.0.0)
-    - GenericJSON (~> 2.0)
-    - secp256k1.swift (~> 0.1)
+  - tkey-rust-ios (0.0.2)
 
 DEPENDENCIES:
-  - CustomAuth (from `../`)
   - tkey-rust-ios (from `../../libtkey-pkg`)
 
-SPEC REPOS:
-  https://github.com/CocoaPods/Specs.git:
-    - BigInt
-    - CryptoSwift
-    - GenericJSON
-    - JWTDecode
-    - secp256k1.swift
-    - Torus-fetchNodeDetails
-    - Torus-utils
-    - web3.swift
-
 EXTERNAL SOURCES:
-  CustomAuth:
-    :path: "../"
   tkey-rust-ios:
     :path: "../../libtkey-pkg"
 
 SPEC CHECKSUMS:
-  BigInt: 74b4d88367b0e819d9f77393549226d36faeb0d8
-  CryptoSwift: c4f2debceb38bf44c80659afe009f71e23e4a082
-  CustomAuth: 2cbaef9c54da21080eef7ea1fa3d2ecb96517f18
-  GenericJSON: 79a840eeb77030962e8cf02a62d36bd413b67626
-  JWTDecode: 33e5e26e5ddbd21b2065820894c08fef0cad9509
-  secp256k1.swift: a7e7a214f6db6ce5db32cc6b2b45e5c4dd633634
-  tkey-rust-ios: f65eeadd77369876a309cf13c4347dff50a5a3a8
-  Torus-fetchNodeDetails: a92d02f1bfe91bd61c90f92d64df023babaa5bfa
-  Torus-utils: 2517d21b0bc84759fc2cd9617761ce9083e8ee2c
-  web3.swift: c6c3bf1f853743f8a7a58d263e5f7e46545e22c7
+  tkey-rust-ios: fe51a6d40f17851e3f491ac3eb30e8e49cfadf75
 
-PODFILE CHECKSUM: 85bf9de1acc0ec4defb7bf9760023af61e09c2ce
+PODFILE CHECKSUM: 0a57abc08c53e833d19c5e8d2d5471d456a9cfb2
 
 COCOAPODS: 1.11.3

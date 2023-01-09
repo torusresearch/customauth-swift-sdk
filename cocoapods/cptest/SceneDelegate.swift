@@ -5,8 +5,9 @@
 //  Created by Shubham on 12/6/20.
 //  Copyright © 2020 torus. All rights reserved.
 //
-
+/*
 import CustomAuth
+ */
 import SwiftUI
 import UIKit
 
@@ -19,7 +20,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
               let urlToOpen = userActivity.webpageURL else {
             return
         }
-        CustomAuth.handle(url: urlToOpen)
+        //CustomAuth.handle(url: urlToOpen)
     }
 
     // Hanlde Deep linkings
@@ -27,7 +28,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let url = URLContexts.first?.url else {
             return
         }
-        CustomAuth.handle(url: url)
+        //CustomAuth.handle(url: url)
     }
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
