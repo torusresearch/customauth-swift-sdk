@@ -45,11 +45,12 @@ class ViewModel: ObservableObject {
 
     func decodeData(data: [String: Any]) {
         guard let privKey = data["privateKey"] as? String,
-              let pubAddress = data["publicAddress"] as? String,
-              let userInfo = data["userInfo"] as? [String: Any] else { return }
-        let dict: [String: String] = userInfo.compactMapValues { $0 as? String }
+              let pubAddress = data["publicAddress"] as? String
+             // let userInfo = data["userInfo"] as? [String: Any]
+        else { return }
+      //  let dict: [String: String] = userInfo.compactMapValues { $0 as? String }
         DispatchQueue.main.async { [weak self] in
-            self?.user = User(publicAddress: pubAddress, privateKey: privKey, userInfo: dict)
+            self?.user = User(publicAddress: pubAddress, privateKey: privKey, userInfo: [:])
         }
     }
 }
