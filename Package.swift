@@ -25,5 +25,5 @@ let package = Package(
         .testTarget(
             name: "CustomAuthTests",
             dependencies: ["CustomAuth", .product(name: "JWTKit", package: "jwt-kit")])
-    ],        swiftLanguageVersions: [.v5]
+    ],                         swiftLanguageVersions: [.v5]
 )

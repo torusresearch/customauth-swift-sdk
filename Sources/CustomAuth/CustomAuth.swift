@@ -111,33 +111,34 @@ open class CustomAuth {
                 }
             })
 
-            let responseParameters = self.parseURL(url: url)
+            let responseParameters = parseURL(url: url)
             os_log("ResponseParams after redirect: %@", log: getTorusLogger(log: CASDKLogger.core, type: .info), type: .info, responseParameters)
-                    do {
-                        let newData = try await subVerifier.getUserInfo(responseParameters: responseParameters)
-                        os_log("getUserInfo newData: %@", log: getTorusLogger(log: CASDKLogger.core, type: .info), type: .info, newData)
-                        var data = newData
-                        let verifierId = data["verifierId"] as! String
-                        let idToken = data["tokenForKeys"] as! String
-                        data.removeValue(forKey: "tokenForKeys")
-                        data.removeValue(forKey: "verifierId")
-                        let torusKey = try await getTorusKey(verifier: self.aggregateVerifier, verifierId: verifierId, idToken: idToken, userData: data)
-                        return torusKey
-                    } catch {
-                        os_log("handleSingleLogin: err: %s", log: getTorusLogger(log: CASDKLogger.core, type: .error), type: .error, error.localizedDescription)
-                        throw error
-                    }
+            do {
+                let newData = try await subVerifier.getUserInfo(responseParameters: responseParameters)
+                os_log("getUserInfo newData: %@", log: getTorusLogger(log: CASDKLogger.core, type: .info), type: .info, newData)
+                var data = newData
+                let verifierId = data["verifierId"] as! String
+                let idToken = data["tokenForKeys"] as! String
+                data.removeValue(forKey: "tokenForKeys")
+                data.removeValue(forKey: "verifierId")
+               // let torusKey = try await getTorusKey(verifier: aggregateVerifier, verifierId: verifierId, idToken: idToken, userData: data)
+               let torusKey = try await updateGetTorusKey(verifier: aggregateVerifier, verifierId: verifierId, verifierParams: ["verifier_id":verifierId], idToken: idToken)
+                return torusKey
+            } catch {
+                os_log("handleSingleLogin: err: %s", log: getTorusLogger(log: CASDKLogger.core, type: .error), type: .error, error.localizedDescription)
+                throw error
+            }
 
             // Open in external safari
-                }
-        throw CASDKError.unknownError
         }
+        throw CASDKError.unknownError
+    }
 
     open func handleSingleIdVerifier(controller: UIViewController?, modalPresentationStyle: UIModalPresentationStyle = .fullScreen) async throws -> [String: Any] {
         if let subVerifier = subVerifierDetails.first {
             let loginURL = subVerifier.getLoginURL()
             await MainActor.run(body: {
-            openURL(url: loginURL, view: controller, modalPresentationStyle: modalPresentationStyle)
+                openURL(url: loginURL, view: controller, modalPresentationStyle: modalPresentationStyle)
             })
 
             let url = await withUnsafeContinuation({ continuation in
@@ -145,26 +146,24 @@ open class CustomAuth {
                     continuation.resume(returning: url)
                 }
             })
-                let responseParameters = self.parseURL(url: url)
-                os_log("ResponseParams after redirect: %@", log: getTorusLogger(log: CASDKLogger.core, type: .info), type: .info, responseParameters)
+            let responseParameters = parseURL(url: url)
+            os_log("ResponseParams after redirect: %@", log: getTorusLogger(log: CASDKLogger.core, type: .info), type: .info, responseParameters)
             do {
-               let newData = try await subVerifier.getUserInfo(responseParameters: responseParameters)
-                    var data = newData
-                    let verifierId = data["verifierId"] as! String
-                    let idToken = data["tokenForKeys"] as! String
-                    data.removeValue(forKey: "tokenForKeys")
-                    data.removeValue(forKey: "verifierId")
-                    let aggTorusKey = try await getAggregateTorusKey(verifier: self.aggregateVerifier, verifierId: verifierId, idToken: idToken, subVerifierDetails: subVerifier, userData: newData)
+                let newData = try await subVerifier.getUserInfo(responseParameters: responseParameters)
+                var data = newData
+                let verifierId = data["verifierId"] as! String
+                let idToken = data["tokenForKeys"] as! String
+                data.removeValue(forKey: "tokenForKeys")
+                data.removeValue(forKey: "verifierId")
+                let aggTorusKey = try await getAggregateTorusKey(verifier: aggregateVerifier, verifierId: verifierId, idToken: idToken, subVerifierDetails: subVerifier, userData: newData)
                 return aggTorusKey
-                } catch {
-                    os_log("handleSingleIdVerifier err: %s", log: getTorusLogger(log: CASDKLogger.core, type: .error), type: .error, error.localizedDescription)
-                    throw error
-                }
-
+            } catch {
+                os_log("handleSingleIdVerifier err: %s", log: getTorusLogger(log: CASDKLogger.core, type: .error), type: .error, error.localizedDescription)
+                throw error
             }
-        throw CASDKError.unknownError
-
         }
+        throw CASDKError.unknownError
+    }
 
     func handleAndAggregateVerifier(controller: UIViewController?) async throws -> [String: Any] {
         // TODO: implement verifier
@@ -210,8 +209,8 @@ open class CustomAuth {
         let buffer: Data = try! NSKeyedArchiver.archivedData(withRootObject: extraParams, requiringSecureCoding: false)
         let hashedOnce = idToken.sha3(.keccak256)
         do {
-        let nodeDetails = try await getNodeDetailsFromContract(verifier: verifier, verfierID: verifierId)
-            let responseFromRetrieveShares = try await self.torusUtils.retrieveShares(torusNodePubs: nodeDetails.getTorusNodePub(), endpoints: nodeDetails.getTorusNodeEndpoints(), verifier: verifier, verifierId: verifierId, idToken: hashedOnce, extraParams: buffer)
+            let nodeDetails = try await getNodeDetailsFromContract(verifier: verifier, verfierID: verifierId)
+            let responseFromRetrieveShares = try await torusUtils.retrieveShares(torusNodePubs: nodeDetails.getTorusNodePub(), endpoints: nodeDetails.getTorusNodeEndpoints(), verifier: verifier, verifierId: verifierId, idToken: hashedOnce, extraParams: buffer)
             var data = userData
             data["privateKey"] = responseFromRetrieveShares["privateKey"]
             data["publicAddress"] = responseFromRetrieveShares["publicAddress"]
@@ -221,4 +220,8 @@ open class CustomAuth {
             throw error
         }
     }
+
+
 }
+
+
