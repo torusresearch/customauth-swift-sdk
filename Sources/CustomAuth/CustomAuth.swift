@@ -34,8 +34,8 @@ open class CustomAuth {
         self.factory = CASDKFactory()
 
         let urlSession = URLSession.shared
-        torusUtils = factory.createTorusUtils(loglevel: tsSdkLogType, urlSession: urlSession, enableOneKey: customAuthArgs.enableOneKey!, network: customAuthArgs.nativeNetwork)
-        fetchNodeDetails = factory.createFetchNodeDetails(network: customAuthArgs.nativeNetwork, urlSession: urlSession, networkUrl: customAuthArgs.networkUrl)
+        torusUtils = factory.createTorusUtils(loglevel: tsSdkLogType, urlSession: urlSession, enableOneKey: customAuthArgs.enableOneKey!, network: customAuthArgs.network)
+        fetchNodeDetails = factory.createFetchNodeDetails(network: customAuthArgs.network, urlSession: urlSession, networkUrl: customAuthArgs.networkUrl)
     }
 
     /// Retrieve information of Torus nodes from a predefined Etherum contract.
