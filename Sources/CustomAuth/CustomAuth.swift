@@ -16,15 +16,17 @@ var tsSdkLogType = OSLogType.default
 
 /// Provides integration of an iOS app with Torus CustomAuth.
 open class CustomAuth {
-    let factory: CASDKFactoryProtocol
+    var factory: CASDKFactoryProtocol
     var torusUtils: AbstractTorusUtils
-    let fetchNodeDetails: fetchNodeDetails
+    var fetchNodeDetails: FetchNodeDetails
 
-    public let subVerifierDetails: [SubVerifierDetails]
+    var subVerifierDetails: [SubVerifierDetails] = []
     var observer: NSObjectProtocol? // useful for Notifications
+    
+    var authorizeURLHandler: URLOpenerTypes?
 
     public init(customAuthArgs: CustomAuthArgs) {
-        if (customAuthArgs.enableLogging) {
+        if (customAuthArgs.enableLogging ?? false) {
             tsSdkLogType = .debug
         }
 
@@ -32,7 +34,7 @@ open class CustomAuth {
         self.factory = CASDKFactory()
 
         let urlSession = URLSession.shared
-        torusUtils = factory.createTorusUtils(loglevel: tsSdkLogType, urlSession: urlSession, enableOneKey: customAuthArgs.enableOneKey, network: customAuthArgs.nativeNetwork)
+        torusUtils = factory.createTorusUtils(loglevel: tsSdkLogType, urlSession: urlSession, enableOneKey: customAuthArgs.enableOneKey!, network: customAuthArgs.nativeNetwork)
         fetchNodeDetails = factory.createFetchNodeDetails(network: customAuthArgs.nativeNetwork, urlSession: urlSession, networkUrl: customAuthArgs.networkUrl)
     }
 
@@ -51,12 +53,16 @@ open class CustomAuth {
     /// - Returns: A promise that resolve with a Dictionary that contain at least `privateKey` and `publicAddress` field..
     
     open func triggerLogin(controller: UIViewController? = nil, subVerifierDetails: SubVerifierDetails, modalPresentationStyle: UIModalPresentationStyle = .fullScreen) async throws -> [String: Any] {
-        self.subVerifierDetails = subVerifierDetails
-        let browserType: URLOpenerTypes = URLOpenerTypes.asWebAuthSession.rawValue
+        self.subVerifierDetails = [subVerifierDetails]
+        
+        let browserType: URLOpenerTypes = URLOpenerTypes.asWebAuthSession
+        self.authorizeURLHandler = browserType
 
         os_log("triggerLogin called with %@ %@", log: getTorusLogger(log: CASDKLogger.core, type: .info), type: .info, browserType.rawValue, modalPresentationStyle.rawValue)
         
-        switch subVerifierDetails.aggregateVerifierType {
+        let aggregateVerifierType = verifierTypes.singleLogin;
+        
+        switch aggregateVerifierType {
             case .singleLogin:
                 return try await handleSingleLogins(controller: controller, modalPresentationStyle: modalPresentationStyle)
             case .andAggregateVerifier:
@@ -65,7 +71,7 @@ open class CustomAuth {
                 return try await handleOrAggregateVerifier(controller: controller)
             case .singleIdVerifier:
                 return try await handleSingleIdVerifier(controller: controller, modalPresentationStyle: modalPresentationStyle)
-            case .none:
+            default:
                 throw CASDKError.methodUnavailable
         }
     }
@@ -90,7 +96,7 @@ open class CustomAuth {
                         let idToken = data["tokenForKeys"] as! String
                         data.removeValue(forKey: "tokenForKeys")
                         data.removeValue(forKey: "verifierId")
-                        let torusKey = try await getTorusKey(verifier: self.subVerifierDetails.verifier, verifierId: verifierId, idToken: idToken, userData: data)
+                        let torusKey = try await getTorusKey(verifier: self.subVerifierDetails.first!.verifier, verifierId: verifierId, idToken: idToken, userData: data)
                         return torusKey
                     } catch {
                         os_log("handleSingleLogin: err: %s", log: getTorusLogger(log: CASDKLogger.core, type: .error), type: .error, error.localizedDescription)
@@ -123,7 +129,7 @@ open class CustomAuth {
                     let idToken = data["tokenForKeys"] as! String
                     data.removeValue(forKey: "tokenForKeys")
                     data.removeValue(forKey: "verifierId")
-                    let aggTorusKey = try await getAggregateTorusKey(verifier: self.aggregateVerifier, verifierId: verifierId, idToken: idToken, subVerifierDetails: subVerifier, userData: newData)
+                let aggTorusKey = try await getAggregateTorusKey(verifier: self.subVerifierDetails.first!.verifier, verifierId: verifierId, idToken: idToken, subVerifierDetails: subVerifier, userData: newData)
                 return aggTorusKey
                 } catch {
                     os_log("handleSingleIdVerifier err: %s", log: getTorusLogger(log: CASDKLogger.core, type: .error), type: .error, error.localizedDescription)
