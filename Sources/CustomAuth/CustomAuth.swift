@@ -18,55 +18,22 @@ var tsSdkLogType = OSLogType.default
 open class CustomAuth {
     let factory: CASDKFactoryProtocol
     var torusUtils: AbstractTorusUtils
-    let fetchNodeDetails: FetchNodeDetails
-    var urlSession: URLSession
-    var enableOneKey: Bool
-    ///  You can pass your own custom url  rather than using our default infura url,
-    ///  can be used to get around the Ropsten depreciation from Infura API.
-    var networkUrl: String?
-    public let aggregateVerifierType: verifierTypes?
-    public let aggregateVerifier: String
+    let fetchNodeDetails: fetchNodeDetails
+
     public let subVerifierDetails: [SubVerifierDetails]
-    public var authorizeURLHandler: URLOpenerTypes?
     var observer: NSObjectProtocol? // useful for Notifications
 
-    /// Initiate an CustomAuth instance.
-    /// - Parameters:
-    ///   - aggregateVerifierType: Type of the verifier. Use `singleLogin` for single providers. Only `singleLogin` and `singleIdVerifier` is supported currently.
-    ///   - aggregateVerifier: Name of the verifier to be used..
-    ///   - subVerifierDetails: Details of each subverifiers to be used.
-    ///   - factory: Providng mocking by implementing TDSDKFactoryProtocol.
-    ///   - network: Etherum network to be used.
-    ///   - loglevel: Indicates the log level of this instance. All logs lower than this level will be ignored.
-    public init(aggregateVerifierType: verifierTypes, aggregateVerifier: String, subVerifierDetails: [SubVerifierDetails], factory: CASDKFactoryProtocol = CASDKFactory(), network: EthereumNetworkFND = .MAINNET, loglevel: OSLogType = .debug, urlSession: URLSession = URLSession.shared, enableOneKey: Bool = false, networkUrl: String? = nil) {
-        tsSdkLogType = loglevel
-        self.networkUrl = networkUrl
-        self.enableOneKey = enableOneKey
+    public init(customAuthArgs: CustomAuthArgs) {
+        if (customAuthArgs.enableLogging) {
+            tsSdkLogType = .debug
+        }
+
         // factory method
-        self.factory = factory
-        self.urlSession = urlSession
-        torusUtils = factory.createTorusUtils(loglevel: loglevel, urlSession: urlSession, enableOneKey: enableOneKey, network: network)
-        fetchNodeDetails = factory.createFetchNodeDetails(network: network, urlSession: urlSession, networkUrl: networkUrl)
+        self.factory = CASDKFactory()
 
-        // verifier details
-        self.aggregateVerifier = aggregateVerifier
-        self.aggregateVerifierType = aggregateVerifierType
-        self.subVerifierDetails = subVerifierDetails
-    }
-
-    /// Initiate an CustomAuth instance.
-    /// - Parameters:
-    ///   - aggregateVerifierType: Type of the verifier. Use `singleLogin` for single providers. Only `singleLogin` and `singleIdVerifier` is supported currently.
-    ///   - aggregateVerifier: Name of the verifier to be used..
-    ///   - subVerifierDetails: Details of each subverifiers to be used.
-    public convenience init(aggregateVerifierType: verifierTypes, aggregateVerifier: String, subVerifierDetails: [SubVerifierDetails], enableOneKey: Bool = false, networkUrl: String? = nil) {
-        let factory = CASDKFactory()
-        self.init(aggregateVerifierType: aggregateVerifierType, aggregateVerifier: aggregateVerifier, subVerifierDetails: subVerifierDetails, factory: factory, network: .MAINNET, loglevel: .debug, enableOneKey: enableOneKey, networkUrl: networkUrl)
-    }
-
-    public convenience init(aggregateVerifierType: verifierTypes, aggregateVerifier: String, subVerifierDetails: [SubVerifierDetails], loglevel: OSLogType = .debug, enableOneKey: Bool = false, networkUrl: String? = nil) {
-        let factory = CASDKFactory()
-        self.init(aggregateVerifierType: aggregateVerifierType, aggregateVerifier: aggregateVerifier, subVerifierDetails: subVerifierDetails, factory: factory, network: .MAINNET, loglevel: loglevel, enableOneKey: enableOneKey, networkUrl: networkUrl)
+        let urlSession = URLSession.shared
+        torusUtils = factory.createTorusUtils(loglevel: tsSdkLogType, urlSession: urlSession, enableOneKey: customAuthArgs.enableOneKey, network: customAuthArgs.nativeNetwork)
+        fetchNodeDetails = factory.createFetchNodeDetails(network: customAuthArgs.nativeNetwork, urlSession: urlSession, networkUrl: customAuthArgs.networkUrl)
     }
 
     /// Retrieve information of Torus nodes from a predefined Etherum contract.
@@ -82,22 +49,24 @@ open class CustomAuth {
     ///   - browserType: Indicates the way to open the browser for login flow. Use `.external` for opening system safari, or `.asWebAuthSession` for opening an in-app ASwebAuthenticationSession.
     ///   - modalPresentationStyle: Indicates the UIModalPresentationStyle for the popup.
     /// - Returns: A promise that resolve with a Dictionary that contain at least `privateKey` and `publicAddress` field..
-    open func triggerLogin(controller: UIViewController? = nil, browserType: URLOpenerTypes = .asWebAuthSession, modalPresentationStyle: UIModalPresentationStyle = .fullScreen) async throws -> [String: Any] {
-        os_log("triggerLogin called with %@ %@", log: getTorusLogger(log: CASDKLogger.core, type: .info), type: .info, browserType.rawValue, modalPresentationStyle.rawValue)
-        // Set browser
-        authorizeURLHandler = browserType
+    
+    open func triggerLogin(controller: UIViewController? = nil, subVerifierDetails: SubVerifierDetails, modalPresentationStyle: UIModalPresentationStyle = .fullScreen) async throws -> [String: Any] {
+        self.subVerifierDetails = subVerifierDetails
+        let browserType: URLOpenerTypes = URLOpenerTypes.asWebAuthSession.rawValue
 
-        switch aggregateVerifierType {
-        case .singleLogin:
-            return try await handleSingleLogins(controller: controller, modalPresentationStyle: modalPresentationStyle)
-        case .andAggregateVerifier:
-            return try await handleAndAggregateVerifier(controller: controller)
-        case .orAggregateVerifier:
-            return try await handleOrAggregateVerifier(controller: controller)
-        case .singleIdVerifier:
-            return try await handleSingleIdVerifier(controller: controller, modalPresentationStyle: modalPresentationStyle)
-        case .none:
-            throw CASDKError.methodUnavailable
+        os_log("triggerLogin called with %@ %@", log: getTorusLogger(log: CASDKLogger.core, type: .info), type: .info, browserType.rawValue, modalPresentationStyle.rawValue)
+        
+        switch subVerifierDetails.aggregateVerifierType {
+            case .singleLogin:
+                return try await handleSingleLogins(controller: controller, modalPresentationStyle: modalPresentationStyle)
+            case .andAggregateVerifier:
+                return try await handleAndAggregateVerifier(controller: controller)
+            case .orAggregateVerifier:
+                return try await handleOrAggregateVerifier(controller: controller)
+            case .singleIdVerifier:
+                return try await handleSingleIdVerifier(controller: controller, modalPresentationStyle: modalPresentationStyle)
+            case .none:
+                throw CASDKError.methodUnavailable
         }
     }
 
@@ -121,7 +90,7 @@ open class CustomAuth {
                         let idToken = data["tokenForKeys"] as! String
                         data.removeValue(forKey: "tokenForKeys")
                         data.removeValue(forKey: "verifierId")
-                        let torusKey = try await getTorusKey(verifier: self.aggregateVerifier, verifierId: verifierId, idToken: idToken, userData: data)
+                        let torusKey = try await getTorusKey(verifier: self.subVerifierDetails.verifier, verifierId: verifierId, idToken: idToken, userData: data)
                         return torusKey
                     } catch {
                         os_log("handleSingleLogin: err: %s", log: getTorusLogger(log: CASDKLogger.core, type: .error), type: .error, error.localizedDescription)
