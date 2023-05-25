@@ -190,8 +190,8 @@ open class CustomAuth {
             let nodeDetails = try await getNodeDetailsFromContract(verifier: verifier, verfierID: verifierId)
             let responseFromRetrieveShares = try await torusUtils.retrieveShares(torusNodePubs: nodeDetails.getTorusNodePub(), endpoints: nodeDetails.getTorusNodeEndpoints(), verifier: verifier, verifierId: verifierId, idToken: idToken, extraParams: buffer)
             var data = userData
-            data["privateKey"] = responseFromRetrieveShares["privateKey"]
-            data["publicAddress"] = responseFromRetrieveShares["publicAddress"]
+            data["privateKey"] = responseFromRetrieveShares.privateKey
+            data["publicAddress"] = responseFromRetrieveShares.publicAddress
             return data
         } catch {
             os_log("handleSingleLogin: err: %s", log: getTorusLogger(log: CASDKLogger.core, type: .error), type: .error, error.localizedDescription)
@@ -213,8 +213,8 @@ open class CustomAuth {
         let nodeDetails = try await getNodeDetailsFromContract(verifier: verifier, verfierID: verifierId)
             let responseFromRetrieveShares = try await self.torusUtils.retrieveShares(torusNodePubs: nodeDetails.getTorusNodePub(), endpoints: nodeDetails.getTorusNodeEndpoints(), verifier: verifier, verifierId: verifierId, idToken: hashedOnce, extraParams: buffer)
             var data = userData
-            data["privateKey"] = responseFromRetrieveShares["privateKey"]
-            data["publicAddress"] = responseFromRetrieveShares["publicAddress"]
+            data["privateKey"] = responseFromRetrieveShares.privateKey
+            data["publicAddress"] = responseFromRetrieveShares.publicAddress
             return data
         } catch {
             os_log("handleSingleIdVerifier err: %@", log: getTorusLogger(log: CASDKLogger.core, type: .error), type: .error, error.localizedDescription)
