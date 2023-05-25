@@ -11,7 +11,14 @@ public protocol MockAbstractTorusUtils {
 
 class MockTorusUtils: AbstractTorusUtils, MockAbstractTorusUtils {
     func retrieveShares(torusNodePubs: [TorusNodePubModel], endpoints: [String], verifier: String, verifierId: String, idToken: String, extraParams: Data) async throws -> RetrieveSharesResponseModel {
-        return .init(publicKey: "", privateKey: "")
+        retrieveShares_input = [
+            "endpoints": endpoints,
+            "verifierIdentifier": verifier,
+            "verifierId": verifierId,
+            "idToken": idToken,
+            "extraParams": extraParams
+        ]
+        return .init(publicKey: retrieveShares_output["publicAddress"] ?? "", privateKey: retrieveShares_output["privateKey"] ?? "")
     }
     
     func getPublicAddress(endpoints: [String], torusNodePubs: [TorusNodePubModel], verifier: String, verifierId: String, isExtended: Bool) async throws -> GetPublicAddressModel {
