@@ -11,5 +11,5 @@ Pod::Spec.new do |spec|
   spec.source       = { :git => "https://github.com/torusresearch/customauth-swift-sdk.git", :tag => spec.version }
   spec.source_files = "Sources/CustomAuth/*.{swift}","Sources/CustomAuth/**/*.{swift}"
   spec.dependency 'Torus-utils', '~> 5.0.0'
-  spec.dependency 'JWTDecode', '~> 2.6'
+  spec.dependency 'JWTDecode', '~> 3.0.1'
 end
