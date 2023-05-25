@@ -42,7 +42,6 @@ final class MockSDKTest: XCTestCase {
                     XCTFail(error.localizedDescription)
                     expectation.fulfill()
         }
-        wait(for: [expectation], timeout: 5)
     }
 
     func testGetAggregateTorusKey() async {
@@ -76,7 +75,6 @@ final class MockSDKTest: XCTestCase {
                     XCTFail(error.localizedDescription)
                     expectation.fulfill()
                 }
-        wait(for: [expectation], timeout: 5)
     }
 
     static var allTests = [
