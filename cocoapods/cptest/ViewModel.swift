@@ -18,7 +18,6 @@ struct User {
 class ViewModel: ObservableObject {
     @Published var user: User?
     @Published var showingAlert: Bool = false
-    private var testnetNetworkUrl: String = "https://rpc.ankr.com/eth_ropsten"
     private var customAuth: CustomAuth? {
         didSet {
             triggerLogin()
@@ -34,7 +33,7 @@ class ViewModel: ObservableObject {
         let vc = UIApplication.shared.keyWindow?.rootViewController
         Task {
             do {
-                let data = try await customAuth?.triggerLogin(controller: vc) ?? [:]
+                let data = try await customAuth?.triggerLogin(controller: vc, browserType: .asWebAuthSession) ?? [:]
                 decodeData(data: data)
             } catch {
                 print(error)
@@ -155,7 +154,7 @@ extension ViewModel {
                                      jwtParams: ["domain": "torus-test.auth0.com", "connection": "linkedin"],
                                      urlSession: URLSession.shared)
 
-        customAuth = CustomAuth(aggregateVerifierType: .singleLogin, aggregateVerifier: "torus-auth0-linkedin-lrc", subVerifierDetails: [sub], factory: CASDKFactory(), network: .TESTNET, urlSession: URLSession.shared, networkUrl: testnetNetworkUrl)
+        customAuth = CustomAuth(aggregateVerifierType: .singleLogin, aggregateVerifier: "torus-auth0-linkedin-lrc", subVerifierDetails: [sub], factory: CASDKFactory(), network: .TESTNET, urlSession: URLSession.shared)
     }
 
     func appleLogin() {
@@ -167,19 +166,20 @@ extension ViewModel {
                                      jwtParams: ["domain": "torus-test.auth0.com", "connection": "apple"],
                                      urlSession: URLSession.shared)
 
-        customAuth = CustomAuth(aggregateVerifierType: .singleLogin, aggregateVerifier: "torus-auth0-apple-lrc", subVerifierDetails: [sub], factory: CASDKFactory(), network: .TESTNET, urlSession: URLSession.shared, networkUrl: testnetNetworkUrl)
+        customAuth = CustomAuth(aggregateVerifierType: .singleLogin, aggregateVerifier: "torus-auth0-apple-lrc", subVerifierDetails: [sub], factory: CASDKFactory(), network: .TESTNET, urlSession: URLSession.shared)
     }
 
     func emailPasswordlessLogin() {
         let sub = SubVerifierDetails(loginType: .web,
                                      loginProvider: .jwt,
                                      clientId: "P7PJuBCXIHP41lcyty0NEb7Lgf7Zme8Q",
-                                     verifier: "torus-auth0-email-passwordless",
+                                     verifier: "torus-auth0-email-passwordless-lrc",
                                      redirectURL: "tdsdk://tdsdk/oauthCallback",
-                                     jwtParams: ["domain": "torus-test.auth0.com", "verifier_id_field": "name"],
+                                     browserRedirectURL: "https://scripts.toruswallet.io/redirect.html",
+                                     jwtParams: ["domain": "lrc.auth.openlogin.com", "verifierIdField": "name", "login_hint": "temp1000@mailinator.com", "connection": "email"],
                                      urlSession: URLSession.shared)
 
-        customAuth = CustomAuth(aggregateVerifierType: .singleLogin, aggregateVerifier: "torus-auth0-email-passwordless", subVerifierDetails: [sub], factory: CASDKFactory(), network: .TESTNET, urlSession: URLSession.shared, networkUrl: testnetNetworkUrl)
+        customAuth = CustomAuth(aggregateVerifierType: .singleLogin, aggregateVerifier: "torus-auth0-email-passwordless-lrc", subVerifierDetails: [sub], factory: CASDKFactory(), network: .TESTNET, urlSession: URLSession.shared)
     }
 
     func kakaoLogin() {
@@ -191,7 +191,7 @@ extension ViewModel {
                                      jwtParams: ["domain": "torus-test.auth0.com"],
                                      urlSession: URLSession.shared)
 
-        customAuth = CustomAuth(aggregateVerifierType: .singleLogin, aggregateVerifier: "torus-auth0-kakao-lrc", subVerifierDetails: [sub], factory: CASDKFactory(), network: .TESTNET, urlSession: URLSession.shared, networkUrl: testnetNetworkUrl)
+        customAuth = CustomAuth(aggregateVerifierType: .singleLogin, aggregateVerifier: "torus-auth0-kakao-lrc", subVerifierDetails: [sub], factory: CASDKFactory(), network: .TESTNET, urlSession: URLSession.shared)
     }
 
     func weiboLogin() {
@@ -203,7 +203,7 @@ extension ViewModel {
                                      jwtParams: ["domain": "torus-test.auth0.com"],
                                      urlSession: URLSession.shared)
 
-        customAuth = CustomAuth(aggregateVerifierType: .singleLogin, aggregateVerifier: "torus-auth0-weibo-lrc", subVerifierDetails: [sub], factory: CASDKFactory(), network: .TESTNET, urlSession: URLSession.shared, networkUrl: testnetNetworkUrl)
+        customAuth = CustomAuth(aggregateVerifierType: .singleLogin, aggregateVerifier: "torus-auth0-weibo-lrc", subVerifierDetails: [sub], factory: CASDKFactory(), network: .TESTNET, urlSession: URLSession.shared)
     }
 
     func wechatLogin() {
