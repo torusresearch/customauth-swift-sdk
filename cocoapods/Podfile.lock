@@ -2,10 +2,10 @@ PODS:
   - BigInt (5.0.0)
   - CryptoSwift (1.5.1)
   - CustomAuth (6.0.0):
-    - JWTDecode (~> 2.6)
+    - JWTDecode (~> 3.0.1)
     - Torus-utils (~> 5.0.0)
   - GenericJSON (2.0.2)
-  - JWTDecode (2.6.3)
+  - JWTDecode (3.0.1)
   - secp256k1.swift (0.1.4)
   - Torus-fetchNodeDetails (4.0.1):
     - web3.swift (~> 0.9.3)
@@ -39,9 +39,9 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   BigInt: 74b4d88367b0e819d9f77393549226d36faeb0d8
   CryptoSwift: c4f2debceb38bf44c80659afe009f71e23e4a082
-  CustomAuth: 3786404337f47d1daad2a39be4b2b515a4d85748
+  CustomAuth: c49749c88ceac2720c52368ff58a78c63027a06a
   GenericJSON: 79a840eeb77030962e8cf02a62d36bd413b67626
-  JWTDecode: 33e5e26e5ddbd21b2065820894c08fef0cad9509
+  JWTDecode: 2eed97c2fa46ccaf3049a787004eedf0be474a87
   secp256k1.swift: a7e7a214f6db6ce5db32cc6b2b45e5c4dd633634
   Torus-fetchNodeDetails: a92d02f1bfe91bd61c90f92d64df023babaa5bfa
   Torus-utils: 9ac46eb76935e328a6628108c94b66e1af1e7fa7
@@ -49,4 +49,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 565bc0707b1270aea2d5c153bd669fa8c5ee7ca6
 
-COCOAPODS: 1.12.0
+COCOAPODS: 1.12.1
