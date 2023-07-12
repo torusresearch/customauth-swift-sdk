@@ -1,6 +1,8 @@
 import CustomAuth
 import FetchNodeDetails
 import Foundation
+import CommonSources
+import BigInt
 @testable import TorusUtils
 
 // Added so the that we can assign values later.
@@ -10,27 +12,28 @@ public protocol MockAbstractTorusUtils {
 }
 
 class MockTorusUtils: AbstractTorusUtils, MockAbstractTorusUtils {
-    func retrieveShares(torusNodePubs: [TorusNodePubModel], endpoints: [String], verifier: String, verifierId: String, idToken: String, extraParams: Data) async throws -> RetrieveSharesResponseModel {
+
+    func retrieveShares(endpoints: [String], torusNodePubs: [CommonSources.TorusNodePubModel]?, verifier: String, verifierParams: VerifierParams, idToken: String, extraParams: [String : Codable]) async throws -> RetrieveSharesResponse {
         retrieveShares_input = [
             "endpoints": endpoints,
             "verifierIdentifier": verifier,
-            "verifierId": verifierId,
+            "verifierId": verifierParams.verifier_id,
             "idToken": idToken,
             "extraParams": extraParams
         ]
-        return .init(publicKey: retrieveShares_output["publicAddress"] ?? "", privateKey: retrieveShares_output["privateKey"] ?? "")
+        return .init(ethAddress: retrieveShares_output["publicAddress"] ?? "", privKey: retrieveShares_output["privateKey"] ?? "", sessionTokenData: [], X: "", Y: "", metadataNonce: BigInt(0), postboxPubKeyX: "", postboxPubKeyY: "", sessionAuthKey: "", nodeIndexes: [])
     }
     
-    func getPublicAddress(endpoints: [String], torusNodePubs: [TorusNodePubModel], verifier: String, verifierId: String, isExtended: Bool) async throws -> GetPublicAddressModel {
-        return .init(address: "")
+    func getPublicAddress(endpoints: [String], torusNodePubs: [CommonSources.TorusNodePubModel]?, verifier: String, verifierId: String, extendedVerifierId: String?) async throws -> String {
+        return ""
     }
 
-    func getUserTypeAndAddress(endpoints: [String], torusNodePub: [TorusNodePubModel], verifier: String, verifierID: String, doesKeyAssign: Bool)async throws -> GetUserAndAddressModel {
+    func getUserTypeAndAddress(endpoints: [String], torusNodePubs: [TorusNodePubModel]?, verifier: String, verifierID: String, doesKeyAssign: Bool)async throws -> GetUserAndAddress{
         return .init(typeOfUser: .v1, address: "", x: "", y: "")
     }
 
-    func getOrSetNonce(x: String, y: String, privateKey: String?, getOnly: Bool) async throws -> GetOrSetNonceResultModel {
-        return GetOrSetNonceResultModel(typeOfUser: "v1")
+    func getOrSetNonce(x: String, y: String, privateKey: String?, getOnly: Bool) async throws -> GetOrSetNonceResult {
+        return GetOrSetNonceResult(typeOfUser: "v1")
     }
 
     var retrieveShares_input: [String: Any] = [:]

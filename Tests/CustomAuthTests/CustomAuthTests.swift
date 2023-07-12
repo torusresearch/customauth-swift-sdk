@@ -22,9 +22,11 @@ final class MockSDKTest: XCTestCase {
         let subVerifier = [SubVerifierDetails(loginProvider: .jwt, clientId: fakeData.generateVerifier(), verifier: expectedVerifier, redirectURL: fakeData.generateVerifier())]
         let factory = MockFactory()
 
-        let CustomAuth = CustomAuth(aggregateVerifierType: .singleLogin, aggregateVerifier: expectedVerifier, subVerifierDetails: subVerifier, factory: factory)
-        var mockTorusUtils = CustomAuth.torusUtils as! MockAbstractTorusUtils
-
+//        let CustomAuth = CustomAuth(aggregateVerifierType: .singleLogin, aggregateVerifier: expectedVerifier, subVerifierDetails: subVerifiery)
+        let CustomAuth = CustomAuth(aggregateVerifierType: .singleLogin, aggregateVerifier: expectedVerifier, subVerifierDetails: [])
+//        var mockTorusUtils = CustomAuth.torusUtils as! MockAbstractTorusUtils
+        var mockTorusUtils = MockTorusUtils()
+        CustomAuth.torusUtils = mockTorusUtils
         // Set Mock data
         mockTorusUtils.retrieveShares_output["privateKey"] = expectedPrivateKey
         mockTorusUtils.retrieveShares_output["publicAddress"] = expectedPublicAddress
@@ -55,8 +57,10 @@ final class MockSDKTest: XCTestCase {
         let subVerifier = [SubVerifierDetails(loginProvider: .jwt, clientId: fakeData.generateVerifier(), verifier: expectedVerifier, redirectURL: fakeData.generateVerifier())]
         let factory = MockFactory()
 
-        let CustomAuth = CustomAuth(aggregateVerifierType: .singleIdVerifier, aggregateVerifier: expectedVerifier, subVerifierDetails: subVerifier, factory: factory)
-        var mockTorusUtils = CustomAuth.torusUtils as! MockAbstractTorusUtils
+        let CustomAuth = CustomAuth(aggregateVerifierType: .singleIdVerifier, aggregateVerifier: expectedVerifier, subVerifierDetails: subVerifier)
+//        var mockTorusUtils = CustomAuth.torusUtils as! MockAbstractTorusUtils
+        var mockTorusUtils = MockTorusUtils()
+        CustomAuth.torusUtils = mockTorusUtils
 
         // Set Mock data
         mockTorusUtils.retrieveShares_output["privateKey"] = expectedPrivateKey

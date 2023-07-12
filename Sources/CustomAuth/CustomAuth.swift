@@ -10,15 +10,17 @@ import Foundation
 import OSLog
 import TorusUtils
 import UIKit
+import CommonSources
 
 // Global variable
 var tsSdkLogType = OSLogType.default
 
 /// Provides integration of an iOS app with Torus CustomAuth.
 open class CustomAuth {
-    let factory: CASDKFactoryProtocol
+//    let factory: CASDKFactoryProtocol
+    var nodeDetailManager: NodeDetailManager
     var torusUtils: AbstractTorusUtils
-    let fetchNodeDetails: FetchNodeDetails
+//    let fetchNodeDetails: AllNodeDetailsModel
     var urlSession: URLSession
     var enableOneKey: Bool
     ///  You can pass your own custom url  rather than using our default infura url,
@@ -29,6 +31,7 @@ open class CustomAuth {
     public let subVerifierDetails: [SubVerifierDetails]
     public var authorizeURLHandler: URLOpenerTypes?
     var observer: NSObjectProtocol? // useful for Notifications
+    var network : TorusNetwork
 
     /// Initiate an CustomAuth instance.
     /// - Parameters:
@@ -38,20 +41,21 @@ open class CustomAuth {
     ///   - factory: Providng mocking by implementing TDSDKFactoryProtocol.
     ///   - network: Etherum network to be used.
     ///   - loglevel: Indicates the log level of this instance. All logs lower than this level will be ignored.
-    public init(aggregateVerifierType: verifierTypes, aggregateVerifier: String, subVerifierDetails: [SubVerifierDetails], factory: CASDKFactoryProtocol = CASDKFactory(), network: EthereumNetworkFND = .MAINNET, loglevel: OSLogType = .debug, urlSession: URLSession = URLSession.shared, enableOneKey: Bool = false, networkUrl: String? = nil) {
+    public init(aggregateVerifierType: verifierTypes, aggregateVerifier: String, subVerifierDetails: [SubVerifierDetails], network: TorusNetwork = .legacy(.MAINNET), loglevel: OSLogType = .debug, urlSession: URLSession = URLSession.shared, enableOneKey: Bool = false, networkUrl: String? = nil) {
         tsSdkLogType = loglevel
         self.networkUrl = networkUrl
         self.enableOneKey = enableOneKey
         // factory method
-        self.factory = factory
+        self.nodeDetailManager = NodeDetailManager(network: network)
         self.urlSession = urlSession
-        torusUtils = factory.createTorusUtils(loglevel: loglevel, urlSession: urlSession, enableOneKey: enableOneKey, network: network)
-        fetchNodeDetails = factory.createFetchNodeDetails(network: network, urlSession: urlSession, networkUrl: networkUrl)
+        
+        self.torusUtils = TorusUtils(loglevel: loglevel, urlSession: urlSession, enableOneKey: enableOneKey, serverTimeOffset: 1000,  network: network)
 
         // verifier details
         self.aggregateVerifier = aggregateVerifier
         self.aggregateVerifierType = aggregateVerifierType
         self.subVerifierDetails = subVerifierDetails
+        self.network = network
     }
 
     /// Initiate an CustomAuth instance.
@@ -60,19 +64,19 @@ open class CustomAuth {
     ///   - aggregateVerifier: Name of the verifier to be used..
     ///   - subVerifierDetails: Details of each subverifiers to be used.
     public convenience init(aggregateVerifierType: verifierTypes, aggregateVerifier: String, subVerifierDetails: [SubVerifierDetails], enableOneKey: Bool = false, networkUrl: String? = nil) {
-        let factory = CASDKFactory()
-        self.init(aggregateVerifierType: aggregateVerifierType, aggregateVerifier: aggregateVerifier, subVerifierDetails: subVerifierDetails, factory: factory, network: .MAINNET, loglevel: .debug, enableOneKey: enableOneKey, networkUrl: networkUrl)
+//        let factory = CASDKFactory()
+        self.init(aggregateVerifierType: aggregateVerifierType, aggregateVerifier: aggregateVerifier, subVerifierDetails: subVerifierDetails, network: .legacy(.MAINNET), loglevel: .debug, enableOneKey: enableOneKey, networkUrl: networkUrl)
     }
 
     public convenience init(aggregateVerifierType: verifierTypes, aggregateVerifier: String, subVerifierDetails: [SubVerifierDetails], loglevel: OSLogType = .debug, enableOneKey: Bool = false, networkUrl: String? = nil) {
-        let factory = CASDKFactory()
-        self.init(aggregateVerifierType: aggregateVerifierType, aggregateVerifier: aggregateVerifier, subVerifierDetails: subVerifierDetails, factory: factory, network: .MAINNET, loglevel: loglevel, enableOneKey: enableOneKey, networkUrl: networkUrl)
+//        let factory = CASDKFactory()
+        self.init(aggregateVerifierType: aggregateVerifierType, aggregateVerifier: aggregateVerifier, subVerifierDetails: subVerifierDetails, network: .legacy(.MAINNET), loglevel: loglevel, enableOneKey: enableOneKey, networkUrl: networkUrl)
     }
 
     /// Retrieve information of Torus nodes from a predefined Etherum contract.
     /// - Returns: An array of URLs to the nodes.
     open func getNodeDetailsFromContract(verifier: String, verfierID: String) async throws -> AllNodeDetailsModel {
-        let nodeDetails = try await fetchNodeDetails.getNodeDetails(verifier: verifier, verifierID: verfierID)
+        let nodeDetails = try await nodeDetailManager.getNodeDetails(verifier: verifier, verifierID: verfierID)
         return nodeDetails
     }
 
@@ -184,14 +188,25 @@ open class CustomAuth {
     ///   - userData: Custom data that will be returned with `privateKey` and `publicAddress`.
     /// - Returns: A promise that resolve with a Dictionary that contain at least `privateKey` and `publicAddress` field..
     open func getTorusKey(verifier: String, verifierId: String, idToken: String, userData: [String: Any] = [:]) async throws -> [String: Any] {
-        let extraParams = ["verifier_id": verifierId] as [String: Any]
+        let extraParams = ["verifier_id": verifierId] as [String: Codable]
         let buffer: Data = try! NSKeyedArchiver.archivedData(withRootObject: extraParams, requiringSecureCoding: false)
+        let verifierParams = VerifierParams(verifier_id: verifierId)
         do {
-            let nodeDetails = try await getNodeDetailsFromContract(verifier: verifier, verfierID: verifierId)
-            let responseFromRetrieveShares = try await torusUtils.retrieveShares(torusNodePubs: nodeDetails.getTorusNodePub(), endpoints: nodeDetails.getTorusNodeEndpoints(), verifier: verifier, verifierId: verifierId, idToken: idToken, extraParams: buffer)
+            let nodeDetails = try await nodeDetailManager.getNodeDetails(verifier: verifier, verifierID: verifierId)
+            let responseFromRetrieveShares : RetrieveSharesResponse;
+            switch network {
+            case .legacy(_):
+                responseFromRetrieveShares = try await torusUtils.retrieveShares(endpoints: nodeDetails.torusNodeEndpoints, torusNodePubs: nodeDetails.torusNodePub, verifier: verifier, verifierParams: verifierParams, idToken: idToken, extraParams: extraParams)
+            case .sapphire(_):
+                responseFromRetrieveShares = try await torusUtils.retrieveShares(endpoints: nodeDetails.torusNodeSSSEndpoints, torusNodePubs: nil, verifier: verifier, verifierParams: verifierParams, idToken: idToken, extraParams: extraParams)
+            }
+            
+            
+//            (torusNodePubs: nodeDetails.getTorusNodePub(), endpoints: nodeDetails.getTorusNodeEndpoints(), verifier: verifier, verifierId: verifierId, idToken: idToken, extraParams: buffer)
             var data = userData
-            data["privateKey"] = responseFromRetrieveShares.privateKey
-            data["publicAddress"] = responseFromRetrieveShares.publicAddress
+            print(responseFromRetrieveShares)
+            data["privateKey"] = responseFromRetrieveShares.privKey
+            data["publicAddress"] = responseFromRetrieveShares.ethAddress
             return data
         } catch {
             os_log("handleSingleLogin: err: %s", log: getTorusLogger(log: CASDKLogger.core, type: .error), type: .error, error.localizedDescription)
@@ -206,15 +221,26 @@ open class CustomAuth {
     ///   - subVerifierDetails: An array of verifiers to be used for the aggregate login flow, with their respective token and verifier name.
     /// - Returns: A promise that resolve with a Dictionary that contain at least `privateKey` and `publicAddress` field..
     open func getAggregateTorusKey(verifier: String, verifierId: String, idToken: String, subVerifierDetails: SubVerifierDetails, userData: [String: Any] = [:]) async throws -> [String: Any] {
-        let extraParams = ["verifieridentifier": verifier, "verifier_id": verifierId, "sub_verifier_ids": [subVerifierDetails.verifier], "verify_params": [["verifier_id": verifierId, "idtoken": idToken]]] as [String: Any]
+        let extraParams = ["verifieridentifier": verifier, "verifier_id": verifierId, "sub_verifier_ids": [subVerifierDetails.verifier], "verify_params": [["verifier_id": verifierId, "idtoken": idToken]]] as [String: Codable]
         let buffer: Data = try! NSKeyedArchiver.archivedData(withRootObject: extraParams, requiringSecureCoding: false)
         let hashedOnce = idToken.sha3(.keccak256)
+        
+        let verifierParams = VerifierParams(verifier_id: verifierId)
+        
         do {
-        let nodeDetails = try await getNodeDetailsFromContract(verifier: verifier, verfierID: verifierId)
-            let responseFromRetrieveShares = try await self.torusUtils.retrieveShares(torusNodePubs: nodeDetails.getTorusNodePub(), endpoints: nodeDetails.getTorusNodeEndpoints(), verifier: verifier, verifierId: verifierId, idToken: hashedOnce, extraParams: buffer)
+            let nodeDetails = try await getNodeDetailsFromContract(verifier: verifier, verfierID: verifierId)
+            let responseFromRetrieveShares :RetrieveSharesResponse;
+            switch network {
+            case .legacy(_):
+                responseFromRetrieveShares = try await self.torusUtils.retrieveShares(endpoints: nodeDetails.torusNodeEndpoints, torusNodePubs: nodeDetails.torusNodePub, verifier: verifier, verifierParams: verifierParams, idToken: hashedOnce, extraParams: extraParams)
+            case .sapphire(_):
+                responseFromRetrieveShares = try await self.torusUtils.retrieveShares(endpoints: nodeDetails.torusNodeSSSEndpoints, torusNodePubs: nil, verifier: verifier, verifierParams: verifierParams, idToken: hashedOnce, extraParams: extraParams)
+            }
+            
+//            (torusNodePubs: nodeDetails.torusNodePub, endpoints: nodeDetails.getTorusNodeEndpoints(), verifier: verifier, verifierId: verifierId, idToken: hashedOnce, extraParams: buffer)
             var data = userData
-            data["privateKey"] = responseFromRetrieveShares.privateKey
-            data["publicAddress"] = responseFromRetrieveShares.publicAddress
+            data["privateKey"] = responseFromRetrieveShares.privKey
+            data["publicAddress"] = responseFromRetrieveShares.ethAddress
             return data
         } catch {
             os_log("handleSingleIdVerifier err: %@", log: getTorusLogger(log: CASDKLogger.core, type: .error), type: .error, error.localizedDescription)

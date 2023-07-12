@@ -23,7 +23,7 @@ final class IntegrationTests: XCTestCase {
                                      redirectURL: "com.googleusercontent.apps.238941746713-vfap8uumijal4ump28p9jd3lbe6onqt4:/oauthredirect",
                                      browserRedirectURL: "https://scripts.toruswallet.io/redirect.html")
 
-        IntegrationTests.sdk = CustomAuth(aggregateVerifierType: .singleLogin, aggregateVerifier: "torus-test-ios-public", subVerifierDetails: [sub], network: .CYAN)
+        IntegrationTests.sdk = CustomAuth(aggregateVerifierType: .singleLogin, aggregateVerifier: "torus-test-ios-public", subVerifierDetails: [sub], network: .legacy(.CYAN))
     }
 
     func test_getTorusKey() async {
@@ -37,6 +37,44 @@ final class IntegrationTests: XCTestCase {
             XCTAssertEqual(data?["publicAddress"] as! String, "0x8AA6C8ddCD868873120aA265Fc63E3a2180375BA")
             exp1.fulfill()
         } catch {
+            print(error)
+            XCTFail(error.localizedDescription)
+        }
+        wait(for: [exp1], timeout: 15)
+    }
+    
+    
+    
+    let TORUS_TEST_EMAIL = "saasas@tr.us";
+    let TORUS_IMPORT_EMAIL = "importeduser2@tor.us";
+
+    let TORUS_EXTENDED_VERIFIER_EMAIL = "testextenderverifierid@example.com";
+
+    let TORUS_TEST_VERIFIER = "torus-test-health";
+
+    let TORUS_TEST_AGGREGATE_VERIFIER = "torus-test-health-aggregate";
+    let HashEnabledVerifier = "torus-test-verifierid-hash";
+    
+    func test_Sapphire_getTorusKey() async {
+
+        let sub = SubVerifierDetails(loginType: .web,
+                                     loginProvider: .google,
+                                     clientId: "221898609709-obfn3p63741l5333093430j3qeiinaa8.apps.googleusercontent.com",
+                                     verifier: "google-lrc",
+                                     redirectURL: "com.googleusercontent.apps.238941746713-vfap8uumijal4ump28p9jd3lbe6onqt4:/oauthredirect",
+                                     browserRedirectURL: "https://scripts.toruswallet.io/redirect.html")
+        let sdk = CustomAuth(aggregateVerifierType: .singleLogin, aggregateVerifier: "torus-test-ios-public", subVerifierDetails: [sub], network: .sapphire(.SAPPHIRE_DEVNET))
+        
+        
+        let exp1 = XCTestExpectation(description: "Should be able to get key")
+        let email = "hello@tor.us"
+        let jwt = try! generateIdToken(email: TORUS_TEST_EMAIL)
+        do {
+            let data = try await sdk.getTorusKey(verifier: TORUS_TEST_VERIFIER, verifierId: TORUS_TEST_EMAIL, idToken: jwt)
+                XCTAssertEqual(data["publicAddress"] as! String, "0x4924f91f5d6701ddd41042d94832bb17b76f316f".lowercased())
+                exp1.fulfill()
+        } catch {
+            print(error)
             XCTFail(error.localizedDescription)
         }
         wait(for: [exp1], timeout: 15)
