@@ -207,6 +207,10 @@ open class CustomAuth {
             print(responseFromRetrieveShares)
             data["privateKey"] = responseFromRetrieveShares.privKey
             data["publicAddress"] = responseFromRetrieveShares.ethAddress
+            data["sessionTokenData"] = responseFromRetrieveShares.sessionTokenData
+            data["sessionAuthKey"] = responseFromRetrieveShares.sessionAuthKey
+            
+            
             return data
         } catch {
             os_log("handleSingleLogin: err: %s", log: getTorusLogger(log: CASDKLogger.core, type: .error), type: .error, error.localizedDescription)
