@@ -245,6 +245,8 @@ open class CustomAuth {
             var data = userData
             data["privateKey"] = responseFromRetrieveShares.privKey
             data["publicAddress"] = responseFromRetrieveShares.ethAddress
+            data["sessionTokenData"] = responseFromRetrieveShares.sessionTokenData
+            data["sessionAuthKey"] = responseFromRetrieveShares.sessionAuthKey
             return data
         } catch {
             os_log("handleSingleIdVerifier err: %@", log: getTorusLogger(log: CASDKLogger.core, type: .error), type: .error, error.localizedDescription)
