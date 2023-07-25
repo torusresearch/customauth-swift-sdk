@@ -13,7 +13,7 @@ public protocol MockAbstractTorusUtils {
 
 class MockTorusUtils: AbstractTorusUtils, MockAbstractTorusUtils {
 
-    func retrieveShares(endpoints: [String], torusNodePubs: [CommonSources.TorusNodePubModel]?, verifier: String, verifierParams: VerifierParams, idToken: String, extraParams: [String : Codable]) async throws -> RetrieveSharesResponse {
+    func retrieveShares(endpoints: [String], torusNodePubs: [TorusNodePubModel]?, verifier: String, verifierParams: VerifierParams, idToken: String, extraParams: [String:Codable]) async throws -> TorusKey {
         retrieveShares_input = [
             "endpoints": endpoints,
             "verifierIdentifier": verifier,
@@ -21,11 +21,13 @@ class MockTorusUtils: AbstractTorusUtils, MockAbstractTorusUtils {
             "idToken": idToken,
             "extraParams": extraParams
         ]
-        return .init(ethAddress: retrieveShares_output["publicAddress"] ?? "", privKey: retrieveShares_output["privateKey"] ?? "", sessionTokenData: [], X: "", Y: "", metadataNonce: BigInt(0), postboxPubKeyX: "", postboxPubKeyY: "", sessionAuthKey: "", nodeIndexes: [])
+        let finalKeyData : TorusKey.FinalKeyData = .init(evmAddress: retrieveShares_output["publicAddress"] ?? "", X: "", Y: "", privKey: retrieveShares_output["privateKey"] ?? "")
+        return TorusKey(finalKeyData: finalKeyData, oAuthKeyData: nil, sessionData: nil, metadata: nil, nodesData: nil)
     }
     
-    func getPublicAddress(endpoints: [String], torusNodePubs: [CommonSources.TorusNodePubModel]?, verifier: String, verifierId: String, extendedVerifierId: String?) async throws -> String {
-        return ""
+    func getPublicAddress(endpoints: [String], torusNodePubs: [TorusNodePubModel]?, verifier: String, verifierId: String, extendedVerifierId: String?) async throws -> TorusPublicKey {
+//        GetPublicAddressResult(address: "")
+        return TorusPublicKey(finalKeyData: nil, oAuthKeyData: nil, metadata: nil, nodesData: nil)
     }
 
     func getUserTypeAndAddress(endpoints: [String], torusNodePubs: [TorusNodePubModel]?, verifier: String, verifierID: String, doesKeyAssign: Bool)async throws -> GetUserAndAddress{

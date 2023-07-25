@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
     name: "CustomAuth",
     platforms: [
-        .iOS(.v13)
+        .iOS(.v13), .macOS(.v10_15)
     ],
     products: [
         .library(
@@ -14,7 +14,7 @@ let package = Package(
             targets: ["CustomAuth"])
     ],
     dependencies: [
-        .package(name: "TorusUtils", url: "https://github.com/torusresearch/torus-utils-swift.git", .branch("feat/sapphire-test")),
+        .package(name: "TorusUtils", url: "https://github.com/torusresearch/torus-utils-swift.git", .branch("sapphire-fix")),
         .package(name: "jwt-kit", url: "https://github.com/vapor/jwt-kit.git", from: "4.0.0"),
         .package(name: "JWTDecode", url: "https://github.com/auth0/JWTDecode.swift.git", from: "3.0.1")
     ],

@@ -33,8 +33,10 @@ final class IntegrationTests: XCTestCase {
         let email = "hello@tor.us"
         let jwt = try! generateIdToken(email: email)
         do {
-        let data = try await IntegrationTests.sdk?.getTorusKey(verifier: TORUS_TEST_VERIFIER, verifierId: email, idToken: jwt)
-            XCTAssertEqual(data?["publicAddress"] as! String, "0x8AA6C8ddCD868873120aA265Fc63E3a2180375BA")
+            let data = try await IntegrationTests.sdk?.getTorusKey(verifier: TORUS_TEST_VERIFIER, verifierId: email, idToken: jwt)
+            let finalKeyDataDict = data?["finalKeyData"] as? [String: Any]
+            let evmAddress = finalKeyDataDict!["evmAddress"] as? String
+            XCTAssertEqual(evmAddress, "0x8AA6C8ddCD868873120aA265Fc63E3a2180375BA")
             exp1.fulfill()
         } catch {
             print(error)
@@ -71,8 +73,10 @@ final class IntegrationTests: XCTestCase {
         let jwt = try! generateIdToken(email: TORUS_TEST_EMAIL)
         do {
             let data = try await sdk.getTorusKey(verifier: TORUS_TEST_VERIFIER, verifierId: TORUS_TEST_EMAIL, idToken: jwt)
-                XCTAssertEqual(data["publicAddress"] as! String, "0x4924f91f5d6701ddd41042d94832bb17b76f316f".lowercased())
-                exp1.fulfill()
+            let finalKeyDataDict = data["finalKeyData"] as? [String: Any]
+            let evmAddress = finalKeyDataDict!["evmAddress"] as? String
+            XCTAssertEqual(evmAddress, "0x4924F91F5d6701dDd41042D94832bB17B76F316F")
+            exp1.fulfill()
         } catch {
             print(error)
             XCTFail(error.localizedDescription)

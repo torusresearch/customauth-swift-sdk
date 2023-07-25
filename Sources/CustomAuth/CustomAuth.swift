@@ -193,7 +193,7 @@ open class CustomAuth {
         let verifierParams = VerifierParams(verifier_id: verifierId)
         do {
             let nodeDetails = try await nodeDetailManager.getNodeDetails(verifier: verifier, verifierID: verifierId)
-            let responseFromRetrieveShares : RetrieveSharesResponse;
+            let responseFromRetrieveShares : TorusKey;
             switch network {
             case .legacy(_):
                 responseFromRetrieveShares = try await torusUtils.retrieveShares(endpoints: nodeDetails.torusNodeEndpoints, torusNodePubs: nodeDetails.torusNodePub, verifier: verifier, verifierParams: verifierParams, idToken: idToken, extraParams: extraParams)
@@ -205,11 +205,60 @@ open class CustomAuth {
 //            (torusNodePubs: nodeDetails.getTorusNodePub(), endpoints: nodeDetails.getTorusNodeEndpoints(), verifier: verifier, verifierId: verifierId, idToken: idToken, extraParams: buffer)
             var data = userData
             print(responseFromRetrieveShares)
-            data["privateKey"] = responseFromRetrieveShares.privKey
-            data["publicAddress"] = responseFromRetrieveShares.ethAddress
-            data["sessionTokenData"] = responseFromRetrieveShares.sessionTokenData
-            data["sessionAuthKey"] = responseFromRetrieveShares.sessionAuthKey
             
+            let finalKeyData = responseFromRetrieveShares.finalKeyData
+            let oAuthKeyData = responseFromRetrieveShares.oAuthKeyData
+            let sessionData = responseFromRetrieveShares.sessionData
+            let metadata = responseFromRetrieveShares.metadata
+            let nodesData = responseFromRetrieveShares.nodesData
+
+            // Convert each property to type Any and add them to the dictionary
+            if let finalKeyData = finalKeyData {
+                data["finalKeyData"] = [
+                    "evmAddress": finalKeyData.evmAddress,
+                    "X": finalKeyData.X,
+                    "Y": finalKeyData.Y,
+                    "privKey": finalKeyData.privKey as Any // privKey is an optional, so cast to Any
+                ]
+            }
+
+            if let oAuthKeyData = oAuthKeyData {
+                data["oAuthKeyData"] = [
+                    "evmAddress": oAuthKeyData.evmAddress,
+                    "X": oAuthKeyData.X,
+                    "Y": oAuthKeyData.Y,
+                    "privKey": oAuthKeyData.privKey
+                ]
+            }
+
+            if let sessionData = sessionData {
+                data["sessionData"] = [
+                    "sessionTokenData": sessionData.sessionTokenData.map { sessionToken in
+                        return [
+                            "token": sessionToken.token,
+                            "signature": sessionToken.signature,
+                            "node_pubx": sessionToken.node_pubx,
+                            "node_puby": sessionToken.node_puby
+                        ]
+                    },
+                    "sessionAuthKey": sessionData.sessionAuthKey
+                ]
+            }
+
+            if let metadata = metadata {
+                data["metadata"] = [
+                    "pubNonce": metadata.pubNonce as Any, // pubNonce is optional, so cast to Any
+                    "nonce": metadata.nonce as Any, // nonce is optional, so cast to Any
+                    "typeOfUser": metadata.typeOfUser.rawValue, // UserType needs to be converted to rawValue
+                    "upgraded": metadata.upgraded as Any // upgraded is optional, so cast to Any
+                ]
+            }
+
+            if let nodesData = nodesData {
+                data["nodesData"] = [
+                    "nodeIndexes": nodesData.nodeIndexes
+                ]
+            }
             
             return data
         } catch {
@@ -233,7 +282,7 @@ open class CustomAuth {
         
         do {
             let nodeDetails = try await getNodeDetailsFromContract(verifier: verifier, verfierID: verifierId)
-            let responseFromRetrieveShares :RetrieveSharesResponse;
+            let responseFromRetrieveShares :TorusKey;
             switch network {
             case .legacy(_):
                 responseFromRetrieveShares = try await self.torusUtils.retrieveShares(endpoints: nodeDetails.torusNodeEndpoints, torusNodePubs: nodeDetails.torusNodePub, verifier: verifier, verifierParams: verifierParams, idToken: hashedOnce, extraParams: extraParams)
@@ -243,10 +292,59 @@ open class CustomAuth {
             
 //            (torusNodePubs: nodeDetails.torusNodePub, endpoints: nodeDetails.getTorusNodeEndpoints(), verifier: verifier, verifierId: verifierId, idToken: hashedOnce, extraParams: buffer)
             var data = userData
-            data["privateKey"] = responseFromRetrieveShares.privKey
-            data["publicAddress"] = responseFromRetrieveShares.ethAddress
-            data["sessionTokenData"] = responseFromRetrieveShares.sessionTokenData
-            data["sessionAuthKey"] = responseFromRetrieveShares.sessionAuthKey
+            let finalKeyData = responseFromRetrieveShares.finalKeyData
+            let oAuthKeyData = responseFromRetrieveShares.oAuthKeyData
+            let sessionData = responseFromRetrieveShares.sessionData
+            let metadata = responseFromRetrieveShares.metadata
+            let nodesData = responseFromRetrieveShares.nodesData
+
+            // Convert each property to type Any and add them to the dictionary
+            if let finalKeyData = finalKeyData {
+                data["finalKeyData"] = [
+                    "evmAddress": finalKeyData.evmAddress,
+                    "X": finalKeyData.X,
+                    "Y": finalKeyData.Y,
+                    "privKey": finalKeyData.privKey as Any // privKey is an optional, so cast to Any
+                ]
+            }
+
+            if let oAuthKeyData = oAuthKeyData {
+                data["oAuthKeyData"] = [
+                    "evmAddress": oAuthKeyData.evmAddress,
+                    "X": oAuthKeyData.X,
+                    "Y": oAuthKeyData.Y,
+                    "privKey": oAuthKeyData.privKey
+                ]
+            }
+
+            if let sessionData = sessionData {
+                data["sessionData"] = [
+                    "sessionTokenData": sessionData.sessionTokenData.map { sessionToken in
+                        return [
+                            "token": sessionToken.token,
+                            "signature": sessionToken.signature,
+                            "node_pubx": sessionToken.node_pubx,
+                            "node_puby": sessionToken.node_puby
+                        ]
+                    },
+                    "sessionAuthKey": sessionData.sessionAuthKey
+                ]
+            }
+
+            if let metadata = metadata {
+                data["metadata"] = [
+                    "pubNonce": metadata.pubNonce as Any, // pubNonce is optional, so cast to Any
+                    "nonce": metadata.nonce as Any, // nonce is optional, so cast to Any
+                    "typeOfUser": metadata.typeOfUser.rawValue, // UserType needs to be converted to rawValue
+                    "upgraded": metadata.upgraded as Any // upgraded is optional, so cast to Any
+                ]
+            }
+
+            if let nodesData = nodesData {
+                data["nodesData"] = [
+                    "nodeIndexes": nodesData.nodeIndexes
+                ]
+            }
             return data
         } catch {
             os_log("handleSingleIdVerifier err: %@", log: getTorusLogger(log: CASDKLogger.core, type: .error), type: .error, error.localizedDescription)

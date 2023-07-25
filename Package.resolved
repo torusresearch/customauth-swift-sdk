@@ -33,7 +33,7 @@
         "repositoryURL": "https://github.com/torusresearch/fetch-node-details-swift.git",
         "state": {
           "branch": "sapphire",
-          "revision": "8382c7486c77b9899829665ec2c24e6386373605",
+          "revision": "5dc0393cb895e577f8666c30911dc07879748d62",
           "version": null
         }
       },
@@ -86,8 +86,8 @@
         "package": "TorusUtils",
         "repositoryURL": "https://github.com/torusresearch/torus-utils-swift.git",
         "state": {
-          "branch": "feat/sapphire-test",
-          "revision": "a837209afb020936d929b8372fa18f059e9d2e18",
+          "branch": "sapphire-fix",
+          "revision": "76bf518b88dc7483490f20156014556fbfedfcbd",
           "version": null
         }
       },
