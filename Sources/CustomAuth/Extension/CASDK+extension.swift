@@ -50,6 +50,30 @@ extension CustomAuth {
                 if let urlFromUserInfo = notification.userInfo?["URL"] as? URL {
                     os_log("executing callback block", log: getTorusLogger(log: CASDKLogger.core, type: .error), type: .error)
                     block(urlFromUserInfo)
+                
+                } else {
+                    assertionFailure()
+                }
+            }
+    }
+
+    
+    public func observeCallbackWithError(_ block: @escaping (_ url: URL?, _ err: String?) -> Void) {
+        self.observer = CustomAuth.notificationCenter.addObserver(
+            forName: CustomAuth.didHandleCallbackURL,
+            object: nil,
+            queue: OperationQueue.main) { [weak self] notification in
+                self?.removeCallbackNotificationObserver()
+                os_log("notification.userInfo: %s", log: getTorusLogger(log: CASDKLogger.core, type:
+                    .info), type: .info, notification.userInfo.debugDescription)
+                if let errorFromUserInfo = notification.userInfo?["ERROR"] as? String {
+                    os_log("executing error callback block", log: getTorusLogger(log: CASDKLogger.core, type: .error), type: .error)
+                    block(nil, errorFromUserInfo)
+                }
+                else if let urlFromUserInfo = notification.userInfo?["URL"] as? URL {
+                    os_log("executing callback block", log: getTorusLogger(log: CASDKLogger.core, type: .error), type: .info)
+                    block(urlFromUserInfo, nil)
+                
                 } else {
                     assertionFailure()
                 }
@@ -88,6 +112,12 @@ extension CustomAuth {
     open class func handle(url: URL) {
         // CustomAuth.logger.info("Posting notification after Universal link/deep link flow")
         let notification = Notification(name: CustomAuth.didHandleCallbackURL, object: nil, userInfo: ["URL": url])
+        notificationCenter.post(notification)
+    }
+    
+    open class func handleError(err: String) {
+        // CustomAuth.logger.info("Posting notification after Universal link/deep link flow")
+        let notification = Notification(name: CustomAuth.didHandleCallbackURL, object: nil, userInfo: ["ERROR": err])
         notificationCenter.post(notification)
     }
 

@@ -25,6 +25,8 @@ open class ASWebAuthSession: NSObject, TorusURLHandlerTypes {
                     let callbackURL = callbackURL
                 else {
                     print(authError?.localizedDescription as? String ?? "")
+                    let errStr = authError?.localizedDescription as? String ?? "Something went wrong!!"
+                    CustomAuth.handleError(err: errStr)
                     return
                 }
                 CustomAuth.handle(url: callbackURL)
