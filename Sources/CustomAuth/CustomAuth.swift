@@ -112,7 +112,6 @@ open class CustomAuth {
                         err == nil,
                         let url = url
                     else {
-                        os_log("observeCallbackWithError %@", log: getTorusLogger(log: CASDKLogger.core, type: .error), type: .error, err!)
                         continuation.resume(throwing: err!)
                         return
                     }
@@ -156,7 +155,6 @@ open class CustomAuth {
                         err == nil,
                         let url = url
                     else {
-                        os_log("observeCallbackWithError %@", log: getTorusLogger(log: CASDKLogger.core, type: .error), type: .error, err!)
                         continuation.resume(throwing: err!)
                         return
                     }
