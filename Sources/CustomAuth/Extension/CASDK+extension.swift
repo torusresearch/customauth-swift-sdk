@@ -50,7 +50,6 @@ extension CustomAuth {
                 if let urlFromUserInfo = notification.userInfo?["URL"] as? URL {
                     os_log("executing callback block", log: getTorusLogger(log: CASDKLogger.core, type: .error), type: .error)
                     block(urlFromUserInfo)
-                
                 } else {
                     assertionFailure()
                 }
