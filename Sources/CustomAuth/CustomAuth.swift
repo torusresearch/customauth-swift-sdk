@@ -252,6 +252,8 @@ open class CustomAuth {
                     "nodeIndexes": nodesData.nodeIndexes
                 ]
             }
+            data["verifier"] = verifier
+            data["verifierId"] = verifierId
             
             return data
         } catch {
@@ -331,6 +333,9 @@ open class CustomAuth {
                     "nodeIndexes": nodesData.nodeIndexes
                 ]
             }
+            
+            data["verifier"] = verifier
+            data["verifierId"] = verifierId
             return data
         } catch {
             os_log("handleSingleIdVerifier err: %@", log: getTorusLogger(log: CASDKLogger.core, type: .error), type: .error, error.localizedDescription)
