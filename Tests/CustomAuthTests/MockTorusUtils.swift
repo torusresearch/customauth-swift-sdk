@@ -13,7 +13,7 @@ public protocol MockAbstractTorusUtils {
 
 class MockTorusUtils: AbstractTorusUtils, MockAbstractTorusUtils {
 
-    func retrieveShares(endpoints: [String], torusNodePubs: [TorusNodePubModel]?, verifier: String, verifierParams: VerifierParams, idToken: String, extraParams: [String:Codable]) async throws -> TorusKey {
+    func retrieveShares(endpoints: [String], torusNodePubs: [CommonSources.TorusNodePubModel], indexes: [BigUInt], verifier: String, verifierParams: VerifierParams, idToken: String, extraParams: [String : Codable]) async throws -> TorusKey {
         retrieveShares_input = [
             "endpoints": endpoints,
             "verifierIdentifier": verifier,
@@ -25,9 +25,8 @@ class MockTorusUtils: AbstractTorusUtils, MockAbstractTorusUtils {
         return TorusKey(finalKeyData: finalKeyData, oAuthKeyData: nil, sessionData: nil, metadata: nil, nodesData: nil)
     }
     
-    func getPublicAddress(endpoints: [String], torusNodePubs: [TorusNodePubModel]?, verifier: String, verifierId: String, extendedVerifierId: String?) async throws -> TorusPublicKey {
-//        GetPublicAddressResult(address: "")
-        return TorusPublicKey(finalKeyData: nil, oAuthKeyData: nil, metadata: nil, nodesData: nil)
+    func getPublicAddress(endpoints: [String], torusNodePubs: [CommonSources.TorusNodePubModel], verifier: String, verifierId: String, extendedVerifierId: String?) async throws -> TorusPublicKey {
+        return .init(finalKeyData: nil, oAuthKeyData: nil, metadata: nil, nodesData: nil)
     }
 
     func getUserTypeAndAddress(endpoints: [String], torusNodePubs: [TorusNodePubModel]?, verifier: String, verifierID: String, doesKeyAssign: Bool)async throws -> GetUserAndAddress{

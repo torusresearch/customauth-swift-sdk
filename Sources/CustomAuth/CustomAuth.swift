@@ -196,9 +196,9 @@ open class CustomAuth {
             let responseFromRetrieveShares : TorusKey;
             switch network {
             case .legacy(_):
-                responseFromRetrieveShares = try await torusUtils.retrieveShares(endpoints: nodeDetails.torusNodeEndpoints, torusNodePubs: nodeDetails.torusNodePub, verifier: verifier, verifierParams: verifierParams, idToken: idToken, extraParams: extraParams)
+                responseFromRetrieveShares = try await torusUtils.retrieveShares(endpoints: nodeDetails.torusNodeEndpoints, torusNodePubs: nodeDetails.torusNodePub, indexes: nodeDetails.torusIndexes, verifier: verifier, verifierParams: verifierParams, idToken: idToken, extraParams: extraParams)
             case .sapphire(_):
-                responseFromRetrieveShares = try await torusUtils.retrieveShares(endpoints: nodeDetails.torusNodeSSSEndpoints, torusNodePubs: nil, verifier: verifier, verifierParams: verifierParams, idToken: idToken, extraParams: extraParams)
+                responseFromRetrieveShares = try await torusUtils.retrieveShares(endpoints: nodeDetails.torusNodeSSSEndpoints, torusNodePubs: nodeDetails.torusNodePub, indexes: nodeDetails.torusIndexes, verifier: verifier, verifierParams: verifierParams, idToken: idToken, extraParams: extraParams)
             }
             
             
@@ -233,16 +233,9 @@ open class CustomAuth {
 
             if let sessionData = sessionData {
                 data["sessionData"] = [
-                    "sessionTokenData": sessionData.sessionTokenData.map { sessionToken in
-                        return [
-                            "token": sessionToken.token,
-                            "signature": sessionToken.signature,
-                            "node_pubx": sessionToken.node_pubx,
-                            "node_puby": sessionToken.node_puby
-                        ]
-                    },
+                    "sessionTokenData": sessionData.sessionTokenData,
                     "sessionAuthKey": sessionData.sessionAuthKey
-                ]
+                ] as [String : Any]
             }
 
             if let metadata = metadata {
@@ -285,9 +278,9 @@ open class CustomAuth {
             let responseFromRetrieveShares :TorusKey;
             switch network {
             case .legacy(_):
-                responseFromRetrieveShares = try await self.torusUtils.retrieveShares(endpoints: nodeDetails.torusNodeEndpoints, torusNodePubs: nodeDetails.torusNodePub, verifier: verifier, verifierParams: verifierParams, idToken: hashedOnce, extraParams: extraParams)
+                responseFromRetrieveShares = try await self.torusUtils.retrieveShares(endpoints: nodeDetails.torusNodeEndpoints, torusNodePubs: nodeDetails.torusNodePub, indexes: nodeDetails.torusIndexes, verifier: verifier, verifierParams: verifierParams, idToken: hashedOnce, extraParams: extraParams)
             case .sapphire(_):
-                responseFromRetrieveShares = try await self.torusUtils.retrieveShares(endpoints: nodeDetails.torusNodeSSSEndpoints, torusNodePubs: nil, verifier: verifier, verifierParams: verifierParams, idToken: hashedOnce, extraParams: extraParams)
+                responseFromRetrieveShares = try await self.torusUtils.retrieveShares(endpoints: nodeDetails.torusNodeSSSEndpoints, torusNodePubs: nodeDetails.torusNodePub, indexes: nodeDetails.torusIndexes, verifier: verifier, verifierParams: verifierParams, idToken: hashedOnce, extraParams: extraParams)
             }
             
 //            (torusNodePubs: nodeDetails.torusNodePub, endpoints: nodeDetails.getTorusNodeEndpoints(), verifier: verifier, verifierId: verifierId, idToken: hashedOnce, extraParams: buffer)
@@ -319,16 +312,9 @@ open class CustomAuth {
 
             if let sessionData = sessionData {
                 data["sessionData"] = [
-                    "sessionTokenData": sessionData.sessionTokenData.map { sessionToken in
-                        return [
-                            "token": sessionToken.token,
-                            "signature": sessionToken.signature,
-                            "node_pubx": sessionToken.node_pubx,
-                            "node_puby": sessionToken.node_puby
-                        ]
-                    },
+                    "sessionTokenData": sessionData.sessionTokenData,
                     "sessionAuthKey": sessionData.sessionAuthKey
-                ]
+                ] as [String : Any]
             }
 
             if let metadata = metadata {
