@@ -104,9 +104,9 @@ open class CustomAuth {
 
     open func handleSingleLogins(controller: UIViewController?, modalPresentationStyle: UIModalPresentationStyle = .fullScreen) async throws -> [String: Any] {
             // Start observing internet connectivity in the background
-            Task {
+        Task.detached {
                 do {
-                    try await observeInternetConnectivity()
+                    try await self.observeInternetConnectivity()
                 } catch {
                     print("internet droped out")
                     throw CASDKError.internetUnavailable
