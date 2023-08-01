@@ -150,7 +150,7 @@ extension CustomAuth {
             throw CASDKError.internetUnavailable
         }
 
-        var hasInternet = false
+        var hasInternet = true
 
         reachability.whenReachable = { reachability in
             print("reachable", reachability.description)
@@ -177,6 +177,7 @@ extension CustomAuth {
         }
 
         reachability.stopNotifier()
+        print("notifier stopped")
         throw CASDKError.internetUnavailable
     }
 

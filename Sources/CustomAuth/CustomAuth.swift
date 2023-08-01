@@ -109,6 +109,7 @@ open class CustomAuth {
             group.addTask { [self] in
                 do {
                     try await observeInternetConnectivity()
+                    print("test")
                 } catch {
                     print("internet dropped out")
                     throw CASDKError.unknownError
