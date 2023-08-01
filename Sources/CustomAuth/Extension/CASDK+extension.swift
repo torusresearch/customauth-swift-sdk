@@ -153,12 +153,12 @@ extension CustomAuth {
         var hasInternet = false
 
         reachability.whenReachable = { reachability in
-            print("reachable")
+            print("reachable", reachability)
 //            hasInternet = true
         }
 
         reachability.whenUnreachable = { reachability in
-            print("unreachable")
+            print("unreachable", reachability)
             hasInternet = false
         }
 

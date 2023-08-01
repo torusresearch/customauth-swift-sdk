@@ -108,7 +108,7 @@ open class CustomAuth {
                 do {
                     try await observeInternetConnectivity()
                 } catch {
-                    print("internet drop")
+                    print("internet droped out")
                     throw CASDKError.internetUnavailable
                 }
             }
