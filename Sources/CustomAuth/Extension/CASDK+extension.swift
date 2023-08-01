@@ -150,12 +150,14 @@ extension CustomAuth {
 
         // Start monitoring for network status changes
         do {
+            print("notifier start")
             try reachability.startNotifier()
         } catch {
             print("Unable to start notifier.")
         }
 
         while hasInternet {
+            print("has Interent",hasInternet)
             // add a small delay 
             try await Task.sleep(nanoseconds: 1_000_000_000) // 1 second delay
         }
