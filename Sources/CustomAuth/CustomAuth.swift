@@ -104,7 +104,9 @@ open class CustomAuth {
 
     open func handleSingleLogins(controller: UIViewController?, modalPresentationStyle: UIModalPresentationStyle = .fullScreen) async throws -> [String: Any] {
         
-        Task.detached { [self] in
+        try await Task.withGroup(resultType: Void.self) { group in
+            // Add the observeInternetConnectivity task to the group
+            group.addTask { [self] in
                 do {
                     try await observeInternetConnectivity()
                 } catch {
@@ -112,24 +114,24 @@ open class CustomAuth {
                     throw CASDKError.unknownError
                 }
             }
-
+            
             if let subVerifier = subVerifierDetails.first {
                 let loginURL = subVerifier.getLoginURL()
                 await openURL(url: loginURL, view: controller, modalPresentationStyle: modalPresentationStyle)
-
+                
                 let url = try await withUnsafeThrowingContinuation { (continuation: UnsafeContinuation<URL, Error>) in
                     observeCallbackWithError { url, err in
                         guard err == nil, let url = url else {
                             continuation.resume(throwing: err!)
                             return
                         }
-
+                        
                         continuation.resume(returning: url)
                     }
                 }
                 let responseParameters = self.parseURL(url: url)
                 os_log("ResponseParams after redirect: %@", log: getTorusLogger(log: CASDKLogger.core, type: .info), type: .info, responseParameters)
-
+                
                 do {
                     let newData = try await subVerifier.getUserInfo(responseParameters: responseParameters)
                     os_log("getUserInfo newData: %@", log: getTorusLogger(log: CASDKLogger.core, type: .info), type: .info, newData)
@@ -145,8 +147,10 @@ open class CustomAuth {
                     throw error
                 }
             }
-
             throw CASDKError.unknownError
+
+        }
+        
     }
 
 
