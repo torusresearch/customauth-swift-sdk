@@ -142,7 +142,7 @@ extension CustomAuth {
 
         reachability.whenReachable = { reachability in
             print("reachable")
-            hasInternet = true
+//            hasInternet = true
         }
 
         reachability.whenUnreachable = { reachability in
