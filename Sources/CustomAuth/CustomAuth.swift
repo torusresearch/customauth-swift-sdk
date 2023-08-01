@@ -103,13 +103,14 @@ open class CustomAuth {
     }
 
     open func handleSingleLogins(controller: UIViewController?, modalPresentationStyle: UIModalPresentationStyle = .fullScreen) async throws -> [String: Any] {
-        // Wrap the whole function body in Task.detached and return a Task<[String: Any], Error>
-        return try await Task.detached { [self] in
-            do {
-                try await observeInternetConnectivity()
-            } catch {
-                print("Internet dropped out")
-                throw CASDKError.internetUnavailable
+        
+        Task.detached { [self] in
+                do {
+                    try await observeInternetConnectivity()
+                } catch {
+                    print("internet dropped out")
+                    throw CASDKError.unknownError
+                }
             }
 
             if let subVerifier = subVerifierDetails.first {
@@ -146,7 +147,6 @@ open class CustomAuth {
             }
 
             throw CASDKError.unknownError
-        }.value // Use await to get the result of the detached task
     }
 
 
