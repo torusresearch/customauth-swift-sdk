@@ -7,6 +7,7 @@ public enum CASDKError: Error {
     case idTokenFailed
     case unknownError
     case methodUnavailable
+    case internetUnavailable
 
     public var errorDescription: String {
         switch self {
@@ -26,6 +27,8 @@ public enum CASDKError: Error {
             return "unknownError"
         case .methodUnavailable:
             return "method unavailable/unimplemented"
+        case .internetUnavailable:
+            return "internet unavailable"
         }
     }
 }

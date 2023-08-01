@@ -9,6 +9,7 @@ import Foundation
 import OSLog
 import SafariServices
 import TorusUtils
+import Reachability
 
 typealias torus = CustomAuth
 
@@ -130,6 +131,38 @@ extension CustomAuth {
         }
         return responseParameters
     }
+    
+    func observeInternetConnectivity() async throws {
+        let reachability = try Reachability()
+        guard reachability.connection != .unavailable else {
+            throw CASDKError.internetUnavailable
+        }
+
+        var hasInternet = true
+
+        reachability.whenReachable = { reachability in
+            hasInternet = true
+        }
+
+        reachability.whenUnreachable = { reachability in
+            hasInternet = false
+        }
+
+        // Start monitoring for network status changes
+        do {
+            try reachability.startNotifier()
+        } catch {
+            print("Unable to start notifier.")
+        }
+
+        while hasInternet {
+            // add a small delay 
+            try await Task.sleep(nanoseconds: 1_000_000_000) // 1 second delay
+        }
+
+        throw CASDKError.internetUnavailable
+    }
+
 
     // Run on main block
     static func main(block: @escaping () -> Void) {

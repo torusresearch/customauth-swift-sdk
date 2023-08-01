@@ -16,12 +16,13 @@ let package = Package(
     dependencies: [
         .package(name: "TorusUtils", url: "https://github.com/torusresearch/torus-utils-swift.git", from: "5.0.0"),
         .package(name: "jwt-kit", url: "https://github.com/vapor/jwt-kit.git", from: "4.0.0"),
-        .package(name: "JWTDecode", url: "https://github.com/auth0/JWTDecode.swift.git", from: "3.0.1")
+        .package(name: "JWTDecode", url: "https://github.com/auth0/JWTDecode.swift.git", from: "3.0.1"),
+        .package(name: "Reachability", url: "https://github.com/ashleymills/Reachability.swift.git", .branch("master"))
     ],
     targets: [
         .target(
             name: "CustomAuth",
-            dependencies: ["TorusUtils", "JWTDecode"]),
+            dependencies: ["TorusUtils", "JWTDecode", "Reachability"]),
         .testTarget(
             name: "CustomAuthTests",
             dependencies: ["CustomAuth", .product(name: "JWTKit", package: "jwt-kit")])

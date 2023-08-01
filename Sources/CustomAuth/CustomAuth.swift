@@ -10,6 +10,7 @@ import Foundation
 import OSLog
 import TorusUtils
 import UIKit
+import Reachability
 
 // Global variable
 var tsSdkLogType = OSLogType.default
@@ -102,6 +103,15 @@ open class CustomAuth {
     }
 
     open func handleSingleLogins(controller: UIViewController?, modalPresentationStyle: UIModalPresentationStyle = .fullScreen) async throws -> [String: Any] {
+        // Start observing internet connectivity in the background
+        Task {
+            do {
+                try await observeInternetConnectivity()
+            } catch {
+                print("internet drop")
+            }
+        }
+
         if let subVerifier = subVerifierDetails.first {
             let loginURL = subVerifier.getLoginURL()
             await openURL(url: loginURL, view: controller, modalPresentationStyle: modalPresentationStyle)
@@ -143,6 +153,16 @@ open class CustomAuth {
         }
 
     open func handleSingleIdVerifier(controller: UIViewController?, modalPresentationStyle: UIModalPresentationStyle = .fullScreen) async throws -> [String: Any] {
+        
+        // Start observing internet connectivity in the background
+        Task {
+            do {
+                try await observeInternetConnectivity()
+            } catch {
+                print("internet drop")
+            }
+        }
+        
         if let subVerifier = subVerifierDetails.first {
             let loginURL = subVerifier.getLoginURL()
             await MainActor.run(body: {
