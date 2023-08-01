@@ -112,7 +112,7 @@ open class CustomAuth {
                     print("test")
                 } catch {
                     print("internet dropped out")
-                    throw CASDKError.unknownError
+                    return
                 }
             }
             
