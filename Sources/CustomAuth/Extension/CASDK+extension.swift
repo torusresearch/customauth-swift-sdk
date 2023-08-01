@@ -138,7 +138,7 @@ extension CustomAuth {
             throw CASDKError.internetUnavailable
         }
 
-        var hasInternet = true
+        var hasInternet = false
 
         reachability.whenReachable = { reachability in
             hasInternet = true
