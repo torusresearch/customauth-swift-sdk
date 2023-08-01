@@ -132,12 +132,14 @@ extension CustomAuth {
         return responseParameters
     }
     // Observer method to handle network status changes
-    @objc internal func networkStatusChanged(_ notification: Notification) {
+    @objc internal func networkStatusChanged(_ notification: Notification) throws {
         guard let reachability = notification.object as? Reachability else {
             return
         }
 
         if reachability.connection == .unavailable {
+            print("unavailable")
+            throw CASDKError.internetUnavailable
             // Handle network disconnection during execution, e.g., throw an error or pause execution.
         }
     }
