@@ -170,7 +170,7 @@ extension CustomAuth {
             print("Unable to start notifier.")
         }
 
-        while !hasInternet {
+        while hasInternet {
             print("has Interent",hasInternet)
             // add a small delay 
             try await Task.sleep(nanoseconds: 1_000_000_000) // 1 second delay
