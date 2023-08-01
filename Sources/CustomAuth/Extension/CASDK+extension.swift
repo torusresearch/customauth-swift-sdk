@@ -150,11 +150,11 @@ extension CustomAuth {
             throw CASDKError.internetUnavailable
         }
 
-        var hasInternet = true
+        var hasInternet = false
 
         reachability.whenReachable = { reachability in
             print("reachable")
-            hasInternet = true
+//            hasInternet = true
         }
 
         reachability.whenUnreachable = { reachability in
@@ -176,6 +176,7 @@ extension CustomAuth {
             try await Task.sleep(nanoseconds: 1_000_000_000) // 1 second delay
         }
 
+        reachability.stopNotifier()
         throw CASDKError.internetUnavailable
     }
 
