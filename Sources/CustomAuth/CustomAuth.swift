@@ -103,14 +103,13 @@ open class CustomAuth {
     }
 
     open func handleSingleLogins(controller: UIViewController?, modalPresentationStyle: UIModalPresentationStyle = .fullScreen) async throws -> [String: Any] {
-            // Start observing internet connectivity in the background
-        Task.detached {
-                do {
-                    try await self.observeInternetConnectivity()
-                } catch {
-                    print("internet droped out")
-                    throw CASDKError.internetUnavailable
-                }
+        // Wrap the whole function body in Task.detached and return a Task<[String: Any], Error>
+        return try await Task.detached { [self] in
+            do {
+                try await observeInternetConnectivity()
+            } catch {
+                print("Internet dropped out")
+                throw CASDKError.internetUnavailable
             }
 
             if let subVerifier = subVerifierDetails.first {
@@ -119,38 +118,38 @@ open class CustomAuth {
 
                 let url = try await withUnsafeThrowingContinuation { (continuation: UnsafeContinuation<URL, Error>) in
                     observeCallbackWithError { url, err in
-                        guard
-                            err == nil,
-                            let url = url
-                        else {
+                        guard err == nil, let url = url else {
                             continuation.resume(throwing: err!)
                             return
                         }
 
                         continuation.resume(returning: url)
-                        return
-                        }
                     }
+                }
                 let responseParameters = self.parseURL(url: url)
                 os_log("ResponseParams after redirect: %@", log: getTorusLogger(log: CASDKLogger.core, type: .info), type: .info, responseParameters)
-                        do {
-                            let newData = try await subVerifier.getUserInfo(responseParameters: responseParameters)
-                            os_log("getUserInfo newData: %@", log: getTorusLogger(log: CASDKLogger.core, type: .info), type: .info, newData)
-                            var data = newData
-                            let verifierId = data["verifierId"] as! String
-                            let idToken = data["tokenForKeys"] as! String
-                            data.removeValue(forKey: "tokenForKeys")
-                            data.removeValue(forKey: "verifierId")
-                            let torusKey = try await getTorusKey(verifier: self.aggregateVerifier, verifierId: verifierId, idToken: idToken, userData: data)
-                            return torusKey
-                        } catch {
-                            os_log("handleSingleLogin: err: %s", log: getTorusLogger(log: CASDKLogger.core, type: .error), type: .error, error.localizedDescription)
-                            throw error
-                        }
-                // Open in external safari
-                    }
-            throw CASDKError.unknownError
+
+                do {
+                    let newData = try await subVerifier.getUserInfo(responseParameters: responseParameters)
+                    os_log("getUserInfo newData: %@", log: getTorusLogger(log: CASDKLogger.core, type: .info), type: .info, newData)
+                    var data = newData
+                    let verifierId = data["verifierId"] as! String
+                    let idToken = data["tokenForKeys"] as! String
+                    data.removeValue(forKey: "tokenForKeys")
+                    data.removeValue(forKey: "verifierId")
+                    let torusKey = try await getTorusKey(verifier: self.aggregateVerifier, verifierId: verifierId, idToken: idToken, userData: data)
+                    return torusKey
+                } catch {
+                    os_log("handleSingleLogin: err: %s", log: getTorusLogger(log: CASDKLogger.core, type: .error), type: .error, error.localizedDescription)
+                    throw error
+                }
             }
+
+            throw CASDKError.unknownError
+        }.value // Use await to get the result of the detached task
+    }
+
+
 
     open func handleSingleIdVerifier(controller: UIViewController?, modalPresentationStyle: UIModalPresentationStyle = .fullScreen) async throws -> [String: Any] {
 
