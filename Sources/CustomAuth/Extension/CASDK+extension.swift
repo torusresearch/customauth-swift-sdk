@@ -138,19 +138,17 @@ extension CustomAuth {
             throw CASDKError.internetUnavailable
         }
 
-        var hasInternet = false
-        print("has Interent1",hasInternet)
+        var hasInternet = true
 
         reachability.whenReachable = { reachability in
             print("reachable")
-//            hasInternet = true
+            hasInternet = true
         }
 
         reachability.whenUnreachable = { reachability in
             print("unreachable")
             hasInternet = false
         }
-        print("has Interent2",hasInternet)
 
         // Start monitoring for network status changes
         do {
@@ -159,9 +157,8 @@ extension CustomAuth {
         } catch {
             print("Unable to start notifier.")
         }
-        print("has Interent3",hasInternet)
 
-        while hasInternet {
+        while !hasInternet {
             print("has Interent",hasInternet)
             // add a small delay 
             try await Task.sleep(nanoseconds: 1_000_000_000) // 1 second delay
