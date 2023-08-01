@@ -142,6 +142,7 @@ open class CustomAuth {
                     data.removeValue(forKey: "tokenForKeys")
                     data.removeValue(forKey: "verifierId")
                     let torusKey = try await getTorusKey(verifier: self.aggregateVerifier, verifierId: verifierId, idToken: idToken, userData: data)
+                    group.cancelAll()
                     return torusKey
                 } catch {
                     os_log("handleSingleLogin: err: %s", log: getTorusLogger(log: CASDKLogger.core, type: .error), type: .error, error.localizedDescription)
