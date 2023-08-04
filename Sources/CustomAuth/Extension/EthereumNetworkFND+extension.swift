@@ -32,8 +32,6 @@ extension TorusNetwork {
                 
             case .SAPPHIRE_MAINNET:
                 return "https://signer.tor.us"
-            case .SAPPHIRE_TESTNET:
-                return "https://signer.tor.us"
             case .SAPPHIRE_DEVNET:
                 return "https://signer.tor.us"
                 

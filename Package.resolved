@@ -33,7 +33,7 @@
         "repositoryURL": "https://github.com/torusresearch/fetch-node-details-swift.git",
         "state": {
           "branch": "sapphire",
-          "revision": "5dc0393cb895e577f8666c30911dc07879748d62",
+          "revision": "9ec971573426247b0806e46b88a82fa8f96cf34a",
           "version": null
         }
       },
@@ -51,8 +51,8 @@
         "repositoryURL": "https://github.com/vapor/jwt-kit.git",
         "state": {
           "branch": null,
-          "revision": "ef12bdfa557cd9d9f0c53396e0a9908f773bcd7b",
-          "version": "4.9.0"
+          "revision": "9e929d925434b91857661bcd455d1bd53f00bf22",
+          "version": "4.13.0"
         }
       },
       {
@@ -60,8 +60,8 @@
         "repositoryURL": "https://github.com/auth0/JWTDecode.swift.git",
         "state": {
           "branch": null,
-          "revision": "7918a343e674c7707e0be120bb4e21d679be014c",
-          "version": "3.0.1"
+          "revision": "58af7278797871e460d79496621b3e5366b865b2",
+          "version": "3.1.0"
         }
       },
       {
