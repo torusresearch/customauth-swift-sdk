@@ -35,6 +35,8 @@ final class IntegrationTests: XCTestCase {
         do {
         let data = try await IntegrationTests.sdk?.getTorusKey(verifier: TORUS_TEST_VERIFIER, verifierId: email, idToken: jwt)
             XCTAssertEqual(data?["publicAddress"] as! String, "0x8AA6C8ddCD868873120aA265Fc63E3a2180375BA")
+            print(data?["nonce"])
+            print(data?["userType"])
             exp1.fulfill()
         } catch {
             XCTFail(error.localizedDescription)

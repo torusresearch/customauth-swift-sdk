@@ -15,8 +15,8 @@
         "repositoryURL": "https://github.com/krzyzanowskim/CryptoSwift.git",
         "state": {
           "branch": null,
-          "revision": "eee9ad754926c40a0f7e73f152357d37b119b7fa",
-          "version": "1.7.1"
+          "revision": "32f641cf24fc7abc1c591a2025e9f2f572648b0f",
+          "version": "1.7.2"
         }
       },
       {
@@ -42,8 +42,8 @@
         "repositoryURL": "https://github.com/vapor/jwt-kit.git",
         "state": {
           "branch": null,
-          "revision": "ef12bdfa557cd9d9f0c53396e0a9908f773bcd7b",
-          "version": "4.9.0"
+          "revision": "9e929d925434b91857661bcd455d1bd53f00bf22",
+          "version": "4.13.0"
         }
       },
       {
@@ -51,8 +51,8 @@
         "repositoryURL": "https://github.com/auth0/JWTDecode.swift.git",
         "state": {
           "branch": null,
-          "revision": "7918a343e674c7707e0be120bb4e21d679be014c",
-          "version": "3.0.1"
+          "revision": "58af7278797871e460d79496621b3e5366b865b2",
+          "version": "3.1.0"
         }
       },
       {
@@ -77,9 +77,9 @@
         "package": "TorusUtils",
         "repositoryURL": "https://github.com/torusresearch/torus-utils-swift.git",
         "state": {
-          "branch": null,
-          "revision": "93823201f248ce15dab59c027790da4b73375aed",
-          "version": "5.0.0"
+          "branch": "fix/return-type-and-getpostboxkey",
+          "revision": "e1c147bdcc01c4606d6ee55a1fe6849942f589c7",
+          "version": null
         }
       },
       {

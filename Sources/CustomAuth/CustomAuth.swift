@@ -192,6 +192,8 @@ open class CustomAuth {
             var data = userData
             data["privateKey"] = responseFromRetrieveShares.privateKey
             data["publicAddress"] = responseFromRetrieveShares.publicAddress
+            data["nonce"] = responseFromRetrieveShares.nonce
+            data["userType"] = responseFromRetrieveShares.userType
             return data
         } catch {
             os_log("handleSingleLogin: err: %s", log: getTorusLogger(log: CASDKLogger.core, type: .error), type: .error, error.localizedDescription)

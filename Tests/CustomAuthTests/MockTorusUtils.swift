@@ -1,6 +1,7 @@
 import CustomAuth
 import FetchNodeDetails
 import Foundation
+import BigInt
 @testable import TorusUtils
 
 // Added so the that we can assign values later.
@@ -18,7 +19,7 @@ class MockTorusUtils: AbstractTorusUtils, MockAbstractTorusUtils {
             "idToken": idToken,
             "extraParams": extraParams
         ]
-        return .init(publicKey: retrieveShares_output["publicAddress"] ?? "", privateKey: retrieveShares_output["privateKey"] ?? "")
+        return .init(publicKey: retrieveShares_output["publicAddress"] ?? "", privateKey: retrieveShares_output["privateKey"] ?? "", nonce: BigUInt(0), userType: .v1)
     }
     
     func getPublicAddress(endpoints: [String], torusNodePubs: [TorusNodePubModel], verifier: String, verifierId: String, isExtended: Bool) async throws -> GetPublicAddressModel {
