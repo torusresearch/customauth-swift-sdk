@@ -64,4 +64,8 @@ class MockTorusUtils: AbstractTorusUtils, MockAbstractTorusUtils {
         ]
         return retrieveShares_output
     }
+    
+    func getPostBoxKey(torusKey: RetrieveSharesResponseModel) -> String {
+        return ""
+    }
 }
