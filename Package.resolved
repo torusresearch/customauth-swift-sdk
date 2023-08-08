@@ -69,8 +69,8 @@
         "repositoryURL": "https://github.com/apple/swift-crypto.git",
         "state": {
           "branch": null,
-          "revision": "33a20e650c33f6d72d822d558333f2085effa3dc",
-          "version": "2.5.0"
+          "revision": "60f13f60c4d093691934dc6cfdf5f508ada1f894",
+          "version": "2.6.0"
         }
       },
       {
@@ -78,7 +78,7 @@
         "repositoryURL": "https://github.com/torusresearch/torus-utils-swift.git",
         "state": {
           "branch": "fix/return-type-and-getpostboxkey",
-          "revision": "e1c147bdcc01c4606d6ee55a1fe6849942f589c7",
+          "revision": "7e29beb1af1562e49edd48ab87fb040de6a06a5f",
           "version": null
         }
       },
