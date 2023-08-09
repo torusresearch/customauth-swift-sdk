@@ -19,7 +19,7 @@ class MockTorusUtils: AbstractTorusUtils, MockAbstractTorusUtils {
             "idToken": idToken,
             "extraParams": extraParams
         ]
-        return .init(publicKey: retrieveShares_output["publicAddress"] ?? "", privateKey: retrieveShares_output["privateKey"] ?? "", nonce: BigUInt(0), userType: .v1)
+        return .init(publicKey: retrieveShares_output["publicAddress"] ?? "", privateKey: retrieveShares_output["privateKey"] ?? "", nonce: BigUInt(0), typeOfUser: .v1)
     }
     
     func getPublicAddress(endpoints: [String], torusNodePubs: [TorusNodePubModel], verifier: String, verifierId: String, isExtended: Bool) async throws -> GetPublicAddressModel {

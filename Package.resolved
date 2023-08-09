@@ -69,17 +69,17 @@
         "repositoryURL": "https://github.com/apple/swift-crypto.git",
         "state": {
           "branch": null,
-          "revision": "60f13f60c4d093691934dc6cfdf5f508ada1f894",
-          "version": "2.6.0"
+          "revision": "33a20e650c33f6d72d822d558333f2085effa3dc",
+          "version": "2.5.0"
         }
       },
       {
         "package": "TorusUtils",
         "repositoryURL": "https://github.com/torusresearch/torus-utils-swift.git",
         "state": {
-          "branch": null,
-          "revision": "7e29beb1af1562e49edd48ab87fb040de6a06a5f",
-          "version": "5.1.0"
+          "branch": "fix/v2-login",
+          "revision": "7f871178c0164a2452f729e554421ee6e0c70e42",
+          "version": null
         }
       },
       {
