@@ -32,14 +32,14 @@
         "package": "FetchNodeDetails",
         "repositoryURL": "https://github.com/torusresearch/fetch-node-details-swift.git",
         "state": {
-          "branch": "sapphire",
-          "revision": "9ec971573426247b0806e46b88a82fa8f96cf34a",
-          "version": null
+          "branch": null,
+          "revision": "c7b4e5a65eb737c029acb2d1aff84854a618384d",
+          "version": "5.0.0-alpha"
         }
       },
       {
         "package": "GenericJSON",
-        "repositoryURL": "https://github.com/zoul/generic-json-swift",
+        "repositoryURL": "https://github.com/iwill/generic-json-swift",
         "state": {
           "branch": null,
           "revision": "0a06575f4038b504e78ac330913d920f1630f510",
@@ -66,11 +66,29 @@
       },
       {
         "package": "secp256k1",
-        "repositoryURL": "https://github.com/Boilertalk/secp256k1.swift",
+        "repositoryURL": "https://github.com/GigaBitcoin/secp256k1.swift.git",
         "state": {
           "branch": null,
-          "revision": "cd187c632fb812fd93711a9f7e644adb7e5f97f0",
-          "version": "0.1.7"
+          "revision": "1a14e189def5eaa92f839afdd2faad8e43b61a6e",
+          "version": "0.12.2"
+        }
+      },
+      {
+        "package": "swift-atomics",
+        "repositoryURL": "https://github.com/apple/swift-atomics.git",
+        "state": {
+          "branch": null,
+          "revision": "6c89474e62719ddcc1e9614989fff2f68208fe10",
+          "version": "1.1.0"
+        }
+      },
+      {
+        "package": "swift-collections",
+        "repositoryURL": "https://github.com/apple/swift-collections.git",
+        "state": {
+          "branch": null,
+          "revision": "937e904258d22af6e447a0b72c0bc67583ef64a2",
+          "version": "1.0.4"
         }
       },
       {
@@ -83,12 +101,57 @@
         }
       },
       {
+        "package": "swift-log",
+        "repositoryURL": "https://github.com/apple/swift-log.git",
+        "state": {
+          "branch": null,
+          "revision": "532d8b529501fb73a2455b179e0bbb6d49b652ed",
+          "version": "1.5.3"
+        }
+      },
+      {
+        "package": "swift-nio",
+        "repositoryURL": "https://github.com/apple/swift-nio.git",
+        "state": {
+          "branch": null,
+          "revision": "cf281631ff10ec6111f2761052aa81896a83a007",
+          "version": "2.58.0"
+        }
+      },
+      {
+        "package": "swift-nio-extras",
+        "repositoryURL": "https://github.com/apple/swift-nio-extras.git",
+        "state": {
+          "branch": null,
+          "revision": "0e0d0aab665ff1a0659ce75ac003081f2b1c8997",
+          "version": "1.19.0"
+        }
+      },
+      {
+        "package": "swift-nio-ssl",
+        "repositoryURL": "https://github.com/apple/swift-nio-ssl.git",
+        "state": {
+          "branch": null,
+          "revision": "e866a626e105042a6a72a870c88b4c531ba05f83",
+          "version": "2.24.0"
+        }
+      },
+      {
+        "package": "swift-nio-transport-services",
+        "repositoryURL": "https://github.com/apple/swift-nio-transport-services.git",
+        "state": {
+          "branch": null,
+          "revision": "e7403c35ca6bb539a7ca353b91cc2d8ec0362d58",
+          "version": "1.19.0"
+        }
+      },
+      {
         "package": "TorusUtils",
         "repositoryURL": "https://github.com/torusresearch/torus-utils-swift.git",
         "state": {
-          "branch": "master",
-          "revision": "7b146db06a4f19d13c4147b37519ce7ea48819d9",
-          "version": null
+          "branch": null,
+          "revision": "35720bcd6f7cebba8bfbe4f5885f69b01f0a75a0",
+          "version": "6.0.0-alpha"
         }
       },
       {
@@ -96,8 +159,17 @@
         "repositoryURL": "https://github.com/argentlabs/web3.swift",
         "state": {
           "branch": null,
-          "revision": "0474eb5e883bc4800b3909833207a1d35e72b808",
-          "version": "0.9.3"
+          "revision": "8ca33e700ed8de6137a0e1471017aa3b3c8de0db",
+          "version": "1.6.0"
+        }
+      },
+      {
+        "package": "websocket-kit",
+        "repositoryURL": "https://github.com/vapor/websocket-kit.git",
+        "state": {
+          "branch": null,
+          "revision": "53fe0639a98903858d0196b699720decb42aee7b",
+          "version": "2.14.0"
         }
       }
     ]
