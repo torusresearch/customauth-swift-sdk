@@ -77,9 +77,9 @@
         "package": "TorusUtils",
         "repositoryURL": "https://github.com/torusresearch/torus-utils-swift.git",
         "state": {
-          "branch": "fix/v2-login",
-          "revision": "7f871178c0164a2452f729e554421ee6e0c70e42",
-          "version": null
+          "branch": null,
+          "revision": "41cf04e0db70f356cd9419838913c12c50cdfce1",
+          "version": "5.1.0"
         }
       },
       {
