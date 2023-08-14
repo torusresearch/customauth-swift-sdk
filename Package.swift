@@ -15,8 +15,8 @@ let package = Package(
     ],
     dependencies: [
         .package(name: "TorusUtils", url: "https://github.com/torusresearch/torus-utils-swift.git", from: "5.1.1"),
-        .package(name: "jwt-kit", url: "https://github.com/vapor/jwt-kit.git", from: "4.0.0"),
-        .package(name: "JWTDecode", url: "https://github.com/auth0/JWTDecode.swift.git", from: "3.0.1")
+        .package(name: "jwt-kit", url: "https://github.com/vapor/jwt-kit.git", from: "4.13.0"),
+        .package(name: "JWTDecode", url: "https://github.com/auth0/JWTDecode.swift.git", from: "3.1.0")
     ],
     targets: [
         .target(
