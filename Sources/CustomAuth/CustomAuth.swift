@@ -17,7 +17,7 @@ var tsSdkLogType = OSLogType.default
 /// Provides integration of an iOS app with Torus CustomAuth.
 open class CustomAuth {
     let factory: CASDKFactoryProtocol
-    var torusUtils: AbstractTorusUtils
+    public var torusUtils: AbstractTorusUtils
     let fetchNodeDetails: FetchNodeDetails
     var urlSession: URLSession
     var enableOneKey: Bool
@@ -192,6 +192,8 @@ open class CustomAuth {
             var data = userData
             data["privateKey"] = responseFromRetrieveShares.privateKey
             data["publicAddress"] = responseFromRetrieveShares.publicAddress
+            data["nonce"] = responseFromRetrieveShares.nonce
+            data["typeOfUser"] = responseFromRetrieveShares.typeOfUser
             return data
         } catch {
             os_log("handleSingleLogin: err: %s", log: getTorusLogger(log: CASDKLogger.core, type: .error), type: .error, error.localizedDescription)
