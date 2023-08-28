@@ -17,10 +17,8 @@ var tsSdkLogType = OSLogType.default
 
 /// Provides integration of an iOS app with Torus CustomAuth.
 open class CustomAuth {
-//    let factory: CASDKFactoryProtocol
     var nodeDetailManager: NodeDetailManager
     var torusUtils: AbstractTorusUtils
-//    let fetchNodeDetails: AllNodeDetailsModel
     var urlSession: URLSession
     var enableOneKey: Bool
     ///  You can pass your own custom url  rather than using our default infura url,
@@ -187,75 +185,16 @@ open class CustomAuth {
     ///   - idToken: Access token received from the OAuth provider.
     ///   - userData: Custom data that will be returned with `privateKey` and `publicAddress`.
     /// - Returns: A promise that resolve with a Dictionary that contain at least `privateKey` and `publicAddress` field..
-    open func getTorusKey(verifier: String, verifierId: String, idToken: String, userData: [String: Any] = [:]) async throws -> [String: Any] {
+    open func getTorusKey(verifier: String, verifierId: String, idToken: String, userData: [String: Any] = [:]) async throws -> TorusKey {
         let extraParams = ["verifier_id": verifierId] as [String: Codable]
         let buffer: Data = try! NSKeyedArchiver.archivedData(withRootObject: extraParams, requiringSecureCoding: false)
         let verifierParams = VerifierParams(verifier_id: verifierId)
         do {
             let nodeDetails = try await nodeDetailManager.getNodeDetails(verifier: verifier, verifierID: verifierId)
-            let responseFromRetrieveShares : TorusKey;
-            switch network {
-            case .legacy(_):
-                responseFromRetrieveShares = try await torusUtils.retrieveShares(endpoints: nodeDetails.torusNodeEndpoints, torusNodePubs: nodeDetails.torusNodePub, indexes: nodeDetails.torusIndexes, verifier: verifier, verifierParams: verifierParams, idToken: idToken, extraParams: extraParams)
-            case .sapphire(_):
-                responseFromRetrieveShares = try await torusUtils.retrieveShares(endpoints: nodeDetails.torusNodeSSSEndpoints, torusNodePubs: nodeDetails.torusNodePub, indexes: nodeDetails.torusIndexes, verifier: verifier, verifierParams: verifierParams, idToken: idToken, extraParams: extraParams)
-            }
-            
-            
-//            (torusNodePubs: nodeDetails.getTorusNodePub(), endpoints: nodeDetails.getTorusNodeEndpoints(), verifier: verifier, verifierId: verifierId, idToken: idToken, extraParams: buffer)
-            var data = userData
-            print(responseFromRetrieveShares)
-            
-            let finalKeyData = responseFromRetrieveShares.finalKeyData
-            let oAuthKeyData = responseFromRetrieveShares.oAuthKeyData
-            let sessionData = responseFromRetrieveShares.sessionData
-            let metadata = responseFromRetrieveShares.metadata
-            let nodesData = responseFromRetrieveShares.nodesData
-
-            // Convert each property to type Any and add them to the dictionary
-            if let finalKeyData = finalKeyData {
-                data["finalKeyData"] = [
-                    "evmAddress": finalKeyData.evmAddress,
-                    "X": finalKeyData.X,
-                    "Y": finalKeyData.Y,
-                    "privKey": finalKeyData.privKey as Any // privKey is an optional, so cast to Any
-                ]
-            }
-
-            if let oAuthKeyData = oAuthKeyData {
-                data["oAuthKeyData"] = [
-                    "evmAddress": oAuthKeyData.evmAddress,
-                    "X": oAuthKeyData.X,
-                    "Y": oAuthKeyData.Y,
-                    "privKey": oAuthKeyData.privKey
-                ]
-            }
-
-            if let sessionData = sessionData {
-                data["sessionData"] = [
-                    "sessionTokenData": sessionData.sessionTokenData,
-                    "sessionAuthKey": sessionData.sessionAuthKey
-                ] as [String : Any]
-            }
-
-            if let metadata = metadata {
-                data["metadata"] = [
-                    "pubNonce": metadata.pubNonce as Any, // pubNonce is optional, so cast to Any
-                    "nonce": metadata.nonce as Any, // nonce is optional, so cast to Any
-                    "typeOfUser": metadata.typeOfUser.rawValue, // UserType needs to be converted to rawValue
-                    "upgraded": metadata.upgraded as Any // upgraded is optional, so cast to Any
-                ]
-            }
-
-            if let nodesData = nodesData {
-                data["nodesData"] = [
-                    "nodeIndexes": nodesData.nodeIndexes
-                ]
-            }
-            data["verifier"] = verifier
-            data["verifierId"] = verifierId
-            
-            return data
+            // retrieveShares internall checks if network is legacy and calls getPublicAddress if required.
+            let responseFromRetrieveShares : TorusKey = responseFromRetrieveShares = try await torusUtils.retrieveShares(endpoints: nodeDetails.torusNodeEndpoints, torusNodePubs: nodeDetails.torusNodePub, indexes: nodeDetails.torusIndexes, verifier: verifier, verifierParams: verifierParams, idToken: idToken, extraParams: extraParams)
+           
+            return responseFromRetrieveShares
         } catch {
             os_log("handleSingleLogin: err: %s", log: getTorusLogger(log: CASDKLogger.core, type: .error), type: .error, error.localizedDescription)
             throw error
@@ -268,7 +207,7 @@ open class CustomAuth {
     ///   - verifierId: The unique identifier to publicly represent a user on a verifier. e.g: email, sub etc. other fields can be classified as verifierId,
     ///   - subVerifierDetails: An array of verifiers to be used for the aggregate login flow, with their respective token and verifier name.
     /// - Returns: A promise that resolve with a Dictionary that contain at least `privateKey` and `publicAddress` field..
-    open func getAggregateTorusKey(verifier: String, verifierId: String, idToken: String, subVerifierDetails: SubVerifierDetails, userData: [String: Any] = [:]) async throws -> [String: Any] {
+    open func getAggregateTorusKey(verifier: String, verifierId: String, idToken: String, subVerifierDetails: SubVerifierDetails, userData: [String: Any] = [:]) async throws -> TorusKey {
         let extraParams = ["verifieridentifier": verifier, "verifier_id": verifierId, "sub_verifier_ids": [subVerifierDetails.verifier], "verify_params": [["verifier_id": verifierId, "idtoken": idToken]]] as [String: Codable]
         let buffer: Data = try! NSKeyedArchiver.archivedData(withRootObject: extraParams, requiringSecureCoding: false)
         let hashedOnce = idToken.sha3(.keccak256)
@@ -277,66 +216,11 @@ open class CustomAuth {
         
         do {
             let nodeDetails = try await getNodeDetailsFromContract(verifier: verifier, verfierID: verifierId)
-            let responseFromRetrieveShares :TorusKey;
-            switch network {
-            case .legacy(_):
-                responseFromRetrieveShares = try await self.torusUtils.retrieveShares(endpoints: nodeDetails.torusNodeEndpoints, torusNodePubs: nodeDetails.torusNodePub, indexes: nodeDetails.torusIndexes, verifier: verifier, verifierParams: verifierParams, idToken: hashedOnce, extraParams: extraParams)
-            case .sapphire(_):
-                responseFromRetrieveShares = try await self.torusUtils.retrieveShares(endpoints: nodeDetails.torusNodeSSSEndpoints, torusNodePubs: nodeDetails.torusNodePub, indexes: nodeDetails.torusIndexes, verifier: verifier, verifierParams: verifierParams, idToken: hashedOnce, extraParams: extraParams)
-            }
             
-//            (torusNodePubs: nodeDetails.torusNodePub, endpoints: nodeDetails.getTorusNodeEndpoints(), verifier: verifier, verifierId: verifierId, idToken: hashedOnce, extraParams: buffer)
-            var data = userData
-            let finalKeyData = responseFromRetrieveShares.finalKeyData
-            let oAuthKeyData = responseFromRetrieveShares.oAuthKeyData
-            let sessionData = responseFromRetrieveShares.sessionData
-            let metadata = responseFromRetrieveShares.metadata
-            let nodesData = responseFromRetrieveShares.nodesData
-
-            // Convert each property to type Any and add them to the dictionary
-            if let finalKeyData = finalKeyData {
-                data["finalKeyData"] = [
-                    "evmAddress": finalKeyData.evmAddress,
-                    "X": finalKeyData.X,
-                    "Y": finalKeyData.Y,
-                    "privKey": finalKeyData.privKey as Any // privKey is an optional, so cast to Any
-                ]
-            }
-
-            if let oAuthKeyData = oAuthKeyData {
-                data["oAuthKeyData"] = [
-                    "evmAddress": oAuthKeyData.evmAddress,
-                    "X": oAuthKeyData.X,
-                    "Y": oAuthKeyData.Y,
-                    "privKey": oAuthKeyData.privKey
-                ]
-            }
-
-            if let sessionData = sessionData {
-                data["sessionData"] = [
-                    "sessionTokenData": sessionData.sessionTokenData,
-                    "sessionAuthKey": sessionData.sessionAuthKey
-                ] as [String : Any]
-            }
-
-            if let metadata = metadata {
-                data["metadata"] = [
-                    "pubNonce": metadata.pubNonce as Any, // pubNonce is optional, so cast to Any
-                    "nonce": metadata.nonce as Any, // nonce is optional, so cast to Any
-                    "typeOfUser": metadata.typeOfUser.rawValue, // UserType needs to be converted to rawValue
-                    "upgraded": metadata.upgraded as Any // upgraded is optional, so cast to Any
-                ]
-            }
-
-            if let nodesData = nodesData {
-                data["nodesData"] = [
-                    "nodeIndexes": nodesData.nodeIndexes
-                ]
-            }
-            
-            data["verifier"] = verifier
-            data["verifierId"] = verifierId
-            return data
+            // retrieveShares internall checks if network is legacy and calls getPublicAddress if required.
+            let responseFromRetrieveShares :TorusKey =  try await self.torusUtils.retrieveShares(endpoints: nodeDetails.torusNodeEndpoints, torusNodePubs: nodeDetails.torusNodePub, indexes: nodeDetails.torusIndexes, verifier: verifier, verifierParams: verifierParams, idToken: hashedOnce, extraParams: extraParams)
+        
+            return responseFromRetrieveShares
         } catch {
             os_log("handleSingleIdVerifier err: %@", log: getTorusLogger(log: CASDKLogger.core, type: .error), type: .error, error.localizedDescription)
             throw error
