@@ -84,7 +84,7 @@ open class CustomAuth {
     ///   - browserType: Indicates the way to open the browser for login flow. Use `.external` for opening system safari, or `.asWebAuthSession` for opening an in-app ASwebAuthenticationSession.
     ///   - modalPresentationStyle: Indicates the UIModalPresentationStyle for the popup.
     /// - Returns: A promise that resolve with a Dictionary that contain at least `privateKey` and `publicAddress` field..
-    open func triggerLogin(controller: UIViewController? = nil, browserType: URLOpenerTypes = .asWebAuthSession, modalPresentationStyle: UIModalPresentationStyle = .fullScreen) async throws -> [String: Any] {
+    open func triggerLogin(controller: UIViewController? = nil, browserType: URLOpenerTypes = .asWebAuthSession, modalPresentationStyle: UIModalPresentationStyle = .fullScreen) async throws -> TorusKey {
         os_log("triggerLogin called with %@ %@", log: getTorusLogger(log: CASDKLogger.core, type: .info), type: .info, browserType.rawValue, modalPresentationStyle.rawValue)
         // Set browser
         authorizeURLHandler = browserType
@@ -103,7 +103,7 @@ open class CustomAuth {
         }
     }
 
-    open func handleSingleLogins(controller: UIViewController?, modalPresentationStyle: UIModalPresentationStyle = .fullScreen) async throws -> [String: Any] {
+    open func handleSingleLogins(controller: UIViewController?, modalPresentationStyle: UIModalPresentationStyle = .fullScreen) async throws -> TorusKey {
         if let subVerifier = subVerifierDetails.first {
             let loginURL = subVerifier.getLoginURL()
             await openURL(url: loginURL, view: controller, modalPresentationStyle: modalPresentationStyle)
@@ -144,7 +144,7 @@ open class CustomAuth {
         throw CASDKError.unknownError
         }
 
-    open func handleSingleIdVerifier(controller: UIViewController?, modalPresentationStyle: UIModalPresentationStyle = .fullScreen) async throws -> [String: Any] {
+    open func handleSingleIdVerifier(controller: UIViewController?, modalPresentationStyle: UIModalPresentationStyle = .fullScreen) async throws -> TorusKey {
         if let subVerifier = subVerifierDetails.first {
             let loginURL = subVerifier.getLoginURL()
             await MainActor.run(body: {
@@ -186,12 +186,12 @@ open class CustomAuth {
 
         }
 
-    func handleAndAggregateVerifier(controller: UIViewController?) async throws -> [String: Any] {
+    func handleAndAggregateVerifier(controller: UIViewController?) async throws -> TorusKey {
         // TODO: implement verifier
         throw CASDKError.methodUnavailable
     }
 
-    func handleOrAggregateVerifier(controller: UIViewController?) async throws -> [String: Any] {
+    func handleOrAggregateVerifier(controller: UIViewController?) async throws -> TorusKey {
         // TODO: implement verifier
         throw CASDKError.methodUnavailable
     }
@@ -210,7 +210,7 @@ open class CustomAuth {
         do {
             let nodeDetails = try await nodeDetailManager.getNodeDetails(verifier: verifier, verifierID: verifierId)
             // retrieveShares internall checks if network is legacy and calls getPublicAddress if required.
-            let responseFromRetrieveShares : TorusKey = responseFromRetrieveShares = try await torusUtils.retrieveShares(endpoints: nodeDetails.torusNodeEndpoints, torusNodePubs: nodeDetails.torusNodePub, indexes: nodeDetails.torusIndexes, verifier: verifier, verifierParams: verifierParams, idToken: idToken, extraParams: extraParams)
+            let responseFromRetrieveShares : TorusKey = try await torusUtils.retrieveShares(endpoints: nodeDetails.torusNodeEndpoints, torusNodePubs: nodeDetails.torusNodePub, indexes: nodeDetails.torusIndexes, verifier: verifier, verifierParams: verifierParams, idToken: idToken, extraParams: extraParams)
            
             return responseFromRetrieveShares
         } catch {
