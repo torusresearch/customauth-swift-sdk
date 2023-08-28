@@ -107,12 +107,21 @@ open class CustomAuth {
         if let subVerifier = subVerifierDetails.first {
             let loginURL = subVerifier.getLoginURL()
             await openURL(url: loginURL, view: controller, modalPresentationStyle: modalPresentationStyle)
-            let url = await withUnsafeContinuation({ continuation in
-                observeCallback { url in
-                    continuation.resume(returning: url)
-                }
-            })
+            
+            let url = try await withUnsafeThrowingContinuation { (continuation: UnsafeContinuation<URL, Error>) in
+                observeCallbackWithError { url, err in
+                    guard
+                        err == nil,
+                        let url = url
+                    else {
+                        continuation.resume(throwing: err!)
+                        return
+                    }
 
+                    continuation.resume(returning: url)
+                    return
+                    }
+                }
             let responseParameters = self.parseURL(url: url)
             os_log("ResponseParams after redirect: %@", log: getTorusLogger(log: CASDKLogger.core, type: .info), type: .info, responseParameters)
                     do {
@@ -142,11 +151,20 @@ open class CustomAuth {
             openURL(url: loginURL, view: controller, modalPresentationStyle: modalPresentationStyle)
             })
 
-            let url = await withUnsafeContinuation({ continuation in
-                observeCallback { url in
+            let url = try await withUnsafeThrowingContinuation { (continuation: UnsafeContinuation<URL, Error>) in
+                observeCallbackWithError { url, err in
+                    guard
+                        err == nil,
+                        let url = url
+                    else {
+                        continuation.resume(throwing: err!)
+                        return
+                    }
+
                     continuation.resume(returning: url)
+                    return
+                    }
                 }
-            })
                 let responseParameters = self.parseURL(url: url)
                 os_log("ResponseParams after redirect: %@", log: getTorusLogger(log: CASDKLogger.core, type: .info), type: .info, responseParameters)
             do {

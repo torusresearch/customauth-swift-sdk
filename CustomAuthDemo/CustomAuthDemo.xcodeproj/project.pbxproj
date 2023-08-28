@@ -52,6 +52,7 @@
 		511CEAEF2452D4EF00A7ACE9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		51721D842474E4B700C22BAD /* torus-direct-swift-sdk */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "torus-direct-swift-sdk"; path = ..; sourceTree = "<group>"; };
 		517C5F5D24693F9D006D5A43 /* CustomAuthDemo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CustomAuthDemo.entitlements; sourceTree = "<group>"; };
+		A3C24F222A70FAF9002F4FC9 /* customauth-swift-sdk */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = "customauth-swift-sdk"; path = ..; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,6 +92,7 @@
 		511CEABF2452D4EC00A7ACE9 = {
 			isa = PBXGroup;
 			children = (
+				A3C24F212A70FAF9002F4FC9 /* Packages */,
 				511CEACA2452D4EC00A7ACE9 /* CustomAuthDemo */,
 				511CEAE12452D4EF00A7ACE9 /* CustomAuthDemoTests */,
 				511CEAEC2452D4EF00A7ACE9 /* CustomAuthDemoUITests */,
@@ -149,6 +151,14 @@
 				511CEAEF2452D4EF00A7ACE9 /* Info.plist */,
 			);
 			path = CustomAuthDemoUITests;
+			sourceTree = "<group>";
+		};
+		A3C24F212A70FAF9002F4FC9 /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				A3C24F222A70FAF9002F4FC9 /* customauth-swift-sdk */,
+			);
+			name = Packages;
 			sourceTree = "<group>";
 		};
 		A84257F51AACA6652F347CFD /* Pods */ = {
