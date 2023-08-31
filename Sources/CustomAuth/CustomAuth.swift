@@ -17,8 +17,7 @@ var tsSdkLogType = OSLogType.default
 
 public struct TorusKeyData {
     public let torusKey : TorusKey
-    public let verifier : String
-    public let verifierId : String
+    public var userInfo : [String: Any]
 }
 
 /// Provides integration of an iOS app with Torus CustomAuth.
@@ -139,7 +138,9 @@ open class CustomAuth {
                         data.removeValue(forKey: "tokenForKeys")
                         data.removeValue(forKey: "verifierId")
                         let torusKey = try await getTorusKey(verifier: self.aggregateVerifier, verifierId: verifierId, idToken: idToken, userData: data)
-                        return TorusKeyData(torusKey: torusKey, verifier: self.aggregateVerifier, verifierId: verifierId)
+                        var result =  TorusKeyData(torusKey: torusKey, userInfo: newData)
+                        result.userInfo["verifier"] = self.aggregateVerifier
+                        return result
                     } catch {
                         os_log("handleSingleLogin: err: %s", log: getTorusLogger(log: CASDKLogger.core, type: .error), type: .error, error.localizedDescription)
                         throw error
@@ -181,7 +182,9 @@ open class CustomAuth {
                     data.removeValue(forKey: "tokenForKeys")
                     data.removeValue(forKey: "verifierId")
                     let aggTorusKey = try await getAggregateTorusKey(verifier: self.aggregateVerifier, verifierId: verifierId, idToken: idToken, subVerifierDetails: subVerifier, userData: newData)
-                return TorusKeyData(torusKey: aggTorusKey, verifier: self.aggregateVerifier, verifierId: verifierId)
+                var result =  TorusKeyData(torusKey: aggTorusKey, userInfo: newData)
+                result.userInfo["verifier"] = self.aggregateVerifier
+                return result
                 } catch {
                     os_log("handleSingleIdVerifier err: %s", log: getTorusLogger(log: CASDKLogger.core, type: .error), type: .error, error.localizedDescription)
                     throw error
