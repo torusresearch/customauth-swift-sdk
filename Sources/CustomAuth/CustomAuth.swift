@@ -137,9 +137,12 @@ open class CustomAuth {
                         let idToken = data["tokenForKeys"] as! String
                         data.removeValue(forKey: "tokenForKeys")
                         data.removeValue(forKey: "verifierId")
+                        
+          
                         let torusKey = try await getTorusKey(verifier: self.aggregateVerifier, verifierId: verifierId, idToken: idToken, userData: data)
-                        var result =  TorusKeyData(torusKey: torusKey, userInfo: newData)
-                        result.userInfo["verifier"] = self.aggregateVerifier
+                        var mergedUserInfo = newData.merging(responseParameters) { (_, new) in new }
+                        mergedUserInfo["verifier"] = self.aggregateVerifier
+                        let result =  TorusKeyData(torusKey: torusKey, userInfo: mergedUserInfo)
                         return result
                     } catch {
                         os_log("handleSingleLogin: err: %s", log: getTorusLogger(log: CASDKLogger.core, type: .error), type: .error, error.localizedDescription)
@@ -182,8 +185,9 @@ open class CustomAuth {
                     data.removeValue(forKey: "tokenForKeys")
                     data.removeValue(forKey: "verifierId")
                     let aggTorusKey = try await getAggregateTorusKey(verifier: self.aggregateVerifier, verifierId: verifierId, idToken: idToken, subVerifierDetails: subVerifier, userData: newData)
-                var result =  TorusKeyData(torusKey: aggTorusKey, userInfo: newData)
-                result.userInfo["verifier"] = self.aggregateVerifier
+                var mergedUserInfo = newData.merging(responseParameters) { (_, new) in new }
+                mergedUserInfo["verifier"] = self.aggregateVerifier
+                let result =  TorusKeyData(torusKey: aggTorusKey, userInfo: mergedUserInfo)
                 return result
                 } catch {
                     os_log("handleSingleIdVerifier err: %s", log: getTorusLogger(log: CASDKLogger.core, type: .error), type: .error, error.localizedDescription)
