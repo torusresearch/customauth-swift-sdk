@@ -15,6 +15,11 @@ import CommonSources
 // Global variable
 var tsSdkLogType = OSLogType.default
 
+public struct TorusKeyData {
+    public let torusKey : TorusKey
+    public var userInfo : [String: Any]
+}
+
 /// Provides integration of an iOS app with Torus CustomAuth.
 open class CustomAuth {
     var nodeDetailManager: NodeDetailManager
@@ -84,7 +89,7 @@ open class CustomAuth {
     ///   - browserType: Indicates the way to open the browser for login flow. Use `.external` for opening system safari, or `.asWebAuthSession` for opening an in-app ASwebAuthenticationSession.
     ///   - modalPresentationStyle: Indicates the UIModalPresentationStyle for the popup.
     /// - Returns: A promise that resolve with a Dictionary that contain at least `privateKey` and `publicAddress` field..
-    open func triggerLogin(controller: UIViewController? = nil, browserType: URLOpenerTypes = .asWebAuthSession, modalPresentationStyle: UIModalPresentationStyle = .fullScreen) async throws -> TorusKey {
+    open func triggerLogin(controller: UIViewController? = nil, browserType: URLOpenerTypes = .asWebAuthSession, modalPresentationStyle: UIModalPresentationStyle = .fullScreen) async throws -> TorusKeyData {
         os_log("triggerLogin called with %@ %@", log: getTorusLogger(log: CASDKLogger.core, type: .info), type: .info, browserType.rawValue, modalPresentationStyle.rawValue)
         // Set browser
         authorizeURLHandler = browserType
@@ -103,7 +108,7 @@ open class CustomAuth {
         }
     }
 
-    open func handleSingleLogins(controller: UIViewController?, modalPresentationStyle: UIModalPresentationStyle = .fullScreen) async throws -> TorusKey {
+    open func handleSingleLogins(controller: UIViewController?, modalPresentationStyle: UIModalPresentationStyle = .fullScreen) async throws -> TorusKeyData {
         if let subVerifier = subVerifierDetails.first {
             let loginURL = subVerifier.getLoginURL()
             await openURL(url: loginURL, view: controller, modalPresentationStyle: modalPresentationStyle)
@@ -133,7 +138,9 @@ open class CustomAuth {
                         data.removeValue(forKey: "tokenForKeys")
                         data.removeValue(forKey: "verifierId")
                         let torusKey = try await getTorusKey(verifier: self.aggregateVerifier, verifierId: verifierId, idToken: idToken, userData: data)
-                        return torusKey
+                        var result =  TorusKeyData(torusKey: torusKey, userInfo: newData)
+                        result.userInfo["verifier"] = self.aggregateVerifier
+                        return result
                     } catch {
                         os_log("handleSingleLogin: err: %s", log: getTorusLogger(log: CASDKLogger.core, type: .error), type: .error, error.localizedDescription)
                         throw error
@@ -144,7 +151,7 @@ open class CustomAuth {
         throw CASDKError.unknownError
         }
 
-    open func handleSingleIdVerifier(controller: UIViewController?, modalPresentationStyle: UIModalPresentationStyle = .fullScreen) async throws -> TorusKey {
+    open func handleSingleIdVerifier(controller: UIViewController?, modalPresentationStyle: UIModalPresentationStyle = .fullScreen) async throws -> TorusKeyData {
         if let subVerifier = subVerifierDetails.first {
             let loginURL = subVerifier.getLoginURL()
             await MainActor.run(body: {
@@ -175,7 +182,9 @@ open class CustomAuth {
                     data.removeValue(forKey: "tokenForKeys")
                     data.removeValue(forKey: "verifierId")
                     let aggTorusKey = try await getAggregateTorusKey(verifier: self.aggregateVerifier, verifierId: verifierId, idToken: idToken, subVerifierDetails: subVerifier, userData: newData)
-                return aggTorusKey
+                var result =  TorusKeyData(torusKey: aggTorusKey, userInfo: newData)
+                result.userInfo["verifier"] = self.aggregateVerifier
+                return result
                 } catch {
                     os_log("handleSingleIdVerifier err: %s", log: getTorusLogger(log: CASDKLogger.core, type: .error), type: .error, error.localizedDescription)
                     throw error
@@ -186,12 +195,12 @@ open class CustomAuth {
 
         }
 
-    func handleAndAggregateVerifier(controller: UIViewController?) async throws -> TorusKey {
+    func handleAndAggregateVerifier(controller: UIViewController?) async throws -> TorusKeyData {
         // TODO: implement verifier
         throw CASDKError.methodUnavailable
     }
 
-    func handleOrAggregateVerifier(controller: UIViewController?) async throws -> TorusKey {
+    func handleOrAggregateVerifier(controller: UIViewController?) async throws -> TorusKeyData {
         // TODO: implement verifier
         throw CASDKError.methodUnavailable
     }
