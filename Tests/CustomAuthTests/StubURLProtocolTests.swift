@@ -38,16 +38,6 @@ public class StubMockTorusUtils: TorusUtils {
         print("[StubMockTorusUtils] getTimeStamp(): ", ret)
         return ret
     }
-
-    override open func generatePrivateKeyData() -> Data? {
-        // empty bytes
-//        let ret = Data(count: 32)
-
-        let ret = Data(base64Encoded: "FBz7bssmbsV6jBWoOJpkVOu14+6/Xgyt1pxTycODG08=")
-
-        print("[StubMockTorusUtils] generatePrivateKeyData(): ", ret!.bytes.toBase64())
-        return ret
-    }
 }
 
 public class StubMockCASDKFactory: CASDKFactoryProtocol {
