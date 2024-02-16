@@ -39,7 +39,7 @@ public class StubMockTorusUtils: TorusUtils {
         return ret
     }
 
-    override open func generatePrivateKeyData() -> Data? {
+    open func generatePrivateKeyData() -> Data? {
         // empty bytes
 //        let ret = Data(count: 32)
 
