@@ -18,6 +18,11 @@ var tsSdkLogType = OSLogType.default
 public struct TorusKeyData {
     public let torusKey : TorusKey
     public var userInfo : [String: Any]
+    
+    public init(torusKey: TorusKey, userInfo: [String : Any]) {
+        self.torusKey = torusKey
+        self.userInfo = userInfo
+    }
 }
 
 /// Provides integration of an iOS app with Torus CustomAuth.
