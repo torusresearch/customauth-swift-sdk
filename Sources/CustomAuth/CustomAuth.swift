@@ -49,7 +49,7 @@ open class CustomAuth {
     ///   - factory: Providng mocking by implementing TDSDKFactoryProtocol.
     ///   - network: Etherum network to be used.
     ///   - loglevel: Indicates the log level of this instance. All logs lower than this level will be ignored.
-    public init(web3AuthClientId: String = "", aggregateVerifierType: verifierTypes, aggregateVerifier: String, subVerifierDetails: [SubVerifierDetails], network: TorusNetwork = .legacy(.MAINNET), loglevel: OSLogType = .debug, urlSession: URLSession = URLSession.shared, enableOneKey: Bool = false, networkUrl: String? = nil) {
+    public init(web3AuthClientId: String , aggregateVerifierType: verifierTypes, aggregateVerifier: String, subVerifierDetails: [SubVerifierDetails], network: TorusNetwork , loglevel: OSLogType = .debug, urlSession: URLSession = URLSession.shared, enableOneKey: Bool = false, networkUrl: String? = nil) {
         tsSdkLogType = loglevel
         self.networkUrl = networkUrl
         self.enableOneKey = enableOneKey
@@ -71,14 +71,14 @@ open class CustomAuth {
     ///   - aggregateVerifierType: Type of the verifier. Use `singleLogin` for single providers. Only `singleLogin` and `singleIdVerifier` is supported currently.
     ///   - aggregateVerifier: Name of the verifier to be used..
     ///   - subVerifierDetails: Details of each subverifiers to be used.
-    public convenience init(web3AuthClientId: String = "", aggregateVerifierType: verifierTypes, aggregateVerifier: String, subVerifierDetails: [SubVerifierDetails], enableOneKey: Bool = false, networkUrl: String? = nil) {
+    public convenience init(web3AuthClientId: String , aggregateVerifierType: verifierTypes, aggregateVerifier: String, subVerifierDetails: [SubVerifierDetails], network: TorusNetwork , enableOneKey: Bool = false, networkUrl: String? = nil) {
 //        let factory = CASDKFactory()
-        self.init(web3AuthClientId: web3AuthClientId, aggregateVerifierType: aggregateVerifierType, aggregateVerifier: aggregateVerifier, subVerifierDetails: subVerifierDetails, network: .legacy(.MAINNET), loglevel: .debug, enableOneKey: enableOneKey, networkUrl: networkUrl)
+        self.init(web3AuthClientId: web3AuthClientId, aggregateVerifierType: aggregateVerifierType, aggregateVerifier: aggregateVerifier, subVerifierDetails: subVerifierDetails, network: network, loglevel: .debug, enableOneKey: enableOneKey, networkUrl: networkUrl)
     }
 
-    public convenience init(web3AuthClientId: String = "", aggregateVerifierType: verifierTypes, aggregateVerifier: String, subVerifierDetails: [SubVerifierDetails], loglevel: OSLogType = .debug, enableOneKey: Bool = false, networkUrl: String? = nil) {
+    public convenience init(web3AuthClientId: String , aggregateVerifierType: verifierTypes, aggregateVerifier: String, subVerifierDetails: [SubVerifierDetails], network: TorusNetwork , loglevel: OSLogType = .debug, enableOneKey: Bool = false, networkUrl: String? = nil) {
 //        let factory = CASDKFactory()
-        self.init(web3AuthClientId: web3AuthClientId, aggregateVerifierType: aggregateVerifierType, aggregateVerifier: aggregateVerifier, subVerifierDetails: subVerifierDetails, network: .legacy(.MAINNET), loglevel: loglevel, enableOneKey: enableOneKey, networkUrl: networkUrl)
+        self.init(web3AuthClientId: web3AuthClientId, aggregateVerifierType: aggregateVerifierType, aggregateVerifier: aggregateVerifier, subVerifierDetails: subVerifierDetails, network: network, loglevel: loglevel, enableOneKey: enableOneKey, networkUrl: networkUrl)
     }
 
     /// Retrieve information of Torus nodes from a predefined Etherum contract.

@@ -24,7 +24,7 @@ final class MockSDKTest: XCTestCase {
         let factory = MockFactory()
 
 //        let CustomAuth = CustomAuth(aggregateVerifierType: .singleLogin, aggregateVerifier: expectedVerifier, subVerifierDetails: subVerifiery)
-        let CustomAuth = CustomAuth(aggregateVerifierType: .singleLogin, aggregateVerifier: expectedVerifier, subVerifierDetails: [])
+        let CustomAuth = CustomAuth( web3AuthClientId: "", aggregateVerifierType: .singleLogin, aggregateVerifier: expectedVerifier, subVerifierDetails: [], network: .legacy(.MAINNET))
 //        var mockTorusUtils = CustomAuth.torusUtils as! MockAbstractTorusUtils
         var mockTorusUtils = MockTorusUtils()
         CustomAuth.torusUtils = mockTorusUtils
@@ -59,7 +59,7 @@ final class MockSDKTest: XCTestCase {
 
         let subVerifier = [SubVerifierDetails(loginProvider: .jwt, clientId: fakeData.generateVerifier(), verifier: expectedVerifier, redirectURL: fakeData.generateVerifier())]
 
-        let CustomAuth = CustomAuth(aggregateVerifierType: .singleIdVerifier, aggregateVerifier: expectedVerifier, subVerifierDetails: subVerifier)
+        let CustomAuth = CustomAuth( web3AuthClientId: "", aggregateVerifierType: .singleIdVerifier, aggregateVerifier: expectedVerifier, subVerifierDetails: subVerifier, network: .legacy(.MAINNET))
 //        var mockTorusUtils = CustomAuth.torusUtils as! MockAbstractTorusUtils
         let mockTorusUtils = MockTorusUtils()
         CustomAuth.torusUtils = mockTorusUtils

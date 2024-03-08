@@ -23,7 +23,7 @@ final class IntegrationTests: XCTestCase {
                                      redirectURL: "com.googleusercontent.apps.238941746713-vfap8uumijal4ump28p9jd3lbe6onqt4:/oauthredirect",
                                      browserRedirectURL: "https://scripts.toruswallet.io/redirect.html")
 
-        IntegrationTests.sdk = CustomAuth(aggregateVerifierType: .singleLogin, aggregateVerifier: "torus-test-ios-public", subVerifierDetails: [sub], network: .legacy(.CYAN))
+        IntegrationTests.sdk = CustomAuth(web3AuthClientId: "", aggregateVerifierType: .singleLogin, aggregateVerifier: "torus-test-ios-public", subVerifierDetails: [sub], network: .legacy(.CYAN))
     }
 
     func test_getTorusKey() async throws {
@@ -56,7 +56,7 @@ final class IntegrationTests: XCTestCase {
                                      verifier: "google-lrc",
                                      redirectURL: "com.googleusercontent.apps.238941746713-vfap8uumijal4ump28p9jd3lbe6onqt4:/oauthredirect",
                                      browserRedirectURL: "https://scripts.toruswallet.io/redirect.html")
-        let sdk = CustomAuth(aggregateVerifierType: .singleLogin, aggregateVerifier: "torus-test-ios-public", subVerifierDetails: [sub], network: .sapphire(.SAPPHIRE_DEVNET))
+        let sdk = CustomAuth(web3AuthClientId: "", aggregateVerifierType: .singleLogin, aggregateVerifier: "torus-test-ios-public", subVerifierDetails: [sub], network: .sapphire(.SAPPHIRE_DEVNET))
         
         let email = "hello@tor.us"
         let jwt = try! generateIdToken(email: TORUS_TEST_EMAIL)
