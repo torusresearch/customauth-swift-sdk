@@ -24,8 +24,8 @@ extension TorusNetwork {
                 return "https://signer-polygon.tor.us"
             case .CELESTE:
                 return "https://signer-polygon.tor.us"
-            case let .CUSTOM(path):
-                return "\(path)"
+            default:
+                return "https://signer.tor.us"
             }
         case .sapphire(let network) :
             switch network {
