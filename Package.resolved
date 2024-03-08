@@ -33,8 +33,8 @@
         "repositoryURL": "https://github.com/tkey/curvelib.swift",
         "state": {
           "branch": null,
-          "revision": "508322dbd3b18a92c1e9c4eb68da6a228acb1d7d",
-          "version": "0.1.1"
+          "revision": "7dad3bf1793de263f83406c08c18c9316abf082f",
+          "version": "0.1.2"
         }
       },
       {
@@ -78,8 +78,8 @@
         "repositoryURL": "https://github.com/torusresearch/torus-utils-swift.git",
         "state": {
           "branch": null,
-          "revision": "76c9b17b461152e98216dddbbf320071011cf1cb",
-          "version": "7.0.0"
+          "revision": "3fb829e71caa275556a067a1ffa1ca579bafbf8e",
+          "version": "7.0.1"
         }
       }
     ]
