@@ -3,6 +3,7 @@ import JWTDecode
 import TorusUtils
 import UIKit
 import XCTest
+import curveSecp256k1
 
 final class MockSDKTest: XCTestCase {
     func test_jwtDecodeTest() {
@@ -11,20 +12,16 @@ final class MockSDKTest: XCTestCase {
         print(decodedData)
     }
 
-    func testGetTorusKey() async {
+    func testGetTorusKey() async throws {
         let expectation = XCTestExpectation(description: "getTorusKey should correctly proxy input and output to/from TorusUtils")
 
-        let expectedPrivateKey = fakeData.generatePrivateKey()
-        let expectedPublicAddress = fakeData.generatePublicKey()
+        let expectedPrivateKey = try fakeData.generatePrivateKey()
+        let expectedPublicAddress = try fakeData.generatePublicKey()
         let expectedVerifier = fakeData.generateVerifier()
         let expectedVerfierId = fakeData.generateRandomEmail(of: 6)
 
-        let subVerifier = [SubVerifierDetails(loginProvider: .jwt, clientId: fakeData.generateVerifier(), verifier: expectedVerifier, redirectURL: fakeData.generateVerifier())]
-        let factory = MockFactory()
-
-//        let CustomAuth = CustomAuth(aggregateVerifierType: .singleLogin, aggregateVerifier: expectedVerifier, subVerifierDetails: subVerifiery)
         let CustomAuth = CustomAuth(aggregateVerifierType: .singleLogin, aggregateVerifier: expectedVerifier, subVerifierDetails: [])
-//        var mockTorusUtils = CustomAuth.torusUtils as! MockAbstractTorusUtils
+
         var mockTorusUtils = MockTorusUtils()
         CustomAuth.torusUtils = mockTorusUtils
         // Set Mock data
@@ -48,11 +45,11 @@ final class MockSDKTest: XCTestCase {
         }
     }
 
-    func testGetAggregateTorusKey() async {
+    func testGetAggregateTorusKey() async throws {
         let expectation = XCTestExpectation(description: "getAggregateTorusKey should correctly proxy input and output to/from TorusUtils")
 
-        let expectedPrivateKey = fakeData.generatePrivateKey()
-        let expectedPublicAddress = fakeData.generatePublicKey()
+        let expectedPrivateKey = try fakeData.generatePrivateKey()
+        let expectedPublicAddress = try fakeData.generatePublicKey()
         let expectedVerifier = fakeData.generateVerifier()
         let expectedVerfierId = fakeData.generateRandomEmail(of: 6)
 
@@ -96,15 +93,14 @@ class fakeData {
         return String.randomString(length: 10)
     }
 
-    static func generatePrivateKey() -> String {
-        let privateKey = Data.randomOfLength(32)
-        return (privateKey?.toHexString())!
+    static func generatePrivateKey() throws -> String {
+        let privateKey = curveSecp256k1.SecretKey();
+        return try privateKey.serialize()
     }
 
-    static func generatePublicKey() -> String {
-        let privateKey = Data.randomOfLength(32)!
-        let publicKey = SECP256K1.privateToPublic(privateKey: privateKey)?.subdata(in: 1 ..< 65)
-        return publicKey!.toHexString()
+    static func generatePublicKey() throws -> String {
+        let privateKey = curveSecp256k1.SecretKey();
+        return try privateKey.toPublic().serialize(compressed: false);
     }
 
     static func generateRandomEmail(of length: Int) -> String {
