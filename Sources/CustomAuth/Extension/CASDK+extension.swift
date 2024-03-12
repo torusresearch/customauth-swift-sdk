@@ -24,11 +24,11 @@ public enum verifierTypes: String {
 // MARK: - torus extension
 extension CustomAuth {
 
-    open class var notificationCenter: NotificationCenter {
+    public class var notificationCenter: NotificationCenter {
         return NotificationCenter.default
     }
 
-    open class var notificationQueue: OperationQueue {
+    public class var notificationQueue: OperationQueue {
         return OperationQueue.main
     }
 
@@ -108,13 +108,13 @@ extension CustomAuth {
         return rq
     }
 
-    open class func handle(url: URL) {
+    public class func handle(url: URL) {
         // CustomAuth.logger.info("Posting notification after Universal link/deep link flow")
         let notification = Notification(name: CustomAuth.didHandleCallbackURL, object: nil, userInfo: ["URL": url])
         notificationCenter.post(notification)
     }
     
-    open class func handleError(err: String) {
+    public class func handleError(err: String) {
         // CustomAuth.logger.info("Posting notification after Universal link/deep link flow")
         let notification = Notification(name: CustomAuth.didHandleCallbackURL, object: nil, userInfo: ["ERROR": err])
         notificationCenter.post(notification)

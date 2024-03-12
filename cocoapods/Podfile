@@ -7,7 +7,7 @@ target 'cptest' do
   use_frameworks!
   # pod 'Torus-utils', '~>'
 #  pod 'SingleFactorAuth', '~> 2.0.1'
-  pod 'CustomAuth', :path=>"../"
+#  pod 'CustomAuth', :path=>"../"
   # Pods for cptest
   
   post_install do |installer|
