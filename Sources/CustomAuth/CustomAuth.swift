@@ -218,7 +218,6 @@ open class CustomAuth {
     /// - Returns: A promise that resolve with a Dictionary that contain at least `privateKey` and `publicAddress` field..
     open func getTorusKey(verifier: String, verifierId: String, idToken: String, userData: [String: Any] = [:]) async throws -> TorusKey {
         let extraParams = ["verifier_id": verifierId] as [String: Codable]
-        let buffer: Data = try! NSKeyedArchiver.archivedData(withRootObject: extraParams, requiringSecureCoding: false)
         let verifierParams = VerifierParams(verifier_id: verifierId)
         do {
             let nodeDetails = try await nodeDetailManager.getNodeDetails(verifier: verifier, verifierID: verifierId)
@@ -240,7 +239,6 @@ open class CustomAuth {
     /// - Returns: A promise that resolve with a Dictionary that contain at least `privateKey` and `publicAddress` field..
     open func getAggregateTorusKey(verifier: String, verifierId: String, idToken: String, subVerifierDetails: SubVerifierDetails, userData: [String: Any] = [:]) async throws -> TorusKey {
         let extraParams = ["verifieridentifier": verifier, "verifier_id": verifierId, "sub_verifier_ids": [subVerifierDetails.verifier], "verify_params": [["verifier_id": verifierId, "idtoken": idToken]]] as [String: Codable]
-        let buffer: Data = try! NSKeyedArchiver.archivedData(withRootObject: extraParams, requiringSecureCoding: false)
         let hashedOnce = idToken.sha3(.keccak256)
         
         let verifierParams = VerifierParams(verifier_id: verifierId)
