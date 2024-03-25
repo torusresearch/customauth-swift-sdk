@@ -22,7 +22,7 @@ final class MockSDKTest: XCTestCase {
 
         let CustomAuth = CustomAuth(web3AuthClientId:"YOUR_CLIENT_ID", aggregateVerifierType: .singleLogin, aggregateVerifier: expectedVerifier, subVerifierDetails: [], network: .legacy(.MAINNET))
 
-        var mockTorusUtils = MockTorusUtils()
+        let mockTorusUtils = MockTorusUtils()
         CustomAuth.torusUtils = mockTorusUtils
         // Set Mock data
         mockTorusUtils.retrieveShares_output["privateKey"] = expectedPrivateKey
