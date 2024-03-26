@@ -27,7 +27,7 @@ public class StubMockCASDKFactory: CASDKFactoryProtocol {
     public func createTorusUtils(loglevel: OSLogType, urlSession: URLSession, enableOneKey: Bool, network: TorusNetwork) -> AbstractTorusUtils {
         let allowHost = network.signerMap.appending("/api/allow")
         let signerHost = network.signerMap.appending("/api/sign")
-        return StubMockTorusUtils(loglevel: loglevel, urlSession: urlSession, enableOneKey: enableOneKey, signerHost: signerHost, allowHost: allowHost)
+        return StubMockTorusUtils(loglevel: loglevel, urlSession: urlSession, enableOneKey: enableOneKey, signerHost: signerHost, allowHost: allowHost, clientId: "Your Client ID")
     }
 
     public init() {

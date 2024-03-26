@@ -20,9 +20,9 @@ final class MockSDKTest: XCTestCase {
         let expectedVerifier = fakeData.generateVerifier()
         let expectedVerfierId = fakeData.generateRandomEmail(of: 6)
 
-        let CustomAuth = CustomAuth(aggregateVerifierType: .singleLogin, aggregateVerifier: expectedVerifier, subVerifierDetails: [])
+        let CustomAuth = CustomAuth(web3AuthClientId:"YOUR_CLIENT_ID", aggregateVerifierType: .singleLogin, aggregateVerifier: expectedVerifier, subVerifierDetails: [], network: .legacy(.MAINNET))
 
-        var mockTorusUtils = MockTorusUtils()
+        let mockTorusUtils = MockTorusUtils()
         CustomAuth.torusUtils = mockTorusUtils
         // Set Mock data
         mockTorusUtils.retrieveShares_output["privateKey"] = expectedPrivateKey
@@ -55,7 +55,7 @@ final class MockSDKTest: XCTestCase {
 
         let subVerifier = [SubVerifierDetails(loginProvider: .jwt, clientId: fakeData.generateVerifier(), verifier: expectedVerifier, redirectURL: fakeData.generateVerifier())]
 
-        let CustomAuth = CustomAuth(aggregateVerifierType: .singleIdVerifier, aggregateVerifier: expectedVerifier, subVerifierDetails: subVerifier)
+        let CustomAuth = CustomAuth(web3AuthClientId:"YOUR_CLIENT_ID", aggregateVerifierType: .singleIdVerifier, aggregateVerifier: expectedVerifier, subVerifierDetails: subVerifier, network: .legacy(.MAINNET))
 //        var mockTorusUtils = CustomAuth.torusUtils as! MockAbstractTorusUtils
         let mockTorusUtils = MockTorusUtils()
         CustomAuth.torusUtils = mockTorusUtils

@@ -29,7 +29,7 @@ struct ContentView: View {
                                                      redirectURL: "tdsdk://tdsdk/oauthCallback",
                                                      browserRedirectURL: "https://scripts.toruswallet.io/redirect.html")
 
-                        let tdsdk = CustomAuth(aggregateVerifierType: .singleLogin, aggregateVerifier: "google-lrc", subVerifierDetails: [sub], network: .legacy(.TESTNET))
+                        let tdsdk = CustomAuth(web3AuthClientId: "221898609709-obfn3p63741l5333093430j3qeiinaa8.apps.googleusercontent.com", aggregateVerifierType: .singleLogin, aggregateVerifier: "google-lrc", subVerifierDetails: [sub], network: .legacy(.TESTNET))
                         Task {
                             do {
                                 let loginData = try await tdsdk.triggerLogin().torusKey.finalKeyData!
@@ -48,7 +48,7 @@ struct ContentView: View {
                                                      clientId: "rXIp6g2y3h1wqg",
                                                      verifier: "reddit-shubs",
                                                      redirectURL: "tdsdk://tdsdk/oauthCallback")
-                        let tdsdk = CustomAuth(aggregateVerifierType: .singleLogin, aggregateVerifier: "reddit-shubs", subVerifierDetails: [sub], network: .legacy(.TESTNET))
+                        let tdsdk = CustomAuth(web3AuthClientId: "rXIp6g2y3h1wqg", aggregateVerifierType: .singleLogin, aggregateVerifier: "reddit-shubs", subVerifierDetails: [sub], network: .legacy(.TESTNET))
                         Task {
                             do {
                                 let loginData = try await tdsdk.triggerLogin().torusKey.finalKeyData!
@@ -67,7 +67,7 @@ struct ContentView: View {
                                                      clientId: "700259843063152661",
                                                      verifier: "discord-shubs",
                                                      redirectURL: "tdsdk://tdsdk/oauthCallback")
-                        let tdsdk = CustomAuth(aggregateVerifierType: .singleLogin, aggregateVerifier: "discord-shubs", subVerifierDetails: [sub], network: .legacy(.TESTNET))
+                        let tdsdk = CustomAuth(web3AuthClientId: "700259843063152661", aggregateVerifierType: .singleLogin, aggregateVerifier: "discord-shubs", subVerifierDetails: [sub], network: .legacy(.TESTNET))
                         Task {
                             do {
                                 let loginData = try await tdsdk.triggerLogin().torusKey.finalKeyData!
@@ -87,7 +87,7 @@ struct ContentView: View {
                                                      verifier: "facebook-shubs",
                                                      redirectURL: "tdsdk://tdsdk/oauthCallback", browserRedirectURL: "https://scripts.toruswallet.io/redirect.html")
 
-                        let tdsdk = CustomAuth(aggregateVerifierType: .singleLogin, aggregateVerifier: "facebook-shubs", subVerifierDetails: [sub], network: .legacy(.TESTNET))
+                        let tdsdk = CustomAuth(web3AuthClientId: "221898609709-obfn3p63741l5333093430j3qeiinaa8.apps.googleusercontent.com", aggregateVerifierType: .singleLogin, aggregateVerifier: "facebook-shubs", subVerifierDetails: [sub], network: .legacy(.TESTNET))
                         Task {
                             do {
                                 let loginData = try await tdsdk.triggerLogin().torusKey.finalKeyData!
@@ -106,7 +106,7 @@ struct ContentView: View {
                                                      clientId: "p560duf74b2bidzqu6uo0b3ot7qaao",
                                                      verifier: "twitch-shubs",
                                                      redirectURL: "tdsdk://tdsdk/oauthCallback")
-                        let tdsdk = CustomAuth(aggregateVerifierType: .singleLogin, aggregateVerifier: "twitch-shubs", subVerifierDetails: [sub], network: .legacy(.TESTNET))
+                        let tdsdk = CustomAuth(web3AuthClientId: "p560duf74b2bidzqu6uo0b3ot7qaao", aggregateVerifierType: .singleLogin, aggregateVerifier: "twitch-shubs", subVerifierDetails: [sub], network: .legacy(.TESTNET))
                         Task {
                             do {
                                 let loginData = try await tdsdk.triggerLogin().torusKey.finalKeyData!
@@ -127,7 +127,7 @@ struct ContentView: View {
                                                      redirectURL: "tdsdk://tdsdk/oauthCallback",
                                                      jwtParams: ["domain": "torus-test.auth0.com"])
 
-                        let tdsdk = CustomAuth(aggregateVerifierType: .singleLogin, aggregateVerifier: "torus-auth0-twitter-lrc", subVerifierDetails: [sub], network: .legacy(.TESTNET))
+                        let tdsdk = CustomAuth(web3AuthClientId: "A7H8kkcmyFRlusJQ9dZiqBLraG2yWIsO", aggregateVerifierType: .singleLogin, aggregateVerifier: "torus-auth0-twitter-lrc", subVerifierDetails: [sub], network: .legacy(.TESTNET))
                         Task {
                             do {
                                 let loginData = try await tdsdk.triggerLogin().torusKey.finalKeyData!
@@ -149,7 +149,7 @@ struct ContentView: View {
                                                      browserRedirectURL: "https://scripts.toruswallet.io/redirect.html",
                                                      jwtParams: ["domain": "torus-test.auth0.com"])
 
-                        let tdsdk = CustomAuth(aggregateVerifierType: .singleLogin, aggregateVerifier: "torus-auth0-github-lrc", subVerifierDetails: [sub], network: .legacy(.TESTNET))
+                        let tdsdk = CustomAuth(web3AuthClientId: "PC2a4tfNRvXbT48t89J5am0oFM21Nxff", aggregateVerifierType: .singleLogin, aggregateVerifier: "torus-auth0-github-lrc", subVerifierDetails: [sub], network: .legacy(.TESTNET))
                         Task {
                             do {
                                 let loginData = try await tdsdk.triggerLogin().torusKey.finalKeyData!
@@ -170,7 +170,7 @@ struct ContentView: View {
                                                      redirectURL: "tdsdk://tdsdk/oauthCallback",
                                                      jwtParams: ["domain": "torus-test.auth0.com"])
 
-                        let tdsdk = CustomAuth(aggregateVerifierType: .singleLogin, aggregateVerifier: "torus-auth0-linkedin-lrc", subVerifierDetails: [sub], network: .legacy(.TESTNET))
+                        let tdsdk = CustomAuth(web3AuthClientId: "59YxSgx79Vl3Wi7tQUBqQTRTxWroTuoc", aggregateVerifierType: .singleLogin, aggregateVerifier: "torus-auth0-linkedin-lrc", subVerifierDetails: [sub], network: .legacy(.TESTNET))
                         Task {
                             do {
                                 let loginData = try await tdsdk.triggerLogin().torusKey.finalKeyData!
@@ -191,7 +191,7 @@ struct ContentView: View {
                                                      redirectURL: "tdsdk://tdsdk/oauthCallback",
                                                      jwtParams: ["domain": "torus-test.auth0.com"])
 
-                        let tdsdk = CustomAuth(aggregateVerifierType: .singleLogin, aggregateVerifier: "torus-auth0-apple-lrc", subVerifierDetails: [sub], network: .legacy(.TESTNET))
+                        let tdsdk = CustomAuth(web3AuthClientId: "m1Q0gvDfOyZsJCZ3cucSQEe9XMvl9d9L", aggregateVerifierType: .singleLogin, aggregateVerifier: "torus-auth0-apple-lrc", subVerifierDetails: [sub], network: .legacy(.TESTNET))
                         Task {
                             do {
                                 let loginData = try await tdsdk.triggerLogin().torusKey.finalKeyData!
@@ -214,7 +214,7 @@ struct ContentView: View {
                                                      redirectURL: "tdsdk://tdsdk/oauthCallback",
                                                      jwtParams: ["domain": "torus-test.auth0.com", "verifier_id_field": "name"])
 
-                        let tdsdk = CustomAuth(aggregateVerifierType: .singleLogin, aggregateVerifier: "torus-auth0-email-passwordless", subVerifierDetails: [sub], network: .legacy(.TESTNET))
+                        let tdsdk = CustomAuth(web3AuthClientId: "P7PJuBCXIHP41lcyty0NEb7Lgf7Zme8Q", aggregateVerifierType: .singleLogin, aggregateVerifier: "torus-auth0-email-passwordless", subVerifierDetails: [sub], network: .legacy(.TESTNET))
                         Task {
                             do {
                                 let loginData = try await tdsdk.triggerLogin().torusKey.finalKeyData!
@@ -235,7 +235,7 @@ struct ContentView: View {
                                                      redirectURL: "tdsdk://tdsdk/oauthCallback",
                                                      jwtParams: ["domain": "torus-test.auth0.com"])
 
-                        let tdsdk = CustomAuth(aggregateVerifierType: .singleLogin, aggregateVerifier: "torus-auth0-kakao-lrc", subVerifierDetails: [sub], network: .legacy(.TESTNET))
+                        let tdsdk = CustomAuth(web3AuthClientId: "wpkcc7alGJjEgjaL6q5AWRqgRWHFsdTL", aggregateVerifierType: .singleLogin, aggregateVerifier: "torus-auth0-kakao-lrc", subVerifierDetails: [sub], network: .legacy(.TESTNET))
                         Task {
                             do {
                                 let loginData = try await tdsdk.triggerLogin().torusKey.finalKeyData!
@@ -256,7 +256,7 @@ struct ContentView: View {
                                                      redirectURL: "tdsdk://tdsdk/oauthCallback",
                                                      jwtParams: ["domain": "torus-test.auth0.com"])
 
-                        let tdsdk = CustomAuth(aggregateVerifierType: .singleLogin, aggregateVerifier: "torus-auth0-weibo-lrc", subVerifierDetails: [sub], network: .legacy(.TESTNET))
+                        let tdsdk = CustomAuth(web3AuthClientId: "dhFGlWQMoACOI5oS5A1jFglp772OAWr1", aggregateVerifierType: .singleLogin, aggregateVerifier: "torus-auth0-weibo-lrc", subVerifierDetails: [sub], network: .legacy(.TESTNET))
                         Task {
                             do {
                                 let loginData = try await tdsdk.triggerLogin().torusKey.finalKeyData!
@@ -277,7 +277,7 @@ struct ContentView: View {
                                                      redirectURL: "tdsdk://tdsdk/oauthCallback",
                                                      jwtParams: ["domain": "torus-test.auth0.com"])
 
-                        let tdsdk = CustomAuth(aggregateVerifierType: .singleLogin, aggregateVerifier: "torus-auth0-wechat-lrc", subVerifierDetails: [sub], network: .legacy(.TESTNET))
+                        let tdsdk = CustomAuth(web3AuthClientId: "cewDD3i6F1vtHeV1KIbaxUZ8vJQjJZ8V", aggregateVerifierType: .singleLogin, aggregateVerifier: "torus-auth0-wechat-lrc", subVerifierDetails: [sub], network: .legacy(.TESTNET))
                         Task {
                             do {
                                 let loginData = try await tdsdk.triggerLogin().torusKey.finalKeyData!
@@ -299,7 +299,7 @@ struct ContentView: View {
                                                      clientId: "238941746713-vfap8uumijal4ump28p9jd3lbe6onqt4.apps.googleusercontent.com",
                                                      verifier: "google-ios",
                                                      redirectURL: "com.googleusercontent.apps.238941746713-vfap8uumijal4ump28p9jd3lbe6onqt4:/oauthredirect")
-                        let tdsdk = CustomAuth(aggregateVerifierType: .singleIdVerifier, aggregateVerifier: "multigoogle-torus", subVerifierDetails: [sub], network: .legacy(.TESTNET))
+                        let tdsdk = CustomAuth(web3AuthClientId: "238941746713-vfap8uumijal4ump28p9jd3lbe6onqt4.apps.googleusercontent.com", aggregateVerifierType: .singleIdVerifier, aggregateVerifier: "multigoogle-torus", subVerifierDetails: [sub], network: .legacy(.TESTNET))
                         Task {
                             do {
                                 let loginData = try await tdsdk.triggerLogin().torusKey.finalKeyData!

@@ -78,8 +78,8 @@
         "repositoryURL": "https://github.com/apple/swift-crypto.git",
         "state": {
           "branch": null,
-          "revision": "cc76b894169a3c86b71bac10c78a4db6beb7a9ad",
-          "version": "3.2.0"
+          "revision": "f0525da24dc3c6cbb2b6b338b65042bc91cbc4bb",
+          "version": "3.3.0"
         }
       },
       {
@@ -87,8 +87,8 @@
         "repositoryURL": "https://github.com/torusresearch/torus-utils-swift.git",
         "state": {
           "branch": null,
-          "revision": "3fb829e71caa275556a067a1ffa1ca579bafbf8e",
-          "version": "7.0.1"
+          "revision": "04c62fd5f73f21bd01b7c07e08f6135db26c5940",
+          "version": "8.0.0"
         }
       }
     ]

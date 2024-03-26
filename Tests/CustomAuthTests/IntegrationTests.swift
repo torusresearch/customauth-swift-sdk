@@ -23,7 +23,7 @@ final class IntegrationTests: XCTestCase {
                                      redirectURL: "com.googleusercontent.apps.238941746713-vfap8uumijal4ump28p9jd3lbe6onqt4:/oauthredirect",
                                      browserRedirectURL: "https://scripts.toruswallet.io/redirect.html")
 
-        IntegrationTests.sdk = CustomAuth(aggregateVerifierType: .singleLogin, aggregateVerifier: "torus-test-ios-public", subVerifierDetails: [sub], network: .legacy(.CYAN))
+        IntegrationTests.sdk = CustomAuth(web3AuthClientId:"YOUR_CLIENT_ID", aggregateVerifierType: .singleLogin, aggregateVerifier: "torus-test-ios-public", subVerifierDetails: [sub], network: .legacy(.CYAN))
     }
 
     func test_getTorusKey() async throws {
@@ -53,7 +53,23 @@ final class IntegrationTests: XCTestCase {
                                      verifier: "google-lrc",
                                      redirectURL: "com.googleusercontent.apps.238941746713-vfap8uumijal4ump28p9jd3lbe6onqt4:/oauthredirect",
                                      browserRedirectURL: "https://scripts.toruswallet.io/redirect.html")
-        let sdk = CustomAuth(aggregateVerifierType: .singleLogin, aggregateVerifier: "torus-test-ios-public", subVerifierDetails: [sub], network: .sapphire(.SAPPHIRE_DEVNET))
+        let sdk = CustomAuth(web3AuthClientId:"221898609709-obfn3p63741l5333093430j3qeiinaa8.apps.googleusercontent.com", aggregateVerifierType: .singleLogin, aggregateVerifier: "torus-test-ios-public", subVerifierDetails: [sub], network: .sapphire(.SAPPHIRE_DEVNET))
+
+        let jwt = try! generateIdToken(email: TORUS_TEST_EMAIL)
+        let data = try await sdk.getTorusKey(verifier: TORUS_TEST_VERIFIER, verifierId: TORUS_TEST_EMAIL, idToken: jwt)
+        let finalKeyDataDict = data.finalKeyData!
+        let evmAddress = finalKeyDataDict.evmAddress
+        XCTAssertEqual(evmAddress, "0x81001206C06AD09b3611b593aEEd3A607d79871E")
+    }
+    
+    func test_Sapphire_getTorusKey_gated() async throws {
+        let sub = SubVerifierDetails(loginType: .web,
+                                     loginProvider: .jwt,
+                                     clientId: "221898609709-obfn3p63741l5333093430j3qeiinaa8.apps.googleusercontent.com",
+                                     verifier: "torus-test-ios-public",
+                                     redirectURL: "com.googleusercontent.apps.238941746713-vfap8uumijal4ump28p9jd3lbe6onqt4:/oauthredirect",
+                                     browserRedirectURL: "https://scripts.toruswallet.io/redirect.html")
+        let sdk = CustomAuth(web3AuthClientId:"221898609709-obfn3p63741l5333093430j3qeiinaa8.apps.googleusercontent.com", aggregateVerifierType: .singleLogin, aggregateVerifier: "torus-test-ios-public", subVerifierDetails: [sub], network: .sapphire(.SAPPHIRE_DEVNET))
 
         let jwt = try! generateIdToken(email: TORUS_TEST_EMAIL)
         let data = try await sdk.getTorusKey(verifier: TORUS_TEST_VERIFIER, verifierId: TORUS_TEST_EMAIL, idToken: jwt)
