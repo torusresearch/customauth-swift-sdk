@@ -2,8 +2,17 @@
   "object": {
     "pins": [
       {
+        "package": "AnyCodable",
+        "repositoryURL": "https://github.com/Flight-School/AnyCodable",
+        "state": {
+          "branch": null,
+          "revision": "862808b2070cd908cb04f9aafe7de83d35f81b05",
+          "version": "0.6.7"
+        }
+      },
+      {
         "package": "BigInt",
-        "repositoryURL": "https://github.com/attaswift/BigInt",
+        "repositoryURL": "https://github.com/attaswift/BigInt.git",
         "state": {
           "branch": null,
           "revision": "0ed110f7555c34ff468e72e1686e59721f2b0da6",
@@ -12,29 +21,29 @@
       },
       {
         "package": "CryptoSwift",
-        "repositoryURL": "https://github.com/krzyzanowskim/CryptoSwift.git",
+        "repositoryURL": "https://github.com/krzyzanowskim/CryptoSwift",
         "state": {
           "branch": null,
-          "revision": "32f641cf24fc7abc1c591a2025e9f2f572648b0f",
-          "version": "1.7.2"
+          "revision": "7892a123f7e8d0fe62f9f03728b17bbd4f94df5c",
+          "version": "1.8.1"
+        }
+      },
+      {
+        "package": "curvelib.swift",
+        "repositoryURL": "https://github.com/tkey/curvelib.swift",
+        "state": {
+          "branch": null,
+          "revision": "7dad3bf1793de263f83406c08c18c9316abf082f",
+          "version": "0.1.2"
         }
       },
       {
         "package": "FetchNodeDetails",
-        "repositoryURL": "https://github.com/torusresearch/fetch-node-details-swift.git",
+        "repositoryURL": "https://github.com/torusresearch/fetch-node-details-swift",
         "state": {
           "branch": null,
-          "revision": "94a0ee598abfcc2104ceeda80eecf4b55242ba62",
-          "version": "4.0.1"
-        }
-      },
-      {
-        "package": "GenericJSON",
-        "repositoryURL": "https://github.com/zoul/generic-json-swift",
-        "state": {
-          "branch": null,
-          "revision": "a137894b2a217abe489cdf1ea287e6f7819b1051",
-          "version": "2.0.1"
+          "revision": "d591af500f32ce3c88d04af9bb74d746585acfea",
+          "version": "5.1.0"
         }
       },
       {
@@ -42,8 +51,8 @@
         "repositoryURL": "https://github.com/vapor/jwt-kit.git",
         "state": {
           "branch": null,
-          "revision": "9e929d925434b91857661bcd455d1bd53f00bf22",
-          "version": "4.13.0"
+          "revision": "e05513b5aec24f88012b6e3034115b6bc915356a",
+          "version": "4.13.2"
         }
       },
       {
@@ -56,12 +65,12 @@
         }
       },
       {
-        "package": "secp256k1",
-        "repositoryURL": "https://github.com/Boilertalk/secp256k1.swift",
+        "package": "PromiseKit",
+        "repositoryURL": "https://github.com/mxcl/PromiseKit",
         "state": {
           "branch": null,
-          "revision": "45e458ec3be46cf0a6eb68bc947f797852dc65d8",
-          "version": "0.1.6"
+          "revision": "cb70b070cde06837cd10a1febdf6105c1a3bb348",
+          "version": "8.1.1"
         }
       },
       {
@@ -69,8 +78,8 @@
         "repositoryURL": "https://github.com/apple/swift-crypto.git",
         "state": {
           "branch": null,
-          "revision": "d9825fa541df64b1a7b182178d61b9a82730d01f",
-          "version": "2.1.0"
+          "revision": "f0525da24dc3c6cbb2b6b338b65042bc91cbc4bb",
+          "version": "3.3.0"
         }
       },
       {
@@ -78,17 +87,8 @@
         "repositoryURL": "https://github.com/torusresearch/torus-utils-swift.git",
         "state": {
           "branch": null,
-          "revision": "5545ce7e4d00e1a5821434c4b673258235dd05d5",
-          "version": "5.1.1"
-        }
-      },
-      {
-        "package": "web3.swift",
-        "repositoryURL": "https://github.com/argentlabs/web3.swift",
-        "state": {
-          "branch": null,
-          "revision": "0474eb5e883bc4800b3909833207a1d35e72b808",
-          "version": "0.9.3"
+          "revision": "04c62fd5f73f21bd01b7c07e08f6135db26c5940",
+          "version": "8.0.0"
         }
       }
     ]
