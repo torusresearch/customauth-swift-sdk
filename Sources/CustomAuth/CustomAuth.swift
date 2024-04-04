@@ -57,7 +57,7 @@ open class CustomAuth {
         self.nodeDetailManager = NodeDetailManager(network: network)
         self.urlSession = urlSession
         
-        self.torusUtils = TorusUtils(loglevel: loglevel, urlSession: urlSession, enableOneKey: enableOneKey, serverTimeOffset: 1000,  network: network)
+        self.torusUtils = TorusUtils( loglevel: loglevel, urlSession: urlSession, enableOneKey: enableOneKey, serverTimeOffset: 1000,  network: network, clientId: web3AuthClientId)
 
         // verifier details
         self.aggregateVerifier = aggregateVerifier
@@ -76,10 +76,10 @@ open class CustomAuth {
         self.init(web3AuthClientId: web3AuthClientId, aggregateVerifierType: aggregateVerifierType, aggregateVerifier: aggregateVerifier, subVerifierDetails: subVerifierDetails, network: network, loglevel: .debug, enableOneKey: enableOneKey, networkUrl: networkUrl)
     }
 
-    public convenience init(web3AuthClientId: String , aggregateVerifierType: verifierTypes, aggregateVerifier: String, subVerifierDetails: [SubVerifierDetails], network: TorusNetwork , loglevel: OSLogType = .debug, enableOneKey: Bool = false, networkUrl: String? = nil) {
-//        let factory = CASDKFactory()
-        self.init(web3AuthClientId: web3AuthClientId, aggregateVerifierType: aggregateVerifierType, aggregateVerifier: aggregateVerifier, subVerifierDetails: subVerifierDetails, network: network, loglevel: loglevel, enableOneKey: enableOneKey, networkUrl: networkUrl)
-    }
+//    public convenience init(web3AuthClientId: String , aggregateVerifierType: verifierTypes, aggregateVerifier: String, subVerifierDetails: [SubVerifierDetails], network: TorusNetwork , loglevel: OSLogType = .debug, enableOneKey: Bool = false, networkUrl: String? = nil) {
+////        let factory = CASDKFactory()
+//        self.init(web3AuthClientId: web3AuthClientId, aggregateVerifierType: aggregateVerifierType, aggregateVerifier: aggregateVerifier, subVerifierDetails: subVerifierDetails, network: network, loglevel: loglevel, enableOneKey: enableOneKey, networkUrl: networkUrl)
+//    }
 
     /// Retrieve information of Torus nodes from a predefined Etherum contract.
     /// - Returns: An array of URLs to the nodes.
