@@ -10,6 +10,7 @@ import Foundation
 import OSLog
 import TorusUtils
 import UIKit
+import curveSecp256k1
 import CommonSources
 
 // Global variable
@@ -245,7 +246,7 @@ open class CustomAuth {
     /// - Returns: A promise that resolve with a Dictionary that contain at least `privateKey` and `publicAddress` field..
     open func getAggregateTorusKey(verifier: String, verifierId: String, idToken: String, subVerifierDetails: SubVerifierDetails, userData: [String: Any] = [:]) async throws -> TorusKey {
         let extraParams = ["verifieridentifier": verifier, "verifier_id": verifierId, "sub_verifier_ids": [subVerifierDetails.verifier], "verify_params": [["verifier_id": verifierId, "idtoken": idToken]]] as [String: Codable]
-        let hashedOnce = idToken.sha3(.keccak256)
+        let hashedOnce = try keccak256(data: Data(idToken.utf8))
         
         let verifierParams = VerifierParams(verifier_id: verifierId)
         
@@ -253,7 +254,7 @@ open class CustomAuth {
             let nodeDetails = try await getNodeDetailsFromContract(verifier: verifier, verfierID: verifierId)
             
             // retrieveShares internall checks if network is legacy and calls getPublicAddress if required.
-            let responseFromRetrieveShares :TorusKey =  try await self.torusUtils.retrieveShares(endpoints: nodeDetails.torusNodeEndpoints, torusNodePubs: nodeDetails.torusNodePub, indexes: nodeDetails.torusIndexes, verifier: verifier, verifierParams: verifierParams, idToken: hashedOnce, extraParams: extraParams)
+            let responseFromRetrieveShares :TorusKey =  try await self.torusUtils.retrieveShares(endpoints: nodeDetails.torusNodeEndpoints, torusNodePubs: nodeDetails.torusNodePub, indexes: nodeDetails.torusIndexes, verifier: verifier, verifierParams: verifierParams, idToken: hashedOnce.toHexString(), extraParams: extraParams)
             
             return responseFromRetrieveShares
         } catch {

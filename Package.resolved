@@ -20,21 +20,12 @@
         }
       },
       {
-        "package": "CryptoSwift",
-        "repositoryURL": "https://github.com/krzyzanowskim/CryptoSwift.git",
-        "state": {
-          "branch": null,
-          "revision": "32f641cf24fc7abc1c591a2025e9f2f572648b0f",
-          "version": "1.7.2"
-        }
-      },
-      {
         "package": "curvelib.swift",
         "repositoryURL": "https://github.com/tkey/curvelib.swift",
         "state": {
           "branch": null,
-          "revision": "7dad3bf1793de263f83406c08c18c9316abf082f",
-          "version": "0.1.2"
+          "revision": "2df9f638fd121b445ce3b410cd79ac4d0cfa94ed",
+          "version": "1.0.0"
         }
       },
       {
@@ -42,8 +33,8 @@
         "repositoryURL": "https://github.com/torusresearch/fetch-node-details-swift.git",
         "state": {
           "branch": null,
-          "revision": "d591af500f32ce3c88d04af9bb74d746585acfea",
-          "version": "5.1.0"
+          "revision": "bf2f0759da5c5c80765773b08c2756045edf608f",
+          "version": "5.2.0"
         }
       },
       {
@@ -78,8 +69,8 @@
         "repositoryURL": "https://github.com/torusresearch/torus-utils-swift.git",
         "state": {
           "branch": null,
-          "revision": "04c62fd5f73f21bd01b7c07e08f6135db26c5940",
-          "version": "8.0.0"
+          "revision": "cd26539ac407bc89e416b566aca67819ea5db951",
+          "version": "8.0.2"
         }
       }
     ]
