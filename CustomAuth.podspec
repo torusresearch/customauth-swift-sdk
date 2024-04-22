@@ -6,7 +6,7 @@ Pod::Spec.new do |spec|
   spec.homepage     = "https://github.com/torusresearch/customauth-swift-sdk"
   spec.license      = { :type => 'BSD', :file  => 'License.md' }
   spec.swift_version   = "5.3"
-  spec.author       = { "Torus Labs" => "rathishubham017@gmail.com" }
+  spec.author       = { "Torus Labs" => "hello@tor.us" }
   spec.module_name = "CustomAuth"
   spec.source       = { :git => "https://github.com/torusresearch/customauth-swift-sdk.git", :tag => spec.version }
   spec.source_files = "Sources/CustomAuth/*.{swift}","Sources/CustomAuth/**/*.{swift}"
