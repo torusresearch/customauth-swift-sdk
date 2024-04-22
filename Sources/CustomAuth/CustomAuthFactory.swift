@@ -9,7 +9,6 @@ import FetchNodeDetails
 import Foundation
 import OSLog
 import TorusUtils
-import CommonSources
 
 /// A protocol should be implmented by users of `CustomAuth`. It provides a way
 /// to stub or mock the CustomAuth for testing.
