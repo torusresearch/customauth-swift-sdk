@@ -4,7 +4,6 @@ import Foundation
 import OSLog
 import TorusUtils
 import XCTest
-import CommonSources
 
 final class StubURLProtocolTests: XCTestCase {}
 
@@ -23,9 +22,7 @@ public class StubMockTorusUtils: TorusUtils {
 
 public class StubMockCASDKFactory: CASDKFactoryProtocol {
     public func createTorusUtils(loglevel: OSLogType, urlSession: URLSession, enableOneKey: Bool, network: TorusNetwork) -> AbstractTorusUtils {
-        let allowHost = network.signerMap.appending("/api/allow")
-        let signerHost = network.signerMap.appending("/api/sign")
-        return StubMockTorusUtils(loglevel: loglevel, urlSession: urlSession, enableOneKey: enableOneKey, signerHost: signerHost, allowHost: allowHost, clientId: "Your Client ID")
+        return StubMockTorusUtils(loglevel: loglevel, urlSession: urlSession, enableOneKey: enableOneKey, network: .sapphire(.SAPPHIRE_DEVNET), clientId: "Your Client ID")
     }
 
     public init() {

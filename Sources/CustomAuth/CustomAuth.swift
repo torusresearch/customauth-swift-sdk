@@ -11,7 +11,6 @@ import OSLog
 import TorusUtils
 import UIKit
 import curveSecp256k1
-import CommonSources
 
 // Global variable
 var tsSdkLogType = OSLogType.default
