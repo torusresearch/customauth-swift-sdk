@@ -1,129 +1,80 @@
-//
-//  File.swift
-//
-//
-//  Created by Shubham on 13/11/20.
-//
-
 import Foundation
-import JWTDecode
-import TorusUtils
+
+public class Auth0UserInfo: Codable {
+    public let picture: String
+    public let email: String
+    public let name: String
+    public let sub: String
+    public let nickname: String
+}
 
 class JWTLoginHandler: AbstractLoginHandler {
-    let loginType: SubVerifierType
-    let clientID: String
-    let redirectURL: String
-    let browserRedirectURL: String?
-    var userInfo: [String: Any]?
-    let nonce = String.randomString(length: 10)
-    let state: String
-    let defaultParams: [String: String]
-    let jwtParams: [String: String]
-    let connection: LoginProviders
-    var urlSession: URLSession
+    private var response_type: String = "token id_token"
+    private var scope: String = "openid profile email"
+    private var prompt: String = "Login"
 
-    public init(loginType: SubVerifierType = .web, clientID: String, redirectURL: String, browserRedirectURL: String?, jwtParams: [String: String], connection: LoginProviders, urlSession: URLSession = URLSession.shared) {
-        self.loginType = loginType
-        self.clientID = clientID
-        self.redirectURL = redirectURL
-        self.connection = connection
-        self.browserRedirectURL = browserRedirectURL
-        self.jwtParams = jwtParams
-        defaultParams = ["scope": "openid profile email", "response_type": "token id_token", "nonce": nonce]
-        self.urlSession = urlSession
-
-        let tempState = ["nonce": nonce, "redirectUri": self.redirectURL, "redirectToAndroid": "true"]
-        let jsonData = try! JSONSerialization.data(withJSONObject: tempState, options: .prettyPrinted)
-        state = String(data: jsonData, encoding: .utf8)!.toBase64URL()
-//        self.state = ["nonce": self.nonce, "redirectUri": self.redirectURL, "redirectToAndroid": "true"].description.toBase64URL()
+    override public init(clientId: String, verifier: String, urlScheme: String, redirectURL: String, typeOfLogin: LoginType, jwtParams: Auth0ClientOptions? = nil, customState: TorusGenericContainer? = nil) throws {
+        try super.init(clientId: clientId, verifier: verifier, urlScheme: urlScheme, redirectURL: redirectURL, typeOfLogin: typeOfLogin, jwtParams: jwtParams, customState: customState)
+        try setFinalUrl()
     }
 
-    func getUserInfo(responseParameters: [String: String]) async throws -> [String: Any] {
-        return try await handleLogin(responseParameters: responseParameters)
-    }
-
-    func getLoginURL() -> String {
-        // left join
-        var tempParams = defaultParams
-        let paramsToJoin: [String: String] = ["redirect_uri": browserRedirectURL ?? redirectURL, "client_id": clientID, "domain": jwtParams["domain"]!, "state": state]
-        tempParams.merge(paramsToJoin) { _, new in new }
-        tempParams.merge(jwtParams) { _, new in new }
-
-        // Reconstruct URL
+    override public func setFinalUrl() throws {
         var urlComponents = URLComponents()
+
+        if jwtParams == nil {
+            throw CASDKError.invalidAuth0Options
+        }
+
+        var params: [String: String] = try (JSONSerialization.jsonObject(with: try JSONEncoder().encode(jwtParams), options: []) as! [String: String])
+        params.merge([
+            "state": try state(),
+            "response_type": response_type,
+            "client_id": clientId,
+            "prompt": prompt,
+            "redirect_uri": redirectURL,
+            "scope": scope,
+            "connection": loginToConnection(loginType: typeOfLogin),
+            "nonce": nonce,
+        ], uniquingKeysWith: { _, new in new })
         urlComponents.scheme = "https"
-        urlComponents.host = jwtParams["domain"]
+        urlComponents.host = jwtParams?.domain
         urlComponents.path = "/authorize"
-        urlComponents.setQueryItems(with: tempParams)
+        urlComponents.setQueryItems(with: params)
 
-        // return string
-        return urlComponents.url!.absoluteString
+        finalUrl = urlComponents
     }
 
-    func getVerifierFromUserInfo() -> String {
-        var res: String
-        let lowerCased = jwtParams["isVerifierIdCaseSensitive"] ?? "false"
+    override public func getUserInfo(params: LoginWindowResponse, storageServerUrl: String?) async throws -> TorusVerifierResponse {
+        let accessToken = params.accessToken
+        let idToken = params.idToken
+        let verifierIdField = jwtParams?.verifierIdField
+        let isVerifierCaseSensitive = jwtParams?.isVerifierIdCaseSensitive
 
-        if jwtParams["verifierIdField"] != nil {
-            let field = jwtParams["verifierIdField"]!
-            res = userInfo![field] as! String
-        } else {
-            switch connection {
-            case .apple, .weibo, .github, .twitter, .linkedin, .line, .jwt:
-                res = userInfo!["sub"] as! String
-            case .email_password:
-                res = userInfo!["name"] as! String
-            default:
-                return "verifier not supported"
-            }
+        if accessToken != nil {
+            let domain = jwtParams?.domain
+            let user_route_info = jwtParams?.user_info_route
+
+            var urlComponents = URLComponents()
+            urlComponents.scheme = "https"
+            urlComponents.host = domain
+            urlComponents.path = user_route_info ?? ""
+
+            var urlRequest = makeUrlRequest(url: urlComponents.string!, method: "GET")
+            urlRequest.addValue("Bearer \(accessToken!)", forHTTPHeaderField: "Authorization")
+
+            let (data, _) = try await URLSession.shared.data(for: urlRequest)
+
+            let result = try JSONDecoder().decode(Auth0UserInfo.self, from: data)
+
+            return TorusVerifierResponse(email: result.email, name: result.name, profileImage: result.picture, verifier: verifier, verifierId: try getVerifierId(userInfo: result, typeOfLogin: typeOfLogin, verifierIdField: verifierIdField!, isVerifierIdCaseSensitive: isVerifierCaseSensitive ?? true), typeOfLogin: typeOfLogin)
         }
 
-        if lowerCased == "true" {
-            return res.lowercased()
+        if idToken == nil {
+            throw CASDKError.idTokenNotProvided
         } else {
-            return res
-        }
-    }
+            let result = try JSONDecoder().decode(Auth0UserInfo.self, from: idToken!.data(using: .utf8)!)
 
-    func handleLogin(responseParameters: [String: String]) async throws -> [String: Any] {
-
-        // Reconstruct URL
-        var urlComponents = URLComponents()
-        urlComponents.scheme = "https"
-        urlComponents.host = jwtParams["domain"]
-        urlComponents.path = "/userinfo"
-
-        if let accessToken = responseParameters["access_token"] {
-            var request = makeUrlRequest(url: urlComponents.url!.absoluteString, method: "GET")
-            request.addValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
-            do {
-           let val = try await urlSession.data(for: request)
-                let data = try JSONSerialization.jsonObject(with: val.0) as? [String: Any] ?? [:]
-                self.userInfo = data
-                if responseParameters["error"] != nil {
-                    throw responseParameters["error"]!
-                }
-                var newData: [String: Any] = ["userInfo": self.userInfo as Any]
-                newData["tokenForKeys"] = responseParameters["id_token"]
-                newData["verifierId"] = self.getVerifierFromUserInfo()
-                return newData
-
-            } catch {
-                throw CASDKError.getUserInfoFailed
-            }
-        } else if let idToken = responseParameters["id_token"] {
-            do {
-                let decodedData = try decode(jwt: idToken)
-                userInfo = decodedData.body
-                var newData: [String: Any] = userInfo!
-                newData["tokenForKeys"] = idToken
-                newData["verifierId"] = getVerifierFromUserInfo()
-                return newData
-            } catch {
-                throw TorusUtilError.runtime("Invalid ID toke")
-            }
-        } else {
-            throw CASDKError.accessTokenNotProvided
+            return TorusVerifierResponse(email: result.email, name: result.name, profileImage: result.picture, verifier: verifier, verifierId: try getVerifierId(userInfo: result, typeOfLogin: typeOfLogin, verifierIdField: verifierIdField, isVerifierIdCaseSensitive: isVerifierCaseSensitive ?? true), typeOfLogin: typeOfLogin)
         }
     }
 }

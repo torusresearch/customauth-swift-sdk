@@ -1,97 +1,15 @@
 {
-  "object": {
-    "pins": [
-      {
-        "package": "AnyCodable",
-        "repositoryURL": "https://github.com/Flight-School/AnyCodable",
-        "state": {
-          "branch": null,
-          "revision": "862808b2070cd908cb04f9aafe7de83d35f81b05",
-          "version": "0.6.7"
-        }
-      },
-      {
-        "package": "BigInt",
-        "repositoryURL": "https://github.com/attaswift/BigInt.git",
-        "state": {
-          "branch": null,
-          "revision": "0ed110f7555c34ff468e72e1686e59721f2b0da6",
-          "version": "5.3.0"
-        }
-      },
-      {
-        "package": "CryptoSwift",
-        "repositoryURL": "https://github.com/krzyzanowskim/CryptoSwift",
-        "state": {
-          "branch": null,
-          "revision": "7892a123f7e8d0fe62f9f03728b17bbd4f94df5c",
-          "version": "1.8.1"
-        }
-      },
-      {
-        "package": "curvelib.swift",
-        "repositoryURL": "https://github.com/tkey/curvelib.swift",
-        "state": {
-          "branch": null,
-          "revision": "7dad3bf1793de263f83406c08c18c9316abf082f",
-          "version": "0.1.2"
-        }
-      },
-      {
-        "package": "FetchNodeDetails",
-        "repositoryURL": "https://github.com/torusresearch/fetch-node-details-swift",
-        "state": {
-          "branch": null,
-          "revision": "d591af500f32ce3c88d04af9bb74d746585acfea",
-          "version": "5.1.0"
-        }
-      },
-      {
-        "package": "jwt-kit",
-        "repositoryURL": "https://github.com/vapor/jwt-kit.git",
-        "state": {
-          "branch": null,
-          "revision": "e05513b5aec24f88012b6e3034115b6bc915356a",
-          "version": "4.13.2"
-        }
-      },
-      {
-        "package": "JWTDecode",
-        "repositoryURL": "https://github.com/auth0/JWTDecode.swift.git",
-        "state": {
-          "branch": null,
-          "revision": "58af7278797871e460d79496621b3e5366b865b2",
-          "version": "3.1.0"
-        }
-      },
-      {
-        "package": "PromiseKit",
-        "repositoryURL": "https://github.com/mxcl/PromiseKit",
-        "state": {
-          "branch": null,
-          "revision": "cb70b070cde06837cd10a1febdf6105c1a3bb348",
-          "version": "8.1.1"
-        }
-      },
-      {
-        "package": "swift-crypto",
-        "repositoryURL": "https://github.com/apple/swift-crypto.git",
-        "state": {
-          "branch": null,
-          "revision": "f0525da24dc3c6cbb2b6b338b65042bc91cbc4bb",
-          "version": "3.3.0"
-        }
-      },
-      {
-        "package": "TorusUtils",
-        "repositoryURL": "https://github.com/torusresearch/torus-utils-swift.git",
-        "state": {
-          "branch": null,
-          "revision": "04c62fd5f73f21bd01b7c07e08f6135db26c5940",
-          "version": "8.0.0"
-        }
+  "originHash" : "15db2e52658433a7d473400cc03eb7d9196e5e1ee7c0636fcf9c95b35e7c0bf1",
+  "pins" : [
+    {
+      "identity" : "promisekit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/mxcl/PromiseKit",
+      "state" : {
+        "revision" : "cb70b070cde06837cd10a1febdf6105c1a3bb348",
+        "version" : "8.1.1"
       }
-    ]
-  },
-  "version": 1
+    }
+  ],
+  "version" : 3
 }
