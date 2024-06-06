@@ -1,264 +1,259 @@
-//
-//  CustomAuth class
-//  CustomAuth
-//
-//  Created by Shubham Rathi on 24/4/2020.
-//
-
 import FetchNodeDetails
 import Foundation
 import OSLog
 import TorusUtils
-import UIKit
-import curveSecp256k1
+#if canImport(curveSecp256k1)
+    import curveSecp256k1
+#endif
 
-// Global variable
-var tsSdkLogType = OSLogType.default
+public class CustomAuth {
+    public let isInitialized: Bool = false
 
-public struct TorusKeyData {
-    public let torusKey : TorusKey
-    public var userInfo : [String: Any]
-    
-    public init(torusKey: TorusKey, userInfo: [String : Any]) {
-        self.torusKey = torusKey
-        self.userInfo = userInfo
-    }
-}
+    public let config: CustomAuthArgs
 
-/// Provides integration of an iOS app with Torus CustomAuth.
-open class CustomAuth {
-    var nodeDetailManager: NodeDetailManager
-    var torusUtils: AbstractTorusUtils
-    var urlSession: URLSession
-    var enableOneKey: Bool
-    ///  You can pass your own custom url  rather than using our default infura url,
-    ///  can be used to get around the Ropsten depreciation from Infura API.
-    var networkUrl: String?
-    public let aggregateVerifierType: verifierTypes?
-    public let aggregateVerifier: String
-    public let subVerifierDetails: [SubVerifierDetails]
-    public var authorizeURLHandler: URLOpenerTypes?
-    var observer: NSObjectProtocol? // useful for Notifications
-    var network : TorusNetwork
-    
-    /// Initiate an CustomAuth instance.
+    public let torus: TorusUtils
+
+    public let nodeDetailManager: NodeDetailManager
+
+    /// Initializes CustomAuth with the provided options
+    ///
     /// - Parameters:
-    ///   - aggregateVerifierType: Type of the verifier. Use `singleLogin` for single providers. Only `singleLogin` and `singleIdVerifier` is supported currently.
-    ///   - aggregateVerifier: Name of the verifier to be used..
-    ///   - subVerifierDetails: Details of each subverifiers to be used.
-    ///   - factory: Providng mocking by implementing TDSDKFactoryProtocol.
-    ///   - network: Etherum network to be used.
-    ///   - loglevel: Indicates the log level of this instance. All logs lower than this level will be ignored.
-    public init(web3AuthClientId: String ,aggregateVerifierType: verifierTypes, aggregateVerifier: String, subVerifierDetails: [SubVerifierDetails], network: TorusNetwork, loglevel: OSLogType = .debug, urlSession: URLSession = URLSession.shared, enableOneKey: Bool = false, networkUrl: String? = nil) {
-        tsSdkLogType = loglevel
-        self.networkUrl = networkUrl
-        self.enableOneKey = enableOneKey
-        // factory method
-        self.nodeDetailManager = NodeDetailManager(network: network)
-        self.urlSession = urlSession
-        
-        self.torusUtils = TorusUtils( loglevel: loglevel, urlSession: urlSession, enableOneKey: enableOneKey, serverTimeOffset: 1000,  network: network, clientId: web3AuthClientId)
-        
-        // verifier details
-        self.aggregateVerifier = aggregateVerifier
-        self.aggregateVerifierType = aggregateVerifierType
-        self.subVerifierDetails = subVerifierDetails
-        self.network = network
-    }
-    
-    /// Initiate an CustomAuth instance.
-    /// - Parameters:
-    ///   - aggregateVerifierType: Type of the verifier. Use `singleLogin` for single providers. Only `singleLogin` and `singleIdVerifier` is supported currently.
-    ///   - aggregateVerifier: Name of the verifier to be used..
-    ///   - subVerifierDetails: Details of each subverifiers to be used.
-    public convenience init(web3AuthClientId: String ,aggregateVerifierType: verifierTypes, aggregateVerifier: String, subVerifierDetails: [SubVerifierDetails], network: TorusNetwork, enableOneKey: Bool = false, networkUrl: String? = nil) {
-        //        let factory = CASDKFactory()
-        self.init(web3AuthClientId: web3AuthClientId, aggregateVerifierType: aggregateVerifierType, aggregateVerifier: aggregateVerifier, subVerifierDetails: subVerifierDetails, network: network, loglevel: .debug, enableOneKey: enableOneKey, networkUrl: networkUrl)
-    }
-    
-    //    public convenience init(web3AuthClientId: String ,aggregateVerifierType: verifierTypes, aggregateVerifier: String, subVerifierDetails: [SubVerifierDetails], network: TorusNetwork, loglevel: OSLogType = .debug, enableOneKey: Bool = false, networkUrl: String? = nil) {
-    ////        let factory = CASDKFactory()
-    //        self.init(web3AuthClientId: web3AuthClientId, aggregateVerifierType: aggregateVerifierType, aggregateVerifier: aggregateVerifier, subVerifierDetails: subVerifierDetails, network: network, loglevel: loglevel, enableOneKey: enableOneKey, networkUrl: networkUrl)
-    //    }
-    
-    /// Retrieve information of Torus nodes from a predefined Etherum contract.
-    /// - Returns: An array of URLs to the nodes.
-    open func getNodeDetailsFromContract(verifier: String, verfierID: String) async throws -> AllNodeDetailsModel {
-        let nodeDetails = try await nodeDetailManager.getNodeDetails(verifier: verifier, verifierID: verfierID)
-        return nodeDetails
-    }
-    
-    /// Trigger login flow.
-    /// - Parameters:
-    ///   - controller: A `UIViewController` used for providing context for the login flow.
-    ///   - browserType: Indicates the way to open the browser for login flow. Use `.external` for opening system safari, or `.asWebAuthSession` for opening an in-app ASwebAuthenticationSession.
-    ///   - modalPresentationStyle: Indicates the UIModalPresentationStyle for the popup.
-    /// - Returns: A promise that resolve with a Dictionary that contain at least `privateKey` and `publicAddress` field..
-    open func triggerLogin(controller: UIViewController? = nil, browserType: URLOpenerTypes = .asWebAuthSession, modalPresentationStyle: UIModalPresentationStyle = .fullScreen) async throws -> TorusKeyData {
-        os_log("triggerLogin called with %@ %@", log: getTorusLogger(log: CASDKLogger.core, type: .info), type: .info, browserType.rawValue, modalPresentationStyle.rawValue)
-        // Set browser
-        authorizeURLHandler = browserType
-        
-        switch aggregateVerifierType {
-        case .singleLogin:
-            return try await handleSingleLogins(controller: controller, modalPresentationStyle: modalPresentationStyle)
-        case .andAggregateVerifier:
-            return try await handleAndAggregateVerifier(controller: controller)
-        case .orAggregateVerifier:
-            return try await handleOrAggregateVerifier(controller: controller)
-        case .singleIdVerifier:
-            return try await handleSingleIdVerifier(controller: controller, modalPresentationStyle: modalPresentationStyle)
-        case .none:
-            throw CASDKError.methodUnavailable
+    ///   - params: `CustomAuthArgs`
+    ///
+    /// - Returns: `CustomAuth`
+    ///
+    /// - Throws: `CASDKError.invalidCallbackURLScheme`,  `TorusUtilError.invalidInput`
+    public init(config: CustomAuthArgs) throws {
+        if URL(string: config.urlScheme)?.scheme == nil {
+            throw CASDKError.invalidCallbackURLScheme
         }
+        
+        self.config = config
+
+        let nodeDetails = NodeDetailManager(network: config.network)
+        nodeDetailManager = nodeDetails
+
+        let torusOptions = TorusOptions(
+            clientId: config.web3AuthClientId,
+            network: config.network,
+            legacyMetadataHost: config.metadataUrl,
+            serverTimeOffset: config.serverTimeOffset,
+            enableOneKey: config.enableOneKey)
+        let torusUtils = try TorusUtils(params: torusOptions)
+        torus = torusUtils
+
+        torus.setApiKey(apiKey: config.apiKey ?? "")
     }
-    
-    open func handleSingleLogins(controller: UIViewController?, modalPresentationStyle: UIModalPresentationStyle = .fullScreen) async throws -> TorusKeyData {
-        if let subVerifier = subVerifierDetails.first {
-            let loginURL = subVerifier.getLoginURL()
-            await openURL(url: loginURL, view: controller, modalPresentationStyle: modalPresentationStyle)
-            do {
-                let url = try await withUnsafeThrowingContinuation { (continuation: UnsafeContinuation<URL, Error>) in
-                    observeCallbackWithError { url, err in
-                        guard
-                            err == nil,
-                            let url = url
-                        else {
-                            continuation.resume(throwing: err!)
-                            return
-                        }
-                        
-                        continuation.resume(returning: url)
-                        return
-                    }
-                }
-                let responseParameters = self.parseURL(url: url)
-                os_log("ResponseParams after redirect: %@", log: getTorusLogger(log: CASDKLogger.core, type: .info), type: .info, responseParameters)
-                
-                let newData = try await subVerifier.getUserInfo(responseParameters: responseParameters)
-                os_log("getUserInfo newData: %@", log: getTorusLogger(log: CASDKLogger.core, type: .info), type: .info, newData)
-                var data = newData
-                let verifierId = data["verifierId"] as! String
-                let idToken = data["tokenForKeys"] as! String
-                data.removeValue(forKey: "tokenForKeys")
-                data.removeValue(forKey: "verifierId")
-                
-                
-                let torusKey = try await getTorusKey(verifier: self.aggregateVerifier, verifierId: verifierId, idToken: idToken, userData: data)
-                var mergedUserInfo = newData.merging(responseParameters) { (_, new) in new }
-                mergedUserInfo["verifier"] = self.aggregateVerifier
-                let result =  TorusKeyData(torusKey: torusKey, userInfo: mergedUserInfo)
-                return result
-            } catch {
-                os_log("handleSingleLogin: err: %s", log: getTorusLogger(log: CASDKLogger.core, type: .error), type: .error, error.localizedDescription)
-                throw error
+
+    /// Initiates a login using a single verifier
+    ///
+    /// - Parameters:
+    ///   - params: `SingleLoginParams`
+    ///
+    /// - Returns: `TorusLoginResponse`
+    ///
+    /// - Throws: `CASDKError`,  `TorusUtilError`
+    public func triggerLogin(args: SingleLoginParams) async throws -> TorusLoginResponse {
+        let loginHandler = try HandlerFactory.createHandler(params: CreateHandlerParams(typeOfLogin: args.typeOfLogin, verifier: args.verifier, clientId: args.clientId, urlScheme: config.urlScheme, redirectURL: args.redirectURL, jwtParams: args.jwtParams, customState: args.customState))
+
+        var loginParams: LoginWindowResponse
+        if args.hash != nil && args.queryParams != nil {
+            let (error, hashParams, instanceParams) = try handleRedirectParameters(hash: args.hash!, queryParameters: args.queryParams!)
+            if !error.isEmpty {
+                throw CASDKError.redirectParamsError(msg: error)
             }
-            
-            // Open in external safari
+            loginParams = LoginWindowResponse(accessToken: hashParams.params["access_token"], idToken: hashParams.params["idToken"], ref: hashParams.params["ref"] ?? "", extraParams: hashParams.params["extra_params"], extraParamsPassed: hashParams.params["extra_params_passed"]!, state: instanceParams)
+        } else {
+            loginParams = try await loginHandler.handleLoginWindow(popupFeatures: config.popupFeatures)
         }
-        throw CASDKError.unknownError
+
+        let userInfo = try await loginHandler.getUserInfo(params: loginParams, storageServerUrl: nil)
+
+        let verifyParams: VerifierParams = VerifierParams(verifier_id: userInfo.verifierId)
+
+        let torusKey = try await getTorusKey(verifier: userInfo.verifier, verifierParams: verifyParams, idToken: loginParams.idToken ?? loginParams.accessToken ?? "")
+
+        let returnedInfo = UserInfo(email: userInfo.email, name: userInfo.name, profileImage: userInfo.profileImage, aggregateVerifier: userInfo.aggregateVerifier, verifier: userInfo.verifier, verifierId: userInfo.verifierId, typeOfLogin: userInfo.typeOfLogin, ref: userInfo.ref, extraVerifierParams: userInfo.extraVerifierParams, accessToken: loginParams.accessToken, idToken: loginParams.idToken, extraParams: loginParams.extraParams, extraParamsPassed: loginParams.extraParamsPassed, state: loginParams.state)
+
+        return TorusLoginResponse(singleVerifierResponse: TorusSingleVerifierResponse(userInfo: returnedInfo, loginResponse: loginParams), torusKey: torusKey)
     }
-    
-    open func handleSingleIdVerifier(controller: UIViewController?, modalPresentationStyle: UIModalPresentationStyle = .fullScreen) async throws -> TorusKeyData {
-        if let subVerifier = subVerifierDetails.first {
-            let loginURL = subVerifier.getLoginURL()
-            await MainActor.run(body: {
-                openURL(url: loginURL, view: controller, modalPresentationStyle: modalPresentationStyle)
-            })
-            
-            do {
-                let url = try await withUnsafeThrowingContinuation { (continuation: UnsafeContinuation<URL, Error>) in
-                    observeCallbackWithError { url, err in
-                        guard
-                            err == nil,
-                            let url = url
-                        else {
-                            continuation.resume(throwing: err!)
-                            return
-                        }
-                        
-                        continuation.resume(returning: url)
-                        return
-                    }
+
+    /// Initiates a login using a aggregate verifier
+    ///
+    /// - Parameters:
+    ///   - params: `AggregateLoginParams`
+    ///
+    /// - Returns: `TorusAggregateLoginResponse`
+    ///
+    /// - Throws: `CASDKError`,  `TorusUtilError`
+    public func triggerAggregateLogin(args: AggregateLoginParams) async throws -> TorusAggregateLoginResponse {
+        if args.subVerifierDetailsArray.isEmpty {
+            throw CASDKError.invalidParameters
+        }
+        if args.subVerifierDetailsArray.count == 1 && args.aggregateVerifierType == AggregateVerifierType.single_id_verifier {
+            throw CASDKError.invalidParameters
+        }
+
+        var loginParamsArray: [LoginWindowResponse] = []
+        var userInfoArray: [UserInfo] = []
+        for subverifierDetail in args.subVerifierDetailsArray {
+            let loginHandler = try HandlerFactory.createHandler(params: CreateHandlerParams(typeOfLogin: subverifierDetail.typeOfLogin, verifier: subverifierDetail.verifier, clientId: subverifierDetail.clientId, urlScheme: config.urlScheme, redirectURL: subverifierDetail.redirectURL, jwtParams: subverifierDetail.jwtParams, customState: subverifierDetail.customState))
+            var loginParams: LoginWindowResponse
+            var userInfo: UserInfo
+            if subverifierDetail.hash != nil && subverifierDetail.queryParams != nil {
+                let (error, hashParams, instanceParams) = try handleRedirectParameters(hash: subverifierDetail.hash!, queryParameters: subverifierDetail.queryParams!)
+                if !error.isEmpty {
+                    throw CASDKError.redirectParamsError(msg: error)
                 }
-                let responseParameters = self.parseURL(url: url)
-                os_log("ResponseParams after redirect: %@", log: getTorusLogger(log: CASDKLogger.core, type: .info), type: .info, responseParameters)
-                
-                let newData = try await subVerifier.getUserInfo(responseParameters: responseParameters)
-                var data = newData
-                let verifierId = data["verifierId"] as! String
-                let idToken = data["tokenForKeys"] as! String
-                data.removeValue(forKey: "tokenForKeys")
-                data.removeValue(forKey: "verifierId")
-                let aggTorusKey = try await getAggregateTorusKey(verifier: self.aggregateVerifier, verifierId: verifierId, idToken: idToken, subVerifierDetails: subVerifier, userData: newData)
-                var mergedUserInfo = newData.merging(responseParameters) { (_, new) in new }
-                mergedUserInfo["verifier"] = self.aggregateVerifier
-                let result =  TorusKeyData(torusKey: aggTorusKey, userInfo: mergedUserInfo)
-                return result
-            } catch {
-                os_log("handleSingleIdVerifier err: %s", log: getTorusLogger(log: CASDKLogger.core, type: .error), type: .error, error.localizedDescription)
-                throw error
+                loginParams = LoginWindowResponse(accessToken: hashParams.params["access_token"], idToken: hashParams.params["idToken"], ref: hashParams.params["ref"] ?? "", extraParams: hashParams.params["extra_params"], extraParamsPassed: hashParams.params["extra_params_passed"]!, state: instanceParams)
+            } else {
+                loginParams = try await loginHandler.handleLoginWindow(popupFeatures: config.popupFeatures)
             }
-            
+
+            let info = try await loginHandler.getUserInfo(params: loginParams, storageServerUrl: nil)
+            userInfo = UserInfo(email: info.email, name: info.name, profileImage: info.profileImage, aggregateVerifier: args.verifierIdentifier, verifier: info.verifier, verifierId: info.verifierId, typeOfLogin: info.typeOfLogin, ref: info.ref, extraVerifierParams: info.extraVerifierParams, accessToken: loginParams.accessToken, idToken: loginParams.idToken, extraParams: loginParams.extraParams, extraParamsPassed: loginParams.extraParamsPassed, state: loginParams.state)
+            loginParamsArray.append(loginParams)
+            userInfoArray.append(userInfo)
         }
-        throw CASDKError.unknownError
-        
+
+        var subVerifierIds: [String] = []
+        var aggregateVerifierParams: [VerifyParams] = []
+        var aggregateIdTokenSeeds: [String] = []
+        var aggregateVerifierId: String = ""
+
+        for i in 0 ..< args.subVerifierDetailsArray.count {
+            let loginParams = loginParamsArray[i]
+            let userInfo = userInfoArray[i]
+
+            aggregateVerifierParams.append(VerifyParams(verifier_id: userInfo.verifierId, idtoken: loginParams.idToken!))
+            aggregateIdTokenSeeds.append(loginParams.idToken ?? loginParams.accessToken!)
+            subVerifierIds.append(userInfo.verifier)
+            aggregateVerifierId = userInfo.verifierId
+        }
+        aggregateIdTokenSeeds.sort()
+        let joined = aggregateIdTokenSeeds.joined(separator: "\u{29}").data(using: .utf8)!
+        let aggregateIdToken = try keccak256(data: joined)
+        let aggregateParams: VerifierParams = VerifierParams(verifier_id: aggregateVerifierId, extended_verifier_id: nil, sub_verifier_ids: subVerifierIds, verify_params: aggregateVerifierParams)
+
+        let aggregateTorusKey = try await getTorusKey(verifier: aggregateVerifierId, verifierParams: aggregateParams, idToken: String(data: aggregateIdToken, encoding: .utf8)!)
+
+        var aggregateVerifierResponses: [TorusAggregateVerifierResponse] = []
+        for i in 0 ..< userInfoArray.count {
+            let loginParams = loginParamsArray[i]
+            let userInfo = userInfoArray[i]
+            aggregateVerifierResponses.append(TorusAggregateVerifierResponse(userInfo: userInfo, loginResponse: loginParams))
+        }
+
+        return TorusAggregateLoginResponse(torusAggregateVerifierResponse: aggregateVerifierResponses, torusKey: aggregateTorusKey)
     }
-    
-    func handleAndAggregateVerifier(controller: UIViewController?) async throws -> TorusKeyData {
-        // TODO: implement verifier
-        throw CASDKError.methodUnavailable
-    }
-    
-    func handleOrAggregateVerifier(controller: UIViewController?) async throws -> TorusKeyData {
-        // TODO: implement verifier
-        throw CASDKError.methodUnavailable
-    }
-    
-    /// Retrieve the Torus key from the nodes given an already known token. Useful if a custom login flow is required.
+
+    /// Initiates a login using a hybrid verifier
+    ///
     /// - Parameters:
-    ///   - verifier: A verifier is a unique identifier for your OAuth registration on the torus network. The public/private keys generated for a user are scoped to a verifier.
-    ///   - verifierId: The unique identifier to publicly represent a user on a verifier. e.g: email, sub etc. other fields can be classified as verifierId,
-    ///   - idToken: Access token received from the OAuth provider.
-    ///   - userData: Custom data that will be returned with `privateKey` and `publicAddress`.
-    /// - Returns: A promise that resolve with a Dictionary that contain at least `privateKey` and `publicAddress` field..
-    open func getTorusKey(verifier: String, verifierId: String, idToken: String, userData: [String: Any] = [:]) async throws -> TorusKey {
-        let extraParams = ["verifier_id": verifierId] as [String: Codable]
-        let verifierParams = VerifierParams(verifier_id: verifierId)
-        do {
-            let nodeDetails = try await nodeDetailManager.getNodeDetails(verifier: verifier, verifierID: verifierId)
-            // retrieveShares internall checks if network is legacy and calls getPublicAddress if required.
-            let responseFromRetrieveShares : TorusKey = try await torusUtils.retrieveShares(endpoints: nodeDetails.torusNodeEndpoints, torusNodePubs: nodeDetails.torusNodePub, indexes: nodeDetails.torusIndexes, verifier: verifier, verifierParams: verifierParams, idToken: idToken, extraParams: extraParams)
-            
-            return responseFromRetrieveShares
-        } catch {
-            os_log("handleSingleLogin: err: %s", log: getTorusLogger(log: CASDKLogger.core, type: .error), type: .error, error.localizedDescription)
-            throw error
+    ///   - params: `HybridAggregateLoginParams`
+    ///
+    /// - Returns: `TorusHybridAggregateLoginResponse`
+    ///
+    /// - Throws: `CASDKError`,  `TorusUtilError`
+    public func triggerHybridAggregateLogin(args: HybridAggregateLoginParams) async throws -> TorusHybridAggregateLoginResponse {
+        if args.aggregateLoginParams.subVerifierDetailsArray.isEmpty {
+            throw CASDKError.invalidParameters
         }
+        if args.aggregateLoginParams.subVerifierDetailsArray.count == 1 && args.aggregateLoginParams.aggregateVerifierType == AggregateVerifierType.single_id_verifier {
+            throw CASDKError.invalidParameters
+        }
+
+        let loginHandler = try HandlerFactory.createHandler(params: CreateHandlerParams(typeOfLogin: args.singleLogin.typeOfLogin, verifier: args.singleLogin.verifier, clientId: args.singleLogin.clientId, urlScheme: config.urlScheme, redirectURL: args.singleLogin.redirectURL, jwtParams: args.singleLogin.jwtParams, customState: args.singleLogin.customState))
+
+        var loginParams: LoginWindowResponse
+        if args.singleLogin.hash != nil && args.singleLogin.queryParams != nil {
+            let (error, hashParams, instanceParams) = try handleRedirectParameters(hash: args.singleLogin.hash!, queryParameters: args.singleLogin.queryParams!)
+            if !error.isEmpty {
+                throw CASDKError.redirectParamsError(msg: error)
+            }
+            loginParams = LoginWindowResponse(accessToken: hashParams.params["access_token"], idToken: hashParams.params["idToken"], ref: hashParams.params["ref"] ?? "", extraParams: hashParams.params["extra_params"], extraParamsPassed: hashParams.params["extra_params_passed"]!, state: instanceParams)
+        } else {
+            loginParams = try await loginHandler.handleLoginWindow(popupFeatures: config.popupFeatures)
+        }
+
+        let userInfo = try await loginHandler.getUserInfo(params: loginParams, storageServerUrl: nil)
+
+        let verifyParams: VerifierParams = VerifierParams(verifier_id: userInfo.verifierId)
+
+        let torusKey = try await getTorusKey(verifier: userInfo.verifier, verifierParams: verifyParams, idToken: loginParams.idToken!)
+
+        let returnedInfo = UserInfo(email: userInfo.email, name: userInfo.name, profileImage: userInfo.profileImage, aggregateVerifier: userInfo.aggregateVerifier, verifier: userInfo.verifier, verifierId: userInfo.verifierId, typeOfLogin: userInfo.typeOfLogin, ref: userInfo.ref, extraVerifierParams: userInfo.extraVerifierParams, accessToken: loginParams.accessToken, idToken: loginParams.idToken, extraParams: loginParams.extraParams, extraParamsPassed: loginParams.extraParamsPassed, state: loginParams.state)
+
+        var subVerifierIds: [String] = []
+        var aggregateVerifierParams: [VerifyParams] = []
+        var aggregateIdTokenSeeds: [String] = []
+        var aggregateVerifierId: String = ""
+        for i in 0 ..< args.aggregateLoginParams.subVerifierDetailsArray.count {
+            let sub = args.aggregateLoginParams.subVerifierDetailsArray[i]
+            aggregateVerifierParams.append(VerifyParams(verifier_id: userInfo.verifierId, idtoken: loginParams.idToken!))
+            aggregateIdTokenSeeds.append(loginParams.idToken ?? loginParams.accessToken!)
+            subVerifierIds.append(sub.verifier)
+            aggregateVerifierId = userInfo.verifierId
+        }
+        aggregateIdTokenSeeds.sort()
+        let joined = aggregateIdTokenSeeds.joined(separator: "\u{29}").data(using: .utf8)!
+        let aggregateIdToken = try keccak256(data: joined)
+        let aggregateParams: VerifierParams = VerifierParams(verifier_id: aggregateVerifierId, extended_verifier_id: nil, sub_verifier_ids: subVerifierIds, verify_params: aggregateVerifierParams)
+
+        let aggregateTorusKey = try await getTorusKey(verifier: args.aggregateLoginParams.verifierIdentifier, verifierParams: aggregateParams, idToken: String(data: aggregateIdToken, encoding: .utf8)!)
+
+        let aggregateResponse = TorusAggregateVerifierResponse(userInfo: returnedInfo, loginResponse: loginParams)
+
+        let aggregateLogin = TorusAggregateLoginResponse(torusAggregateVerifierResponse: [aggregateResponse], torusKey: torusKey)
+
+        return TorusHybridAggregateLoginResponse(singleLogin: aggregateLogin, aggregateLogins: [aggregateTorusKey])
     }
-    
-    /// Retrieve the Torus key from the nodes given an already known token. Useful if a custom aggregate login flow is required.
+
+    /// Retrieves the key details
+    ///
     /// - Parameters:
-    ///   - verifier: A verifier is a unique identifier for your OAuth registration on the torus network. The public/private keys generated for a user are scoped to a verifier.
-    ///   - verifierId: The unique identifier to publicly represent a user on a verifier. e.g: email, sub etc. other fields can be classified as verifierId,
-    ///   - subVerifierDetails: An array of verifiers to be used for the aggregate login flow, with their respective token and verifier name.
-    /// - Returns: A promise that resolve with a Dictionary that contain at least `privateKey` and `publicAddress` field..
-    open func getAggregateTorusKey(verifier: String, verifierId: String, idToken: String, subVerifierDetails: SubVerifierDetails, userData: [String: Any] = [:]) async throws -> TorusKey {
-        let extraParams = ["verifieridentifier": verifier, "verifier_id": verifierId, "sub_verifier_ids": [subVerifierDetails.verifier], "verify_params": [["verifier_id": verifierId, "idtoken": idToken]]] as [String: Codable]
-        let hashedOnce = try keccak256(data: Data(idToken.utf8))
-        
-        let verifierParams = VerifierParams(verifier_id: verifierId)
-        
-        do {
-            let nodeDetails = try await getNodeDetailsFromContract(verifier: verifier, verfierID: verifierId)
-            
-            // retrieveShares internall checks if network is legacy and calls getPublicAddress if required.
-            let responseFromRetrieveShares :TorusKey =  try await self.torusUtils.retrieveShares(endpoints: nodeDetails.torusNodeEndpoints, torusNodePubs: nodeDetails.torusNodePub, indexes: nodeDetails.torusIndexes, verifier: verifier, verifierParams: verifierParams, idToken: hashedOnce.toHexString(), extraParams: extraParams)
-            
-            return responseFromRetrieveShares
-        } catch {
-            os_log("handleSingleIdVerifier err: %@", log: getTorusLogger(log: CASDKLogger.core, type: .error), type: .error, error.localizedDescription)
-            throw error
+    ///   - verifier: `String`
+    ///   - verifierParams: `VerifierParams`
+    ///   - idToken: `String`
+    ///
+    /// - Returns: `TorusKey`
+    ///
+    /// - Throws: `CASDKError`,  `TorusUtilError`, `FetchNodeError`
+    func getTorusKey(verifier: String, verifierParams: VerifierParams, idToken: String) async throws -> TorusKey {
+        let nodeDetails = try await nodeDetailManager.getNodeDetails(verifier: verifier, verifierID: verifierParams.verifier_id)
+
+        return try await torus.retrieveShares(endpoints: nodeDetails.getTorusNodeEndpoints(), verifier: verifier, verifierParams: verifierParams, idToken: idToken)
+    }
+
+    /// Retrieves the aggregate key details
+    ///
+    /// - Parameters:
+    ///   - verifier: `String`
+    ///   - verifierParams: `VerifierParams`
+    ///   - subVerifierInfoArray: `TorusSubVerifierInfo`
+    ///
+    /// - Returns: `TorusKey`
+    ///
+    /// - Throws: `CASDKError`,  `TorusUtilError`, `FetchNodeError`
+    func getAggregateTorusKey(verifier: String, verifierParams: VerifierParams, subVerifierInfoArray: [TorusSubVerifierInfo]) async throws -> TorusKey {
+        let nodeDetails = try await nodeDetailManager.getNodeDetails(verifier: verifier, verifierID: verifierParams.verifier_id)
+
+        var aggregateIdTokenSeeds: [String] = []
+        var subVerifierIds: [String] = []
+
+        var verifyParams: [VerifyParams] = []
+        for i in 0 ..< subVerifierInfoArray.count {
+            let userInfo = subVerifierInfoArray[i]
+            verifyParams.append(VerifyParams(verifier_id: verifierParams.verifier_id, idtoken: userInfo.idToken))
+            subVerifierIds.append(userInfo.verifier)
+            aggregateIdTokenSeeds.append(userInfo.idToken)
         }
+
+        aggregateIdTokenSeeds.sort()
+        let joined = aggregateIdTokenSeeds.joined(separator: "\u{29}").data(using: .utf8)!
+        let aggregateIdToken = try keccak256(data: joined)
+        let params: VerifierParams = VerifierParams(verifier_id: verifierParams.verifier_id, extended_verifier_id: verifierParams.extended_verifier_id, sub_verifier_ids: subVerifierIds, verify_params: verifyParams)
+
+        return try await torus.retrieveShares(endpoints: nodeDetails.getTorusNodeEndpoints(), verifier: verifier, verifierParams: params, idToken: String(data: aggregateIdToken, encoding: .utf8)!)
     }
 }

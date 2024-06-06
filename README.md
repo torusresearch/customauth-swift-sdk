@@ -8,11 +8,6 @@ an example of how to access keys via the SDK via Google. You can read more about
 interactions with the Torus Network
 [here](https://medium.com/toruslabs/key-assignments-resolution-and-retrieval-afb984500612).
 
-## Features
-
-- All API's return Promises (mxcl/PromiseKit). You can import
-  "yannickl/AwaitKit" to convert APIs to async/await format.
-
 ## 🩹 Examples
 
 Checkout the example of `CustomAuth iOS/Swift SDK` in our
@@ -32,7 +27,7 @@ import PackageDescription
 let package = Package(
     name: "CustomAuth",
     dependencies: [
-        .package(name: "CustomAuth", url: "https://github.com/torusresearch/customauth-swift-sdk", from: "2.4.0"))
+        .package(name: "CustomAuth", url: "https://github.com/torusresearch/customauth-swift-sdk", from: "11.0.0"))
     ]
 )
 ```
@@ -40,41 +35,36 @@ let package = Package(
 #### Cocoapods
 
 ```ruby
-pod 'CustomAuth', '~> 5.0.0'
+pod 'CustomAuth', '~> 11.0.0'
 ```
 
-#### Manual import or other packages
+### 2. Initialization and Login
 
-If you require a package manager other than SPM or Cocoapods, do reach out to
-hello@tor.us or alternatively clone the repo manually and import as a framework
-in your project
-
-### 2. Initialization
-
-Initalize the SDK depending on the login you require. The example below does so
-for a single google login. `redirectURL` refers to a url for the login flow to
-redirect into your app, it should have a scheme that is registered by your app,
-for example `com.mycompany.myapp://redirect`. `browserRedirectURL` refers to a
-page that the browser should use in the login flow, it should have a http or
-https scheme.
+Initalize the SDK depending and then you can use the login you require.
 
 ```swift
 import CustomAuth
 
-let sub = SubVerifierDetails(loginType: .installed, // default .web
-                            loginProvider: .google,
-                            clientId: "<your-client-id>",
-                            verifierName: "<verifier-name>",
-                            redirectURL: "<your-redirect-url>",
-                            browserRedirectURL: "<your-browser-redirect-url>")
+let config = CustomAuthArgs(urlScheme: "<your-whitelisted-url-scheme", network: <TorusNetwork>, enableOneKey: true, web3AuthClientId: "your-web3auth-client-id")
+   
+   
+let customAuth = try CustomAuth(config: config)
+                    
+```
 
-let tdsdk = CustomAuth(aggregateVerifierType: "<type-of-verifier>", aggregateVerifierName: "<verifier-name>", subVerifierDetails: [sub], network: <etherum-network-to-use>)
+The example login below does so for a single google login. `redirectURL` refers to url for the login flow to
+redirect back to your app, it should use the scheme known to your application.
 
-// controller is used to present a SFSafariViewController.
-tdsdk.triggerLogin(controller: <UIViewController>?, browserType: <method-of-opening-browser>, modalPresentationStyle: <style-of-modal>).done{ data in
-    print("private key rebuild", data)
-}.catch{ err in
-    print(err)
+
+```
+let sub = SingleLoginParams(typeOfLogin: .google, verifier: "<your-google-social-verifier>", clientId: "<your-google-application-client-id>", redirectURL: "<your-redirect-url?")
+
+Task {
+    do {
+        let torusKey = try await customAuth.triggerLogin(args: sub)
+    } catch {
+        print(error)
+    }
 }
 ```
 
@@ -87,110 +77,11 @@ setup, do reach out to hello@tor.us or to read more about verifiers do checkout
 
 ### 3. Handling the OAuth/Authentication URL redirects
 
-You can setup the redirect in two ways; URL Schemes or Universal links.
-Typically we recommend users to use URL Schemes as Universal Links require an
-additional user interaction. The `handle(url: URL)` class method implements a
-NSNotification to handle URL callbacks.
-
-#### Setting up URL Schemes
-
-In the info tab of your target, add your application name (ex. my-wallet-app).
-Add the redirect URL to the list of allowed redirect URLs in the OAuth providers
-settings page.
-
-- For SwiftUI, without using delegate (iOS 14+)
-
-```swift
-.onOpenURL { url in
-    guard let url = URLContexts.first?.url else {
-        return
-    }
-    CustomAuth.handle(url: url)
-}
-```
-
-- For SwiftUI, implement the following in your SceneDelegate
-
-```swift
-func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
-    guard let url = URLContexts.first?.url else {
-        return
-    }
-    CustomAuth.handle(url: url)
-}
-```
-
-- For Storyboard, implement the following in your app AppDelegate:
-
-```swift
-func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
-    if url.host == "my-wallet-app" {
-        CustomAuth.handle(url: url)
-    }
-    return true
-}
-```
-
-#### Universal Links
-
-Universal Links allow your users to intelligently follow links to content inside
-your app or to your website. Checkout
-[Documentation](https://developer.apple.com/ios/universal-links/) for
-implementation.
-
-- For Swift UI,
-
-```swift
-func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
-    guard userActivity.activityType == NSUserActivityTypeBrowsingWeb, let urlToOpen = userActivity.webpageURL else {
-        return
-    }
-    CustomAuth.handle(url: urlToOpen)
-}
-```
-
-- For Storyboard,
-
-```swift
-func application(_ application: UIApplication, continue userActivity: UIUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool
-{
-    // Get URL components from the incoming user activity
-    guard userActivity.activityType == NSUserActivityTypeBrowsingWeb,
-        let incomingURL = userActivity.webpageURL,
-        let components = NSURLComponents(url: incomingURL, resolvingAgainstBaseURL: true) else {
-            return false
-    }
-    CustomAuth.handle(url: incomingURL)
-}
-
-```
-
-After this you're good to go, reach out to hello@tor.us to get your verifier
-spun up on the testnet today!
+You can setup the redirectURL using URL Schemes and adding the relevant URLScheme to URL Types for your project. This package makes use of ASWebAuthenticationSession underneath and is done in such a way that it can provide its' own presentation context if necessary.
 
 ## Requirements
 
 - Swift 5
-
-## Using CustomAuthFactory
-
-The `CASDKFactoryProtocol` provides a way to modify the mechanism of discovering
-torus nodes in `FetchNodeDetails` and performing key retrieval in `TorusUtils`,
-which can be useful in scenarios such as mocking or advanced customization.
-Developers who want to use this mechanism should implement
-`CASDKFactoryProtocol` in Sources/CustomAuth/CustomAuth.swift, and then pass the
-instance into the `init` of `CustomAuth`, for example:
-
-```swift
-let tdsdk = CustomAuth(
-    aggregateVerifierType: "<type-of-verifier>",
-    aggregateVerifierName: "<verifier-name>",
-    subVerifierDetails: [sub],
-    factory: customFactory,
-    network: myNetworkm
-    loglevel: myLoglevel
-)
-```
 
 ## 💬 Troubleshooting and Discussions
 

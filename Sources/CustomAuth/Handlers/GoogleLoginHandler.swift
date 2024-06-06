@@ -1,123 +1,59 @@
-//
-//  GoogleLoginHandler.swift
-//  
-//
-//  Created by Shubham on 13/11/20.
-//
-
 import Foundation
 
-class GoogleloginHandler: AbstractLoginHandler {
-    let loginType: SubVerifierType
-    let clientID: String
-    let redirectURL: String
-    let browserRedirectURL: String?
-    var userInfo: [String: Any]?
-    let nonce = String.randomString(length: 10)
-    let state: String
-    let jwtParams: [String: String]
-    let defaultParams: [String: String]
-    var urlSession: URLSession
+internal class GoogleInfo: Codable {
+    public var name: String
+    public var picture: String
+    public var email: String
+}
 
-    public init(loginType: SubVerifierType = .web, clientID: String, redirectURL: String, browserRedirectURL: String?, jwtParams: [String: String] = [:], urlSession: URLSession = URLSession.shared) {
-        self.loginType = loginType
-        self.clientID = clientID
-        self.redirectURL = redirectURL
-        self.jwtParams = jwtParams
-        self.browserRedirectURL = browserRedirectURL
-        self.defaultParams = ["nonce": nonce, "scope": "profile+email+openid"]
-        self.urlSession = urlSession
+internal class GoogleLoginHandler: AbstractLoginHandler {
+    private var response_type: String = "token id_token"
+    private var scope: String = "profile email openid"
+    private var prompt: String = "select_account"
 
-        let tempState = ["nonce": self.nonce, "redirectUri": self.redirectURL, "redirectToAndroid": "true"]
-        let jsonData = try! JSONSerialization.data(withJSONObject: tempState, options: .prettyPrinted)
-        self.state =  String(data: jsonData, encoding: .utf8)!.toBase64URL()
+    override public init(clientId: String, verifier: String, urlScheme: String, redirectURL: String, typeOfLogin: LoginType, jwtParams: Auth0ClientOptions? = nil, customState: TorusGenericContainer? = nil) throws {
+        try super.init(clientId: clientId, verifier: verifier, urlScheme: urlScheme, redirectURL: redirectURL, typeOfLogin: typeOfLogin, jwtParams: jwtParams, customState: customState)
+        try setFinalUrl()
     }
 
-    func getUserInfo(responseParameters: [String: String]) async throws -> [String: Any] {
-        return try await self.handleLogin(responseParameters: responseParameters)
-    }
+    override public func setFinalUrl() throws {
+        var urlComponents = URLComponents()
 
-    func getLoginURL() -> String {
-        // handling different OAuth applications
-        let googleResponseType: String
-        switch self.loginType {
-        case .installed: googleResponseType = "code"
-        case .web: googleResponseType = "id_token+token"
+        var params: [String: String] = [:]
+
+        if jwtParams != nil {
+            params = try (JSONSerialization.jsonObject(with: try JSONEncoder().encode(jwtParams), options: []) as! [String: String])
         }
 
-        // left join
-        var tempParams = self.defaultParams
-        tempParams.merge(["redirect_uri": self.browserRedirectURL ?? self.redirectURL, "client_id": self.clientID, "response_type": googleResponseType, "state": self.state]) {(_, new ) in new}
-        tempParams.merge(self.jwtParams) {(_, new ) in new}
-
-        // Reconstruct URL
-        var urlComponents = URLComponents()
+        params.merge([
+            "state": try state(),
+            "response_type": response_type,
+            "client_id": clientId,
+            "prompt": prompt,
+            "redirect_uri": redirectURL,
+            "scope": scope,
+            "nonce": nonce,
+        ], uniquingKeysWith: { _, new in new })
         urlComponents.scheme = "https"
         urlComponents.host = "accounts.google.com"
         urlComponents.path = "/o/oauth2/v2/auth"
-        urlComponents.setQueryItems(with: tempParams)
-        return urlComponents.url!.absoluteString
-//        return "https://accounts.google.com/o/oauth2/v2/auth?response_type=\(googleResponseType)&client_id=\(self.clientID)&nonce=123&redirect_uri=\(self.redirectURL)&scope=profile+email+openid"
+        urlComponents.setQueryItems(with: params)
+
+        finalUrl = urlComponents
     }
 
-    func getVerifierFromUserInfo() -> String {
-        return self.userInfo?["email"] as? String ?? ""
-    }
-
-    func handleLogin(responseParameters: [String: String]) async throws -> [String: Any] {
-
-        switch self.loginType {
-        case .installed:
-            var request: URLRequest =  makeUrlRequest(url: "https://oauth2.googleapis.com/token", method: "POST")
-            var data: Data
-            if let code = responseParameters["code"] {
-                request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-                data = "grant_type=authorization_code&redirect_uri=\(self.redirectURL)&client_id=\(self.clientID)&code=\(code)".data(using: .utf8)!
-
-                request.httpBody = data
-                // Send request to retreive access token and id_token
-                do {
-               let val = try await self.urlSession.data(for: request)
-                    let valData = try JSONSerialization.jsonObject(with: val.0) as? [String: Any] ?? [:]
-                    // Retreive user info
-                    if let accessToken = valData["access_token"], let idToken = valData["id_token"] {
-                        var request = makeUrlRequest(url: "https://www.googleapis.com/userinfo/v2/me", method: "GET")
-                        request.addValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
-                        let val2 = try await urlSession.data(for: request)
-                        let data = val2.0
-                        let dictionary = try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
-                        self.userInfo = dictionary
-                        var newData: [String: Any] = ["userInfo": self.userInfo as Any]
-                        newData["tokenForKeys"] = idToken
-                        newData["verifierId"] = self.getVerifierFromUserInfo()
-                        return newData
-                    } else {
-                        throw CASDKError.accessTokenNotProvided
-                    }
-                } catch {
-                    throw CASDKError.accessTokenAPIFailed
-                }
-            } else {
-                throw CASDKError.authGrantNotProvided
-            }
-        case .web:
-            if let accessToken = responseParameters["access_token"], let idToken = responseParameters["id_token"] {
-                var request = makeUrlRequest(url: "https://www.googleapis.com/userinfo/v2/me", method: "GET")
-                request.addValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
-                do {
-               let val = try await self.urlSession.data(for: request)
-                let data = try JSONSerialization.jsonObject(with: val.0) as? [String: Any] ?? [:]
-                    self.userInfo =  data
-                    var newData: [String: Any] = ["userInfo": self.userInfo as Any]
-                    newData["tokenForKeys"] = idToken
-                    newData["verifierId"] = self.getVerifierFromUserInfo()
-                    return newData
-                } catch {
-                    throw CASDKError.accessTokenAPIFailed
-                }
-            } else {
-                throw CASDKError.getUserInfoFailed
-            }
+    override public func getUserInfo(params: LoginWindowResponse, storageServerUrl: String?) async throws -> TorusVerifierResponse {
+        guard let accessToken = params.accessToken else {
+            throw CASDKError.accessTokenNotProvided
         }
+
+        var urlRequest = makeUrlRequest(url: "https://www.googleapis.com/userinfo/v2/me", method: "GET")
+        urlRequest.addValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+
+        let (data, _) = try await URLSession.shared.data(for: urlRequest)
+
+        let result = try JSONDecoder().decode(GoogleInfo.self, from: data)
+
+        return TorusVerifierResponse(email: result.email, name: result.name, profileImage: result.picture, verifier: verifier, verifierId: result.email.lowercased(), typeOfLogin: typeOfLogin)
     }
 }

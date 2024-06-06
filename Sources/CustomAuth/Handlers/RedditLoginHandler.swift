@@ -1,82 +1,58 @@
-//
-//  RedditLoginHandler.swift
-//
-//
-//  Created by Shubham on 13/11/20.
-//
-
 import Foundation
 
-class RedditLoginHandler: AbstractLoginHandler {
-    let loginType: SubVerifierType
-    let clientID: String
-    let redirectURL: String
-    let browserRedirectURL: String?
-    var userInfo: [String: Any]?
-    let nonce = String.randomString(length: 10)
-    let state: String
-    let jwtParams: [String: String]
-    let defaultParams: [String: String]
-    var urlSession: URLSession
+internal class RedditInfo: Codable {
+    public var name: String
+    public var icon_image: String?
+}
 
-    public init(loginType: SubVerifierType = .web, clientID: String, redirectURL: String, browserRedirectURL: String?, jwtParams: [String: String] = [:], urlSession: URLSession = URLSession.shared) {
-        self.loginType = loginType
-        self.clientID = clientID
-        self.redirectURL = redirectURL
-        self.jwtParams = jwtParams
-        self.browserRedirectURL = browserRedirectURL
-        self.defaultParams = ["scope": "identity", "response_type": "token", "state": "randomstate"]
-        self.urlSession = urlSession
+internal class RedditLoginHandler: AbstractLoginHandler {
+    private var response_type: String = "token"
+    private var scope: String = "identity"
 
-        let tempState = ["nonce": self.nonce, "redirectUri": self.redirectURL, "redirectToAndroid": "true"]
-        let jsonData = try! JSONSerialization.data(withJSONObject: tempState, options: .prettyPrinted)
-        self.state =  String(data: jsonData, encoding: .utf8)!.toBase64URL()
+    override public init(clientId: String, verifier: String, urlScheme: String, redirectURL: String, typeOfLogin: LoginType, jwtParams: Auth0ClientOptions? = nil, customState: TorusGenericContainer? = nil) throws {
+        try super.init(clientId: clientId, verifier: verifier, urlScheme: urlScheme, redirectURL: redirectURL, typeOfLogin: typeOfLogin, jwtParams: jwtParams, customState: customState)
+        try setFinalUrl()
     }
 
-    func getUserInfo(responseParameters: [String: String]) async throws -> [String: Any] {
-        return try await self.handleLogin(responseParameters: responseParameters)
-    }
-
-    func getLoginURL() -> String {
-        // left join
-        var tempParams = self.defaultParams
-        tempParams.merge(["redirect_uri": self.browserRedirectURL ?? self.redirectURL, "client_id": self.clientID, "state": self.state]) {(_, new ) in new}
-        tempParams.merge(self.jwtParams) {(_, new ) in new}
-
-        // Reconstruct URL
+    override public func setFinalUrl() throws {
         var urlComponents = URLComponents()
+
+        var params: [String: String] = [:]
+
+        if jwtParams != nil {
+            params = try (JSONSerialization.jsonObject(with: try JSONEncoder().encode(jwtParams), options: []) as! [String: String])
+        }
+
+        params.merge([
+            "state": try state(),
+            "response_type": response_type,
+            "client_id": clientId,
+            "redirect_uri": redirectURL,
+            "scope": scope,
+        ], uniquingKeysWith: { _, new in new })
         urlComponents.scheme = "https"
         urlComponents.host = "www.reddit.com"
         urlComponents.path = "/api/v1/authorize"
-        urlComponents.setQueryItems(with: tempParams)
+        urlComponents.setQueryItems(with: params)
 
-        return urlComponents.url!.absoluteString
-        //      return "https://www.reddit.com/api/v1/authorize?client_id=\(self.clientId)&redirect_uri=\(newRedirectURL)&response_type=token&scope=identity&state=dfasdfs"
+        finalUrl = urlComponents
     }
 
-    func getVerifierFromUserInfo() -> String {
-        return self.userInfo?["name"] as? String ?? ""
-    }
-
-    func handleLogin(responseParameters: [String: String]) async throws -> [String: Any] {
-
-        if let accessToken = responseParameters["access_token"] {
-            var request = makeUrlRequest(url: "https://oauth.reddit.com/api/v1/me", method: "GET")
-            request.addValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
-            do {
-           let val = try await self.urlSession.data(for: request)
-        let data = try JSONSerialization.jsonObject(with: val.0) as? [String: Any] ?? [:]
-                self.userInfo = data
-                var newData: [String: Any] = ["userInfo": self.userInfo as Any]
-                newData["tokenForKeys"] = accessToken
-                newData["verifierId"] = self.getVerifierFromUserInfo()
-                return newData
-            } catch {
-                throw CASDKError.getUserInfoFailed
-            }
-        } else {
+    override public func getUserInfo(params: LoginWindowResponse, storageServerUrl: String?) async throws -> TorusVerifierResponse {
+        guard let accessToken = params.accessToken else {
             throw CASDKError.accessTokenNotProvided
         }
-    }
 
+        var urlRequest = makeUrlRequest(url: "https://oauth.reddit.com/api/v1/me", method: "GET")
+        urlRequest.addValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+
+        let (data, _) = try await URLSession.shared.data(for: urlRequest)
+
+        let result = try JSONDecoder().decode(RedditInfo.self, from: data)
+
+        var profileImage = result.icon_image ?? ""
+        profileImage = profileImage.split(separator: "?").count > 0 ? String(profileImage.split(separator: "?")[0]) : profileImage
+
+        return TorusVerifierResponse(email: "", name: result.name, profileImage: profileImage, verifier: verifier, verifierId: result.name.lowercased(), typeOfLogin: typeOfLogin)
+    }
 }
