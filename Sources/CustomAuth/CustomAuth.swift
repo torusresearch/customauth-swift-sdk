@@ -55,7 +55,7 @@ public class CustomAuth {
 
         let verifyParams: VerifierParams = VerifierParams(verifier_id: userInfo.verifierId)
 
-        let torusKey = try await getTorusKey(verifier: userInfo.verifier, verifierParams: verifyParams, idToken: loginParams.idToken!)
+        let torusKey = try await getTorusKey(verifier: userInfo.verifier, verifierParams: verifyParams, idToken: loginParams.idToken ?? loginParams.accessToken ?? "")
 
         let returnedInfo = UserInfo(email: userInfo.email, name: userInfo.name, profileImage: userInfo.profileImage, aggregateVerifier: userInfo.aggregateVerifier, verifier: userInfo.verifier, verifierId: userInfo.verifierId, typeOfLogin: userInfo.typeOfLogin, ref: userInfo.ref, extraVerifierParams: userInfo.extraVerifierParams, accessToken: loginParams.accessToken, idToken: loginParams.idToken, extraParams: loginParams.extraParams, extraParamsPassed: loginParams.extraParamsPassed, state: loginParams.state)
 

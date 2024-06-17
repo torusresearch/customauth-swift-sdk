@@ -2,7 +2,7 @@ import Foundation
 
 class DiscordInfo: Codable {
     public var id: String
-    public var name: String
+    public var username: String
     public var avatar: String?
     public var discriminator: String
     public var email: String
@@ -49,12 +49,11 @@ class DiscordLoginHandler: AbstractLoginHandler {
         urlRequest.addValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
 
         let (data, _) = try await URLSession.shared.data(for: urlRequest)
-
         let result = try JSONDecoder().decode(DiscordInfo.self, from: data)
 
         let profileImage = result.avatar == nil ? "https://cdn.discordapp.com/embed/avatars/" + String(Int(result.discriminator)! % 5) + ".png" :
             "https://cdn.discordapp.com/avatars/${id}/" + result.avatar! + ".png?size=2048"
 
-        return TorusVerifierResponse(email: result.email, name: result.name + "#" + result.discriminator, profileImage: profileImage, verifier: verifier, verifierId: result.id, typeOfLogin: typeOfLogin)
+        return TorusVerifierResponse(email: result.email, name: result.username + "#" + result.discriminator, profileImage: profileImage, verifier: verifier, verifierId: result.id, typeOfLogin: typeOfLogin)
     }
 }
