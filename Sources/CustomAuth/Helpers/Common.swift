@@ -37,19 +37,19 @@ func getVerifierId(
     }
 
     switch typeOfLogin {
-    case .google: return sub
-    case .facebook: return sub
-    case .reddit: return sub
-    case .twitch: return sub
-    case .apple: return sub
-    case .github: return sub
-    case .discord: return sub
-    case .linkedin: return sub
-    case .twitter: return sub
-    case .weibo: return sub
-    case .line: return sub
-    case .jwt: return sub
-    case .email_password: return name
+        case .google: return sub
+        case .facebook: return sub
+        case .reddit: return sub
+        case .twitch: return sub
+        case .apple: return sub
+        case .github: return sub
+        case .discord: return sub
+        case .linkedin: return sub
+        case .twitter: return sub
+        case .weibo: return sub
+        case .line: return sub
+        case .jwt: return sub
+        case .email_password: return name
     }
 }
 

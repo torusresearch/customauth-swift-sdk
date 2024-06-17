@@ -52,7 +52,6 @@ class GoogleLoginHandler: AbstractLoginHandler {
 
         let (data, _) = try await URLSession.shared.data(for: urlRequest)
 
-        debugPrint(String(data: data, encoding: .utf8)!)
         let result = try JSONDecoder().decode(GoogleInfo.self, from: data)
 
         return TorusVerifierResponse(email: result.email, name: result.name, profileImage: result.picture, verifier: verifier, verifierId: result.email.lowercased(), typeOfLogin: typeOfLogin)

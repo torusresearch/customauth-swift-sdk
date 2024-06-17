@@ -53,7 +53,6 @@ public class AbstractLoginHandler: ILoginHandler {
         let urlWithTokenInfo = try await AuthenticationManager().authenticationManagerWrapper(url: finalUrl.url!, callbackURLScheme: callbackURLScheme, prefersEphemeralWebBrowserSession: false)
 
         var tokenInfo = parseURL(url: urlWithTokenInfo)
-        debugPrint(tokenInfo)
         let access_token = tokenInfo["access_token"]
         let id_token = tokenInfo["id_token"]
         let ref = tokenInfo["ref"]

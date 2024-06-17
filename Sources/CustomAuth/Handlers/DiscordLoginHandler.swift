@@ -11,6 +11,7 @@ class DiscordInfo: Codable {
 class DiscordLoginHandler: AbstractLoginHandler {
     private var response_type: String = "token"
     private var scope: String = "identify email"
+    private var prompt: String = "none"
 
     override public init(clientId: String, verifier: String, urlScheme: String, redirectURL: String, typeOfLogin: LoginType, jwtParams: Auth0ClientOptions? = nil, customState: TorusGenericContainer? = nil) throws {
         try super.init(clientId: clientId, verifier: verifier, urlScheme: urlScheme, redirectURL: redirectURL, typeOfLogin: typeOfLogin, jwtParams: jwtParams, customState: customState)
@@ -31,6 +32,7 @@ class DiscordLoginHandler: AbstractLoginHandler {
             "response_type": response_type,
             "client_id": clientId,
             "redirect_uri": redirectURL,
+            "prompt": prompt,
             "scope": scope], uniquingKeysWith: { _, new in new })
         urlComponents.scheme = "https"
         urlComponents.host = "discord.com"

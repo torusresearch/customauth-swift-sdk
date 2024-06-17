@@ -29,7 +29,7 @@ struct ContentView: View {
                     do {
                         let sub = SingleLoginParams(typeOfLogin: .discord, verifier: "dhruv-discord", clientId: "1034724991972954172", redirectURL: "https://scripts.toruswallet.io/redirect.html")
 
-                        let customAuthArgs = CustomAuthArgs(urlScheme: "tdsdk://tdsdk/oauthCallback", network: .sapphire(.SAPPHIRE_DEVNET), enableOneKey: true, web3AuthClientId: "BAh0_c0G8U8GoMUIYDcX_f65fU_N9O0mWz6xM6RqBfaaAlYsTha8oOef7ifXPjd_bCTJdfWQemmrbY6KepC7XNA")
+                        let customAuthArgs = CustomAuthArgs(urlScheme: "tdsdk://tdsdk/oauthCallback", network: .legacy(.TESTNET), enableOneKey: true, web3AuthClientId: "BHgArYmWwSeq21czpcarYh0EVq2WWOzflX-NTK-tY1-1pauPzHKRRLgpABkmYiIV_og9jAvoIxQ8L3Smrwe04Lw")
 
                         let customAuth = try CustomAuth(config: customAuthArgs)
                         let torusLoginResponse = try await customAuth.triggerLogin(args: sub)
