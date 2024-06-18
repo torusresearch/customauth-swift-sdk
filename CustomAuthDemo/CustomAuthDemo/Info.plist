@@ -20,13 +20,12 @@
 	<array>
 		<dict>
 			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
+			<string>Viewer</string>
+			<key>CFBundleURLName</key>
+			<string>tdsdk</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>tdsdk-swift</string>
-				<string>tdsdk</string>
-				<string>com.torus.CustomAuthDemo</string>
-				<string>com.googleusercontent.apps.238941746713-vfap8uumijal4ump28p9jd3lbe6onqt4</string>
+				<string>tdsdk://tdsdk/oauthCallback</string>
 			</array>
 		</dict>
 	</array>
@@ -45,8 +44,6 @@
 				<dict>
 					<key>UISceneConfigurationName</key>
 					<string>Default Configuration</string>
-					<key>UISceneDelegateClassName</key>
-					<string>$(PRODUCT_MODULE_NAME).SceneDelegate</string>
 				</dict>
 			</array>
 		</dict>
