@@ -2,6 +2,7 @@ import CustomAuth
 import SwiftUI
 
 struct ContentView: View {
+    
     var body: some View {
         VStack {
             Button(action: {
@@ -34,6 +35,28 @@ struct ContentView: View {
                         let customAuth = try CustomAuth(config: customAuthArgs)
                         let torusLoginResponse = try await customAuth.triggerLogin(args: sub)
                         let encoded = try JSONEncoder().encode(torusLoginResponse)
+                        print(String(data: encoded, encoding: .utf8)!)
+                    } catch {
+                        print(error)
+                    }
+
+                }
+            }, label: {
+                Text("Discord Login")
+            })
+            /*
+            Button(action: {
+                Task {
+                    do {
+                        let sub = SingleLoginParams(typeOfLogin: .facebook,                                  verifier: "facebook-shubs",
+                            clientId: "659561074900150",
+                            redirectURL: "https://scripts.toruswallet.io/redirect.html")
+
+                        let customAuthArgs = CustomAuthArgs(urlScheme: "tdsdk://tdsdk/oauthCallback", network: .sapphire(.SAPPHIRE_MAINNET), enableOneKey: true, web3AuthClientId: "BPi5PB_UiIZ-cPz1GtV5i1I2iOSOHuimiXBI0e-Oe_u6X3oVAbCiAZOTEBtTXw4tsluTITPqA8zMsfxIKMjiqNQ")
+
+                        let customAuth = try CustomAuth(config: customAuthArgs)
+                        let torusLoginResponse = try await customAuth.triggerLogin(args: sub)
+                        let encoded = try JSONEncoder().encode(torusLoginResponse)
                         debugPrint(String(data: encoded, encoding: .utf8)!)
                     } catch {
                         debugPrint(error)
@@ -41,9 +64,57 @@ struct ContentView: View {
 
                 }
             }, label: {
-                Text("Discord Login")
+                Text("Facebook Login")
+            })
+            */
+            
+            Button(action: {
+                let sub = SubVerifierDetails(typeOfLogin: .reddit,
+                                             verifier: "reddit-shubs", clientId: "rXIp6g2y3h1wqg",
+                                             redirectURL: "tdsdk://tdsdk/oauthCallback")
+                let customAuthArgs = CustomAuthArgs(urlScheme: "tdsdk://tdsdk/oauthCallback", network: .legacy(.TESTNET), enableOneKey: true, web3AuthClientId: "BPi5PB_UiIZ-cPz1GtV5i1I2iOSOHuimiXBI0e-Oe_u6X3oVAbCiAZOTEBtTXw4tsluTITPqA8zMsfxIKMjiqNQ")
+                Task {
+                    do {
+                        let customAuth = try CustomAuth(config: customAuthArgs)
+                        let torusLoginResponse = try await customAuth.triggerLogin(args: sub)
+                        let encoded = try JSONEncoder().encode(torusLoginResponse)
+                        print(String(data: encoded, encoding: .utf8)!)
+                    } catch {
+                        print(error)
+                    }
+                }
+            }, label: {
+                Text("Reddit Login")
             })
             
+            Button(action: {
+                let sub = SubVerifierDetails(typeOfLogin: .twitch,
+                                             verifier: "twitch-shubs", clientId: "p560duf74b2bidzqu6uo0b3ot7qaao",
+                                             redirectURL: "tdsdk://tdsdk/oauthCallback")
+                let customAuthArgs = CustomAuthArgs(urlScheme: "tdsdk://tdsdk/oauthCallback", network: .legacy(.TESTNET), enableOneKey: true, web3AuthClientId: "BPi5PB_UiIZ-cPz1GtV5i1I2iOSOHuimiXBI0e-Oe_u6X3oVAbCiAZOTEBtTXw4tsluTITPqA8zMsfxIKMjiqNQ")
+                Task {
+                    do {
+                        let customAuth = try CustomAuth(config: customAuthArgs)
+                        let torusLoginResponse = try await customAuth.triggerLogin(args: sub)
+                        let encoded = try JSONEncoder().encode(torusLoginResponse)
+                        print(String(data: encoded, encoding: .utf8)!)
+                    } catch {
+                        print(error)
+                    }
+                }
+            }, label: {
+                Text("Twitch Login")
+            })
+            
+            /*
+             let sub = SubVerifierDetails(loginType: .web,
+                                          loginProvider: .facebook,
+                                          clientId: "659561074900150",
+                                          verifier: "facebook-shubs",
+                                          redirectURL: "tdsdk://tdsdk/oauthCallback",
+                                          browserRedirectURL: "https://scripts.toruswallet.io/redirect.html",
+                                          urlSession: URLSession.shared)
+             */
  /*
             Button(action: {
                 Task {

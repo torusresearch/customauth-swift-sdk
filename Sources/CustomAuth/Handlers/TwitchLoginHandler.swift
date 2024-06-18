@@ -2,12 +2,13 @@ import Foundation
 
 class TwitchInfo: Codable {
     public var id: String
+    public var email: String?
     public var display_name: String
     public var profile_image_url: String
 }
 
 class TwitchRootInfo: Codable {
-    public var data: TwitchInfo
+    public var data: [TwitchInfo]
 }
 
 class TwitchLoginHandler: AbstractLoginHandler {
@@ -51,11 +52,15 @@ class TwitchLoginHandler: AbstractLoginHandler {
 
         var urlRequest = makeUrlRequest(url: "https://api.twitch.tv/helix/users", method: "GET")
         urlRequest.addValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
-
+        urlRequest.addValue(self.clientId, forHTTPHeaderField: "Client-ID")
+        
         let (data, _) = try await URLSession.shared.data(for: urlRequest)
-
         let result = try JSONDecoder().decode(TwitchRootInfo.self, from: data)
+        
+        guard let userdata = result.data.first else {
+            throw CASDKError.decodingFailed
+        }
 
-        return TorusVerifierResponse(email: "", name: result.data.display_name, profileImage: result.data.profile_image_url, verifier: verifier, verifierId: result.data.id, typeOfLogin: typeOfLogin)
+        return TorusVerifierResponse(email: userdata.email ?? "", name: userdata.display_name, profileImage: userdata.profile_image_url, verifier: verifier, verifierId: userdata.id, typeOfLogin: typeOfLogin)
     }
 }
