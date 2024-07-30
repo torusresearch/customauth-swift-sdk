@@ -1,18 +1,9 @@
-//
-//  LoginView.swift
-//  cptest
-//
-//  Created by Dhruv Jaiswal on 27/10/22.
-//  Copyright © 2022 torus. All rights reserved.
-//
-
 import SwiftUI
 
 struct LoginView: View {
     @ObservedObject var vm: ViewModel
     var body: some View {
         List {
-
             Section(header: Text("Single Logins")) {
                 Group {
                     Button(action: {
@@ -75,37 +66,17 @@ struct LoginView: View {
                 }, label: {
                     Text("Apple Login")
                 })
-            }
-
-            Button(action: {
-                vm.emailPasswordlessLogin()
-            }, label: {
-                Text("Email-password Login")
-            })
-
-            Button(action: {
-                vm.kakaoLogin()
-            }, label: {
-                Text("Kakao Login")
-            })
-
-            Button(action: {
-                vm.weiboLogin()
-            }, label: {
-                Text("Weibo Login")
-            })
-
-            Button(action: {
-                vm.wechatLogin()
-            }, label: {
-                Text("Wechat Login")
-            })
-
-            Section(header: Text("Single ID verifier")) {
+                
                 Button(action: {
-                    vm.googleDeepLinkFlowLogin()
+                    vm.weiboLogin()
                 }, label: {
-                    Text("Google Login - Deep link flow")
+                    Text("Weibo Login")
+                })
+                
+                Button(action: {
+                    vm.emailPasswordLogin()
+                }, label: {
+                    Text("Email-Password Login")
                 })
             }
         }

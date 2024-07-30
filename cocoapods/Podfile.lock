@@ -1,52 +1,40 @@
 PODS:
-  - BigInt (5.0.0)
-  - CryptoSwift (1.7.1)
-  - CustomAuth (6.0.1):
+  - BigInt (5.2.0)
+  - curvelib.swift (1.0.1)
+  - CustomAuth (11.0.0):
     - JWTDecode (~> 3.1.0)
-    - Torus-utils (~> 5.1.1)
-  - GenericJSON (2.0.2)
+    - Torus-utils (~> 9.0.0)
   - JWTDecode (3.1.0)
-  - secp256k1.swift (0.1.4)
-  - Torus-fetchNodeDetails (4.0.1):
-    - web3.swift (~> 0.9.3)
-  - Torus-utils (5.1.1):
-    - CryptoSwift (~> 1.7.1)
-    - secp256k1.swift (~> 0.1.4)
-    - Torus-fetchNodeDetails (~> 4.0.1)
-  - web3.swift (0.9.3):
-    - BigInt (~> 5.0.0)
-    - GenericJSON (~> 2.0)
-    - secp256k1.swift (~> 0.1)
+  - Torus-fetchNodeDetails (6.0.3):
+    - BigInt (~> 5.2.0)
+  - Torus-utils (9.0.0):
+    - curvelib.swift (~> 1.0.1)
+    - Torus-fetchNodeDetails (~> 6.0.3)
 
 DEPENDENCIES:
   - CustomAuth (from `../`)
+  - Torus-utils (~> 9.0.0)
 
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
     - BigInt
-    - CryptoSwift
-    - GenericJSON
+    - curvelib.swift
     - JWTDecode
-    - secp256k1.swift
     - Torus-fetchNodeDetails
     - Torus-utils
-    - web3.swift
 
 EXTERNAL SOURCES:
   CustomAuth:
     :path: "../"
 
 SPEC CHECKSUMS:
-  BigInt: 74b4d88367b0e819d9f77393549226d36faeb0d8
-  CryptoSwift: d3d18dc357932f7e6d580689e065cf1f176007c1
-  CustomAuth: fd705ef3394ece58f4d7912a9653746d075884ad
-  GenericJSON: 79a840eeb77030962e8cf02a62d36bd413b67626
+  BigInt: f668a80089607f521586bbe29513d708491ef2f7
+  curvelib.swift: d0746ae82bee34016c06da3567a97e493b3c979f
+  CustomAuth: 03df324125a03626232ae742175aeda26a065e66
   JWTDecode: 3eaab1e06b6f4dcbdd6716aff09ba4c2104ca8b7
-  secp256k1.swift: a7e7a214f6db6ce5db32cc6b2b45e5c4dd633634
-  Torus-fetchNodeDetails: a92d02f1bfe91bd61c90f92d64df023babaa5bfa
-  Torus-utils: 9b167655f8882ad0cff7ab76685da0728d9c9cea
-  web3.swift: c6c3bf1f853743f8a7a58d263e5f7e46545e22c7
+  Torus-fetchNodeDetails: 6c349f47cbca36a4b3f276fe26d03c1b39b20949
+  Torus-utils: 0f993fffd66a66a0423092c9ddea2cbff4d298df
 
-PODFILE CHECKSUM: f833fcc5131fdff361e66d13954083588b75e937
+PODFILE CHECKSUM: 9b208a8d1d57bbade0916f1ca893014f4b177c68
 
-COCOAPODS: 1.12.1
+COCOAPODS: 1.13.0
