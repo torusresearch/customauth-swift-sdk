@@ -126,7 +126,7 @@ struct ContentView: View {
             })
             
             Button(action: {
-                let sub = SubVerifierDetails(typeOfLogin: .jwt,
+                let sub = SubVerifierDetails(typeOfLogin: .github,
                                              verifier: "w3a-auth0-demo", clientId: "hUVVf4SEsZT7syOiL0gLU9hFEtm2gQ6O",
                                              redirectURL: "tdsdk://tdsdk/oauthCallback", jwtParams: Auth0ClientOptions(connection: "github", domain: "web3auth.au.auth0.com", verifierIdField: "sub"))
                 let customAuthArgs = CustomAuthArgs(urlScheme: "tdsdk://tdsdk/oauthCallback", network: .sapphire(.SAPPHIRE_MAINNET), enableOneKey: true, web3AuthClientId: "BPi5PB_UiIZ-cPz1GtV5i1I2iOSOHuimiXBI0e-Oe_u6X3oVAbCiAZOTEBtTXw4tsluTITPqA8zMsfxIKMjiqNQ")

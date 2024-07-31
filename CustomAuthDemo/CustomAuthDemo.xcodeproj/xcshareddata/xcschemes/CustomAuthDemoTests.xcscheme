@@ -53,15 +53,6 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "511CEAC72452D4EC00A7ACE9"
-            BuildableName = "CustomAuthDemo.app"
-            BlueprintName = "CustomAuthDemo"
-            ReferencedContainer = "container:CustomAuthDemo.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">
