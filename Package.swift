@@ -14,7 +14,7 @@ let package = Package(
             targets: ["CustomAuth"])
     ],
     dependencies: [
-        .package(url: "https://github.com/torusresearch/torus-utils-swift.git", from: "8.1.0"),
+        .package(url: "https://github.com/torusresearch/torus-utils-swift.git", branch: "fix/racing"),
         .package(name: "jwt-kit", url: "https://github.com/vapor/jwt-kit.git", from: "4.13.0"),
         .package(name: "JWTDecode", url: "https://github.com/auth0/JWTDecode.swift.git", from: "3.1.0"),
         .package(url: "https://github.com/tkey/curvelib.swift", from: "1.0.0"),
