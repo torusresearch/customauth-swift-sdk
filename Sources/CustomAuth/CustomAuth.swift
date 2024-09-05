@@ -42,7 +42,7 @@ public class CustomAuth {
         let torusUtils = try TorusUtils(params: torusOptions)
         torus = torusUtils
 
-        torus.setApiKey(apiKey: config.apiKey ?? "")
+        torus.setApiKey(apiKey: config.apiKey)
     }
 
     /// Initiates a login using a single verifier
@@ -219,7 +219,7 @@ public class CustomAuth {
     /// - Returns: `TorusKey`
     ///
     /// - Throws: `CASDKError`,  `TorusUtilError`, `FetchNodeError`
-    func getTorusKey(verifier: String, verifierParams: VerifierParams, idToken: String) async throws -> TorusKey {
+    func getTorusKey(verifier: String, verifierParams: VerifierParams, idToken: String, extraParams: TorusUtilsExtraParams? = nil) async throws -> TorusKey {
         let nodeDetails = try await nodeDetailManager.getNodeDetails(verifier: verifier, verifierID: verifierParams.verifier_id)
 
         return try await torus.retrieveShares(endpoints: nodeDetails.getTorusNodeEndpoints(), verifier: verifier, verifierParams: verifierParams, idToken: idToken)

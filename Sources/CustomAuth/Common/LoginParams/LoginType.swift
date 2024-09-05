@@ -14,4 +14,7 @@ public enum LoginType: String, Equatable, Hashable, Codable {
     case line
     case email_password
     case passwordless
+    case email_passwordless
+    case sms_passwordless
+    case jwt
 }
