@@ -73,7 +73,8 @@ public class CustomAuth {
 
         let torusKey = try await getTorusKey(verifier: userInfo.verifier, verifierParams: verifyParams, idToken: loginParams.idToken ?? loginParams.accessToken ?? "")
 
-        let returnedInfo = UserInfo(email: userInfo.email, name: userInfo.name, profileImage: userInfo.profileImage, aggregateVerifier: userInfo.aggregateVerifier, verifier: userInfo.verifier, verifierId: userInfo.verifierId, typeOfLogin: userInfo.typeOfLogin, ref: userInfo.ref, extraVerifierParams: userInfo.extraVerifierParams, accessToken: loginParams.accessToken, idToken: loginParams.idToken, extraParams: loginParams.extraParams, extraParamsPassed: loginParams.extraParamsPassed, state: loginParams.state)
+        let returnedInfo = UserInfo(email: userInfo.email, name: userInfo.name, profileImage: userInfo.profileImage, aggregateVerifier: userInfo.aggregateVerifier, verifier: userInfo.verifier, verifierId: userInfo.verifierId, typeOfLogin: userInfo.typeOfLogin, ref: userInfo.ref, //extraVerifierParams: userInfo.extraVerifierParams,
+            accessToken: loginParams.accessToken, idToken: loginParams.idToken, extraParams: loginParams.extraParams, extraParamsPassed: loginParams.extraParamsPassed, state: loginParams.state)
 
         return TorusLoginResponse(singleVerifierResponse: TorusSingleVerifierResponse(userInfo: returnedInfo, loginResponse: loginParams), torusKey: torusKey)
     }
@@ -111,7 +112,8 @@ public class CustomAuth {
             }
 
             let info = try await loginHandler.getUserInfo(params: loginParams, storageServerUrl: nil)
-            userInfo = UserInfo(email: info.email, name: info.name, profileImage: info.profileImage, aggregateVerifier: args.verifierIdentifier, verifier: info.verifier, verifierId: info.verifierId, typeOfLogin: info.typeOfLogin, ref: info.ref, extraVerifierParams: info.extraVerifierParams, accessToken: loginParams.accessToken, idToken: loginParams.idToken, extraParams: loginParams.extraParams, extraParamsPassed: loginParams.extraParamsPassed, state: loginParams.state)
+            userInfo = UserInfo(email: info.email, name: info.name, profileImage: info.profileImage, aggregateVerifier: args.verifierIdentifier, verifier: info.verifier, verifierId: info.verifierId, typeOfLogin: info.typeOfLogin, ref: info.ref, //extraVerifierParams: info.extraVerifierParams,
+                accessToken: loginParams.accessToken, idToken: loginParams.idToken, extraParams: loginParams.extraParams, extraParamsPassed: loginParams.extraParamsPassed, state: loginParams.state)
             loginParamsArray.append(loginParams)
             userInfoArray.append(userInfo)
         }
@@ -182,7 +184,8 @@ public class CustomAuth {
 
         let torusKey = try await getTorusKey(verifier: userInfo.verifier, verifierParams: verifyParams, idToken: loginParams.idToken!)
 
-        let returnedInfo = UserInfo(email: userInfo.email, name: userInfo.name, profileImage: userInfo.profileImage, aggregateVerifier: userInfo.aggregateVerifier, verifier: userInfo.verifier, verifierId: userInfo.verifierId, typeOfLogin: userInfo.typeOfLogin, ref: userInfo.ref, extraVerifierParams: userInfo.extraVerifierParams, accessToken: loginParams.accessToken, idToken: loginParams.idToken, extraParams: loginParams.extraParams, extraParamsPassed: loginParams.extraParamsPassed, state: loginParams.state)
+        let returnedInfo = UserInfo(email: userInfo.email, name: userInfo.name, profileImage: userInfo.profileImage, aggregateVerifier: userInfo.aggregateVerifier, verifier: userInfo.verifier, verifierId: userInfo.verifierId, typeOfLogin: userInfo.typeOfLogin, ref: userInfo.ref, // extraVerifierParams: userInfo.extraVerifierParams,
+            accessToken: loginParams.accessToken, idToken: loginParams.idToken, extraParams: loginParams.extraParams, extraParamsPassed: loginParams.extraParamsPassed, state: loginParams.state)
 
         var subVerifierIds: [String] = []
         var aggregateVerifierParams: [VerifyParams] = []
