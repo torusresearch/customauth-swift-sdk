@@ -8,7 +8,7 @@ struct ContentView: View {
             Button(action: {
                 Task {
                     do {
-                        let sub = SingleLoginParams(typeOfLogin: .google, verifier: "w3a-google-demo", clientId: "519228911939-cri01h55lsjbsia1k7ll6qpalrus75ps.apps.googleusercontent.com", redirectURL: "https://scripts.toruswallet.io/redirect.html")
+                        let sub = SingleLoginParams(typeOfLogin: .google, verifier: "w3a-google-demo", clientId: "519228911939-cri01h55lsjbsia1k7ll6qpalrus75ps.apps.googleusercontent.com")
                         
                         let customAuthArgs = CustomAuthArgs(urlScheme: "tdsdk://tdsdk/oauthCallback", network: .sapphire(.SAPPHIRE_MAINNET), enableOneKey: true, web3AuthClientId: "BPi5PB_UiIZ-cPz1GtV5i1I2iOSOHuimiXBI0e-Oe_u6X3oVAbCiAZOTEBtTXw4tsluTITPqA8zMsfxIKMjiqNQ")
                         let customAuth = try CustomAuth(config: customAuthArgs)
@@ -27,7 +27,7 @@ struct ContentView: View {
             Button(action: {
                 Task {
                     do {
-                        let sub = SingleLoginParams(typeOfLogin: .discord, verifier: "w3a-discord-demo", clientId: "1151006428610433095", redirectURL: "https://scripts.toruswallet.io/redirect.html")
+                        let sub = SingleLoginParams(typeOfLogin: .discord, verifier: "w3a-discord-demo", clientId: "1151006428610433095")
                         
                         let customAuthArgs = CustomAuthArgs(urlScheme: "tdsdk://tdsdk/oauthCallback", network: .sapphire(.SAPPHIRE_MAINNET), enableOneKey: true, web3AuthClientId: "BPi5PB_UiIZ-cPz1GtV5i1I2iOSOHuimiXBI0e-Oe_u6X3oVAbCiAZOTEBtTXw4tsluTITPqA8zMsfxIKMjiqNQ")
                         
@@ -47,7 +47,7 @@ struct ContentView: View {
              Button(action: {
                  Task {
                      do {
-                         let sub = SingleLoginParams(typeOfLogin: .facebook, verifier: "w3a-facebook-demo", clientId: "342380202252650", redirectURL: "https://scripts.toruswallet.io/redirect.html")
+                         let sub = SingleLoginParams(typeOfLogin: .facebook, verifier: "w3a-facebook-demo", clientId: "342380202252650")
                          
                          let customAuthArgs = CustomAuthArgs(urlScheme: "tdsdk://tdsdk/oauthCallback", network: .sapphire(.SAPPHIRE_MAINNET), enableOneKey: true, web3AuthClientId: "BPi5PB_UiIZ-cPz1GtV5i1I2iOSOHuimiXBI0e-Oe_u6X3oVAbCiAZOTEBtTXw4tsluTITPqA8zMsfxIKMjiqNQ")
                          
@@ -64,7 +64,7 @@ struct ContentView: View {
              })
             
             Button(action: {
-                let sub = SingleLoginParams(typeOfLogin: .twitch, verifier: "w3a-twitch-demo", clientId: "3k7e70gowvxjaxg71hjnc8h8ih3bpf", redirectURL: "https://scripts.toruswallet.io/redirect.html")
+                let sub = SingleLoginParams(typeOfLogin: .twitch, verifier: "w3a-twitch-demo", clientId: "3k7e70gowvxjaxg71hjnc8h8ih3bpf")
                 let customAuthArgs = CustomAuthArgs(urlScheme: "tdsdk://tdsdk/oauthCallback", network: .sapphire(.SAPPHIRE_MAINNET), enableOneKey: true, web3AuthClientId: "BPi5PB_UiIZ-cPz1GtV5i1I2iOSOHuimiXBI0e-Oe_u6X3oVAbCiAZOTEBtTXw4tsluTITPqA8zMsfxIKMjiqNQ")
                 Task {
                     do {
@@ -81,7 +81,7 @@ struct ContentView: View {
             })
             
             Button(action: {
-                let sub = SingleLoginParams(typeOfLogin: .apple, verifier: "w3a-auth0-demo", clientId: "hUVVf4SEsZT7syOiL0gLU9hFEtm2gQ6O", redirectURL: "https://scripts.toruswallet.io/redirect.html", jwtParams: Auth0ClientOptions(connection: "apple", domain: "web3auth.au.auth0.com"))
+                let sub = SingleLoginParams(typeOfLogin: .apple, verifier: "w3a-auth0-demo", clientId: "hUVVf4SEsZT7syOiL0gLU9hFEtm2gQ6O", jwtParams: Auth0ClientOptions(connection: "apple", domain: "web3auth.au.auth0.com"))
                 let customAuthArgs = CustomAuthArgs(urlScheme: "tdsdk://tdsdk/oauthCallback", network: .sapphire(.SAPPHIRE_MAINNET), enableOneKey: true, web3AuthClientId: "BPi5PB_UiIZ-cPz1GtV5i1I2iOSOHuimiXBI0e-Oe_u6X3oVAbCiAZOTEBtTXw4tsluTITPqA8zMsfxIKMjiqNQ")
                 Task {
                     do {
@@ -98,7 +98,7 @@ struct ContentView: View {
             })
             
             Button(action: {
-                let sub = SingleLoginParams(typeOfLogin: .github, verifier: "w3a-auth0-demo", clientId: "hUVVf4SEsZT7syOiL0gLU9hFEtm2gQ6O", redirectURL: "https://scripts.toruswallet.io/redirect.html", jwtParams: Auth0ClientOptions(connection: "github", domain: "web3auth.au.auth0.com", verifierIdField: "sub"))
+                let sub = SingleLoginParams(typeOfLogin: .github, verifier: "w3a-auth0-demo", clientId: "hUVVf4SEsZT7syOiL0gLU9hFEtm2gQ6O", jwtParams: Auth0ClientOptions(connection: "github", domain: "web3auth.au.auth0.com", verifierIdField: "sub"))
                 let customAuthArgs = CustomAuthArgs(urlScheme: "tdsdk://tdsdk/oauthCallback", network: .sapphire(.SAPPHIRE_MAINNET), enableOneKey: true, web3AuthClientId: "BPi5PB_UiIZ-cPz1GtV5i1I2iOSOHuimiXBI0e-Oe_u6X3oVAbCiAZOTEBtTXw4tsluTITPqA8zMsfxIKMjiqNQ")
                 Task {
                     do {
@@ -111,13 +111,13 @@ struct ContentView: View {
                     }
                 }
             }, label: {
-                Text("JWT Login")
+                Text("GitHub Login")
             })
             
             Button(action: {
                 let sub = SingleLoginParams(typeOfLogin: .email_password,
                                              verifier: "torus-auth0-email-password", clientId: "sqKRBVSdwa4WLkaq419U7Bamlh5vK1H7",
-                                             redirectURL: "tdsdk://tdsdk/oauthCallback", jwtParams: Auth0ClientOptions(
+                                             jwtParams: Auth0ClientOptions(
                                                 connection: "Username-Password-Authentication",
                                                 domain: "torus-test.auth0.com",
                                                     verifierIdField: "name"))
@@ -142,7 +142,7 @@ struct ContentView: View {
             )
             
             Button(action: {
-                let aggregateLoginParams = AggregateLoginParams(aggregateVerifierType: AggregateVerifierType.single_id_verifier, verifierIdentifier: "aggregate-sapphire", subVerifierDetailsArray: [SingleLoginParams(typeOfLogin: .google, verifier: "w3a-google", clientId: "519228911939-cri01h55lsjbsia1k7ll6qpalrus75ps.apps.googleusercontent.com", redirectURL: "https://scripts.toruswallet.io/redirect.html")])
+                let aggregateLoginParams = AggregateLoginParams(aggregateVerifierType: AggregateVerifierType.single_id_verifier, verifierIdentifier: "aggregate-sapphire", subVerifierDetailsArray: [SingleLoginParams(typeOfLogin: .google, verifier: "w3a-google", clientId: "519228911939-cri01h55lsjbsia1k7ll6qpalrus75ps.apps.googleusercontent.com")])
                 
                 let customAuthArgs = CustomAuthArgs(urlScheme: "tdsdk://tdsdk/oauthCallback", network: .sapphire(.SAPPHIRE_MAINNET), enableOneKey: true, web3AuthClientId: "BPi5PB_UiIZ-cPz1GtV5i1I2iOSOHuimiXBI0e-Oe_u6X3oVAbCiAZOTEBtTXw4tsluTITPqA8zMsfxIKMjiqNQ")
                 Task {
@@ -160,7 +160,7 @@ struct ContentView: View {
             })
             
             Button(action: {
-                let subVerifierDetailsArray = SingleLoginParams(typeOfLogin: .email_passwordless, verifier: "w3a-a0-email-passwordless", clientId: "QiEf8qZ9IoasbZsbHvjKZku4LdnRC1Ct", redirectURL: "https://scripts.toruswallet.io/redirect.html", jwtParams: OAuthClientOptions(domain: "web3auth.au.auth0.com", verifierIdField: "email"))
+                let subVerifierDetailsArray = SingleLoginParams(typeOfLogin: .github, verifier: "w3a-a0-github", clientId: "hiLqaop0amgzCC0AXo4w0rrG9abuJTdu", jwtParams: OAuthClientOptions(domain: "web3auth.au.auth0.com", verifierIdField: "email"))
                 let aggregateLoginParams = AggregateLoginParams(aggregateVerifierType: AggregateVerifierType.single_id_verifier, verifierIdentifier: "aggregate-sapphire", subVerifierDetailsArray: [subVerifierDetailsArray])
                 
                 let customAuthArgs = CustomAuthArgs(urlScheme: "tdsdk://tdsdk/oauthCallback", network: .sapphire(.SAPPHIRE_MAINNET), enableOneKey: true, web3AuthClientId: "BPi5PB_UiIZ-cPz1GtV5i1I2iOSOHuimiXBI0e-Oe_u6X3oVAbCiAZOTEBtTXw4tsluTITPqA8zMsfxIKMjiqNQ")
@@ -175,7 +175,7 @@ struct ContentView: View {
                     }
                 }
             }, label: {
-                Text("Aggregate Email Passwordless")
+                Text("Aggregate GitHub")
             })
             
         }
