@@ -160,7 +160,7 @@ struct ContentView: View {
             })
             
             Button(action: {
-                let subVerifierDetailsArray = SingleLoginParams(typeOfLogin: .email_passwordless, verifier: "w3a-a0-email-passwordless", clientId: "QiEf8qZ9IoasbZsbHvjKZku4LdnRC1Ct", redirectURL: "https://scripts.toruswallet.io/redirect.html", jwtParams: Auth0ClientOptions(domain: "web3auth.au.auth0.com", verifierIdField: "email"))
+                let subVerifierDetailsArray = SingleLoginParams(typeOfLogin: .email_passwordless, verifier: "w3a-a0-email-passwordless", clientId: "QiEf8qZ9IoasbZsbHvjKZku4LdnRC1Ct", redirectURL: "https://scripts.toruswallet.io/redirect.html", jwtParams: OAuthClientOptions(domain: "web3auth.au.auth0.com", verifierIdField: "email"))
                 let aggregateLoginParams = AggregateLoginParams(aggregateVerifierType: AggregateVerifierType.single_id_verifier, verifierIdentifier: "aggregate-sapphire", subVerifierDetailsArray: [subVerifierDetailsArray])
                 
                 let customAuthArgs = CustomAuthArgs(urlScheme: "tdsdk://tdsdk/oauthCallback", network: .sapphire(.SAPPHIRE_MAINNET), enableOneKey: true, web3AuthClientId: "BPi5PB_UiIZ-cPz1GtV5i1I2iOSOHuimiXBI0e-Oe_u6X3oVAbCiAZOTEBtTXw4tsluTITPqA8zMsfxIKMjiqNQ")

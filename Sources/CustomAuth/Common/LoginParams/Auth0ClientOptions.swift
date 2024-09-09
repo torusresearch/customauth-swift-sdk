@@ -59,3 +59,5 @@ public class Auth0ClientOptions: BaseLoginOptions {
         try container.encodeIfPresent(self.login_hint, forKey: .login_hint)
     }
 }
+
+public typealias OAuthClientOptions = Auth0ClientOptions

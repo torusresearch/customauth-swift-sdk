@@ -127,7 +127,7 @@ public class CustomAuth {
             let loginParams = loginParamsArray[i]
             let userInfo = userInfoArray[i]
 
-            aggregateVerifierParams.append(VerifyParams(verifier_id: userInfo.verifierId, idtoken: loginParams.idToken!))
+            aggregateVerifierParams.append(VerifyParams(verifier_id: userInfo.verifierId, idtoken: loginParams.idToken ?? loginParams.accessToken!))
             aggregateIdTokenSeeds.append(loginParams.idToken ?? loginParams.accessToken!)
             subVerifierIds.append(userInfo.verifier)
             aggregateVerifierId = userInfo.verifierId
@@ -137,7 +137,7 @@ public class CustomAuth {
         let aggregateIdToken = try keccak256(data: joined)
         let aggregateParams: VerifierParams = VerifierParams(verifier_id: aggregateVerifierId, extended_verifier_id: nil, sub_verifier_ids: subVerifierIds, verify_params: aggregateVerifierParams)
 
-        let aggregateTorusKey = try await getTorusKey(verifier: aggregateVerifierId, verifierParams: aggregateParams, idToken: String(data: aggregateIdToken, encoding: .utf8)!)
+        let aggregateTorusKey = try await getTorusKey(verifier: aggregateVerifierId, verifierParams: aggregateParams, idToken: aggregateIdToken.hexString)
 
         var aggregateVerifierResponses: [TorusAggregateVerifierResponse] = []
         for i in 0 ..< userInfoArray.count {
