@@ -26,7 +26,16 @@ public class Auth0ClientOptions: BaseLoginOptions {
     }
     
     public init(display: String? = nil, prompt: String? = nil, max_age: Int? = nil, ui_locales: String? = nil, id_token_hint: String? = nil, arc_values: String? = nil, scope: String? = nil, audience: String? = nil, connection: String? = nil, domain: String? = nil, client_id: String? = nil, redirect_url: String? = nil, leeway: Int? = nil, verifierIdField: String? = nil, isVerifierIdCaseSensitive: Bool = false, id_token: String? = nil, access_token: String? = nil, user_info_route: String? = nil, login_hint: String? = nil) {
-        self.domain = domain
+        
+        // This is for convenience in case a full url gets passed in
+        // https:// is added back in later when it is constructed from
+        // URLComponents()
+        var domainHost = domain
+        if domain != nil && domain!.starts(with: "https://") {
+            domainHost = URL(string: domain!)?.host
+        }
+        
+        self.domain = domainHost
         self.redirect_url = redirect_url
         self.leeway = leeway
         self.verifierIdField = verifierIdField
