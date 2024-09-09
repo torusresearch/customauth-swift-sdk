@@ -71,7 +71,7 @@ public class CustomAuth {
 
         let verifyParams: VerifierParams = VerifierParams(verifier_id: userInfo.verifierId)
 
-        let torusKey = try await getTorusKey(verifier: userInfo.verifier, verifierParams: verifyParams, idToken: loginParams.idToken ?? loginParams.accessToken ?? "")
+        let torusKey = try await getTorusKey(verifier: userInfo.verifier, verifier_id: userInfo.verifierId, verifierParams: verifyParams, idToken: loginParams.idToken ?? loginParams.accessToken ?? "")
 
         let returnedInfo = UserInfo(email: userInfo.email, name: userInfo.name, profileImage: userInfo.profileImage, aggregateVerifier: userInfo.aggregateVerifier, verifier: userInfo.verifier, verifierId: userInfo.verifierId, typeOfLogin: userInfo.typeOfLogin, ref: userInfo.ref, //extraVerifierParams: userInfo.extraVerifierParams,
             accessToken: loginParams.accessToken, idToken: loginParams.idToken, extraParams: loginParams.extraParams, extraParamsPassed: loginParams.extraParamsPassed, state: loginParams.state)
@@ -134,10 +134,10 @@ public class CustomAuth {
         }
         aggregateIdTokenSeeds.sort()
         let joined = aggregateIdTokenSeeds.joined(separator: "\u{29}").data(using: .utf8)!
-        let aggregateIdToken = try keccak256(data: joined)
+        let aggregateIdToken = try keccak256(data: joined).hexString
         let aggregateParams: VerifierParams = VerifierParams(verifier_id: aggregateVerifierId, extended_verifier_id: nil, sub_verifier_ids: subVerifierIds, verify_params: aggregateVerifierParams)
 
-        let aggregateTorusKey = try await getTorusKey(verifier: aggregateVerifierId, verifierParams: aggregateParams, idToken: aggregateIdToken.hexString)
+        let aggregateTorusKey = try await getTorusKey(verifier: args.verifierIdentifier, verifier_id: aggregateVerifierId, verifierParams: aggregateParams, idToken: aggregateIdToken)
 
         var aggregateVerifierResponses: [TorusAggregateVerifierResponse] = []
         for i in 0 ..< userInfoArray.count {
@@ -182,7 +182,7 @@ public class CustomAuth {
 
         let verifyParams: VerifierParams = VerifierParams(verifier_id: userInfo.verifierId)
 
-        let torusKey = try await getTorusKey(verifier: userInfo.verifier, verifierParams: verifyParams, idToken: loginParams.idToken!)
+        let torusKey = try await getTorusKey(verifier: userInfo.verifier, verifier_id: userInfo.verifierId, verifierParams: verifyParams, idToken: loginParams.idToken!)
 
         let returnedInfo = UserInfo(email: userInfo.email, name: userInfo.name, profileImage: userInfo.profileImage, aggregateVerifier: userInfo.aggregateVerifier, verifier: userInfo.verifier, verifierId: userInfo.verifierId, typeOfLogin: userInfo.typeOfLogin, ref: userInfo.ref, // extraVerifierParams: userInfo.extraVerifierParams,
             accessToken: loginParams.accessToken, idToken: loginParams.idToken, extraParams: loginParams.extraParams, extraParamsPassed: loginParams.extraParamsPassed, state: loginParams.state)
@@ -203,7 +203,7 @@ public class CustomAuth {
         let aggregateIdToken = try keccak256(data: joined)
         let aggregateParams: VerifierParams = VerifierParams(verifier_id: aggregateVerifierId, extended_verifier_id: nil, sub_verifier_ids: subVerifierIds, verify_params: aggregateVerifierParams)
 
-        let aggregateTorusKey = try await getTorusKey(verifier: args.aggregateLoginParams.verifierIdentifier, verifierParams: aggregateParams, idToken: String(data: aggregateIdToken, encoding: .utf8)!)
+        let aggregateTorusKey = try await getTorusKey(verifier: args.aggregateLoginParams.verifierIdentifier, verifier_id: aggregateVerifierId, verifierParams: aggregateParams, idToken: String(data: aggregateIdToken, encoding: .utf8)!)
 
         let aggregateResponse = TorusAggregateVerifierResponse(userInfo: returnedInfo, loginResponse: loginParams)
 
@@ -222,8 +222,8 @@ public class CustomAuth {
     /// - Returns: `TorusKey`
     ///
     /// - Throws: `CASDKError`,  `TorusUtilError`, `FetchNodeError`
-    func getTorusKey(verifier: String, verifierParams: VerifierParams, idToken: String, extraParams: TorusUtilsExtraParams? = nil) async throws -> TorusKey {
-        let nodeDetails = try await nodeDetailManager.getNodeDetails(verifier: verifier, verifierID: verifierParams.verifier_id)
+    func getTorusKey(verifier: String, verifier_id: String, verifierParams: VerifierParams, idToken: String, extraParams: TorusUtilsExtraParams? = nil) async throws -> TorusKey {
+        let nodeDetails = try await nodeDetailManager.getNodeDetails(verifier: verifier, verifierID: verifier_id)
 
         return try await torus.retrieveShares(endpoints: nodeDetails.getTorusNodeEndpoints(), verifier: verifier, verifierParams: verifierParams, idToken: idToken)
     }
