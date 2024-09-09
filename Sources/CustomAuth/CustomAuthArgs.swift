@@ -22,7 +22,7 @@ public class CustomAuthArgs {
                 storageServerUrl: String = "https://session.web3auth.io",
                 enableOneKey: Bool = false,
                 web3AuthClientId: String,
-                useDkg: Bool,
+                useDkg: Bool = true,
                 serverTimeOffset: Int = 0,
                 popupFeatures: String? = nil
     ) {
