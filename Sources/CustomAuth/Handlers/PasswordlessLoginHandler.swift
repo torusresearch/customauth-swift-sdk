@@ -39,7 +39,7 @@ internal class PasswordlessLoginHandler: AbstractLoginHandler {
         ], uniquingKeysWith: { _, new in new })
         urlComponents.scheme = "https"
         urlComponents.host = jwtParams?.domain
-        urlComponents.path = "/authorize"
+        urlComponents.path = "/passwordless/start"
         urlComponents.setQueryItems(with: params)
 
         finalUrl = urlComponents
