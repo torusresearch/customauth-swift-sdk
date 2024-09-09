@@ -91,7 +91,7 @@ public class CustomAuth {
         if args.subVerifierDetailsArray.isEmpty {
             throw CASDKError.invalidParameters
         }
-        if args.subVerifierDetailsArray.count == 1 && args.aggregateVerifierType == AggregateVerifierType.single_id_verifier {
+        if args.subVerifierDetailsArray.count != 1 && args.aggregateVerifierType == AggregateVerifierType.single_id_verifier {
             throw CASDKError.invalidParameters
         }
 
