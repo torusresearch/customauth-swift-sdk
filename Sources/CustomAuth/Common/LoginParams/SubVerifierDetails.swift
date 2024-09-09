@@ -10,7 +10,7 @@ public class SubVerifierDetails: Codable {
     public let queryParams: TorusGenericContainer?
     public let customState: TorusGenericContainer?
 
-    public init(typeOfLogin: LoginType, verifier: String, clientId: String, redirectURL: String, jwtParams: Auth0ClientOptions? = nil, hash: String? = nil, queryParams: TorusGenericContainer? = nil, customState: TorusGenericContainer? = nil) {
+    public init(typeOfLogin: LoginType, verifier: String, clientId: String, redirectURL: String = "https://scripts.toruswallet.io/redirect.html", jwtParams: Auth0ClientOptions? = nil, hash: String? = nil, queryParams: TorusGenericContainer? = nil, customState: TorusGenericContainer? = nil) {
         self.typeOfLogin = typeOfLogin
         self.verifier = verifier
         self.clientId = clientId
