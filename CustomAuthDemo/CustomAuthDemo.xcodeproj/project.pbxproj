@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		275FCF862C8EABF40010F33B /* CustomAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 275FCF852C8EABF40010F33B /* CustomAuth */; };
 		511CEAD02452D4EC00A7ACE9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 511CEACF2452D4EC00A7ACE9 /* ContentView.swift */; };
 		511CEAD22452D4EF00A7ACE9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 511CEAD12452D4EF00A7ACE9 /* Assets.xcassets */; };
 		511CEAD52452D4EF00A7ACE9 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 511CEAD42452D4EF00A7ACE9 /* Preview Assets.xcassets */; };
@@ -57,6 +58,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				51775EB72484B66A00A29680 /* CustomAuth in Frameworks */,
+				275FCF862C8EABF40010F33B /* CustomAuth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -172,6 +174,7 @@
 			name = CustomAuthDemo;
 			packageProductDependencies = (
 				51775EB62484B66A00A29680 /* CustomAuth */,
+				275FCF852C8EABF40010F33B /* CustomAuth */,
 			);
 			productName = CustomAuthDemo;
 			productReference = 511CEAC82452D4EC00A7ACE9 /* CustomAuthDemo.app */;
@@ -253,6 +256,7 @@
 			);
 			mainGroup = 511CEABF2452D4EC00A7ACE9;
 			packageReferences = (
+				275FCF842C8EABF40010F33B /* XCRemoteSwiftPackageReference "customauth-swift-sdk" */,
 			);
 			productRefGroup = 511CEAC92452D4EC00A7ACE9 /* Products */;
 			projectDirPath = "";
@@ -622,7 +626,23 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCRemoteSwiftPackageReference section */
+		275FCF842C8EABF40010F33B /* XCRemoteSwiftPackageReference "customauth-swift-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/torusresearch/customauth-swift-sdk/";
+			requirement = {
+				branch = features_update;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
+		275FCF852C8EABF40010F33B /* CustomAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 275FCF842C8EABF40010F33B /* XCRemoteSwiftPackageReference "customauth-swift-sdk" */;
+			productName = CustomAuth;
+		};
 		51775EB62484B66A00A29680 /* CustomAuth */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = CustomAuth;
