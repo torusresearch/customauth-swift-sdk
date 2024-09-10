@@ -27,12 +27,6 @@ internal class HandlerFactory {
         case .discord:
             return try DiscordLoginHandler(clientId: params.clientId, verifier: params.verifier, urlScheme: params.urlScheme, redirectURL: params.redirectURL, typeOfLogin: params.typeOfLogin, jwtParams: params.jwtParams, customState: params.customState)
         case .reddit: break
-            /* reddit deprecated implicit flow
-            if idToken != nil || accessToken != nil {
-                return try MockLoginHandler(clientId: params.clientId, verifier: params.verifier, urlScheme: params.urlScheme, redirectURL: params.redirectURL, typeOfLogin: params.typeOfLogin, jwtParams: params.jwtParams, customState: params.customState)
-            }
-            return try RedditLoginHandler(clientId: params.clientId, verifier: params.verifier, urlScheme: params.urlScheme, redirectURL: params.redirectURL, typeOfLogin: params.typeOfLogin, jwtParams: params.jwtParams, customState: params.customState)
-             */
         case .apple: break
         case .github: break
         case .linkedin: break

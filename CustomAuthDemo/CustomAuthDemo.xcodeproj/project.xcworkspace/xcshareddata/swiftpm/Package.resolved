@@ -1,4 +1,5 @@
 {
+  "originHash" : "18b632e2194394e0c1a608ed933754bf428e89a5fb32ba332befd79edc99e5f5",
   "pins" : [
     {
       "identity" : "bigint",
@@ -19,21 +20,21 @@
       }
     },
     {
+      "identity" : "customauth-swift-sdk",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/torusresearch/customauth-swift-sdk/",
+      "state" : {
+        "branch" : "features_update",
+        "revision" : "045d57c57c1bfcc5fa951dd510e6f840c5af8d88"
+      }
+    },
+    {
       "identity" : "fetch-node-details-swift",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/torusresearch/fetch-node-details-swift",
       "state" : {
         "revision" : "4bd96c33ba8d02d9e27190c5c7cedf09cfdfd656",
         "version" : "6.0.3"
-      }
-    },
-    {
-      "identity" : "jwt-kit",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/vapor/jwt-kit.git",
-      "state" : {
-        "revision" : "c2595b9ad7f512d7f334830b4df1fed6e917946a",
-        "version" : "4.13.4"
       }
     },
     {
@@ -46,15 +47,6 @@
       }
     },
     {
-      "identity" : "swift-crypto",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/apple/swift-crypto.git",
-      "state" : {
-        "revision" : "9f95b4d033a4edd3814b48608db3f2ca90c7218b",
-        "version" : "3.7.0"
-      }
-    },
-    {
       "identity" : "torus-utils-swift",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/torusresearch/torus-utils-swift.git",
@@ -64,5 +56,5 @@
       }
     }
   ],
-  "version" : 2
+  "version" : 3
 }

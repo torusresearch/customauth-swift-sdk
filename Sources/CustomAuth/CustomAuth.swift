@@ -149,69 +149,6 @@ public class CustomAuth {
         return TorusAggregateLoginResponse(torusAggregateVerifierResponse: aggregateVerifierResponses, torusKey: aggregateTorusKey)
     }
 
-    /// Initiates a login using a hybrid verifier
-    ///
-    /// - Parameters:
-    ///   - params: `HybridAggregateLoginParams`
-    ///
-    /// - Returns: `TorusHybridAggregateLoginResponse`
-    ///
-    /// - Throws: `CASDKError`,  `TorusUtilError`
-    public func triggerHybridAggregateLogin(args: HybridAggregateLoginParams) async throws -> TorusHybridAggregateLoginResponse {
-        if args.aggregateLoginParams.subVerifierDetailsArray.isEmpty {
-            throw CASDKError.invalidParameters
-        }
-        if args.aggregateLoginParams.subVerifierDetailsArray.count == 1 && args.aggregateLoginParams.aggregateVerifierType == AggregateVerifierType.single_id_verifier {
-            throw CASDKError.invalidParameters
-        }
-
-        let loginHandler = try HandlerFactory.createHandler(params: CreateHandlerParams(typeOfLogin: args.singleLogin.typeOfLogin, verifier: args.singleLogin.verifier, clientId: args.singleLogin.clientId, urlScheme: config.urlScheme, redirectURL: args.singleLogin.redirectURL, jwtParams: args.singleLogin.jwtParams, customState: args.singleLogin.customState))
-
-        var loginParams: LoginWindowResponse
-        if args.singleLogin.hash != nil && args.singleLogin.queryParams != nil {
-            let (error, hashParams, instanceParams) = try handleRedirectParameters(hash: args.singleLogin.hash!, queryParameters: args.singleLogin.queryParams!)
-            if !error.isEmpty {
-                throw CASDKError.redirectParamsError(msg: error)
-            }
-            loginParams = LoginWindowResponse(accessToken: hashParams.params["access_token"], idToken: hashParams.params["idToken"], ref: hashParams.params["ref"] ?? "", extraParams: hashParams.params["extra_params"], extraParamsPassed: hashParams.params["extra_params_passed"]!, state: instanceParams)
-        } else {
-            loginParams = try await loginHandler.handleLoginWindow(popupFeatures: config.popupFeatures)
-        }
-
-        let userInfo = try await loginHandler.getUserInfo(params: loginParams, storageServerUrl: nil)
-
-        let verifyParams: VerifierParams = VerifierParams(verifier_id: userInfo.verifierId)
-
-        let torusKey = try await getTorusKey(verifier: userInfo.verifier, verifier_id: userInfo.verifierId, verifierParams: verifyParams, idToken: loginParams.idToken!)
-
-        let returnedInfo = UserInfo(email: userInfo.email, name: userInfo.name, profileImage: userInfo.profileImage, aggregateVerifier: userInfo.aggregateVerifier, verifier: userInfo.verifier, verifierId: userInfo.verifierId, typeOfLogin: userInfo.typeOfLogin, ref: userInfo.ref, // extraVerifierParams: userInfo.extraVerifierParams,
-            accessToken: loginParams.accessToken, idToken: loginParams.idToken, extraParams: loginParams.extraParams, extraParamsPassed: loginParams.extraParamsPassed, state: loginParams.state)
-
-        var subVerifierIds: [String] = []
-        var aggregateVerifierParams: [VerifyParams] = []
-        var aggregateIdTokenSeeds: [String] = []
-        var aggregateVerifierId: String = ""
-        for i in 0 ..< args.aggregateLoginParams.subVerifierDetailsArray.count {
-            let sub = args.aggregateLoginParams.subVerifierDetailsArray[i]
-            aggregateVerifierParams.append(VerifyParams(verifier_id: userInfo.verifierId, idtoken: loginParams.idToken!))
-            aggregateIdTokenSeeds.append(loginParams.idToken ?? loginParams.accessToken!)
-            subVerifierIds.append(sub.verifier)
-            aggregateVerifierId = userInfo.verifierId
-        }
-        aggregateIdTokenSeeds.sort()
-        let joined = aggregateIdTokenSeeds.joined(separator: "\u{29}").data(using: .utf8)!
-        let aggregateIdToken = try keccak256(data: joined)
-        let aggregateParams: VerifierParams = VerifierParams(verifier_id: aggregateVerifierId, extended_verifier_id: nil, sub_verifier_ids: subVerifierIds, verify_params: aggregateVerifierParams)
-
-        let aggregateTorusKey = try await getTorusKey(verifier: args.aggregateLoginParams.verifierIdentifier, verifier_id: aggregateVerifierId, verifierParams: aggregateParams, idToken: String(data: aggregateIdToken, encoding: .utf8)!)
-
-        let aggregateResponse = TorusAggregateVerifierResponse(userInfo: returnedInfo, loginResponse: loginParams)
-
-        let aggregateLogin = TorusAggregateLoginResponse(torusAggregateVerifierResponse: [aggregateResponse], torusKey: torusKey)
-
-        return TorusHybridAggregateLoginResponse(singleLogin: aggregateLogin, aggregateLogins: [aggregateTorusKey])
-    }
-
     /// Retrieves the key details
     ///
     /// - Parameters:
