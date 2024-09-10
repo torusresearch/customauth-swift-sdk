@@ -54,7 +54,7 @@ public class CustomAuth {
     ///
     /// - Throws: `CASDKError`,  `TorusUtilError`
     public func triggerLogin(args: SingleLoginParams) async throws -> TorusLoginResponse {
-        let loginHandler = try HandlerFactory.createHandler(params: CreateHandlerParams(typeOfLogin: args.typeOfLogin, verifier: args.verifier, clientId: args.clientId, urlScheme: config.urlScheme, redirectURL: args.redirectURL, jwtParams: args.jwtParams, customState: args.customState))
+        let loginHandler = try HandlerFactory.createHandler(params: CreateHandlerParams(typeOfLogin: args.typeOfLogin, verifier: args.verifier, clientId: args.clientId, urlScheme: config.urlScheme, redirectURL: args.redirectURL, jwtParams: args.jwtParams, customState: args.customState, web3AuthNetwork: self.config.network, web3AuthClientId: self.config.web3AuthClientId))
 
         var loginParams: LoginWindowResponse
         if args.hash != nil && args.queryParams != nil {
@@ -98,7 +98,7 @@ public class CustomAuth {
         var loginParamsArray: [LoginWindowResponse] = []
         var userInfoArray: [UserInfo] = []
         for subverifierDetail in args.subVerifierDetailsArray {
-            let loginHandler = try HandlerFactory.createHandler(params: CreateHandlerParams(typeOfLogin: subverifierDetail.typeOfLogin, verifier: subverifierDetail.verifier, clientId: subverifierDetail.clientId, urlScheme: config.urlScheme, redirectURL: subverifierDetail.redirectURL, jwtParams: subverifierDetail.jwtParams, customState: subverifierDetail.customState))
+            let loginHandler = try HandlerFactory.createHandler(params: CreateHandlerParams(typeOfLogin: subverifierDetail.typeOfLogin, verifier: subverifierDetail.verifier, clientId: subverifierDetail.clientId, urlScheme: config.urlScheme, redirectURL: subverifierDetail.redirectURL, jwtParams: subverifierDetail.jwtParams, customState: subverifierDetail.customState, web3AuthNetwork: self.config.network, web3AuthClientId: self.config.web3AuthClientId))
             var loginParams: LoginWindowResponse
             var userInfo: UserInfo
             if subverifierDetail.hash != nil && subverifierDetail.queryParams != nil {

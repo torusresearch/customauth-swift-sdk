@@ -19,8 +19,8 @@ internal class FacebookLoginHandler: AbstractLoginHandler {
     private var response_type: String = "token"
     private var scope: String = "public_profile email"
 
-    override public init(clientId: String, verifier: String, urlScheme: String, redirectURL: String, typeOfLogin: LoginType, jwtParams: Auth0ClientOptions? = nil, customState: TorusGenericContainer? = nil) throws {
-        try super.init(clientId: clientId, verifier: verifier, urlScheme: urlScheme, redirectURL: redirectURL, typeOfLogin: typeOfLogin, jwtParams: jwtParams, customState: customState)
+    override public init(params: CreateHandlerParams) throws {
+        try super.init(params: params)
         try setFinalUrl()
     }
 
@@ -29,15 +29,15 @@ internal class FacebookLoginHandler: AbstractLoginHandler {
 
         var params: [String: String] = [:]
 
-        if jwtParams != nil {
-            params = try (JSONSerialization.jsonObject(with: try JSONEncoder().encode(jwtParams), options: []) as! [String: String])
+        if self.params.jwtParams != nil {
+            params = try (JSONSerialization.jsonObject(with: try JSONEncoder().encode(self.params.jwtParams), options: []) as! [String: String])
         }
 
         params.merge([
             "state": try state(),
             "response_type": response_type,
-            "client_id": clientId,
-            "redirect_uri": redirectURL,
+            "client_id": self.params.clientId,
+            "redirect_uri": self.params.redirectURL,
             "scope": scope], uniquingKeysWith: { _, new in new })
         urlComponents.scheme = "https"
         urlComponents.host = "www.facebook.com"
@@ -59,6 +59,6 @@ internal class FacebookLoginHandler: AbstractLoginHandler {
 
         let result = try JSONDecoder().decode(FacebookInfo.self, from: data)
 
-        return TorusVerifierResponse(email: result.email, name: result.name, profileImage: result.picture.data.url, verifier: verifier, verifierId: result.id, typeOfLogin: typeOfLogin)
+        return TorusVerifierResponse(email: result.email, name: result.name, profileImage: result.picture.data.url, verifier: self.params.verifier, verifierId: result.id, typeOfLogin: self.params.typeOfLogin)
     }
 }

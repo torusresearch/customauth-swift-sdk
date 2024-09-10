@@ -11,8 +11,8 @@ internal class GoogleLoginHandler: AbstractLoginHandler {
     private var scope: String = "profile email openid"
     private var prompt: String = "select_account"
 
-    override public init(clientId: String, verifier: String, urlScheme: String, redirectURL: String, typeOfLogin: LoginType, jwtParams: Auth0ClientOptions? = nil, customState: TorusGenericContainer? = nil) throws {
-        try super.init(clientId: clientId, verifier: verifier, urlScheme: urlScheme, redirectURL: redirectURL, typeOfLogin: typeOfLogin, jwtParams: jwtParams, customState: customState)
+    override public init(params: CreateHandlerParams) throws {
+        try super.init(params: params)
         try setFinalUrl()
     }
 
@@ -21,16 +21,16 @@ internal class GoogleLoginHandler: AbstractLoginHandler {
 
         var params: [String: String] = [:]
 
-        if jwtParams != nil {
-            params = try (JSONSerialization.jsonObject(with: try JSONEncoder().encode(jwtParams), options: []) as! [String: String])
+        if self.params.jwtParams != nil {
+            params = try (JSONSerialization.jsonObject(with: try JSONEncoder().encode(self.params.jwtParams), options: []) as! [String: String])
         }
 
         params.merge([
             "state": try state(),
             "response_type": response_type,
-            "client_id": clientId,
+            "client_id": self.params.clientId,
             "prompt": prompt,
-            "redirect_uri": redirectURL,
+            "redirect_uri": self.params.redirectURL,
             "scope": scope,
             "nonce": nonce,
         ], uniquingKeysWith: { _, new in new })
@@ -54,6 +54,6 @@ internal class GoogleLoginHandler: AbstractLoginHandler {
 
         let result = try JSONDecoder().decode(GoogleInfo.self, from: data)
 
-        return TorusVerifierResponse(email: result.email, name: result.name, profileImage: result.picture, verifier: verifier, verifierId: result.email.lowercased(), typeOfLogin: typeOfLogin)
+        return TorusVerifierResponse(email: result.email, name: result.name, profileImage: result.picture, verifier: self.params.verifier, verifierId: result.email.lowercased(), typeOfLogin: self.params.typeOfLogin)
     }
 }

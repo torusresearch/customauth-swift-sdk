@@ -10,6 +10,6 @@ Pod::Spec.new do |spec|
   spec.module_name = "CustomAuth"
   spec.source       = { :git => "https://github.com/torusresearch/customauth-swift-sdk.git", :tag => spec.version }
   spec.source_files = "Sources/CustomAuth/*.{swift}","Sources/CustomAuth/**/*.{swift}"
-  spec.dependency 'Torus-utils', '~> 9.0.0'
+  spec.dependency 'Torus-utils', '~> 9.0.1'
   spec.dependency 'JWTDecode', '~> 3.1.0'
 end

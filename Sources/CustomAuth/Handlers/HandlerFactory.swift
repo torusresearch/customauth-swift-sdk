@@ -19,13 +19,13 @@ internal class HandlerFactory {
         
         switch params.typeOfLogin {
         case .google:
-            return try GoogleLoginHandler(clientId: params.clientId, verifier: params.verifier, urlScheme: params.urlScheme, redirectURL: params.redirectURL, typeOfLogin: params.typeOfLogin, jwtParams: params.jwtParams, customState: params.customState)
+            return try GoogleLoginHandler(params: params)
         case .facebook:
-            return try FacebookLoginHandler(clientId: params.clientId, verifier: params.verifier, urlScheme: params.urlScheme, redirectURL: params.redirectURL, typeOfLogin: params.typeOfLogin, jwtParams: params.jwtParams, customState: params.customState)
+            return try FacebookLoginHandler(params: params)
         case .twitch:
-            return try TwitchLoginHandler(clientId: params.clientId, verifier: params.verifier, urlScheme: params.urlScheme, redirectURL: params.redirectURL, typeOfLogin: params.typeOfLogin, jwtParams: params.jwtParams, customState: params.customState)
+            return try TwitchLoginHandler(params: params)
         case .discord:
-            return try DiscordLoginHandler(clientId: params.clientId, verifier: params.verifier, urlScheme: params.urlScheme, redirectURL: params.redirectURL, typeOfLogin: params.typeOfLogin, jwtParams: params.jwtParams, customState: params.customState)
+            return try DiscordLoginHandler(params: params)
         case .reddit: break
         case .apple: break
         case .github: break
@@ -38,30 +38,28 @@ internal class HandlerFactory {
             if domain == nil || hint == nil {
                 throw CASDKError.invalidAuth0Options
             }
-            return try PasswordlessLoginHandler(clientId: params.clientId, verifier: params.verifier, urlScheme: params.urlScheme, redirectURL: params.redirectURL, typeOfLogin: params.typeOfLogin, jwtParams: params.jwtParams, customState: params.customState)
+            throw CASDKError.invalidAuth0Options
         case .email_passwordless:
-            if domain == nil || hint == nil {
+            if hint == nil {
                 throw CASDKError.invalidAuth0Options
             }
-            throw CASDKError.invalidAuth0Options
-        // TODO: implement web3authpasswordlesshandler for this
+            return try Web3AuthPasswordlessHandler(params: params)
         case .sms_passwordless:
             if hint == nil {
                 throw CASDKError.invalidAuth0Options
             }
-            throw CASDKError.invalidAuth0Options
-        // TODO: implement web3authpasswordlesshandler for this
+            return try Web3AuthPasswordlessHandler(params: params)
         case .jwt: break
         }
 
         if idToken != nil || accessToken != nil {
-            return try MockLoginHandler(clientId: params.clientId, verifier: params.verifier, urlScheme: params.urlScheme, redirectURL: params.redirectURL, typeOfLogin: params.typeOfLogin, jwtParams: params.jwtParams, customState: params.customState)
+            return try MockLoginHandler(params: params)
         }
 
         if domain == nil {
             throw CASDKError.invalidAuth0Options
         }
 
-        return try JWTLoginHandler(clientId: params.clientId, verifier: params.verifier, urlScheme: params.urlScheme, redirectURL: params.redirectURL, typeOfLogin: params.typeOfLogin, jwtParams: params.jwtParams, customState: params.customState)
+        return try JWTLoginHandler(params: params)
     }
 }

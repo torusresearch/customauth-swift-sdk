@@ -7,23 +7,11 @@ struct LoginView: View {
             Section(header: Text("Single Logins")) {
                 Group {
                     Button(action: {
-                        vm.googlePolygonLogin()
-                    }, label: {
-                        Text("Google Polygon")
-                    })
-
-                    Button(action: {
                         vm.googleLogin()
                     }, label: {
                         Text("Google Login")
                     })
                 }
-
-                Button(action: {
-                    vm.redditLogin()
-                }, label: {
-                    Text("Reddit Login")
-                })
 
                 Button(action: {
                     vm.discordLogin()
@@ -44,21 +32,9 @@ struct LoginView: View {
                 })
 
                 Button(action: {
-                    vm.twitterLogin()
-                }, label: {
-                    Text("Twitter Login")
-                })
-
-                Button(action: {
                     vm.githubLogin()
                 }, label: {
                     Text("Github Login")
-                })
-
-                Button(action: {
-                    vm.linkedinLogin()
-                }, label: {
-                    Text("Linkedin Login")
                 })
 
                 Button(action: {
@@ -66,13 +42,7 @@ struct LoginView: View {
                 }, label: {
                     Text("Apple Login")
                 })
-                
-                Button(action: {
-                    vm.weiboLogin()
-                }, label: {
-                    Text("Weibo Login")
-                })
-                
+
                 Button(action: {
                     vm.emailPasswordLogin()
                 }, label: {

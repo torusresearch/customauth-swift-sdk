@@ -1,7 +1,7 @@
 import Foundation
 
 internal protocol ILoginHandler {
-    var clientId: String { get set }
+    var params: CreateHandlerParams { get set }
     var nonce: String { get set }
     var finalUrl: URLComponents { get set }
 

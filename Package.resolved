@@ -59,8 +59,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/torusresearch/torus-utils-swift.git",
       "state" : {
-        "revision" : "303dc2cf41db7c10f769855edad0e717ced2d554",
-        "version" : "9.0.0"
+        "revision" : "eda55b8537a600e657d19d4c452c0a36f217883c",
+        "version" : "9.0.1"
       }
     }
   ],

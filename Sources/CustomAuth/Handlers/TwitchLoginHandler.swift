@@ -15,8 +15,8 @@ internal class TwitchLoginHandler: AbstractLoginHandler {
     private var response_type: String = "token"
     private var scope: String = "user:read:email"
 
-    override public init(clientId: String, verifier: String, urlScheme: String, redirectURL: String, typeOfLogin: LoginType, jwtParams: Auth0ClientOptions? = nil, customState: TorusGenericContainer? = nil) throws {
-        try super.init(clientId: clientId, verifier: verifier, urlScheme: urlScheme, redirectURL: redirectURL, typeOfLogin: typeOfLogin, jwtParams: jwtParams, customState: customState)
+    override public init(params: CreateHandlerParams) throws {
+        try super.init(params: params)
         try setFinalUrl()
     }
 
@@ -25,15 +25,15 @@ internal class TwitchLoginHandler: AbstractLoginHandler {
 
         var params: [String: String] = [:]
 
-        if jwtParams != nil {
-            params = try (JSONSerialization.jsonObject(with: try JSONEncoder().encode(jwtParams), options: []) as! [String: String])
+        if self.params.jwtParams != nil {
+            params = try (JSONSerialization.jsonObject(with: try JSONEncoder().encode(self.params.jwtParams), options: []) as! [String: String])
         }
 
         params.merge([
             "state": try state(),
             "response_type": response_type,
-            "client_id": clientId,
-            "redirect_uri": redirectURL,
+            "client_id": self.params.clientId,
+            "redirect_uri": self.params.redirectURL,
             "scope": scope,
             "force_verify": "true",
         ], uniquingKeysWith: { _, new in new })
@@ -52,7 +52,7 @@ internal class TwitchLoginHandler: AbstractLoginHandler {
 
         var urlRequest = makeUrlRequest(url: "https://api.twitch.tv/helix/users", method: "GET")
         urlRequest.addValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
-        urlRequest.addValue(self.clientId, forHTTPHeaderField: "Client-ID")
+        urlRequest.addValue(self.params.clientId, forHTTPHeaderField: "Client-ID")
         
         let (data, _) = try await URLSession.shared.data(for: urlRequest)
         let result = try JSONDecoder().decode(TwitchRootInfo.self, from: data)
@@ -61,6 +61,6 @@ internal class TwitchLoginHandler: AbstractLoginHandler {
             throw CASDKError.decodingFailed
         }
 
-        return TorusVerifierResponse(email: userdata.email ?? "", name: userdata.display_name, profileImage: userdata.profile_image_url, verifier: verifier, verifierId: userdata.id, typeOfLogin: typeOfLogin)
+        return TorusVerifierResponse(email: userdata.email ?? "", name: userdata.display_name, profileImage: userdata.profile_image_url, verifier: self.params.verifier, verifierId: userdata.id, typeOfLogin: self.params.typeOfLogin)
     }
 }

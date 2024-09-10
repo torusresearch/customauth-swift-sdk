@@ -2,32 +2,32 @@ import Foundation
 import JWTDecode
 
 internal class MockLoginHandler: AbstractLoginHandler {
-    override public init(clientId: String, verifier: String, urlScheme: String, redirectURL: String, typeOfLogin: LoginType, jwtParams: Auth0ClientOptions? = nil, customState: TorusGenericContainer? = nil) throws {
-        try super.init(clientId: clientId, verifier: verifier, urlScheme: urlScheme, redirectURL: redirectURL, typeOfLogin: typeOfLogin, jwtParams: jwtParams, customState: customState)
+    override public init(params: CreateHandlerParams) throws {
+        try super.init(params: params)
         try setFinalUrl()
     }
 
     override public func setFinalUrl() throws {
-        if jwtParams == nil {
+        if self.params.jwtParams == nil {
             throw CASDKError.invalidAuth0Options
         }
         
-        var connection = jwtParams?.connection
+        var connection = self.params.jwtParams?.connection
         if connection == nil {
-            connection = loginToConnection(loginType: typeOfLogin)
+            connection = loginToConnection(loginType: self.params.typeOfLogin)
         }
 
-        var params: [String: String] = try (JSONSerialization.jsonObject(with: try JSONEncoder().encode(jwtParams), options: []) as! [String: String])
+        var params: [String: String] = try (JSONSerialization.jsonObject(with: try JSONEncoder().encode(self.params.jwtParams), options: []) as! [String: String])
         params.merge([
             "state": try state(),
-            "client_id": clientId,
+            "client_id": self.params.clientId,
             "connection": connection!,
             "nonce": nonce,
         ], uniquingKeysWith: { _, new in new })
 
         var urlComponents = URLComponents()
         urlComponents.scheme = "https"
-        urlComponents.host = jwtParams?.domain
+        urlComponents.host = self.params.jwtParams?.domain
         urlComponents.path = "/authorize"
         urlComponents.fragment = params.compactMap({ (key, value) -> String in
             return "\(key)=\(value)"
@@ -53,12 +53,12 @@ internal class MockLoginHandler: AbstractLoginHandler {
     override public func getUserInfo(params: LoginWindowResponse, storageServerUrl: String?) async throws -> TorusVerifierResponse {
         let accessToken = params.accessToken
         let idToken = params.idToken
-        let verifierIdField = jwtParams?.verifierIdField
-        let isVerifierCaseSensitive = jwtParams?.isVerifierIdCaseSensitive != nil ? Bool(jwtParams!.isVerifierIdCaseSensitive)! : true
+        let verifierIdField = self.params.jwtParams?.verifierIdField
+        let isVerifierCaseSensitive = self.params.jwtParams?.isVerifierIdCaseSensitive != nil ? Bool(self.params.jwtParams!.isVerifierIdCaseSensitive)! : true
         
         if accessToken != nil {
-            let domain = jwtParams?.domain
-            var user_route_info = jwtParams?.user_info_route ?? "/userinfo"
+            let domain = self.params.jwtParams?.domain
+            var user_route_info = self.params.jwtParams?.user_info_route ?? "/userinfo"
         
             if !user_route_info.hasPrefix("/") {
                 user_route_info = "/" + user_route_info
@@ -76,7 +76,7 @@ internal class MockLoginHandler: AbstractLoginHandler {
 
             let result = try JSONDecoder().decode(Auth0UserInfo.self, from: data)
 
-            return TorusVerifierResponse(email: result.email, name: result.name, profileImage: result.picture, verifier: verifier, verifierId:  try jwtParams?.verifierIdField ?? getVerifierId(userInfo: result, typeOfLogin: typeOfLogin, verifierIdField: verifierIdField, isVerifierIdCaseSensitive: isVerifierCaseSensitive), typeOfLogin: typeOfLogin)
+            return TorusVerifierResponse(email: result.email, name: result.name, profileImage: result.picture, verifier: self.params.verifier, verifierId: try getVerifierId(userInfo: result, typeOfLogin: self.params.typeOfLogin, verifierIdField: verifierIdField, isVerifierIdCaseSensitive: isVerifierCaseSensitive), typeOfLogin: self.params.typeOfLogin)
         }
 
         if idToken == nil {
@@ -85,7 +85,7 @@ internal class MockLoginHandler: AbstractLoginHandler {
             let decodedToken = try decode(jwt: idToken!)
             let result = Auth0UserInfo(picture: decodedToken.body["picture"] as? String ?? "", email: decodedToken.body["email"] as? String ?? "", name: decodedToken.body["name"] as? String ?? "", sub: decodedToken.body["sub"] as? String ?? "", nickname: decodedToken.body["nickname"] as? String ?? "")
 
-            return TorusVerifierResponse(email: result.email, name: result.name, profileImage: result.picture, verifier: verifier, verifierId:  try jwtParams?.verifierIdField ?? getVerifierId(userInfo: result, typeOfLogin: typeOfLogin, verifierIdField: verifierIdField, isVerifierIdCaseSensitive: isVerifierCaseSensitive), typeOfLogin: typeOfLogin)
+            return TorusVerifierResponse(email: result.email, name: result.name, profileImage: result.picture, verifier: self.params.verifier, verifierId: try getVerifierId(userInfo: result, typeOfLogin: self.params.typeOfLogin, verifierIdField: verifierIdField, isVerifierIdCaseSensitive: isVerifierCaseSensitive), typeOfLogin: self.params.typeOfLogin)
         }
     }
 }
