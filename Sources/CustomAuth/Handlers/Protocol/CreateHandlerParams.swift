@@ -9,10 +9,10 @@ internal class CreateHandlerParams {
     public let redirectURL: String
     public let jwtParams: Auth0ClientOptions?
     public let customState: TorusGenericContainer?
-    public let web3AuthNetwork: TorusNetwork
+    public let web3AuthNetwork: Web3AuthNetwork
     public let web3AuthClientId: String
 
-    public init(typeOfLogin: LoginType, verifier: String, clientId: String, urlScheme: String, redirectURL: String, jwtParams: Auth0ClientOptions? = nil, customState: TorusGenericContainer? = nil, web3AuthNetwork: TorusNetwork, web3AuthClientId: String) {
+    public init(typeOfLogin: LoginType, verifier: String, clientId: String, urlScheme: String, redirectURL: String, jwtParams: Auth0ClientOptions? = nil, customState: TorusGenericContainer? = nil, web3AuthNetwork: Web3AuthNetwork, web3AuthClientId: String) {
         self.typeOfLogin = typeOfLogin
         self.verifier = verifier
         self.clientId = clientId
