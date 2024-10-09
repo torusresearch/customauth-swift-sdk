@@ -10,6 +10,7 @@ public enum CASDKError: Error {
     case invalidClientID
     case invalidMethod(msg: String)
     case redirectParamsError(msg: String)
+    case unsupportedLoginType
 
     public var errorDescription: String {
         switch self {
@@ -35,6 +36,8 @@ public enum CASDKError: Error {
             return "invalid verifier"
         case .invalidClientID:
             return "invalid client ID"
+        case .unsupportedLoginType:
+            return "Unsupported. Please use a different type of login"
         }
     }
 }
