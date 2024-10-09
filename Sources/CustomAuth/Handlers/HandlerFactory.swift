@@ -36,9 +36,9 @@ internal class HandlerFactory {
         case .email_password: break
         case .passwordless:
             if domain == nil || hint == nil {
-                throw CASDKError.unsupportedLoginType
+                throw CASDKError.invalidAuth0Options
             }
-            throw CASDKError.invalidAuth0Options
+            throw CASDKError.unsupportedLoginType
         case .email_passwordless:
             if hint == nil {
                 throw CASDKError.invalidAuth0Options
