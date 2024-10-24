@@ -4,7 +4,7 @@ import Foundation
 public class CustomAuthArgs {
     public let urlScheme: String
     public let metadataUrl: String
-    public let network: TorusNetwork
+    public let network: Web3AuthNetwork
     public let enableLogging: Bool
     public let enableOneKey: Bool
     public let apiKey: String
@@ -15,7 +15,7 @@ public class CustomAuthArgs {
     public let useDkg: Bool // TODO: Implement usage of this
 
     public init(urlScheme: String,
-                network: TorusNetwork,
+                network: Web3AuthNetwork,
                 metadataUrl: String = "https://metadata.tor.us",
                 enableLogging: Bool = false,
                 apiKey: String = "torus-default",
