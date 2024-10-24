@@ -1,87 +1,66 @@
-//
-//  GoogleLoginHandler.swift
-//
-//
-//  Created by Shubham on 13/11/20.
-//
-
 import Foundation
 
-class TwitchLoginHandler: AbstractLoginHandler {
-    let loginType: SubVerifierType
-    let clientID: String
-    let redirectURL: String
-    let browserRedirectURL: String?
-    var userInfo: [String: Any]?
-    let nonce = String.randomString(length: 10)
-    let state: String
-    let jwtParams: [String: String]
-    let defaultParams: [String: String] = ["scope": "user:read:email", "response_type": "token", "force_verify": "false"]
-    var urlSession: URLSession
+internal class TwitchInfo: Codable {
+    public var id: String
+    public var email: String?
+    public var display_name: String
+    public var profile_image_url: String
+}
 
-    public init(loginType: SubVerifierType = .web, clientID: String, redirectURL: String, browserRedirectURL: String?, jwtParams: [String: String] = [:], urlSession: URLSession = URLSession.shared) {
-        self.loginType = loginType
-        self.clientID = clientID
-        self.redirectURL = redirectURL
-        self.jwtParams = jwtParams
-        self.browserRedirectURL = browserRedirectURL
-        self.urlSession = urlSession
+internal class TwitchRootInfo: Codable {
+    public var data: [TwitchInfo]
+}
 
-        let tempState = ["nonce": self.nonce, "redirectUri": self.redirectURL, "redirectToAndroid": "true"]
-        let jsonData = try! JSONSerialization.data(withJSONObject: tempState, options: .prettyPrinted)
-        self.state =  String(data: jsonData, encoding: .utf8)!.toBase64URL()
+internal class TwitchLoginHandler: AbstractLoginHandler {
+    private var response_type: String = "token"
+    private var scope: String = "user:read:email"
+
+    override public init(params: CreateHandlerParams) throws {
+        try super.init(params: params)
+        try setFinalUrl()
     }
 
-    func getUserInfo(responseParameters: [String: String]) async throws-> [String: Any] {
-        return try await self.handleLogin(responseParameters: responseParameters)
-    }
-
-    func getLoginURL() -> String {
-        // left join
-        var tempParams = self.defaultParams
-        tempParams.merge(["redirect_uri": self.browserRedirectURL ?? self.redirectURL, "client_id": self.clientID, "state": self.state]) {(_, new ) in new}
-        tempParams.merge(self.jwtParams) {(_, new ) in new}
-
-        // Reconstruct URL
+    override public func setFinalUrl() throws {
         var urlComponents = URLComponents()
+
+        var params: [String: String] = [:]
+
+        if self.params.jwtParams != nil {
+            params = try (JSONSerialization.jsonObject(with: try JSONEncoder().encode(self.params.jwtParams), options: []) as! [String: String])
+        }
+
+        params.merge([
+            "state": try state(),
+            "response_type": response_type,
+            "client_id": self.params.clientId,
+            "redirect_uri": self.params.redirectURL,
+            "scope": scope,
+            "force_verify": "true",
+        ], uniquingKeysWith: { _, new in new })
         urlComponents.scheme = "https"
         urlComponents.host = "id.twitch.tv"
         urlComponents.path = "/oauth2/authorize"
-        urlComponents.setQueryItems(with: tempParams)
+        urlComponents.setQueryItems(with: params)
 
-        return urlComponents.url!.absoluteString
-        //       return "https://id.twitch.tv/oauth2/authorize?client_id=p560duf74b2bidzqu6uo0b3ot7qaao&"+"redirect_uri=\(newRedirectURL)&response_type=token&scope=user:read:email&state=554455&force_verify=false".addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
+        finalUrl = urlComponents
     }
 
-    func getVerifierFromUserInfo() -> String {
-        if let newData = self.userInfo?["data"] as? [[String: Any]], let temp = newData.first, let id = temp["id"] as? String {
-            return id
-        } else {
-            return "nil"
-        }
-    }
-
-    func handleLogin(responseParameters: [String: String]) async throws -> [String: Any] {
-
-        if let accessToken = responseParameters["access_token"] {
-            var request = makeUrlRequest(url: "https://api.twitch.tv/helix/users", method: "GET")
-            request.addValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
-            request.addValue("p560duf74b2bidzqu6uo0b3ot7qaao", forHTTPHeaderField: "Client-ID")
-            do {
-            let val = try await self.urlSession.data(for: request)
-            let data = try JSONSerialization.jsonObject(with: val.0) as? [String: Any] ?? [:]
-                self.userInfo = data
-                var newData: [String: Any] = ["userInfo": self.userInfo as Any]
-                newData["tokenForKeys"] = accessToken
-                newData["verifierId"] = self.getVerifierFromUserInfo()
-                return newData
-
-            } catch {
-                throw CASDKError.getUserInfoFailed
-            }
-        } else {
+    override public func getUserInfo(params: LoginWindowResponse, storageServerUrl: String?) async throws -> TorusVerifierResponse {
+        guard let accessToken = params.accessToken else {
             throw CASDKError.accessTokenNotProvided
         }
-    }
 
+        var urlRequest = makeUrlRequest(url: "https://api.twitch.tv/helix/users", method: "GET")
+        urlRequest.addValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+        urlRequest.addValue(self.params.clientId, forHTTPHeaderField: "Client-ID")
+        
+        let (data, _) = try await URLSession.shared.data(for: urlRequest)
+        let result = try JSONDecoder().decode(TwitchRootInfo.self, from: data)
+        
+        guard let userdata = result.data.first else {
+            throw CASDKError.decodingFailed
+        }
+
+        return TorusVerifierResponse(email: userdata.email ?? "", name: userdata.display_name, profileImage: userdata.profile_image_url, verifier: self.params.verifier, verifierId: userdata.id, typeOfLogin: self.params.typeOfLogin)
+    }
 }

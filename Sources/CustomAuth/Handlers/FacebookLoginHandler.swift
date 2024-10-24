@@ -1,82 +1,64 @@
-//
-//  GoogleLoginHandler.swift
-//
-//
-//  Created by Shubham on 13/11/20.
-//
-
 import Foundation
 
-class FacebookLoginHandler: AbstractLoginHandler {
-    let loginType: SubVerifierType
-    let clientID: String
-    let redirectURL: String
-    let browserRedirectURL: String?
-    let nonce = String.randomString(length: 10)
-    let state: String
-    var userInfo: [String: Any]?
-    let jwtParams: [String: String]
-    let defaultParams: [String: String]
-    var urlSession: URLSession
+internal class FacebookPictureData: Codable {
+    public var url: String
+}
 
-    public init(loginType: SubVerifierType = .web, clientID: String, redirectURL: String, browserRedirectURL: String?, jwtParams: [String: String] = [:], urlSession: URLSession = URLSession.shared) {
-        self.loginType = loginType
-        self.clientID = clientID
-        self.redirectURL = redirectURL
-        self.jwtParams = jwtParams
-        self.browserRedirectURL = browserRedirectURL
-        self.defaultParams = ["scope": "public_profile email", "response_type": "token"]
-        self.urlSession = urlSession
+internal class FacebookPicture: Codable {
+    public var data: FacebookPictureData
+}
 
-        let tempState = ["nonce": self.nonce, "redirectUri": self.redirectURL, "redirectToAndroid": "true"]
-        let jsonData = try! JSONSerialization.data(withJSONObject: tempState, options: .prettyPrinted)
-        self.state =  String(data: jsonData, encoding: .utf8)!.toBase64URL()
+internal class FacebookInfo: Codable {
+    public var id: String
+    public var name: String
+    public var picture: FacebookPicture
+    public var email: String
+}
+
+internal class FacebookLoginHandler: AbstractLoginHandler {
+    private var response_type: String = "token"
+    private var scope: String = "public_profile email"
+
+    override public init(params: CreateHandlerParams) throws {
+        try super.init(params: params)
+        try setFinalUrl()
     }
 
-    func getUserInfo(responseParameters: [String: String]) async throws -> [String: Any] {
-        return try await self.handleLogin(responseParameters: responseParameters)
-    }
-
-    func getLoginURL() -> String {
-        // left join
-        var tempParams = self.defaultParams
-        tempParams.merge(["redirect_uri": self.browserRedirectURL ?? self.redirectURL, "client_id": self.clientID, "state": self.state]) {(_, new ) in new}
-        tempParams.merge(self.jwtParams) {(_, new ) in new}
-
-        // Reconstruct URL
+    override public func setFinalUrl() throws {
         var urlComponents = URLComponents()
+
+        var params: [String: String] = [:]
+
+        if self.params.jwtParams != nil {
+            params = try (JSONSerialization.jsonObject(with: try JSONEncoder().encode(self.params.jwtParams), options: []) as! [String: String])
+        }
+
+        params.merge([
+            "state": try state(),
+            "response_type": response_type,
+            "client_id": self.params.clientId,
+            "redirect_uri": self.params.redirectURL,
+            "scope": scope], uniquingKeysWith: { _, new in new })
         urlComponents.scheme = "https"
         urlComponents.host = "www.facebook.com"
-        urlComponents.path = "/v6.0/dialog/oauth"
-        urlComponents.setQueryItems(with: tempParams)
+        urlComponents.path = "/v15.0/dialog/oauth"
+        urlComponents.setQueryItems(with: params)
 
-        return urlComponents.url!.absoluteString
-        //       return "https://www.facebook.com/v6.0/dialog/oauth?response_type=token&client_id=\(self.clientId)" + "&state=random&scope=public_profile email&redirect_uri=\(newRedirectURL)".addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
+        finalUrl = urlComponents
     }
 
-    func getVerifierFromUserInfo() -> String {
-        return self.userInfo?["id"] as? String ?? ""
-    }
-
-    func handleLogin(responseParameters: [String: String]) async throws -> [String: Any] {
-
-        if let accessToken = responseParameters["access_token"] {
-            var request = makeUrlRequest(url: "https://graph.facebook.com/me?fields=name,email,picture.type(large)", method: "GET")
-            request.addValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
-            do {
-            let val = try await self.urlSession.data(for: request)
-            let data = try JSONSerialization.jsonObject(with: val.0) as? [String: Any] ?? [:]
-                self.userInfo = data
-                var newData: [String: Any] = ["userInfo": self.userInfo as Any]
-                newData["tokenForKeys"] = accessToken
-                newData["verifierId"] = self.getVerifierFromUserInfo()
-               return newData
-            } catch {
-                throw CASDKError.getUserInfoFailed
-            }
-        } else {
+    override public func getUserInfo(params: LoginWindowResponse, storageServerUrl: String?) async throws -> TorusVerifierResponse {
+        guard let accessToken = params.accessToken else {
             throw CASDKError.accessTokenNotProvided
         }
-    }
 
+        var urlRequest = makeUrlRequest(url: "https://graph.facebook.com/me?fields=name,email,picture.type(large)", method: "GET")
+        urlRequest.addValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+
+        let (data, _) = try await URLSession.shared.data(for: urlRequest)
+
+        let result = try JSONDecoder().decode(FacebookInfo.self, from: data)
+
+        return TorusVerifierResponse(email: result.email, name: result.name, profileImage: result.picture.data.url, verifier: self.params.verifier, verifierId: result.id, typeOfLogin: self.params.typeOfLogin)
+    }
 }

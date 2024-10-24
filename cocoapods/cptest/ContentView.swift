@@ -1,11 +1,3 @@
-//
-//  ContentView.swift
-//  CustomAuthDemo
-//
-//  Created by Shubham on 24/4/20.
-//  Copyright © 2020 Shubham. All rights reserved.
-//
-
 import SwiftUI
 
 struct ContentView: View {
@@ -21,8 +13,8 @@ struct ContentView: View {
                 }
             }
             .alert(isPresented: $vm.showingAlert) {
-                                    Alert(title: Text("Error"), message: Text("Login failed!"), dismissButton: .default(Text("OK")))
-                                }
+                Alert(title: Text("Error"), message: Text("Login failed!"), dismissButton: .default(Text("OK")))
+            }
             .navigationBarTitle(Text("CustomAuth App"))
         }
     }

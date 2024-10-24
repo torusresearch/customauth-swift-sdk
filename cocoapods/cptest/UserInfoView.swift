@@ -1,11 +1,3 @@
-//
-//  UserInfoView.swift
-//  cptest
-//
-//  Created by Dhruv Jaiswal on 27/10/22.
-//  Copyright © 2022 torus. All rights reserved.
-//
-
 import SwiftUI
 
 struct UserInfoView: View {
@@ -26,10 +18,8 @@ struct UserInfoView: View {
                     Text("Public Address")
                 }
                 Section {
-                    ForEach(user.userInfo.sorted(by: >), id: \.key) { key, value in
-
-                        Text("\(key): \(value)")
-                    }
+                    let encoded = try! JSONEncoder().encode(user.userInfo)
+                    Text(String(data: encoded, encoding: .utf8)!)
                 }
             header: {
                     Text("User Info")
