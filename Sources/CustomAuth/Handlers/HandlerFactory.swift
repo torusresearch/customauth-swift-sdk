@@ -34,11 +34,6 @@ internal class HandlerFactory {
         case .weibo: break
         case .line: break
         case .email_password: break
-        case .passwordless:
-            if domain == nil || hint == nil {
-                throw CASDKError.invalidAuth0Options
-            }
-            throw CASDKError.unsupportedLoginType
         case .email_passwordless:
             if hint == nil {
                 throw CASDKError.invalidAuth0Options

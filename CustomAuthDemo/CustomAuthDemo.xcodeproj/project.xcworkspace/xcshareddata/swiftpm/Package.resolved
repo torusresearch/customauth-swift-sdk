@@ -14,8 +14,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/tkey/curvelib.swift",
       "state" : {
-        "revision" : "9f88bd5e56d1df443a908f7a7e81ae4f4d9170ea",
-        "version" : "1.0.1"
+        "revision" : "432bf1abe7ff505fc2ac9fcf697341ff5b2dc6d0",
+        "version" : "2.0.0"
       }
     },
     {
@@ -23,8 +23,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/torusresearch/fetch-node-details-swift",
       "state" : {
-        "revision" : "4bd96c33ba8d02d9e27190c5c7cedf09cfdfd656",
-        "version" : "6.0.3"
+        "revision" : "52fb5efaa94e0fe3775913ab00964bcb51601c2a",
+        "version" : "8.0.0"
       }
     },
     {
@@ -41,8 +41,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/auth0/JWTDecode.swift.git",
       "state" : {
-        "revision" : "58af7278797871e460d79496621b3e5366b865b2",
-        "version" : "3.1.0"
+        "revision" : "1e153ef009969543191970c66b7c60163c0b4a65",
+        "version" : "3.2.0"
       }
     },
     {
@@ -59,8 +59,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/torusresearch/torus-utils-swift.git",
       "state" : {
-        "revision" : "eda55b8537a600e657d19d4c452c0a36f217883c",
-        "version" : "9.0.1"
+        "revision" : "baa822fc67bdb208ed1a2dc5b3c10485cfca15df",
+        "version" : "10.0.0"
       }
     }
   ],

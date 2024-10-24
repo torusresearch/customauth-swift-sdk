@@ -14,7 +14,6 @@ internal func loginToConnection(loginType: LoginType) -> String {
     case .weibo: break
     case .line: break
     case .email_password: return "Username-Password-Authentication"
-    case .passwordless: return "email"
     case .email_passwordless: return "email"
     case .sms_passwordless: return "sms"
     case .jwt: break
@@ -43,7 +42,6 @@ internal func getVerifierId(
     }
 
     switch typeOfLogin {
-        case .passwordless: return name
         case .email_password: return name
         case .email_passwordless: return name
         case .sms_passwordless: return caseSensitiveField(field: name, isCaseSensitive: isVerifierIdCaseSensitive)

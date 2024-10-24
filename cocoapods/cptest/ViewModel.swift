@@ -132,7 +132,7 @@ extension ViewModel {
                                                 connection: "Username-Password-Authentication",
                                                 domain: "torus-test.auth0.com",
                                                 verifierIdField: "name"))
-                let customAuthArgs = CustomAuthArgs(urlScheme: "tdsdk://tdsdk/oauthCallback", network: .legacy(.TESTNET), enableOneKey: true, web3AuthClientId: "BPi5PB_UiIZ-cPz1GtV5i1I2iOSOHuimiXBI0e-Oe_u6X3oVAbCiAZOTEBtTXw4tsluTITPqA8zMsfxIKMjiqNQ")
+                let customAuthArgs = CustomAuthArgs(urlScheme: "tdsdk://tdsdk/oauthCallback", network: .TESTNET, enableOneKey: true, web3AuthClientId: "BPi5PB_UiIZ-cPz1GtV5i1I2iOSOHuimiXBI0e-Oe_u6X3oVAbCiAZOTEBtTXw4tsluTITPqA8zMsfxIKMjiqNQ")
                 let customAuth = try CustomAuth(config: customAuthArgs)
                 let torusLoginResponse = try await customAuth.triggerLogin(args: sub)
                 DispatchQueue.main.async {

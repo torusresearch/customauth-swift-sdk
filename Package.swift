@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
     name: "CustomAuth",
     platforms: [
-        .iOS(.v13), .macOS(.v11)
+        .iOS(.v14), .macOS(.v11)
     ],
     products: [
         .library(
@@ -14,8 +14,8 @@ let package = Package(
             targets: ["CustomAuth"])
     ],
     dependencies: [
-        .package(url: "https://github.com/torusresearch/torus-utils-swift.git", branch: "encapsulate_torusnetwork"),
-        .package(url: "https://github.com/auth0/JWTDecode.swift.git", from: "3.1.0"),
+        .package(url: "https://github.com/torusresearch/torus-utils-swift.git", from: "10.0.0"),
+        .package(url: "https://github.com/auth0/JWTDecode.swift.git", from: "3.2.0"),
         // NB: jwt-kit may only be a test dependency or it will break cocoapods support
         .package(url: "https://github.com/vapor/jwt-kit.git", from: "4.13.0"),
     ],
