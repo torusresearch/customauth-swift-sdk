@@ -1,19 +1,19 @@
 PODS:
   - BigInt (5.2.0)
-  - curvelib.swift (1.0.1)
+  - curvelib.swift (2.0.0)
   - CustomAuth (11.0.0):
-    - JWTDecode (~> 3.1.0)
-    - Torus-utils (~> 9.0.0)
-  - JWTDecode (3.1.0)
-  - Torus-fetchNodeDetails (6.0.3):
+    - JWTDecode (~> 3.2.0)
+    - Torus-utils (~> 10.0.0)
+  - JWTDecode (3.2.0)
+  - Torus-fetchNodeDetails (8.0.0):
     - BigInt (~> 5.2.0)
-  - Torus-utils (9.0.0):
-    - curvelib.swift (~> 1.0.1)
-    - Torus-fetchNodeDetails (~> 6.0.3)
+  - Torus-utils (10.0.0):
+    - curvelib.swift (~> 2.0.0)
+    - Torus-fetchNodeDetails (~> 8.0.0)
 
 DEPENDENCIES:
   - CustomAuth (from `../`)
-  - Torus-utils (~> 9.0.0)
+  - Torus-utils (~> 10.0.0)
 
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
@@ -29,12 +29,12 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   BigInt: f668a80089607f521586bbe29513d708491ef2f7
-  curvelib.swift: d0746ae82bee34016c06da3567a97e493b3c979f
-  CustomAuth: 03df324125a03626232ae742175aeda26a065e66
-  JWTDecode: 3eaab1e06b6f4dcbdd6716aff09ba4c2104ca8b7
-  Torus-fetchNodeDetails: 6c349f47cbca36a4b3f276fe26d03c1b39b20949
-  Torus-utils: 0f993fffd66a66a0423092c9ddea2cbff4d298df
+  curvelib.swift: b9223e5cac801effed8a5fe8968e952b3fe427a5
+  CustomAuth: 3d9d95477f35d9560bdd595283f2103bce44538c
+  JWTDecode: 7dae24cb9bf9b608eae61e5081029ec169bb5527
+  Torus-fetchNodeDetails: 2a5fbb222ec28af4128d64e4c2d520c7db456b78
+  Torus-utils: 4a1db3d9c1aa221df312ffa7ec154e7e4719850a
 
-PODFILE CHECKSUM: 3f0652a4c9819c7b293e6a1f91fd5a27a70c0533
+PODFILE CHECKSUM: f4a1d2e407b10056607aa36892f54a3affc05ffa
 
-COCOAPODS: 1.13.0
+COCOAPODS: 1.15.2
