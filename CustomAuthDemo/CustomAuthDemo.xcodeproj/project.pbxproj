@@ -631,8 +631,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/torusresearch/customauth-swift-sdk/";
 			requirement = {
-				branch = features_update;
-				kind = branch;
+				kind = exactVersion;
+				version = 11.0.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
