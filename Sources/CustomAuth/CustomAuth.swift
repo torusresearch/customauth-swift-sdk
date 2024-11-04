@@ -159,7 +159,7 @@ public class CustomAuth {
     /// - Returns: `TorusKey`
     ///
     /// - Throws: `CASDKError`,  `TorusUtilError`, `FetchNodeError`
-    func getTorusKey(verifier: String, verifier_id: String, verifierParams: VerifierParams, idToken: String, extraParams: TorusUtilsExtraParams? = nil) async throws -> TorusKey {
+    public func getTorusKey(verifier: String, verifier_id: String, verifierParams: VerifierParams, idToken: String, extraParams: TorusUtilsExtraParams? = nil) async throws -> TorusKey {
         let nodeDetails = try await nodeDetailManager.getNodeDetails(verifier: verifier, verifierID: verifier_id)
 
         return try await torus.retrieveShares(endpoints: nodeDetails.getTorusNodeEndpoints(), verifier: verifier, verifierParams: verifierParams, idToken: idToken)
@@ -175,7 +175,7 @@ public class CustomAuth {
     /// - Returns: `TorusKey`
     ///
     /// - Throws: `CASDKError`,  `TorusUtilError`, `FetchNodeError`
-    func getAggregateTorusKey(verifier: String, verifierParams: VerifierParams, subVerifierInfoArray: [TorusSubVerifierInfo]) async throws -> TorusKey {
+    public func getAggregateTorusKey(verifier: String, verifierParams: VerifierParams, subVerifierInfoArray: [TorusSubVerifierInfo]) async throws -> TorusKey {
         let nodeDetails = try await nodeDetailManager.getNodeDetails(verifier: verifier, verifierID: verifierParams.verifier_id)
 
         var aggregateIdTokenSeeds: [String] = []
