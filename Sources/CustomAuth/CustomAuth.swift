@@ -191,9 +191,9 @@ public class CustomAuth {
 
         aggregateIdTokenSeeds.sort()
         let joined = aggregateIdTokenSeeds.joined(separator: "\u{29}").data(using: .utf8)!
-        let aggregateIdToken = try keccak256(data: joined)
+        let aggregateIdToken = try keccak256(data: joined).hexString
         let params: VerifierParams = VerifierParams(verifier_id: verifierParams.verifier_id, extended_verifier_id: verifierParams.extended_verifier_id, sub_verifier_ids: subVerifierIds, verify_params: verifyParams)
 
-        return try await torus.retrieveShares(endpoints: nodeDetails.getTorusNodeEndpoints(), verifier: verifier, verifierParams: params, idToken: String(data: aggregateIdToken, encoding: .utf8)!)
+        return try await torus.retrieveShares(endpoints: nodeDetails.getTorusNodeEndpoints(), verifier: verifier, verifierParams: params, idToken: aggregateIdToken)
     }
 }
